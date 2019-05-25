@@ -1,12 +1,21 @@
 import { installEditor, initMonacoWorkers } from './monaco';
 import * as React from 'react'
+import {render} from 'react-dom'
 import { App } from './app';
+import { examples } from './examples';
 
 function start(){
   initMonacoWorkers()
-  const d = document.createElement('div')
-  d.setAttribute('id', 'app-root')
-  document.body.appendChild(d)
+
+  const d2 = document.createElement('div')
+  d2.setAttribute('id', 'app-root')
+  document.body.appendChild(d2)
+
+  const app = <App examples={examples}/>
+  render(app, d2) 
+
+  const editorContainer = document.getElementById("editor-container")!
+
   const code = `
 import {Foo, bar} from './aux'
 export class C {
@@ -19,32 +28,8 @@ export class C {
   }
 }
 `
-  installEditor(code, d)
+  installEditor(code, editorContainer)
 
-  const d2 = document.createElement('div')
-  d2.setAttribute('id', 'app-root')
-  document.body.appendChild(d2)
-
-  const app = <App examples={examples}/>
 }
-
-export interface Example{
-  query: string,
-  description: string
-}
-export const examples: Example[] = [
-  {
-    query: '// *',
-    description: 'all nodes'
-  },
-  {
-    query:'// Identifier [../ClassDeclaration] ',
-    description: 'identifiers direct children of a class declaration. Result: Identifier "C"'
-  },
-  {
-    query:'// Identifier [ ../ClassDeclaration || ../MethodDeclaration || ../PropertyDeclaration ] ',
-    description: ' identifiers direct children of a class declaration. Result: Identifier "C" , Identifier "attribute1", Identifier "method1"'
-  },
-]
 
 start()

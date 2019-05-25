@@ -1,23 +1,26 @@
 {
-  "name": "astq-test",
+  "name": "sol",
   "version": "1.0.0",
-  "description": "",
+  "description": "TypeScript AST viewer and Advance Query editor",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist docs",
-    "start": "export NODE_ENV=development ; sh src-changed.sh",
+    "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev\" src",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --public-url './' "
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Sebastián Gurin",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^12.0.2",
     "@types/react": "^16.8.18",
+    "@types/react-dom": "^16.8.4",
+    "http-server": "^0.11.1",
     "parcel": "^1.12.3",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "watch": "^1.0.2"
   },
   "dependencies": {
     "astq": "file:../../git/astq",

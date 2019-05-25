@@ -23,9 +23,12 @@ export function initMonacoWorkers() {
   }
 }
 
-let editor: monaco.editor.IStandaloneCodeEditor | undefined
+let editor: monaco.editor.IStandaloneCodeEditor
 
 export function getMonacoInstance() {
+  if(!editor){
+    throw new Error('Editor not initialized, installEditor needs to be called first.')
+  }
   return editor
 } 
 
@@ -42,7 +45,6 @@ export async function installEditor(code: string,  containerEl: HTMLElement) {
     noEmit: true,
     typeRoots: ['node_modules/@types'],
     jsx: monaco.languages.typescript.JsxEmit.React,
-    // jsxFactory: 'JSXAlone.createElement',
   })
 
   editor = monaco.editor.create(containerEl, {
@@ -60,4 +62,8 @@ export async function installEditor(code: string,  containerEl: HTMLElement) {
   })
 
   return editor
+}
+
+export function getEditorText(ed = editor) {
+  return ed.getModel()!.getValue()
 }
