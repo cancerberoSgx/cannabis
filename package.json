@@ -1,16 +1,17 @@
 {
-  "name": "sol",
-  "version": "1.0.0",
+  "name": "typescript-ast-query-editor",
+  "version": "0.0.1",
   "description": "TypeScript AST viewer and Advance Query editor",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist docs",
-    "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev\" src",
-    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
+    "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev-no-maps\" src",
+    "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
+    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
     "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --public-url './' "
   },
-  "keywords": [],
+  "keywords": ["typescript", "ast", "query", "astq"],
   "author": "Sebastián Gurin",
   "license": "MIT",
   "devDependencies": {
@@ -23,9 +24,10 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "astq": "file:../../git/astq",
+    "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "typescript-ast-util": "^1.2.1"
   }
 }

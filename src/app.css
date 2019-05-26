@@ -4,18 +4,33 @@
   justify-content: flex-start;
   align-content: stretch;
   align-items: flex-start;
-  }
+}
 
 .flex-item:nth-child(1) {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
   max-width: 40%;
-  }
+}
 
 .flex-item:nth-child(2) {
   order: 0;
   flex: 1 1 auto;
   align-self: auto;
+  max-width: 60%;
+}
+
+#editor-container {
   height: 800px;
-  }
+  width: 100%;
+}
+
+textarea{
+  width: 90%;
+  height: 70px;
+}
+a{
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}

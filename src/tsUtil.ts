@@ -1,26 +1,25 @@
 import * as ts from 'typescript'
+import { ISelection, IPosition } from 'monaco-editor';
+ 
+export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile, tsStart: number,tsEnd: number){
+  const start = ts.getLineAndCharacterOfPosition(sourceFile, tsStart);
+  const end = ts.getLineAndCharacterOfPosition(sourceFile, tsEnd);
+  return {
+    selectionStartColumn: start.character + 1,
+    selectionStartLineNumber: start.line + 1,
+    positionColumn: end.character + 1,
+    positionLineNumber: end.line + 1
+  } as ISelection
+}
 
-export function getKindName(kind: number | ts.Node): string {
-  return (kind || kind === 0) ? getEnumKey(ts.SyntaxKind, (kind as ts.Node).kind || kind) : 'undefined';
+export function  monacoSelectionToTsRange(sourceFile: ts.SourceFile, sel : ISelection){
+  const pos = ts.getPositionOfLineAndCharacter(sourceFile, sel.selectionStartLineNumber-1, sel.selectionStartColumn-1)
+  const end = ts.getPositionOfLineAndCharacter(sourceFile, sel.positionLineNumber-1, sel.positionColumn-1)
+  return {
+    pos,  end
+  } as ts.TextRange
 }
-function getEnumKey(anEnum: any, value: any): string {
-  for (const key in anEnum) {
-    if (value === anEnum[key]) {
-      return key;
-    }
-  }
-  return '';
-}
-export function getChildren(node: ts.Node | undefined, getChildrenMode: boolean = false): ts.Node[] {
-  if (!node) {
-    return [];
-  }
-  if (getChildrenMode) {
-    return node.getChildren();
-  }
-  const result: ts.Node[] = [];
-  node.forEachChild(c => {
-    result.push(c);
-  });
-  return result;
+
+export function  monacoPositionToTsPosition(sourceFile: ts.SourceFile, p : IPosition){
+  return ts.getPositionOfLineAndCharacter(sourceFile, p.lineNumber-1, p.column-1)
 }

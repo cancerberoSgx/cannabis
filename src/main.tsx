@@ -13,23 +13,9 @@ function start(){
 
   const app = <App examples={examples}/>
   render(app, d2) 
-
-  const editorContainer = document.getElementById("editor-container")!
-
-  const code = `
-import {Foo, bar} from './aux'
-export class C {
-  private attribute1: number
-  constructor(public id: string = bar()){
-    this.attribute1 = 2
-  }
-  method1(a: number){
-    return new Foo(a).value();
-  }
-}
-`
-  installEditor(code, editorContainer)
-
 }
 
 start()
+
+
+

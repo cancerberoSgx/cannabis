@@ -7,6 +7,10 @@ export function height() {
   return window.screen.height
 }
 
+export function isDesktop() {
+  return width() >= 1023
+}
+
 // export function isMobile() {
 //   return width() < 768
 // }
@@ -15,9 +19,6 @@ export function height() {
 //   return width() >= 768 && width() < 1023
 // }
 
-export function isDesktop() {
-  return width() >= 1023
-}
 
 // export function onDesktop(s: string) {
 //   return `

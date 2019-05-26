@@ -1,6 +1,7 @@
 import * as monaco from 'monaco-editor'
 import { isDesktop } from './media';
 
+
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
     (self as any).MonacoEnvironment = {
@@ -32,7 +33,7 @@ export function getMonacoInstance() {
   return editor
 } 
 
-export async function installEditor(code: string,  containerEl: HTMLElement) {
+export function installEditor(code: string,  containerEl: HTMLElement) {
   if (editor) {
     return editor
   }
