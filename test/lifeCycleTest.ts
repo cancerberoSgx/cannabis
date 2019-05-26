@@ -1,4 +1,5 @@
 import test from 'ava'
+import { tsMorph } from 'ts-simple-ast-extra'
 import { queryAst } from '../src'
 import { getTsMorphFile } from "../src/file"
 // type FunctionDeclaration = tsMorph.FunctionDeclaration
@@ -11,7 +12,7 @@ test('multiple queries in same changing node', t => {
   let result = queryAst(`//ClassDeclaration`, file)
   t.falsy(result.error)
   t.deepEqual(result.result, [])
-  // const f = queryAst<tsMorph.FunctionDeclaration>(`//* [@name=='f']`, file).result
+  const f = queryAst<tsMorph.FunctionDeclaration>(`//* [@name=='f']`, file).result
   // result = queryAst(`//ClassDeclaration [ implementsNamed('I') ]`, file);
   // t.falsy(result.error);
   // t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['A', 'B', 'C', 'D']);

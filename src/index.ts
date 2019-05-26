@@ -1,1 +1,1 @@
-export { queryAst } from './queryAst'
+export { queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow } from './queryAst'

@@ -1,6 +1,6 @@
 {
   "name": "cannabis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "TypeScript AST Query library",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
-    "ts-simple-ast-extra": "file:../typescript-plugins-of-mine/ts-simple-ast-extra"
+    "ts-simple-ast-extra": "0.1.8"
   }
 }
