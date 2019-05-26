@@ -5,11 +5,9 @@
     "lib": ["esnext", "dom"], 
     "strict": true, 
     "esModuleInterop": true,
+    "jsx": "react",
     "sourceMap": true,
     "outDir": "./dist", 
     "rootDir": ".",
-  },
-  "include": [
-    "src", "test"
-  ]
+  }
 }

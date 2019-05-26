@@ -1,0 +1,39 @@
+{
+  "name": "typescript-ast-query-editor",
+  "version": "0.0.1",
+  "description": "TypeScript AST viewer and Advance Query editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist docs",
+    "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev-no-maps\" src",
+    "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
+    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
+    "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --public-url './' "
+  },
+  "keywords": [
+    "typescript",
+    "ast",
+    "query",
+    "astq"
+  ],
+  "author": "Sebastián Gurin",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.0.2",
+    "@types/react": "^16.8.18",
+    "@types/react-dom": "^16.8.4",
+    "http-server": "^0.11.1",
+    "parcel": "^1.12.3",
+    "typescript": "^3.4.5",
+    "watch": "^1.0.2"
+  },
+  "dependencies": {
+    "astq": "^2.6.2",
+    "misc-utils-of-mine-generic": "^0.2.4",
+    "monaco-editor": "^0.17.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "typescript-ast-util": "^1.2.1"
+  }
+}
