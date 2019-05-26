@@ -1,5 +1,6 @@
 import test from 'ava'
 import { queryAst } from '../src'
+import { code1 } from './assets'
 import { queryAstSimpleTest } from './testUtil'
 
 test('incorrect attribute should not throw error and much 0', queryAstSimpleTest, queryAst(`// * [ @nonExistent == 1]`, 'class C {}'), { result: { kind: [] } })
@@ -27,6 +28,13 @@ test('@modifiers export default abstract', queryAstSimpleTest, queryAst(`// * [ 
     private readonly bar=1 
   }
 `), { result: { kind: ['ClassDeclaration'] } })
+
+test('attribute name', t => {
+  const query = `//* [ @name == "method1" ]`
+  const result = queryAst(query, code1)
+  t.falsy(result.error)
+  t.deepEqual(result.result!.map(c => c.getKindName()), ['MethodDeclaration'])
+})
 
 test('@name', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @name=='a' ]`,
   `export function f(){

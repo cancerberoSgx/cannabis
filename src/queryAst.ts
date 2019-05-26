@@ -1,6 +1,8 @@
-import { GeneralNode, getExtendsRecursivelyNames, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { GeneralNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, ts, tsMorph } from 'ts-simple-ast-extra'
 import ASTQClass from './astq'
+import { getAttribute } from './attribtues'
 import { getFile } from './file'
+import { installFunctions } from './functions'
 type Node = tsMorph.Node
 
 const ASTQ = require('astq') as typeof ASTQClass
@@ -40,47 +42,6 @@ function getTypeScriptAstq() {
   return astq
 }
 
-function getAttribute(node: GeneralNode, attr: string) {
-  if (!node) {
-    return undefined
-  }
-  else if (attr === 'text') {
-    return isNode(node) ? node.getText() : ''
-  }
-  else if (attr === 'name') {
-    const id = isNode(node) && node.getChildrenOfKind(ts.SyntaxKind.Identifier)
-    return id && id.length && id[0].getText()
-  }
-  else if (attr === 'type') {
-    return isNode(node) && node.getType().getText()
-  }
-  // else if (attr === 'sourceFile') {
-  //   return isNode(node) && node.getSourceFile()
-  // }
-  else if (attr === 'modifiers') {
-    return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ')
-  }
-  //body, expression, symbol, type, pos, start, getModifiers, 
-}
-
-function installFunctions(astq: ASTQClass) {
-  astq.func('isFunctionLike', (adapter, node) => {
-    return isNode(node) && ts.isFunctionLike(node.compilerNode)
-  })
-  astq.func('extendsNamed', (adapter, node, classOrInterfaceName) => {
-    return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) && getExtendsRecursivelyNames(node).includes(classOrInterfaceName)
-  })
-  astq.func('implementsNamed', (adapter, node, interfaceName) => {
-    return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) && getImplementsAllNames(node).includes(interfaceName)
-  })
-  astq.func('findReferences', (adapter, node) => {
-    return isNode(node) && tsMorph.TypeGuards.isReferenceFindableNode(node) && node.findReferencesAsNodes()
-  })
-  astq.func('sourceFile', (adapter, node) => {
-    return isNode(node) && node.getSourceFile()
-  })
-}
-
 export interface QueryResult<T extends GeneralNode = Node> {
   result?: T[]
   error?: Error
@@ -91,11 +52,12 @@ export function queryAst<T extends GeneralNode = Node>(q: string, codeOrNode: st
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
   }
-  // else if (tsMorph.TypeGuards.isNode(codeOrNode)){
-  //   node = codeOrNode//getFile(codeOrNode.getText())
-  // }
+  else if (tsMorph.TypeGuards.isNode(codeOrNode)) {
+    node = codeOrNode//getFile(codeOrNode.getText())
+  }
   else {
-    node = getFile((codeOrNode as Node).getText())
+    // node = getFile((codeOrNode as Node).getText())0
+    node = getFile(codeOrNode.getText())
   }
   try {
     return { result: getTypeScriptAstq().query(node, q) as T[] }
