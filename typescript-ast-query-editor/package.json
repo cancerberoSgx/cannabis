@@ -9,7 +9,7 @@
     "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev-no-maps\" src",
     "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
-    "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --public-url './' "
+    "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './' && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/"
   },
   "keywords": [
     "typescript",

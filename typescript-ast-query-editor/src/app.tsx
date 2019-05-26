@@ -8,6 +8,7 @@ import { throttle, sleep } from 'misc-utils-of-mine-generic'
 import { installCodeEditor, highlightNodesInEditor, getNodesAtPosition } from './codeEditor';
 import { getMonacoInstance } from './monaco';
 import { printNode, getAscendants, getKindName } from 'typescript-ast-util';
+import { ForkRibbon } from './forkRibbon';
 
 interface P {
   examples: Example[]
@@ -52,6 +53,7 @@ export class App extends React.Component<P, S> {
         <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a=><a onClick={e=>highlightNodesInEditor([a])}>->{getKindName(a)}</a>)}</div>
         <div id="editor-container"></div>
         </div>
+        <ForkRibbon/>
       </div>)
   }
 
