@@ -1,8 +1,9 @@
-import { GeneralNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, ts, tsMorph } from 'ts-simple-ast-extra'
+import { GeneralNode, getGeneralNodeChildren,  getGeneralNodeParent, ts, tsMorph,  } from 'ts-simple-ast-extra'
 import ASTQClass from './astq'
 import { getAttribute } from './attribtues'
 import { getFile } from './file'
 import { installFunctions } from './functions'
+import { isGeneralNode, getGeneralNodeKindName } from './util';
 type Node = tsMorph.Node
 
 const ASTQ = require('astq') as typeof ASTQClass
@@ -15,16 +16,13 @@ function getTypeScriptAstq() {
     astq = new ASTQ<GeneralNode>()
     astq.adapter({
       taste(node: any) {
-        return tsMorph.TypeGuards.isNode(node)
+        // return tsMorph.TypeGuards.isNode(node)
+        return isGeneralNode(node) && !!getGeneralNodeKindName(node)
       },
       getParentNode(node: GeneralNode) {
-        // return getGeneralNodeParent(node)
         return node && getGeneralNodeParent(node)
-        // return node && node.getParent()
       },
       getChildNodes(node: GeneralNode) {
-        // return isNode(node) ? node.forEachChildAsArray() : getGeneralNodeChildren(node)
-        // return node && node.forEachChildAAsrray()//getChildren(node, false);
         return node && getGeneralNodeChildren(node) || []
       },
       getNodeType(node: GeneralNode) {
@@ -42,21 +40,26 @@ function getTypeScriptAstq() {
   return astq
 }
 
-export interface QueryResult<T extends GeneralNode = Node> {
+export interface QueryResult<T extends GeneralNode = tsMorph.Node> {
   result?: T[]
   error?: Error
 }
 
-export function queryAst<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | tsMorph.SourceFile): QueryResult<T> {
-  let node: tsMorph.SourceFile
+/**
+ * It will create and execute a new query defined by [[q]] on nodes defined by [[codeOrNode]] as follows. If it's a string, then a new source file
+ * will be created with that content. If it's a ts.Node, then that node will be used (internally creating a ts-morph node). 
+ * If it's a GeneralNode, it could be a Directory, a file or a node and that will be used to issue the query.
+ */
+export function queryAst<T extends GeneralNode = tsMorph.Node>(q: string, codeOrNode: string | ts.Node | GeneralNode): QueryResult<T> {
+  let node: Node|tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
   }
-  else if (tsMorph.TypeGuards.isNode(codeOrNode)) {
-    node = codeOrNode//getFile(codeOrNode.getText())
+  else if (isGeneralNode(codeOrNode)) {
+    node = codeOrNode 
   }
   else {
-    // node = getFile((codeOrNode as Node).getText())0
+    // is a ts.Node
     node = getFile(codeOrNode.getText())
   }
   try {
@@ -69,7 +72,7 @@ export function queryAst<T extends GeneralNode = Node>(q: string, codeOrNode: st
 /**
  * Will query given code or node and if there is any error, like query syntax error, it will fail silently, returning an empty array.
  */
-export function queryAll<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | tsMorph.SourceFile): T[] {
+export function queryAll<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | T): T[] {
   const r = queryAst<T>(q, codeOrNode)
   return r.result || []
 }
@@ -77,7 +80,7 @@ export function queryAll<T extends GeneralNode = Node>(q: string, codeOrNode: st
 /**
  * Will query given code or node and if there is any error, like query syntax error, it will fail silently, returning an empty array.
  */
-export function queryAllOrThrow<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | tsMorph.SourceFile): T[] {
+export function queryAllOrThrow<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | T): T[] {
   const r = queryAst<T>(q, codeOrNode)
   if (r.error) {
     throw r.error
@@ -93,7 +96,7 @@ export function queryAllOrThrow<T extends GeneralNode = Node>(q: string, codeOrN
 /**
  * Will query given code or node and if there is any error, like query syntax error, it will fail silently, returning an empty array.
  */
-export function queryOne<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | tsMorph.SourceFile): T | undefined {
+export function queryOne<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | T): T | undefined {
   const r = queryAst<T>(q, codeOrNode)
   return r.result && r.result.length && r.result[0] || undefined
 }
@@ -101,7 +104,7 @@ export function queryOne<T extends GeneralNode = Node>(q: string, codeOrNode: st
 /**
  * Will query given code or node and if there is any error, like query syntax error, it will fail silently, returning an empty array.
  */
-export function queryOneOrThrow<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | tsMorph.SourceFile): T {
+export function queryOneOrThrow<T extends GeneralNode = Node>(q: string, codeOrNode: string | ts.Node | T): T {
   const r = queryAst<T>(q, codeOrNode)
   if (r.error) {
     throw r.error
@@ -113,6 +116,10 @@ export function queryOneOrThrow<T extends GeneralNode = Node>(q: string, codeOrN
     return r.result[0]
   }
 }
+
+
+
+
 
 // isTypeParameteredNode, isAbstractableNode, isAmbientableNode, isArgumentedNode, isAsyncableNode, isAwaitableNode, isBodiedNode, isBodyableNode, DecoratableNode, ScopedNode, staticableNode, PropertyNamedNode, OverloadableNode, GeneratorableNode, ModifierableNode, JSDocableNode, ReadonlyableNode, ExclamationTokenableNode, QuestionTokenableNode, InitializerExpressionableNode, PropertyNamedNode
 

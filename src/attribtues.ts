@@ -1,4 +1,4 @@
-import { GeneralNode, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { GeneralNode, isNode, ts, tsMorph, isDirectory, isSourceFile, getName } from 'ts-simple-ast-extra'
 
 export function getAttribute(node: GeneralNode, attr: string) {
   if (!node) {
@@ -8,8 +8,14 @@ export function getAttribute(node: GeneralNode, attr: string) {
     return isNode(node) ? node.getText() : ''
   }
   else if (attr === 'name') {
-    const id = isNode(node) && node.getChildrenOfKind(ts.SyntaxKind.Identifier)
-    return id && id.length && id[0].getText()
+    if(isDirectory(node)||isSourceFile(node)){
+      return node.getBaseName()
+    }
+    else {
+      return getName(node)
+    }
+    // const id = isNode(node) && node.getChildrenOfKind(ts.SyntaxKind.Identifier)
+    // return id && id.length && id[0].getText()
   }
   else if (attr === 'type') {
     return isNode(node) && node.getType().getText()
