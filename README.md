@@ -54,9 +54,11 @@ if(error){
 
 # Custom Attributes
 
- * `text`, examples: 
- * `name`, examples: 
- 
+ * `@text`, examples: returns current node's text. example: `// VariableDeclaration [ @text!~'2' ]`
+ * `@name`, returns current node's name if any. examples: `// * [ @name=='f' && @modifiers=~'export' ]`
+ * `@modifiers`, a comma separated modifier names in ` "export","default","declare","abstract","public","protected","private","readonly","static","async","const";`. Example: `// PropertyDeclaration [ @modifiers=~'private' || @modifiers=~'protected' ]`
+ * `@type` returns current node's type as string. If type is not declared it will infer it. If type doesn't apply to current node it will return undefined. Examples: `// VariableDeclaration [ @type=='Date[]']`, `// Parameter [ @type=='boolean' || @type=='number']`
+
 # Custom Functions 
  
 The following are custom function that can be used in the queries directly, added to standard query functions of astq library, related to TypeScript AST.
@@ -64,13 +66,14 @@ The following are custom function that can be used in the queries directly, adde
  * `isFunctionLike()`, examples: `//* [ isFunctionLike() ]`
  * `extendsNamed(name)`, returns true if current node (class declaration or interface declaration) extends recursively a type with given name. examples: `//ClassDeclaration [extendsNamed('BaseClass')]`, `//InterfaceDeclaration [extendsNamed('Touchable')]`
  * `implementsNamed(name)`, returns true if current node (class declaration) implements recursively an interface with given name. Examples: `//ClassDeclaration [implementsNamed('Touchable')]`,
+ * `sourceFile()`returns current node sourceFile
 
 # Query Syntax
 
  * [ASTQ Query syntax](astq-query-syntax.md)
- * is based on https://github.com/rse/astq
+ * Based on https://github.com/rse/astq
  * This is a very WIP project...
- * helper functions to reference high level AST concepts will be added & documented
+ * Helper functions to reference high level AST concepts will be added & documented
 
 
 ## TODO

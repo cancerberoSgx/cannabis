@@ -16,9 +16,6 @@ test('should return error on invalid queries', t => {
   t.truthy(result.error)
   t.true((result.error + '').includes('query parsing failed'))
 })
-test('should return error on invalid queries ava macro', queryAstSimpleTest, queryAst('/ fo invalid / Identifier', 'class C {}'),
-  { error: 'query parsing failed' })
 
-test('attrs()', queryAstSimpleTest,
-  queryAst(`// Identifier [ attrs(', ')=~'text, name, type, sourceFile, modifiers' ]`, 'class C {}'),
-  { result: { text: ['C'] }, error: undefined })
+test('should return error on invalid queries ava macro', queryAstSimpleTest, queryAst('/ fo invalid / Identifier', 'class C {}'), { error: 'query parsing failed' })
+

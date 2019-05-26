@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
-    "ts-simple-ast-extra": "0.1.8"
+    "ts-simple-ast-extra": "0.1.9"
   }
 }

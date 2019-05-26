@@ -25,6 +25,6 @@ export function getTsMorphFile(code: string = '') {
   return getFile(code)
 }
 
-export function getTsFile(code: string = '') {
-  return getFile(code).compilerNode
-}
+// export function getTsFile(code: string = '') {
+//   return getFile(code).compilerNode
+// }

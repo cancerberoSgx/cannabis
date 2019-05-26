@@ -17,19 +17,19 @@ function getTypeScriptAstq() {
       },
       getParentNode(node: GeneralNode) {
         // return getGeneralNodeParent(node)
-        return getGeneralNodeParent(node)
+        return node && getGeneralNodeParent(node)
         // return node && node.getParent()
       },
       getChildNodes(node: GeneralNode) {
         // return isNode(node) ? node.forEachChildAsArray() : getGeneralNodeChildren(node)
         // return node && node.forEachChildAAsrray()//getChildren(node, false);
-        return getGeneralNodeChildren(node)
+        return node && getGeneralNodeChildren(node) || []
       },
       getNodeType(node: GeneralNode) {
-        return getGeneralNodeKindName(node)
+        return node && getGeneralNodeKindName(node) || 'undefined'
       },
       getNodeAttrNames(node: GeneralNode) {
-        return ['text', 'name', 'type', 'sourceFile', 'modifiers']
+        return ['text', 'name', 'type', 'modifiers']
       },
       getNodeAttrValue(node: GeneralNode, attr: string) {
         return getAttribute(node, attr)
@@ -52,11 +52,11 @@ function getAttribute(node: GeneralNode, attr: string) {
     return id && id.length && id[0].getText()
   }
   else if (attr === 'type') {
-    return isNode(node) && node.getType().toString()
+    return isNode(node) && node.getType().getText()
   }
-  else if (attr === 'sourceFile') {
-    return isNode(node) && node.getSourceFile()
-  }
+  // else if (attr === 'sourceFile') {
+  //   return isNode(node) && node.getSourceFile()
+  // }
   else if (attr === 'modifiers') {
     return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ')
   }
@@ -75,6 +75,9 @@ function installFunctions(astq: ASTQClass) {
   })
   astq.func('findReferences', (adapter, node) => {
     return isNode(node) && tsMorph.TypeGuards.isReferenceFindableNode(node) && node.findReferencesAsNodes()
+  })
+  astq.func('sourceFile', (adapter, node) => {
+    return isNode(node) && node.getSourceFile()
   })
 }
 
