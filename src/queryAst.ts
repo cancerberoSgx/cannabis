@@ -1,9 +1,9 @@
-import { GeneralNode, getGeneralNodeChildren,  getGeneralNodeParent, ts, tsMorph,  } from 'ts-simple-ast-extra'
+import { GeneralNode, getGeneralNodeChildren, getGeneralNodeParent, ts, tsMorph } from 'ts-simple-ast-extra'
 import ASTQClass from './astq'
 import { getAttribute } from './attribtues'
 import { getFile } from './file'
 import { installFunctions } from './functions'
-import { isGeneralNode, getGeneralNodeKindName } from './util';
+import { getGeneralNodeKindName, isGeneralNode } from './util'
 type Node = tsMorph.Node
 
 const ASTQ = require('astq') as typeof ASTQClass
@@ -51,12 +51,12 @@ export interface QueryResult<T extends GeneralNode = tsMorph.Node> {
  * If it's a GeneralNode, it could be a Directory, a file or a node and that will be used to issue the query.
  */
 export function queryAst<T extends GeneralNode = tsMorph.Node>(q: string, codeOrNode: string | ts.Node | GeneralNode): QueryResult<T> {
-  let node: Node|tsMorph.Directory
+  let node: Node | tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
   }
   else if (isGeneralNode(codeOrNode)) {
-    node = codeOrNode 
+    node = codeOrNode
   }
   else {
     // is a ts.Node

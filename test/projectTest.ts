@@ -1,10 +1,8 @@
 import test from 'ava'
-import { tsMorph, getName, getGeneralNodePath } from 'ts-simple-ast-extra'
+import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { queryAst } from '../src'
-import { getTsMorphFile } from "../src/file"
-import { code1, code2 } from './assets';
-import { expectSameLength } from './testUtil';
-import { getGeneralNodeKindName } from '../src/util';
+import { getGeneralNodeKindName } from '../src/util'
+import { code1, code2 } from './assets'
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -15,7 +13,7 @@ test('should be able to query at a project level, selecting directories and sour
   const f3 = src.createDirectory('foo').createSourceFile('foo.ts', 'export const f = 1')
 
   let r = queryAst('//InterfaceDeclaration', src)
-  
+
   t.falsy(r.error)
   t.deepEqual(r.result && r.result.map(r => r.getKindName()), ['InterfaceDeclaration', 'InterfaceDeclaration',
     'InterfaceDeclaration', 'InterfaceDeclaration', 'InterfaceDeclaration'])

@@ -1,4 +1,4 @@
-import { isNode, isDirectory, GeneralNode } from 'ts-simple-ast-extra';
+import { GeneralNode, isDirectory, isNode } from 'ts-simple-ast-extra'
 
 let _unique: number = 0
 export function unique(prefix: string = '_'): string {

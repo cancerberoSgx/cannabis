@@ -1,4 +1,4 @@
-import { GeneralNode, isNode, ts, tsMorph, isDirectory, isSourceFile, getName } from 'ts-simple-ast-extra'
+import { GeneralNode, getName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
 
 export function getAttribute(node: GeneralNode, attr: string) {
   if (!node) {
@@ -8,21 +8,16 @@ export function getAttribute(node: GeneralNode, attr: string) {
     return isNode(node) ? node.getText() : ''
   }
   else if (attr === 'name') {
-    if(isDirectory(node)||isSourceFile(node)){
+    if (isDirectory(node) || isSourceFile(node)) {
       return node.getBaseName()
     }
     else {
       return getName(node)
     }
-    // const id = isNode(node) && node.getChildrenOfKind(ts.SyntaxKind.Identifier)
-    // return id && id.length && id[0].getText()
   }
   else if (attr === 'type') {
     return isNode(node) && node.getType().getText()
   }
-  // else if (attr === 'sourceFile') {
-  //   return isNode(node) && node.getSourceFile()
-  // }
   else if (attr === 'modifiers') {
     return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ')
   }
