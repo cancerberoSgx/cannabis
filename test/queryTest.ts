@@ -39,11 +39,9 @@ class B extends A{
     for(let i in o)
       console.log(i)
   }
-}
-  `
+}  `
 
 test('statement inside several kind', t => {
-
   // matches function-like nodes containing a for-in statement (`for (let i in foo){}`)
   const query = `//* [ //ForInStatement &&  (type()=="MethodDeclaration" || type()=="FunctionDeclaration" || type()=="Constructor" || type()=="ArrowFunction") ]`
   const result = queryAst(query, code1)
@@ -66,14 +64,12 @@ test('statement inside several kind 2', t => {
   t.true(result.result![2].getParent()!.getText().includes('f=>{'))
 });
 
-
 test('isFunctionLike', t => {
   const query = `//* [ isFunctionLike() ]`
   const result = queryAst(query, code1)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getKindName()), ['FunctionDeclaration', 'FunctionDeclaration', 'Constructor', 'MethodDeclaration', 'MethodDeclaration', 'ArrowFunction'])
 });
-
 
 test('attribute name', t => {
   const query = `//* [ @name == "method1" ]`
@@ -82,20 +78,19 @@ test('attribute name', t => {
   t.deepEqual(result.result!.map(c => c.getKindName()), ['MethodDeclaration'])
 });
 
-
-test('extendsNamed', t => {
-
-  const f = getTsMorphFile(`
-class A {}
+const code2 = `
+class A implements I1, J{}
 class B extends A {}
-class C<T> extends B{}
+class C<T> extends B implements I2<T>, I3<T>{}
 class D<T> extends C<T> implements I{} 
 interface I{}
 interface I1 extends I{}
 interface I2<T> extends I1{}
 interface J{}
 interface I3<T> extends I2<T>, J{} 
-`)
+`
+test('extendsNamed', t => {
+  const f = getTsMorphFile(code2)
   let result = queryAst(`//* [ extendsNamed('C') ]`, f)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['D'])
@@ -114,22 +109,12 @@ interface I3<T> extends I2<T>, J{}
 });
 
 test('implementsNamed', t => {
-
-  const f = getTsMorphFile(`
-class A implements I1, J{}
-class B extends A {}
-class C<T> extends B implements I2<T>, I3<T>{}
-interface I{}
-interface I1 extends I{}
-interface I2<T> extends I1{}
-interface J{}
-interface I3<T> extends I2<T>, J{} 
-`)
+  const f = getTsMorphFile(code2)
   let result = queryAst(`//ClassDeclaration [ implementsNamed('I3') ]`, f)
   t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['C'])
+  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['C', "D"])
 
   result = queryAst(`//ClassDeclaration [ implementsNamed('I') ]`, f)
   t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['A', 'B', 'C'])
+  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['A', 'B', 'C', 'D'])
 });
