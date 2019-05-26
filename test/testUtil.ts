@@ -1,16 +1,17 @@
 import { ExecutionContext } from 'ava'
-import { GeneralNode, getGeneralNodeKindName, isDirectory, tsMorph } from 'ts-simple-ast-extra'
+import {  getGeneralNodeKindName, isDirectory, tsMorph } from 'ts-simple-ast-extra'
 import { QueryResult } from '../src/queryAst'
+import { ASTNode } from '../src/astNode';
 
-export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[]) {
-  t.is(a.length, b.length, `Expected "${a}" to have same length as "${b}"`)
+export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[]|number) {
+  t.is(a.length, typeof b ==='number'?b : b.length, `Expected "${a}" to have same length as "${b}"`)
 }
 
 export function expectToInclude(t: ExecutionContext, input: string, expected: string) {
   t.truthy(input.includes(expected), `Expected ${input} to include ${expected}`)
 }
 
-export function queryAstSimpleTest<T extends GeneralNode = tsMorph.Node>(t: ExecutionContext, input: QueryResult<T>, expected: {
+export function queryAstSimpleTest<T extends ASTNode = tsMorph.Node>(t: ExecutionContext, input: QueryResult<T>, expected: {
   error?: string;
   result?: {
     kind?: string[];
@@ -34,6 +35,6 @@ export function queryAstSimpleTest<T extends GeneralNode = tsMorph.Node>(t: Exec
   }
   // return input
 }
-function getGeneralNodeText(n: GeneralNode) {
+function getGeneralNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
 }

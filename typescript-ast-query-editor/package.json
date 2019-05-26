@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
+    "cannabis": "file:..",
     "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",

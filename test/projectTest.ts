@@ -1,8 +1,9 @@
 import test from 'ava'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
-import { queryAst } from '../src'
-import { getGeneralNodeKindName } from '../src/util'
+import { queryAst, loadProject, queryOne, queryAll } from '../src'
+import { getGeneralNodeKindName, ASTDirectory, ASTFile } from "../src/astNode";
 import { code1, code2 } from './assets'
+import { expectSameLength } from './testUtil';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -36,9 +37,12 @@ test('should be able to query at a project level, selecting directories and sour
 
   // results can have mixed dirs, files and nodes:
   t.deepEqual(queryAst(`//* [@name=~'o']`, src).result!.map(getGeneralNodeKindName), [
-    'Directory', 'SourceFile', 'Directory', 'SourceFile', 'SourceFile', 'Parameter', 'PropertyAccessExpression', 'MethodDeclaration', 'MethodDeclaration', 'PropertyDeclaration', 'PropertyAccessExpression',])
-
-
+    'Directory', 'SourceFile', 'Directory', 'SourceFile', 'SourceFile', 'Parameter', 'PropertyAccessExpression', 'MethodDeclaration', 'MethodDeclaration', 'PropertyDeclaration', 'PropertyAccessExpression'])
 })
 
-test.todo('I can use other nodes than source file to query')
+test('loadProject', t => {
+  const p = loadProject('test/assets/project1/tsconfig.json')
+  const root = p.getRootDirectory()
+  t.is(queryOne<ASTDirectory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
+  t.deepEqual(queryAll<ASTFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+})

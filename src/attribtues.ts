@@ -1,6 +1,7 @@
-import { GeneralNode, getName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
+import { getName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeName } from './astNode';
 
-export function getAttribute(node: GeneralNode, attr: string) {
+export function getAttribute(node: ASTNode, attr: string) {
   if (!node) {
     return undefined
   }
@@ -8,18 +9,14 @@ export function getAttribute(node: GeneralNode, attr: string) {
     return isNode(node) ? node.getText() : ''
   }
   else if (attr === 'name') {
-    if (isDirectory(node) || isSourceFile(node)) {
-      return node.getBaseName()
-    }
-    else {
-      return getName(node)
-    }
+    return getASTNodeName(node)
   }
   else if (attr === 'type') {
-    return isNode(node) && node.getType().getText()
+    return isNode(node) && node.getType().getText() || ''
   }
   else if (attr === 'modifiers') {
-    return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ')
+    return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ') || ''
   }
   //body, expression, symbol, type, pos, start, getModifiers, 
 }
+

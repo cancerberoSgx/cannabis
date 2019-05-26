@@ -14,6 +14,6 @@
     "src", "test"
   ],
   "exclude": [
-    "node_modules", "typescript-ast-query-editors", "coverage", ".nyc_output"
+    "node_modules", "typescript-ast-query-editors", "coverage", ".nyc_output", "test/assets/project1"
   ]
 }

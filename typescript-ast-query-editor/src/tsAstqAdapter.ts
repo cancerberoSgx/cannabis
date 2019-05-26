@@ -1,37 +1,37 @@
 // import ASTQ from 'astq'
-import * as ts from 'typescript'
-import { getChildren, getKindName } from 'typescript-ast-util'
-import ASTQClass from './astq'
-import { getEditorText } from './monaco'
-const ASTQ = require('astq') as typeof ASTQClass
+// import * as ts from 'typescript'
+// import { getChildren, getKindName } from 'typescript-ast-util'
+// import ASTQClass from './astq'
+// import { getEditorText } from './monaco'
+// const ASTQ = require('astq') as typeof ASTQClass
 
-let astq = new ASTQ<ts.Node>()
+// let astq = new ASTQ<ts.Node>()
 
-astq.adapter({
-  taste(node: any) {
-    return node && typeof node.kind === 'number'
-  },
-  getParentNode(node: ts.Node) {
-    return node && node.parent
-  },
-  getChildNodes(node: ts.Node) {
-    return node && getChildren(node, false)
-  },
-  getNodeType(node: ts.Node) {
-    return node && getKindName(node)
-  },
-  getNodeAttrNames(node: ts.Node) {
-    return ['text']
-  },
-  getNodeAttrValue(node: ts.Node, attr: string) {
-    if (node && attr === 'text') {
-      return node.getText()
-    }
-  }
-})
+// astq.adapter({
+//   taste(node: any) {
+//     return node && typeof node.kind === 'number'
+//   },
+//   getParentNode(node: ts.Node) {
+//     return node && node.parent
+//   },
+//   getChildNodes(node: ts.Node) {
+//     return node && getChildren(node, false)
+//   },
+//   getNodeType(node: ts.Node) {
+//     return node && getKindName(node)
+//   },
+//   getNodeAttrNames(node: ts.Node) {
+//     return ['text']
+//   },
+//   getNodeAttrValue(node: ts.Node, attr: string) {
+//     if (node && attr === 'text') {
+//       return node.getText()
+//     }
+//   }
+// })
 
 export function executeQuery(q: string) {
-  const node = getSourceFile()
+  // const node = getSourceFile()
   try {
     return { result: astq.query(node, q) }
   } catch (error) {
@@ -39,9 +39,9 @@ export function executeQuery(q: string) {
   }
 }
 
-export function updateCode(code: string = getEditorText()) {
-  sourceFile = ts.createSourceFile("foo.ts", code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
-}
+// export function updateCode(code: string = getEditorText()) {
+//   sourceFile = ts.createSourceFile("foo.ts", code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+// }
 
 let sourceFile: ts.SourceFile | undefined
 let dirty = true

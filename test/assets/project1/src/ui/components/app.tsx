@@ -1,24 +1,23 @@
-import { throttle } from 'misc-utils-of-mine-generic'
-import * as monaco from 'monaco-editor'
 import * as React from 'react'
-import * as ts from 'typescript'
-import { getAscendants, getKindName, printNode } from 'typescript-ast-util'
-import './app.css'
-import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from './codeEditor'
-import { Example } from "./examples"
-import { ForkRibbon } from './forkRibbon'
-import { getMonacoInstance } from './monaco'
-import { queryAst } from 'cannabis'
+import {array, printMs, randomIntBetween, throttle} from 'misc-utils-of-mine-generic'
+import { ForkRibbon } from './forkRibbon';
+import { highlightNodesInEditor } from '../../foo';
+import { getKindName } from 'ts-simple-ast-extra';
 
 interface P {
   examples: Example[]
 }
-
+export interface Example {
+  query: string;
+  name: string
+  description: string;
+  code?: string
+}
 interface S {
   selectedExample: Example
-  result: ts.Node[]
+  result: any[]
   error?: Error
-  nodesAtPosition: ts.Node | undefined
+  nodesAtPosition: any | undefined
 }
 
 export class App extends React.Component<P, S> {
@@ -33,11 +32,9 @@ export class App extends React.Component<P, S> {
     this.executeQuery = this.executeQuery.bind(this)
     this.onDidChangeCursorPosition = this.onDidChangeCursorPosition.bind(this)
   }
-w
+
   componentDidMount() {
     const editorContainer = document.getElementById("editor-container")!
-    installCodeEditor(editorContainer)
-    getMonacoInstance()!.onDidChangeCursorPosition(this.onDidChangeCursorPosition)
   }
 
   render() {
@@ -49,16 +46,16 @@ w
           {this.results()}
         </div>
         <div className="flex-item" >
-          <div>Node at cursor: {this.state.nodesAtPosition && printNode(this.state.nodesAtPosition)}</div>
-          <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a => <a onClick={e => highlightNodesInEditor([a])}>->{getKindName(a)}</a>)}</div>
+          <div>Node at cursor: {this.state.nodesAtPosition && printMs(this.state.nodesAtPosition)}</div>
+          <div>{this.state.nodesAtPosition && array(10).reverse().map(a => <a onClick={e =>{}}>->{ }</a>)}</div>
           <div id="editor-container"></div>
         </div>
         <ForkRibbon />
       </div>)
   }
 
-  protected onDidChangeCursorPosition(e: monaco.editor.ICursorPositionChangedEvent) {
-    this.setState({ nodesAtPosition: getNodesAtPosition(e.position) })
+  protected onDidChangeCursorPosition(e: any) {
+    this.setState({ nodesAtPosition: randomIntBetween(1,2) })
   }
 
   protected examples(): React.ReactNode {
@@ -93,7 +90,7 @@ w
 
   protected executeQuery(selectedExample?: Example) {
     const query = selectedExample && selectedExample.query || this.state.selectedExample.query
-    const r = queryAst(query)
+    const r = {} as any
     if (r.result && r.result.length && !r.error) {
       highlightNodesInEditor(r.result)
     }
@@ -113,5 +110,4 @@ w
     </div>
   }
 }
-// * [// ForInStatement && count(//Block)==0]
 

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["esnext", "dom"], 
+    // "strict": true, 
+    // "esModuleInterop": true,
+    // "sourceMap": true,
+    "outDir": "./dist", 
+    // "declaration": true,
+    "rootDir": ".",
+    "jsx": "react"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules" 
+  ]
+}
