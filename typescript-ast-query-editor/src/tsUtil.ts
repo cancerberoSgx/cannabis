@@ -1,9 +1,9 @@
+import { IPosition, ISelection } from 'monaco-editor'
 import * as ts from 'typescript'
-import { ISelection, IPosition } from 'monaco-editor';
- 
-export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile, tsStart: number,tsEnd: number){
-  const start = ts.getLineAndCharacterOfPosition(sourceFile, tsStart);
-  const end = ts.getLineAndCharacterOfPosition(sourceFile, tsEnd);
+
+export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile, tsStart: number, tsEnd: number) {
+  const start = ts.getLineAndCharacterOfPosition(sourceFile, tsStart)
+  const end = ts.getLineAndCharacterOfPosition(sourceFile, tsEnd)
   return {
     selectionStartColumn: start.character + 1,
     selectionStartLineNumber: start.line + 1,
@@ -12,14 +12,14 @@ export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile, tsStart: num
   } as ISelection
 }
 
-export function  monacoSelectionToTsRange(sourceFile: ts.SourceFile, sel : ISelection){
-  const pos = ts.getPositionOfLineAndCharacter(sourceFile, sel.selectionStartLineNumber-1, sel.selectionStartColumn-1)
-  const end = ts.getPositionOfLineAndCharacter(sourceFile, sel.positionLineNumber-1, sel.positionColumn-1)
+export function monacoSelectionToTsRange(sourceFile: ts.SourceFile, sel: ISelection) {
+  const pos = ts.getPositionOfLineAndCharacter(sourceFile, sel.selectionStartLineNumber - 1, sel.selectionStartColumn - 1)
+  const end = ts.getPositionOfLineAndCharacter(sourceFile, sel.positionLineNumber - 1, sel.positionColumn - 1)
   return {
-    pos,  end
+    pos, end
   } as ts.TextRange
 }
 
-export function  monacoPositionToTsPosition(sourceFile: ts.SourceFile, p : IPosition){
-  return ts.getPositionOfLineAndCharacter(sourceFile, p.lineNumber-1, p.column-1)
+export function monacoPositionToTsPosition(sourceFile: ts.SourceFile, p: IPosition) {
+  return ts.getPositionOfLineAndCharacter(sourceFile, p.lineNumber - 1, p.column - 1)
 }

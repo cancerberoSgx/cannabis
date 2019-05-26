@@ -1,6 +1,5 @@
 import * as monaco from 'monaco-editor'
-import { isDesktop } from './media';
-
+import { isDesktop } from './media'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -27,13 +26,13 @@ export function initMonacoWorkers() {
 let editor: monaco.editor.IStandaloneCodeEditor
 
 export function getMonacoInstance() {
-  if(!editor){
+  if (!editor) {
     throw new Error('Editor not initialized, installEditor needs to be called first.')
   }
   return editor
-} 
+}
 
-export function installEditor(code: string,  containerEl: HTMLElement) {
+export function installEditor(code: string, containerEl: HTMLElement) {
   if (editor) {
     return editor
   }
@@ -58,8 +57,8 @@ export function installEditor(code: string,  containerEl: HTMLElement) {
     minimap: isDesktop()
       ? undefined
       : {
-          enabled: false,
-        },
+        enabled: false,
+      },
   })
 
   return editor

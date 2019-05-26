@@ -1,9 +1,9 @@
+import { IPosition, ISelection } from 'monaco-editor'
 import * as ts from 'typescript'
-import { installEditor, getMonacoInstance } from './monaco';
-import { ISelection, IPosition } from 'monaco-editor';
-import { tsRangeToMonacoSelection, monacoPositionToTsPosition, monacoSelectionToTsRange } from './tsUtil';
-import { getSourceFile, setDirty } from './tsAstqAdapter';
-import { findChildContainingRangeLight } from 'typescript-ast-util';
+import { findChildContainingRangeLight } from 'typescript-ast-util'
+import { getMonacoInstance, installEditor } from './monaco'
+import { getSourceFile, setDirty } from './tsAstqAdapter'
+import { monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
 
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = `
@@ -27,29 +27,29 @@ export class C {
     zok(a, ...args)
   }
 }   
-  `;
-  const editor = installEditor(code, editorContainer);
-  editor.getModel()!.onDidChangeContent(e=>setDirty)
+  `
+  const editor = installEditor(code, editorContainer)
+  editor.getModel()!.onDidChangeContent(e => setDirty)
 }
 
 export function highlightNodesInEditor(result: ts.Node[]): any {
-  const ed = getMonacoInstance()!;
+  const ed = getMonacoInstance()!
   const selections: ISelection[] = result.map(node => {
-   return tsRangeToMonacoSelection(node.getSourceFile(), node.getFullStart(), node.getEnd())
-  });
-  ed.setSelections(selections);
+    return tsRangeToMonacoSelection(node.getSourceFile(), node.getFullStart(), node.getEnd())
+  })
+  ed.setSelections(selections)
 }
 
-export function getTsPosition(p : IPosition, sourceFile: ts.SourceFile = getSourceFile() ){
-  return monacoPositionToTsPosition(sourceFile, p )
+export function getTsPosition(p: IPosition, sourceFile: ts.SourceFile = getSourceFile()) {
+  return monacoPositionToTsPosition(sourceFile, p)
 }
 
-export function getNodesAtPosition(pos : IPosition, sourceFile = getSourceFile()){
+export function getNodesAtPosition(pos: IPosition, sourceFile = getSourceFile()) {
   const p = getTsPosition(pos, sourceFile)
-  return findChildContainingRangeLight(sourceFile, {pos: p, end: p})
+  return findChildContainingRangeLight(sourceFile, { pos: p, end: p })
 }
 
-export function getNodesInSelection(s: ISelection, sourceFile = getSourceFile()){
+export function getNodesInSelection(s: ISelection, sourceFile = getSourceFile()) {
   const r = monacoSelectionToTsRange(sourceFile, s)
   return findChildContainingRangeLight(sourceFile, r)
 }

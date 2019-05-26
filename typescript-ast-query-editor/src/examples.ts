@@ -24,5 +24,5 @@ export const examples: Example[] = [
     query: '//* [ //ForInStatement &&  (type()=="MethodDeclaration" || type()=="FunctionDeclaration" || type()=="Constructor") ] ',
     description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})'
   },
-    
-];
+
+]

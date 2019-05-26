@@ -1,15 +1,15 @@
 // import ASTQ from 'astq'
-import ASTQClass from './astq'
-const ASTQ = require('astq') as typeof ASTQClass
 import * as ts from 'typescript'
-import { getEditorText } from './monaco';
-import {findChildContainingRangeLight, getChildren, getKindName} from 'typescript-ast-util'
+import { getChildren, getKindName } from 'typescript-ast-util'
+import ASTQClass from './astq'
+import { getEditorText } from './monaco'
+const ASTQ = require('astq') as typeof ASTQClass
 
 let astq = new ASTQ<ts.Node>()
 
 astq.adapter({
   taste(node: any) {
-    return node && typeof node.kind==='number'
+    return node && typeof node.kind === 'number'
   },
   getParentNode(node: ts.Node) {
     return node && node.parent
@@ -24,33 +24,33 @@ astq.adapter({
     return ['text']
   },
   getNodeAttrValue(node: ts.Node, attr: string) {
-    if(node && attr==='text'){
+    if (node && attr === 'text') {
       return node.getText()
     }
   }
 })
 
-export function executeQuery(q: string ) {
-  const node = getSourceFile();
+export function executeQuery(q: string) {
+  const node = getSourceFile()
   try {
-    return {result: astq.query(node, q)}
+    return { result: astq.query(node, q) }
   } catch (error) {
-    return {error}
+    return { error }
   }
 }
 
-export function updateCode(code: string = getEditorText()){
-  sourceFile = ts.createSourceFile("foo.ts",code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+export function updateCode(code: string = getEditorText()) {
+  sourceFile = ts.createSourceFile("foo.ts", code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
 }
 
-let sourceFile: ts.SourceFile|undefined
+let sourceFile: ts.SourceFile | undefined
 let dirty = true
-export function setDirty(d: boolean = true){
+export function setDirty(d: boolean = true) {
   dirty = d
 }
 export function getSourceFile() {
-  if(!sourceFile||dirty){
-    sourceFile = ts.createSourceFile("foo.ts", getEditorText(), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  if (!sourceFile || dirty) {
+    sourceFile = ts.createSourceFile("foo.ts", getEditorText(), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
     dirty = false
   }
   return sourceFile

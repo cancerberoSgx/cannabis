@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/node": "^12.0.2",
     "ava": "^1.4.1",
-    "ts-refactor": "0.0.4"
+    "ts-refactor": "0.0.5"
   },
   "dependencies": {
     "astq": "^2.6.2",
