@@ -7,6 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist docs",
+    "format": "npx ts-refactor format \"src/**/*.ts*\" \"test/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
+    "organizeImports": "npx ts-refactor organizeImports \"src/**/*.ts*\" \"test/**/*.ts*\"  ./formatCodeSettings.json --tsConfigPath ./tsconfig.json  --dontAsk ",
+    "lint": "npm run organizeImports && npm run format",
     "start": "npx http-server docs &  export NODE_ENV=development ; npx watch  \"npm run build-dev-no-maps\" src",
     "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
@@ -25,6 +28,7 @@
     "@types/react": "^16.8.18",
     "@types/react-dom": "^16.8.4",
     "http-server": "^0.11.1",
+    "ts-refactor": "0.0.4",
     "parcel": "^1.12.3",
     "typescript": "^3.4.5",
     "watch": "^1.0.2"
