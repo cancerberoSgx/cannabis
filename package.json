@@ -17,7 +17,8 @@
     "lint": "npm run organizeImports && npm run format",
     "docs-api": "rm -rf docs && typedoc --mode modules --ignoreCompilerErrors  --theme markdown --out docs src/index.ts ",
     "docs": "npm run docs-readme-toc && npm run docs-api",
-    "all": "npm run clean && npm run lint && npm run build && npm run test"
+    "all": "npm run clean && npm run lint && npm run build && npm run test",
+    "all-publish": "npm run all && npm version patch && npm publish"
   },
   "keywords": [
     "typescript",
@@ -37,7 +38,9 @@
     "ts-node": "^8.2.0",
     "ts-refactor": "0.0.5",
     "typedoc": "^0.14.2",
-    "typedoc-plugin-markdown": "^1.2.0",
+    "typedoc-plugin-markdown": "^1.2.0"
+  },
+  "peerDependencies": {
     "typescript": "^3.4.5"
   },
   "dependencies": {

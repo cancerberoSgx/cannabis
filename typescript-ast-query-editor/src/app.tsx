@@ -1,14 +1,15 @@
-import { throttle } from 'misc-utils-of-mine-generic'
+import { throttle, shorter } from 'misc-utils-of-mine-generic'
 import * as monaco from 'monaco-editor'
 import * as React from 'react'
-import * as ts from 'typescript'
-import { getAscendants, getKindName, printNode } from 'typescript-ast-util'
 import './app.css'
 import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from './codeEditor'
 import { Example } from "./examples"
 import { ForkRibbon } from './forkRibbon'
 import { getMonacoInstance } from './monaco'
-import { queryAst } from 'cannabis'
+import { queryAst, ASTNode } from 'cannabis'
+import { executeQuery } from './tsAstqAdapter';
+import { isNode, isSourceFile, isDirectory, tsMorph } from 'ts-simple-ast-extra';
+import { getGeneralNodeKindName } from 'ts-simple-ast-extra';
 
 interface P {
   examples: Example[]
@@ -16,9 +17,9 @@ interface P {
 
 interface S {
   selectedExample: Example
-  result: ts.Node[]
+  result: tsMorph.Node[]
   error?: Error
-  nodesAtPosition: ts.Node | undefined
+  nodesAtPosition: tsMorph.Node | undefined
 }
 
 export class App extends React.Component<P, S> {
@@ -33,7 +34,7 @@ export class App extends React.Component<P, S> {
     this.executeQuery = this.executeQuery.bind(this)
     this.onDidChangeCursorPosition = this.onDidChangeCursorPosition.bind(this)
   }
-w
+
   componentDidMount() {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
@@ -50,7 +51,8 @@ w
         </div>
         <div className="flex-item" >
           <div>Node at cursor: {this.state.nodesAtPosition && printNode(this.state.nodesAtPosition)}</div>
-          <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a => <a onClick={e => highlightNodesInEditor([a])}>->{getKindName(a)}</a>)}</div>
+          <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a => 
+          <a onClick={e => highlightNodesInEditor([a])}>->{getGeneralNodeKindName(a)}</a>)}</div>
           <div id="editor-container"></div>
         </div>
         <ForkRibbon />
@@ -93,7 +95,7 @@ w
 
   protected executeQuery(selectedExample?: Example) {
     const query = selectedExample && selectedExample.query || this.state.selectedExample.query
-    const r = queryAst(query)
+    const r = executeQuery(query)
     if (r.result && r.result.length && !r.error) {
       highlightNodesInEditor(r.result)
     }
@@ -104,7 +106,7 @@ w
     return <div>
       {this.state.result.length ? <ul>
         {this.state.result.map((node, i) => <li key={i}
-        ><a onClick={e => highlightNodesInEditor([node])}>{getKindName(node)}</a>
+        ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
         </li>)}
       </ul> : 'No results'}
       {this.state.error && <div><strong>Error: </strong><br /><pre>
@@ -113,5 +115,20 @@ w
     </div>
   }
 }
-// * [// ForInStatement && count(//Block)==0]
 
+function getAscendants(n: ASTNode) {
+  if(isNode(n)){
+    return n.getAncestors()
+  }
+  else {
+    return []
+  }
+}
+function printNode(n: ASTNode){
+  if(isSourceFile(n)||isDirectory(n)){
+    return `${n.getBaseName()} (file)`
+  }
+  else {
+    return  `${n.getKindName()} (${shorter(n.getText())})`
+    }
+}
