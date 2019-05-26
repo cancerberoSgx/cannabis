@@ -9,8 +9,8 @@
     "test-watch": "ava -w",
     "clean": "rm -rf dist docs",
     "build": "npx tsc",
-    "format": "npx ts-refactor format \"src/**/*.ts*\" \"spec/**/*.ts*\" \"probes/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
-    "organizeImports": "npx ts-refactor organizeImports \"src/**/*.ts*\" \"spec/**/*.ts*\" \"probes/**/*.ts*\" --dontAsk ",
+    "format": "npx ts-refactor format \"src/**/*.ts*\" \"test/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
+    "organizeImports": "npx ts-refactor organizeImports \"src/**/*.ts*\" \"test/**/*.ts*\" --dontAsk ",
     "lint": "npm run organizeImports && npm run format ",
     "doc": "typedoc --mode modules --ignoreCompilerErrors --out ../docs/ts-simple-ast-extra src/index.ts ",
     "all": "npm run clean && npm run prettier && npm run build && npm run test && npm run doc"

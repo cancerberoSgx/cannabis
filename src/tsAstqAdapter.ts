@@ -1,13 +1,13 @@
-import ASTQClass from './astq'
-const ASTQ = require('astq') as typeof ASTQClass
 import * as ts from 'typescript'
+import ASTQClass from './astq'
 import { getChildren, getKindName } from './util';
+const ASTQ = require('astq') as typeof ASTQClass
 
 
-let astq : ASTQClass<ts.Node>|undefined
+let astq: ASTQClass<ts.Node> | undefined
 
 function getTypeScriptAstq() {
-  if(!astq){
+  if (!astq) {
     astq = new ASTQ<ts.Node>();
     astq.adapter({
       taste(node: any) {
@@ -31,18 +31,18 @@ function getTypeScriptAstq() {
         }
       }
     })
-  } 
+  }
   return astq
 }
 
 
-export function queryAst(q: string, codeOrNode: string|ts.Node) {
-  if(typeof codeOrNode==='string'){
+export function queryAst(q: string, codeOrNode: string | ts.Node) {
+  if (typeof codeOrNode === 'string') {
     codeOrNode = ts.createSourceFile("foo.ts", codeOrNode, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
-  }   
+  }
   try {
-    return {result: getTypeScriptAstq().query(codeOrNode, q)}
+    return { result: getTypeScriptAstq().query(codeOrNode, q) }
   } catch (error) {
-    return {error}
+    return { error }
   }
 }

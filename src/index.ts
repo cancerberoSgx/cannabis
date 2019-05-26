@@ -1,1 +1,1 @@
-export {queryAst} from './tsAstqAdapter'
+export { queryAst } from './tsAstqAdapter'
