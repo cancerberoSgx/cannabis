@@ -9,8 +9,12 @@
     "outDir": "./dist", 
     "declaration": true,
     "rootDir": ".",
+    "skipLibCheck": true
   },
   "include": [
-    "src", "test", "probes"
+    "src", "test"
+  ],
+  "exclude": [
+    "node_modules", "typescript-ast-query-editors"
   ]
 }

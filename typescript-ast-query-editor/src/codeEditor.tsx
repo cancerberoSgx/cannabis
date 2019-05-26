@@ -4,30 +4,10 @@ import { findChildContainingRangeLight } from 'typescript-ast-util'
 import { getMonacoInstance, installEditor } from './monaco'
 import { getSourceFile, setDirty } from './tsAstqAdapter'
 import { monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
+import { codeExamples } from './examples';
 
 export function installCodeEditor(editorContainer: HTMLElement) {
-  const code = `
-import {Foo, bar, zok, puff} from './aux'
-export class C {
-  private attribute1: number
-  constructor(public id: string = bar()){
-    this.attribute1 = 2
-  }
-  method1(a: number){
-    return new Foo(a).value();
-  }
-  secondMethod(...args: any[]){
-    const a = []
-    function f (){
-      for(let i in puff){
-        a.push(i)
-      }
-    }
-    f()
-    zok(a, ...args)
-  }
-}   
-  `
+  const code = codeExamples[0].content
   const editor = installEditor(code, editorContainer)
   editor.getModel()!.onDidChangeContent(e => setDirty)
 }

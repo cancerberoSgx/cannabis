@@ -68,7 +68,6 @@ export class App extends React.Component<P, S> {
         const selectedExample = this.props.examples.find(ex => ex.query === e.currentTarget.value)!
         // this.setState({ selectedExample })
         // console.log({selectedExample: selectedExample.query});
-
         this.executeQuery(selectedExample)
       }}>{this.props.examples.map(example =>
         <option value={example.query} key={example.query} >{example.name}</option>
@@ -104,7 +103,9 @@ export class App extends React.Component<P, S> {
   protected results() {
     return <div>
       {this.state.result.length ? <ul>
-        {this.state.result.map((node, i) => <li key={i}><a onClick={e => highlightNodesInEditor([node])}>{getKindName(node)}</a></li>)}
+        {this.state.result.map((node, i) => <li key={i}
+        ><a onClick={e => highlightNodesInEditor([node])}>{getKindName(node)}</a>
+        </li>)}
       </ul> : 'No results'}
       {this.state.error && <div><strong>Error: </strong><br /><pre>
         {this.state.error + ''}

@@ -2,11 +2,23 @@
 
 Based on the powerful [astq](https://github.com/rse/astq) AST Query engine and syntax language.
 
-## Playground
+## Contents
+
+<!-- toc -->
+
+- [Playground](#playground)
+- [Usage](#usage)
+- [Custom Attributes](#custom-attributes)
+- [Custom Functions](#custom-functions)
+- [Query Syntax](#query-syntax)
+
+<!-- tocstop -->
+
+# Playground
 
 Try out this <a href="https://cancerberosgx.github.io/demos/cannabis/typescript-ast-query-editor/">interactive TypeScript AST Query editor</a> with examples to understand what this is all about. 
 
-## Usage
+# Usage
 
 ```
 npm install cannabis
@@ -37,13 +49,22 @@ if(error){
 }
 ```
 
-## custom functions 
+# Custom Attributes
+
+ * `text`, examples: 
+ * `name`, examples: 
  
- * `isFunctionLike()`, example: `//* [ isFunctionLike() ]`
+# Custom Functions 
+ 
+The following are custom function that can be used in the queries directly, added to standard query functions of astq library, related to TypeScript AST.
 
+ * `isFunctionLike()`, examples: `//* [ isFunctionLike() ]`
+ * `extendsNamed`, examples: `//ClassDeclaration [extendsNamed('BaseClass')]`, `//InterfaceDeclaration [extendsNamed('Touchable')]`
+ * `implementsNamed`, examples: `//ClassDeclaration [implementsNamed('Touchable')]`,
 
-## Query Syntax
+# Query Syntax
 
+ * [ASTQ Query syntax](astq-query-syntax.md)
  * is based on https://github.com/rse/astq
  * This is a very WIP project...
  * helper functions to reference high level AST concepts will be added & documented
