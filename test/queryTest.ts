@@ -1,5 +1,6 @@
 import test from 'ava'
 import { queryAst } from '../src'
+import { getKindName } from '../src/util';
 
 test('query', t => {
   const result = queryAst('// Identifier', 'class C {}')
@@ -62,3 +63,10 @@ test('statement inside several kind 2', t => {
   t.true(result.result![2].parent.getText().includes('f=>{'))
 });
 
+
+test.only('isFunctionLike', t => {
+  const query = '//* [ isFunctionLike() ]'
+  const result = queryAst(query, code1)
+  t.falsy(result.error)
+  t.deepEqual(result.result!.map(getKindName),  [ 'FunctionDeclaration',  'FunctionDeclaration',  'Constructor',  'MethodDeclaration',  'MethodDeclaration',  'ArrowFunction' ])
+});

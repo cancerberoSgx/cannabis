@@ -37,6 +37,11 @@ if(error){
 }
 ```
 
+## custom functions 
+ 
+ * `isFunctionLike()`, example: `//* [ isFunctionLike() ]`
+
+
 ## Query Syntax
 
  * is based on https://github.com/rse/astq

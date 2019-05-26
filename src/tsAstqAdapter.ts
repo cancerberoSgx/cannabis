@@ -31,8 +31,18 @@ function getTypeScriptAstq() {
         }
       }
     })
+    installFunctions(astq)
   }
   return astq
+}
+
+function installFunctions(astq: ASTQClass){
+  astq.func('isFunctionLike', (adapter, node)=>{
+    return ts.isFunctionLike(node)
+  })
+  // astq.func('isSubClassOf', (adapter, node, className)=>{
+  //   return  ts.isFunctionLike(node)
+  // })
 }
 
 
