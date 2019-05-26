@@ -1,6 +1,6 @@
+import { GeneralNode, getExtendsRecursivelyNames, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import ASTQClass from './astq'
-import { ts, tsMorph, isNode, getExtendsRecursivelyNames, getImplementsAllNames, getGeneralNodeParent, GeneralNode, getGeneralNodeChildren, getGeneralNodeKindName } from 'ts-simple-ast-extra'
-import { getFile } from './file';
+import { getFile } from './file'
 type Node = tsMorph.Node
 
 const ASTQ = require('astq') as typeof ASTQClass
@@ -10,7 +10,7 @@ let astq: ASTQClass<GeneralNode> | undefined
 
 function getTypeScriptAstq() {
   if (!astq) {
-    astq = new ASTQ<GeneralNode>();
+    astq = new ASTQ<GeneralNode>()
     astq.adapter({
       taste(node: any) {
         return tsMorph.TypeGuards.isNode(node)
@@ -29,7 +29,7 @@ function getTypeScriptAstq() {
         return getGeneralNodeKindName(node)
       },
       getNodeAttrNames(node: GeneralNode) {
-        return ['text', 'name', 'type', 'sourceFile', 'modifiers'];
+        return ['text', 'name', 'type', 'sourceFile', 'modifiers']
       },
       getNodeAttrValue(node: GeneralNode, attr: string) {
         return getAttribute(node, attr)

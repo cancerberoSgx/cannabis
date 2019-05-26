@@ -148,4 +148,4 @@ interface ASTQQuery<Node = any> {
   execute(node: Node, adapter: ASTQAdapter<Node>, params: any[], funcs: any[], trace?: boolean): Node[];
 }
 
-export = ASTQClass;
+export = ASTQClass

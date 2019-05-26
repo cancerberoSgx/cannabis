@@ -1,4 +1,4 @@
-let assets;
+let assets
 export const code2 = `
 class A implements I1, J{}
 class B extends A {}
@@ -9,7 +9,7 @@ interface I1 extends I{}
 interface I2<T> extends I1{}
 interface J{}
 interface I3<T> extends I2<T>, J{} 
-`;
+`
 
 export const code1 = `
 export function f(o: any){
