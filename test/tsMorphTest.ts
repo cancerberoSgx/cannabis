@@ -13,10 +13,9 @@ test('multiple queries in same changing node ', t => {
 
   // in the middle, suppose that someone makes a new query
   queryAstSimpleTest(t, queryAst(`//* [@name=='g']`, 'const g = 1'), { result: { kind: ['VariableDeclaration'] } })
-
   queryAstSimpleTest(t, queryAst(`//* [@name=='g']`, file), { result: { kind: [] } })
   queryAstSimpleTest(t, queryAst(`//VariableDeclaration [@name=='y']`, file), { result: { text: ['y = f(2)'] } })
-  const r = queryAst<tsMorph.FunctionDeclaration>(`//FunctionDeclaration [@name=='f']`, file)
+  const r = queryAst(`//FunctionDeclaration [@name=='f']`, file)
   queryAstSimpleTest(t, r, { result: { kind: ['FunctionDeclaration'] } })
 
   const f = r.result![0]
@@ -24,7 +23,9 @@ test('multiple queries in same changing node ', t => {
   // in the middle, suppose that someone makes a new query
   queryAstSimpleTest(t, queryAst(`//* [@name=='g']`, 'const g = 1'), { result: { kind: ['VariableDeclaration'] } })
 
-  f.rename('g')
+  if (tsMorph.TypeGuards.isRenameableNode(f)) {
+    f.rename('g')
+  }
   t.truthy(file.getFunction('g'))
   t.falsy(file.getFunction('f'))
 

@@ -39,7 +39,7 @@ function getTypeScriptAstq() {
   return astq
 }
 
-export interface QueryResult<T extends ASTNode = tsMorph.Node> {
+export interface QueryResult<T extends ASTNode = ASTNode> {
   result?: T[]
   error?: Error
 }
@@ -50,7 +50,7 @@ export interface QueryResult<T extends ASTNode = tsMorph.Node> {
  * will be used (internally creating a ts-morph node). If it's a ASTNode, it could be a Directory, a file or a
  * node and that will be used to issue the query.
  */
-export function queryAst<T extends ASTNode = tsMorph.Node>(q: string, codeOrNode: string | ts.Node | ASTNode): QueryResult<T> {
+export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode): QueryResult<T> {
   let node: Node | tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
@@ -122,27 +122,3 @@ export function queryOneOrThrow<T extends ASTNode = Node>(q: string, codeOrNode:
 }
 
 
-
-
-
-// isTypeParameteredNode, isAbstractableNode, isAmbientableNode, isArgumentedNode, isAsyncableNode,
-// isAwaitableNode, isBodiedNode, isBodyableNode, DecoratableNode, ScopedNode, staticableNode,
-// PropertyNamedNode, OverloadableNode, GeneratorableNode, ModifierableNode, JSDocableNode, ReadonlyableNode,
-// ExclamationTokenableNode, QuestionTokenableNode, InitializerExpressionableNode, PropertyNamedNode
-
-/*
-
-researchrge
-
-possible attributes:
-
- // TODO: body, expression, symbol, type, pos, start, fullStart, fuillText, width, fullWIdth,
- leadingtriviaWidth, trailingTriviaWidth, trailingTriviaEnd, getCombinedModifierFlags, getLastToken,
- childIndex, getIndentationLevel, getChildIndentationLevel, getIndentationText, getChildIndentationText,
- getStartLinePos, getStartLineNumber, getEndLineNumber, isFirstNodeOnLine, getLeadingCommentRanges,
- getTrailingCommentRanges, getScope, getReturnType, isStatic, getTypeArguments, getTypeParameters,
- getProperties, getStaticProperties, getInstanceProperties, getGetAccessors, getSetAccessors, getMethods,
- getStaticMethods, getInstanceMethods, getStaticMembers, getInstanceMembers, getMembers, getBaseTypes,.
- getBaseClass, getDerivedClasses, children, childCount
-
-*/

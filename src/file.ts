@@ -1,9 +1,8 @@
+import { unique } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
-import { ASTDirectory } from './astNode'
-import { unique } from './util'
-// import { ASTDirectory, ASTFile } from './astNode';
+import { ASTDirectory, ASTFile } from './astNode'
 
-let file: tsMorph.SourceFile | undefined
+let file: ASTFile | undefined
 let _project: tsMorph.Project | undefined
 let reuseProject = true
 
@@ -11,7 +10,6 @@ let reuseProject = true
  * Creates a new file with given code
  */
 export function getFile(code: string) {
-
   file = getProject().createSourceFile(getNewFileName(), code)
   return file!
 }
@@ -27,7 +25,7 @@ function getNewFileName(): string {
   return `${unique('cannabis_test_file_')}.ts`
 }
 
-export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): tsMorph.SourceFile {
+export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTFile {
   if (parent) {
     return parent.createSourceFile(name, code)
   } else {
@@ -69,14 +67,18 @@ interface ASTRoot {
   getRootDirectory(): ASTDirectory
   getRootDirectories(): ASTDirectory[]
 }
+
 class ASTRootImpl implements ASTRoot {
+
   constructor(private _project: tsMorph.Project) { }
+
   /**
    * Returns all project's root directories, including those in node_modules project dependencies. The first one will be thir project's source directory alghouth you can force omitting node_modules ones with [[getRootDirectory]] .
    */
   getRootDirectories(): ASTDirectory[] {
     return this._project.getRootDirectories()
   }
+
   /**
    * [[getRootDirectories]] could return many folders since it will include also the ones in node_modules project dependencies. Use [[getRootDirectory]] to ignore those. 
    */
@@ -84,10 +86,8 @@ class ASTRootImpl implements ASTRoot {
     const filtered = this.getRootDirectories().filter(f => !f.getPath().includes('node_modules'))
     return filtered.length ? filtered[0] : this.getRootDirectories()[0]
   }
-  getSourceFiles(): tsMorph.SourceFile[] {
+
+  getSourceFiles(): ASTFile[] {
     return this._project.getSourceFiles()
   }
 }
-// function isASTProject(a: any): a is ASTProjectImpl {
-//   return a && a.__astProjectImpl===2
-// }

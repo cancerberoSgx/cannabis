@@ -1,5 +1,5 @@
 import { ExecutionContext } from 'ava'
-import { getGeneralNodeKindName, isDirectory, tsMorph } from 'ts-simple-ast-extra'
+import { getGeneralNodeKindName, isDirectory } from 'ts-simple-ast-extra'
 import { ASTNode } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
 
@@ -11,11 +11,11 @@ export function expectToInclude(t: ExecutionContext, input: string, expected: st
   t.truthy(input.includes(expected), `Expected ${input} to include ${expected}`)
 }
 
-export function queryAstSimpleTest<T extends ASTNode = tsMorph.Node>(t: ExecutionContext, input: QueryResult<T>, expected: {
+export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionContext, input: QueryResult<T>, expected: {
   error?: string;
   result?: {
-    kind?: string[];
-    text?: string[];
+    kind?: string[]
+    text?: string[]
   };
 }) {
   (expected.error || input.error) ? expectToInclude(t, input.error + '' || '', expected.error + '' || '') : t.falsy(input.error)
@@ -33,7 +33,6 @@ export function queryAstSimpleTest<T extends ASTNode = tsMorph.Node>(t: Executio
   else {
     t.truthy(!input.result || !input.result.length)
   }
-  // return input
 }
 function getGeneralNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()

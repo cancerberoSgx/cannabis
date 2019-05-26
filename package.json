@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
+    "misc-utils-of-mine-generic": "^0.2.4",
     "ts-simple-ast-extra": "0.1.9"
   }
 }

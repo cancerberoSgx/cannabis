@@ -25,13 +25,6 @@ export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
       : f.forEachChildAsArray()
 }
 
-// export function isGeneralNode(f: any): f is GeneralNode {
-//   return f && (isNode(f) || isDirectory(f))
-// }
-
-// export function getGeneralNodeKindName(n: GeneralNode) {
-//   return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
-// }
 
 /**
  * get general node's parent

@@ -1,6 +1,6 @@
 import test from 'ava'
 import { queryAst } from '../src'
-import { code1 } from './assets'
+import { code1 } from './assets/code'
 import { queryAstSimpleTest } from './testUtil'
 
 test('incorrect attribute should not throw error and much 0', queryAstSimpleTest, queryAst(`// * [ @nonExistent == 1]`, 'class C {}'), { result: { kind: [] } })
