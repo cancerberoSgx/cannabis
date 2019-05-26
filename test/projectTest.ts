@@ -1,9 +1,8 @@
 import test from 'ava'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
-import { queryAst, loadProject, queryOne, queryAll } from '../src'
-import { getGeneralNodeKindName, ASTDirectory, ASTFile } from "../src/astNode";
+import { loadProject, queryAll, queryAst, queryOne } from '../src'
+import { ASTDirectory, ASTFile, getGeneralNodeKindName } from "../src/astNode"
 import { code1, code2 } from './assets'
-import { expectSameLength } from './testUtil';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()

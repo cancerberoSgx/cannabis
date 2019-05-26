@@ -1,5 +1,5 @@
-import { getName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName } from './astNode';
+import { isNode, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeName } from './astNode'
 
 export function getAttribute(node: ASTNode, attr: string) {
   if (!node) {

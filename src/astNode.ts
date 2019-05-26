@@ -1,4 +1,4 @@
-import { tsMorph, isDirectory, isSourceFile, isNode ,getName, GeneralNode } from 'ts-simple-ast-extra';
+import { GeneralNode, getName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -21,8 +21,8 @@ export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
     ? []
     // : isASTProject(f) ? f.getChildren() 
     : isDirectory(f)
-    ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles() as ASTNode[])
-    : f.forEachChildAsArray()
+      ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles() as ASTNode[])
+      : f.forEachChildAsArray()
 }
 
 // export function isGeneralNode(f: any): f is GeneralNode {
@@ -40,21 +40,21 @@ export function getGeneralNodeParent(f: ASTNode): ASTNode | undefined {
   return !f
     ? undefined
     : isDirectory(f)
-    ? (f.getParent() as ASTNode)
-    : isSourceFile(f)
-    ? f.getDirectory()
-    : f.getParent()
+      ? (f.getParent() as ASTNode)
+      : isSourceFile(f)
+        ? f.getDirectory()
+        : f.getParent()
 }
 
 export function isGeneralNode(f: any): f is ASTNode {
-  return f && (isNode(f) || isDirectory(f));
+  return f && (isNode(f) || isDirectory(f))
 }
 
 export function getGeneralNodeKindName(n: ASTNode) {
-  return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory';
+  return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
 }
 
-export function getASTNodeName(node: ASTNode){
+export function getASTNodeName(node: ASTNode) {
   if (isDirectory(node) || isSourceFile(node)) {
     return node.getBaseName()
   }

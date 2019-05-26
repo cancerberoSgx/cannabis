@@ -1,9 +1,9 @@
-import {   ts, tsMorph } from 'ts-simple-ast-extra'
+import { ts, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "./astNode"
 import ASTQClass from './astq'
 import { getAttribute } from './attribtues'
 import { getFile } from './file'
 import { installFunctions } from './functions'
-import { getGeneralNodeKindName, isGeneralNode, ASTNode, getGeneralNodeParent, getGeneralNodeChildren } from "./astNode";
 
 const ASTQ = require('astq') as typeof ASTQClass
 

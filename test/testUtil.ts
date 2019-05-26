@@ -1,10 +1,10 @@
 import { ExecutionContext } from 'ava'
-import {  getGeneralNodeKindName, isDirectory, tsMorph } from 'ts-simple-ast-extra'
+import { getGeneralNodeKindName, isDirectory, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
-import { ASTNode } from '../src/astNode';
 
-export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[]|number) {
-  t.is(a.length, typeof b ==='number'?b : b.length, `Expected "${a}" to have same length as "${b}"`)
+export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
+  t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)
 }
 
 export function expectToInclude(t: ExecutionContext, input: string, expected: string) {
