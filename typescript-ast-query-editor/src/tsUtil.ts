@@ -1,6 +1,5 @@
 import { IPosition, ISelection } from 'monaco-editor'
-import * as ts from 'typescript'
-import { tsMorph, isSourceFile } from 'ts-simple-ast-extra';
+import { tsMorph, isSourceFile, ts } from 'ts-simple-ast-extra';
 
 /** 
  * Same as [[findSmallestDescendantContainingRange]] but nto so strict r.pos <= n.start <=  r.end <= n.end.

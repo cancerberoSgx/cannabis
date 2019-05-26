@@ -35,11 +35,11 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
-    "cannabis": "file:..",
+    "cannabis": "0.0.5",
     "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "ts-simple-ast-extra": "^0.1.9"
+    "ts-simple-ast-extra": "^0.1.10"
   }
 }
