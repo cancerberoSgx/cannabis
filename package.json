@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
-    "ts-simple-ast-extra": "file:../typescript-plugins-of-mine/ts-simple-ast-extra"
+    "ts-simple-ast-extra": "0.1.8"
   }
 }
