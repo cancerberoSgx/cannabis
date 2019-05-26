@@ -1,10 +1,9 @@
-import test from 'ava'
+import test, { ExecutionContext } from 'ava'
 import { queryAst } from '../src'
-import { getTsMorphFile } from "../src/file";
-import { ts, tsMorph, getExtendsRecursively, getExtendsRecursivelyNames } from 'ts-simple-ast-extra'
+import { code1 } from './assets';
 
 test('query', t => {
-  const result = queryAst(`// Identifier`, 'class C {}')
+  const result = queryAst(`// Identifier`, 'class C {}')  
   t.is(result.error, undefined)
   t.is(result.result!.length, 1)
   t.is(result.result![0].getText(), 'C')
@@ -15,32 +14,7 @@ test('should return error on invalid queries', t => {
   t.truthy(result.error)
   t.true((result.error + '').includes('query parsing failed'))
 });
-
-const code1 = `
-export function f(o: any){
-  for(let i in o)
-    console.log(i)
-}
-export function g(n: number[]){
-  return new A(n)
-}
-class A{
-  constructor(private n: any[]){}
-  private method1(){
-    for(var name in this)
-      this.n.push(name)    
-  }
-  protected method2(){
-    return true
-  }
-}
-class B extends A{
-  foo=f=>{
-    for(let i in o)
-      console.log(i)
-  }
-}  `
-
+ 
 test('statement inside several kind', t => {
   // matches function-like nodes containing a for-in statement (`for (let i in foo){}`)
   const query = `//* [ //ForInStatement &&  (type()=="MethodDeclaration" || type()=="FunctionDeclaration" || type()=="Constructor" || type()=="ArrowFunction") ]`
@@ -76,45 +50,4 @@ test('attribute name', t => {
   const result = queryAst(query, code1)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getKindName()), ['MethodDeclaration'])
-});
-
-const code2 = `
-class A implements I1, J{}
-class B extends A {}
-class C<T> extends B implements I2<T>, I3<T>{}
-class D<T> extends C<T> implements I{} 
-interface I{}
-interface I1 extends I{}
-interface I2<T> extends I1{}
-interface J{}
-interface I3<T> extends I2<T>, J{} 
-`
-test('extendsNamed', t => {
-  const f = getTsMorphFile(code2)
-  let result = queryAst(`//* [ extendsNamed('C') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['D'])
-
-  result = queryAst(`//* [ extendsNamed(\'A\') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['B', 'C', 'D'])
-
-  result = queryAst(`//* [ extendsNamed(\'I2\') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['I3'])
-
-  result = queryAst(`//* [ extendsNamed('I') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['I1', 'I2', 'I3'])
-});
-
-test('implementsNamed', t => {
-  const f = getTsMorphFile(code2)
-  let result = queryAst(`//ClassDeclaration [ implementsNamed('I3') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['C', "D"])
-
-  result = queryAst(`//ClassDeclaration [ implementsNamed('I') ]`, f)
-  t.falsy(result.error)
-  t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['A', 'B', 'C', 'D'])
 });

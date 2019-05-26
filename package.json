@@ -17,7 +17,7 @@
     "lint": "npm run organizeImports && npm run format",
     "docs-api": "rm -rf docs && typedoc --mode modules --ignoreCompilerErrors  --theme markdown --out docs src/index.ts ",
     "docs": "npm run docs-readme-toc && npm run docs-api",
-    "all": "npm run clean && npm run build && npm run test"
+    "all": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "keywords": [
     "typescript",
@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "astq": "^2.6.2",
-    "ts-simple-ast-extra": "0.1.8"
+    "ts-simple-ast-extra": "file:../typescript-plugins-of-mine/ts-simple-ast-extra"
   }
 }
