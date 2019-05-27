@@ -8,8 +8,8 @@ import { Example, examples } from "./examples";
 //   examples: Example[]
 //   nodesAtPosition: tsMorph.Node | undefined
 // }
-type L = () => void;
-class Store extends Emitter<L> {
+// type L= () => void;
+class Store extends Emitter<void> {
   protected state: State;
   constructor() {
     super();
@@ -18,6 +18,10 @@ class Store extends Emitter<L> {
       result: [], examples,
       nodesAtPosition: undefined
     };
+  }
+  setState(state: Partial<State>){
+    this.state = {...this.state, ...state}
+    this.emit()
   }
   getState() {
     return this.state;

@@ -8,11 +8,10 @@ import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from '.
 import { codeExamples, Example } from "./examples"
 import { ForkRibbon } from './forkRibbon'
 import { getMonacoInstance, setEditorText } from './monaco'
-import { executeQuery } from './tsAstqAdapter'
-import { State, getStore } from './L';
+import { State, getStore } from './store';
 
 interface Props {
-  examples: Example[]
+  // examples: Example[]
 }
 
 // const state = new StateImpl()
@@ -20,22 +19,26 @@ interface Props {
 
 
 export class AbstractComponent extends React.Component<Props, State>{
-  componentDidMount(){
-    getStore().add(()=>{
-      this.setState({... getStore().getState()})
-    })
-  }
+ 
   constructor(p: Props, s: State) {
     super(p, s)
     this.state = getStore().getState()
+    getStore().add(()=>{
+      super.setState({... getStore().getState()})
+      // this.setState({... getStore().getState()})
+    })
   }
+      setState(state: Partial<State>){
+        getStore().setState(state)
+      }
+  
 }
 export class App extends  AbstractComponent{
 
 
   constructor(p: Props, s: State) {
     super(p, s)
-    this.executeQuery = this.executeQuery.bind(this)
+    // this.executeQuery = this.executeQuery.bind(this)
     this.onDidChangeCursorPosition = this.onDidChangeCursorPosition.bind(this)
   }
   componentDidMount() {
@@ -48,9 +51,9 @@ export class App extends  AbstractComponent{
     return (
       <div className="flex-container">
         <div className="flex-item left-panel">
-          {this.examples()}
+         <Examples></Examples>
           {this.queryEditor()}
-          <Results {...this.props} />
+          <Results   />
         </div>
         <div className="flex-item right-panel" >
           {this.editorCursorDescription()}
@@ -76,23 +79,6 @@ export class App extends  AbstractComponent{
     this.setState({ nodesAtPosition: getNodesAtPosition(e.position) })
   }
 
-  protected examples(): React.ReactNode {
-    return (<div>
-      <h3>Examples</h3>
-      <select onChange={e => {
-        const selectedExample = this.props.examples.find(ex => ex.query === e.currentTarget.value)!
-        if (selectedExample.code) {
-          const code = codeExamples.find(c => c.name === selectedExample.code)
-          code && setEditorText(code.content)
-        }
-        this.executeQuery(selectedExample)
-      }}>{this.props.examples.map(example =>
-        <option value={example.query} key={example.query} >{example.name}</option>
-      )}
-      </select>
-      <blockquote><strong>Example description</strong>: {this.state.selectedExample.description}</blockquote>
-    </div>)
-  }
 
   protected queryEditor(): React.ReactNode {
     return (<div>
@@ -100,7 +86,7 @@ export class App extends  AbstractComponent{
         this.setState({ selectedExample: { ...this.state.selectedExample, query: e.target.value } })
       }}></textarea>
       <br />
-      <button className="primary" onClick={e => this.executeQuery()}>Search!</button>
+      <button className="primary" onClick={e => executeQuery()}>Search!</button>
       <button onClick={e => this.traceQuery()}>Trace execution</button>
       <button onClick={e => this.traceQuery()}>Inspect Query</button>
     </div>)
@@ -109,39 +95,36 @@ export class App extends  AbstractComponent{
     // const q = this.state.selectedExample.query
   }
 
-  protected executeQueryThrottled = throttle(this.executeQuery, 2000, { trailing: true }) as (selectedExample?: Example) => void
+  protected executeQueryThrottled = throttle(executeQuery, 2000, { trailing: true }) as (selectedExample?: Example) => void
 
-  protected executeQuery(selectedExample?: Example) {
-    const query = selectedExample && selectedExample.query || this.state.selectedExample.query
-    const r = executeQuery(query)
-    if (r.result && r.result.length && !r.error) {
-      highlightNodesInEditor(r.result)
-    }
-    this.setState({ selectedExample: { ...selectedExample || this.state.selectedExample, query }, result: r.result || [], error: r.error })
-  }
-
-  // protected results() {
-  //   return <div className="results">
-  //     {this.state.result.length ? <div>
-  //       <h3>Results</h3>
-  //       <ul>
-  //         {this.state.result.map((node, i) => <li key={i}
-  //         ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
-  //         </li>)}
-  //       </ul>
-  //     </div> :
-  //       'No results'}
-  //     {this.state.error && <div><strong>Error: </strong><br /><pre>
-  //       {this.state.error + ''}
-  //     </pre></div>}
-  //   </div>
-  // }
 }
 
-class Results extends React.Component<Props, State> {
-  constructor(p: Props, s: State) {
-    super(p, s)
+
+class Examples extends AbstractComponent {
+  render() {
+   return  (<div>
+      <h3>Examples</h3>
+      <select onChange={e => {
+        const selectedExample = this.state.examples.find(ex => ex.query === e.currentTarget.value)!
+        if (selectedExample.code) {
+          const code = codeExamples.find(c => c.name === selectedExample.code)
+          code && setEditorText(code.content)
+        }
+        executeQuery(selectedExample)
+      }}>{this.state.examples.map(example =>
+        <option value={example.query} key={example.query} >{example.name}</option>
+      )}
+      </select>
+      <blockquote><strong>Example description</strong>: {this.state.selectedExample.description}</blockquote>
+    </div>)
   }
+}
+
+
+class Results extends AbstractComponent {
+  // constructor(p: Props, s: State) {
+  //   super(p, s)
+  // }
   render() {
     return <div className="results">
       {this.state.result.length ? <div>
@@ -159,6 +142,7 @@ class Results extends React.Component<Props, State> {
     </div>
   }
 }
+
 function getAscendants(n: ASTNode, andSelf = false) {
   if (isNode(n)) {
     return [n, ...n.getAncestors()]
@@ -175,3 +159,13 @@ function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
+import {executeQuery as executeQuery2} from './tsAstqAdapter'
+function executeQuery(selectedExample?: Example) {
+  const state = getStore().getState()
+  const query = selectedExample && selectedExample.query || state.selectedExample.query
+  const r = executeQuery2(query)
+  if (r.result && r.result.length && !r.error) {
+    highlightNodesInEditor(r.result)
+  }
+  getStore().setState({ selectedExample: { ...selectedExample || state.selectedExample, query }, result: r.result || [], error: r.error })
+} 
