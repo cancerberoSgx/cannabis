@@ -1,16 +1,17 @@
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName } from '../astNode'
+import { ASTNode, getASTNodeName, getGeneralNodeText } from '../astNode'
 
-export function getAttribute(node: ASTNode, attr: string) {
+export function getAttribute(node: ASTNode, attr: string): string|null {
   try {
     if (!node) {
-      return undefined
+      return null
     }
     else if (attr === 'text') {
-      return isNode(node) ? node.getText() : ''
+      // return isNode(node) ? node.getText() : ''
+      getGeneralNodeText(node)
     }
     else if (attr === 'name') {
-      return getASTNodeName(node)
+      return getASTNodeName(node)||''
     }
     else if (attr === 'type') {
       return isNode(node) && node.getType().getText() || ''
@@ -20,8 +21,9 @@ export function getAttribute(node: ASTNode, attr: string) {
     }
   } catch (error) {
     console.error('ERROR on getAttribute for attr==', attr, error)
+
   }
-  return undefined
+  return null
   //body, expression, symbol, type, pos, start, getModifiers, 
 }
 

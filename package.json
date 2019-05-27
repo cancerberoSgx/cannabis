@@ -45,8 +45,8 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "astq": "github:cancerberoSgx/astq#package",
+    "astq": "github:cancerberoSgx/astq",
     "misc-utils-of-mine-generic": "^0.2.4",
-    "ts-simple-ast-extra": "0.1.9"
+    "ts-simple-ast-extra": "0.1.11"
   }
 }

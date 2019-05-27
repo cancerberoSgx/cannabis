@@ -3,6 +3,7 @@ import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { loadProject, queryAll, queryAst, queryOne } from '../src'
 import { ASTDirectory, ASTFile, getGeneralNodeKindName } from "../src/astNode"
 import { code1, code2 } from './assets/code'
+import { printNode } from './testUtil';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -35,9 +36,10 @@ test('should be able to query at a project level, selecting directories and sour
   t.deepEqual(queryAst(`//InterfaceDeclaration`, r2.result![0]).result!.map(getName), ['I', `I1`, 'I2', 'J', 'I3'])
 
   // results can have mixed dirs, files and nodes:
-  t.deepEqual(queryAst(`//* [@name=~'o']`, src).result!.map(getGeneralNodeKindName), [
-    'Directory', 'SourceFile', 'Directory', 'SourceFile', 'SourceFile', 'Parameter', 'PropertyAccessExpression', 'MethodDeclaration', 'MethodDeclaration', 'PropertyDeclaration', 'PropertyAccessExpression'])
+  // t.deepEqual(JSON.stringify(queryAst(`//* [@name=~'o' && type()!='Identifier]`, src).result!.map(printNode).sort()), `["Directory code2 (\\"/Users/seb...\\")","Directory foo (\\"/Users/seb...\\")","ForInStatement o (\\"for(let i ...\\")","ForInStatement o (\\"for(let i ...\\")","MethodDeclaration method1 (\\"private me...\\")","MethodDeclaration method2 (\\"protected ...\\")","Parameter o (\\"o: any...\\")","PropertyAccessExpression log (\\"console.lo...\\")","PropertyAccessExpression log (\\"console.lo...\\")","PropertyDeclaration foo (\\"foo=f=>{\\n ...\\")","SourceFile code1.ts (\\"export fun...\\")","SourceFile code2.ts (\\"class A im...\\")","SourceFile foo.ts (\\"export con...\\")"]`
+// )
 })
+ 
 
 test('loadProject', t => {
   const p = loadProject('test/assets/project1/tsconfig.json')

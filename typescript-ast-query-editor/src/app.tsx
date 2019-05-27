@@ -1,15 +1,14 @@
-import { throttle, shorter } from 'misc-utils-of-mine-generic'
+import { ASTNode } from 'cannabis'
+import { shorter, throttle } from 'misc-utils-of-mine-generic'
 import * as monaco from 'monaco-editor'
 import * as React from 'react'
+import { getGeneralNodeKindName, isDirectory, isNode, isSourceFile, tsMorph } from 'ts-simple-ast-extra'
 import './app.css'
 import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from './codeEditor'
-import { Example, codeExamples } from "./examples"
+import { codeExamples, Example } from "./examples"
 import { ForkRibbon } from './forkRibbon'
 import { getMonacoInstance, setEditorText } from './monaco'
-import { queryAst, ASTNode } from 'cannabis'
-import { executeQuery } from './tsAstqAdapter';
-import { isNode, isSourceFile, isDirectory, tsMorph } from 'ts-simple-ast-extra';
-import { getGeneralNodeKindName } from 'ts-simple-ast-extra';
+import { executeQuery } from './tsAstqAdapter'
 
 interface P {
   examples: Example[]
@@ -51,8 +50,8 @@ export class App extends React.Component<P, S> {
         </div>
         <div className="flex-item" >
           <div>Node at cursor: {this.state.nodesAtPosition && printNode(this.state.nodesAtPosition)}</div>
-          <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a => 
-          <a onClick={e => highlightNodesInEditor([a])}>->{getGeneralNodeKindName(a)}</a>)}</div>
+          <div>{this.state.nodesAtPosition && getAscendants(this.state.nodesAtPosition).reverse().map(a =>
+            <a onClick={e => highlightNodesInEditor([a])}>->{getGeneralNodeKindName(a)}</a>)}</div>
           <div id="editor-container"></div>
         </div>
         <ForkRibbon />
@@ -68,8 +67,8 @@ export class App extends React.Component<P, S> {
       <h2>Examples</h2>
       <select onChange={e => {
         const selectedExample = this.props.examples.find(ex => ex.query === e.currentTarget.value)!
-        if(selectedExample.code){
-          const code = codeExamples.find(c=>c.name===selectedExample.code)
+        if (selectedExample.code) {
+          const code = codeExamples.find(c => c.name === selectedExample.code)
           code && setEditorText(code.content)
         }
         this.executeQuery(selectedExample)
@@ -110,13 +109,13 @@ export class App extends React.Component<P, S> {
     return <div>
       {this.state.result.length ? <div>
         <h4>Results</h4>
-      <ul>
-      {this.state.result.map((node, i) => <li key={i}
-      ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
-      </li>)}
-      </ul>
-      </div> : 
-      'No results'}
+        <ul>
+          {this.state.result.map((node, i) => <li key={i}
+          ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
+          </li>)}
+        </ul>
+      </div> :
+        'No results'}
       {this.state.error && <div><strong>Error: </strong><br /><pre>
         {this.state.error + ''}
       </pre></div>}
@@ -125,18 +124,18 @@ export class App extends React.Component<P, S> {
 }
 
 function getAscendants(n: ASTNode) {
-  if(isNode(n)){
+  if (isNode(n)) {
     return n.getAncestors()
   }
   else {
     return []
   }
 }
-function printNode(n: ASTNode){
-  if(isSourceFile(n)||isDirectory(n)){
+function printNode(n: ASTNode) {
+  if (isSourceFile(n) || isDirectory(n)) {
     return `${n.getBaseName()} (file)`
   }
   else {
-    return  `${n.getKindName()} (${shorter(n.getText())})`
-    }
+    return `${n.getKindName()} (${shorter(n.getText())})`
+  }
 }

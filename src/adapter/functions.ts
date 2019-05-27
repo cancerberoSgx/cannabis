@@ -1,7 +1,7 @@
+import ASTQ from 'astq'
 import { getExtendsRecursivelyNames, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import ASTQClass from './astq'
 
-export function installFunctions(astq: ASTQClass) {
+export function installFunctions(astq: ASTQ) {
   astq.func('isFunctionLike', (adapter, node) => {
     return isNode(node) && ts.isFunctionLike(node.compilerNode)
   })

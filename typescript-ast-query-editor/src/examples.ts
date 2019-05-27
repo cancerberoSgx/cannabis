@@ -3,7 +3,7 @@ export interface Example {
   name: string
   description: string;
   code?: string,
-  difficulty: 'easy'|'medium'|'hard'
+  difficulty: 'easy' | 'medium' | 'hard'
 }
 export const examples: Example[] = [
 
@@ -13,7 +13,7 @@ export const examples: Example[] = [
     description: 'Matches those nodes with private and static modifiers or type number[]. Note about @type: the string representation of node\'s type is what is matched, if the node declare explicitly a type then that type is used, otherwise the type is inferred from usage.',
     difficulty: 'easy',
     code: 'code1'
-  },  
+  },
   {
     name: 'implements and extends, recursively',
     query: `// ClassDeclaration [ @modifiers=~'export' && extendsNamed('B') && !implementsNamed('I2') ]`,
@@ -30,24 +30,24 @@ export const examples: Example[] = [
   {
     name: 'Class identifier',
     query: '// Identifier [../ClassDeclaration] ',
-    description: 'Identifiers direct children of a class declaration',    
+    description: 'Identifiers direct children of a class declaration',
     difficulty: 'easy'
   },
   {
     name: 'Methods and properties identifiers',
     query: '// Identifier [ ../MethodDeclaration || ../PropertyDeclaration ] ',
-    description: 'Identifiers that are direct children of method or properties declarations (their names)'    ,
+    description: 'Identifiers that are direct children of method or properties declarations (their names)',
     difficulty: 'easy'
   },
   {
     name: 'Functions with for-in statements',
     query: '//* [ //ForInStatement && isFunctionLike() ] ',
-    description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})'    ,
+    description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})',
     difficulty: 'easy',
     code: 'code1'
   },
 
-  
+
 
 ]
 
@@ -88,7 +88,7 @@ export class C {
   },
 
   {
-    name: 'inheritance1', 
+    name: 'inheritance1',
     content: `
 class A implements I1, J{}
 class B extends A {}

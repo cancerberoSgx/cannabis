@@ -1,11 +1,9 @@
+import ASTQ from 'astq'
 import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "../astNode"
-import ASTQClass from './astq'
 import { getAttribute } from './attribtues'
 import { installFunctions } from './functions'
 
-const ASTQ = require('astq') as typeof ASTQClass
-
-let astq: ASTQClass<ASTNode> | undefined
+let astq: ASTQ<ASTNode> | undefined
 
 export function getTypeScriptAstq() {
   if (!astq) {
@@ -15,7 +13,17 @@ export function getTypeScriptAstq() {
         return isGeneralNode(node) && !!getGeneralNodeKindName(node)
       },
       getParentNode(node: ASTNode) {
-        return node && getGeneralNodeParent(node)
+        if(!node) {
+          return null as any
+        }
+        const parent =  getGeneralNodeParent(node)
+        if(!parent){
+          return null
+        }
+        if(node===parent){
+          return null
+        }
+        return parent || null
       },
       getChildNodes(node: ASTNode) {
         return node && getGeneralNodeChildren(node) || []
@@ -27,7 +35,7 @@ export function getTypeScriptAstq() {
         return ['text', 'name', 'type', 'modifiers']
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
-        return getAttribute(node, attr)
+        return getAttribute(node, attr)||null
       }
     })
     installFunctions(astq)

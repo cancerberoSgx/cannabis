@@ -1,5 +1,5 @@
 import { IPosition, ISelection } from 'monaco-editor'
-import { tsMorph, isSourceFile, ts } from 'ts-simple-ast-extra';
+import { isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
 
 /** 
  * Same as [[findSmallestDescendantContainingRange]] but nto so strict r.pos <= n.start <=  r.end <= n.end.
@@ -13,7 +13,7 @@ export function findDescendantContainingRangeLight(sourceFile: tsMorph.SourceFil
   return find(sourceFile)
 }
 
-export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile|tsMorph.SourceFile, tsStart: number, tsEnd: number) {
+export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile | tsMorph.SourceFile, tsStart: number, tsEnd: number) {
   sourceFile = isSourceFile(sourceFile) ? sourceFile.compilerNode : sourceFile
   const start = ts.getLineAndCharacterOfPosition(sourceFile, tsStart)
   const end = ts.getLineAndCharacterOfPosition(sourceFile, tsEnd)
@@ -25,7 +25,7 @@ export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile|tsMorph.Sourc
   } as ISelection
 }
 
-export function monacoSelectionToTsRange(sourceFile: ts.SourceFile|tsMorph.SourceFile, sel: ISelection) {
+export function monacoSelectionToTsRange(sourceFile: ts.SourceFile | tsMorph.SourceFile, sel: ISelection) {
   sourceFile = isSourceFile(sourceFile) ? sourceFile.compilerNode : sourceFile
   const pos = ts.getPositionOfLineAndCharacter(sourceFile, sel.selectionStartLineNumber - 1, sel.selectionStartColumn - 1)
   const end = ts.getPositionOfLineAndCharacter(sourceFile, sel.positionLineNumber - 1, sel.positionColumn - 1)
@@ -39,7 +39,7 @@ export function monacoPositionToTsPosition(sourceFile: tsMorph.SourceFile, p: IP
   try {
     return ts.getPositionOfLineAndCharacter(sourceFile.compilerNode, p.lineNumber - 1, p.column - 1)
   } catch (error) {
-    console.warn('TypeScript ',  'ts.getPositionOfLineAndCharacter', error);
-    
+    console.warn('TypeScript ', 'ts.getPositionOfLineAndCharacter', error)
+
   }
 }

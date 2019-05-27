@@ -30,7 +30,7 @@ test('@modifiers export default abstract', queryAstSimpleTest, queryAst(`// * [ 
 `), { result: { kind: ['ClassDeclaration'] } })
 
 test('attribute name', t => {
-  const query = `//* [ @name == "method1" ]`
+  const query = `//* [ @name == "method1" && type()!='Identifier' ]`
   const result = queryAst(query, code1)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getKindName()), ['MethodDeclaration'])

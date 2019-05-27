@@ -2,17 +2,26 @@ import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isGeneralNode } from "./astNode"
 import { getFile } from './file'
+import { ASTQQuery } from 'astq';
 
-type Node = tsMorph.Node
+export type Node = tsMorph.Node
+export const TypeGuards = tsMorph.TypeGuards
 
 export interface QueryResult<T extends ASTNode = ASTNode> {
   result?: T[]
   error?: Error
-  trace?: string
+  query?: ASTQQuery<T>
 }
 
-interface QueryAstOptions {
+interface QueryAstOptions<T extends ASTNode = ASTNode> {
+  /**
+   * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
+   */
   trace?: boolean
+  /**
+   * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default value is `{}.`
+   */
+  params?: { [name: string]: any }
 }
 
 /**
@@ -21,7 +30,7 @@ interface QueryAstOptions {
  * will be used (internally creating a ts-morph node). If it's a ASTNode, it could be a Directory, a file or a
  * node and that will be used to issue the query.
  */
-export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options?: QueryAstOptions): QueryResult<T> {
+export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options: QueryAstOptions = { params: {} }): QueryResult<T> {
   let node: Node | tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
@@ -32,10 +41,31 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   else {
     node = getFile(codeOrNode.getText())
   }
+  // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
-    return { result: getTypeScriptAstq().query(node, q) as T[] }
+    const astq = getTypeScriptAstq()
+    // if (options.trace) {
+      const trace = options.trace||false
+      // console.log('BEFORE');
+      
+      const query = astq.compile(q, trace) as ASTQQuery<T>
+      const result = astq.execute(node, query, options.params||{}, trace) as T[]
+      // console.log('AFTER');
+
+      return {
+        result,
+        query
+      }
+    // }
+    // } else {
+      // return {
+      //   result: astq.query(node, q, options.params||{}) as T[]
+      // }
+    // }
   } catch (error) {
-    return { error }
+    return {
+      error
+    }
   }
 }
 
