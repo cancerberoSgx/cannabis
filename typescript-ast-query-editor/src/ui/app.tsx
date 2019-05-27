@@ -3,57 +3,31 @@ import { shorter, throttle } from 'misc-utils-of-mine-generic'
 import * as monaco from 'monaco-editor'
 import * as React from 'react'
 import { getGeneralNodeKindName, isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
+import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from '../editor/codeEditor'
+import { Example } from "../editor/examples"
+import { getMonacoInstance } from '../editor/monaco'
+import { getStore, State } from '../store'
+import { executeQuery as executeQuery2 } from '../tsAstqAdapter'
 import './app.css'
-import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from './codeEditor'
-import { codeExamples, Example } from "./examples"
 import { ForkRibbon } from './forkRibbon'
-import { getMonacoInstance, setEditorText } from './monaco'
-import { State, getStore } from './store';
+import { Examples } from './examples';
+import { AbstractComponent } from './component';
 
-interface Props {
-  // examples: Example[]
-}
+export class App extends AbstractComponent {
 
-// const state = new StateImpl()
-
-
-
-export class AbstractComponent extends React.Component<Props, State>{
- 
-  constructor(p: Props, s: State) {
-    super(p, s)
-    this.state = getStore().getState()
-    getStore().add(()=>{
-      super.setState({... getStore().getState()})
-      // this.setState({... getStore().getState()})
-    })
-  }
-      setState(state: Partial<State>){
-        getStore().setState(state)
-      }
-  
-}
-export class App extends  AbstractComponent{
-
-
-  constructor(p: Props, s: State) {
-    super(p, s)
-    // this.executeQuery = this.executeQuery.bind(this)
-    this.onDidChangeCursorPosition = this.onDidChangeCursorPosition.bind(this)
-  }
   componentDidMount() {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
-    getMonacoInstance()!.onDidChangeCursorPosition(this.onDidChangeCursorPosition)
+    getMonacoInstance()!.onDidChangeCursorPosition(e=>this.onDidChangeCursorPosition(e))
   }
 
   render() {
     return (
       <div className="flex-container">
         <div className="flex-item left-panel">
-         <Examples></Examples>
+          <Examples></Examples>
           {this.queryEditor()}
-          <Results   />
+          <Results />
         </div>
         <div className="flex-item right-panel" >
           {this.editorCursorDescription()}
@@ -99,32 +73,7 @@ export class App extends  AbstractComponent{
 
 }
 
-
-class Examples extends AbstractComponent {
-  render() {
-   return  (<div>
-      <h3>Examples</h3>
-      <select onChange={e => {
-        const selectedExample = this.state.examples.find(ex => ex.query === e.currentTarget.value)!
-        if (selectedExample.code) {
-          const code = codeExamples.find(c => c.name === selectedExample.code)
-          code && setEditorText(code.content)
-        }
-        executeQuery(selectedExample)
-      }}>{this.state.examples.map(example =>
-        <option value={example.query} key={example.query} >{example.name}</option>
-      )}
-      </select>
-      <blockquote><strong>Example description</strong>: {this.state.selectedExample.description}</blockquote>
-    </div>)
-  }
-}
-
-
 class Results extends AbstractComponent {
-  // constructor(p: Props, s: State) {
-  //   super(p, s)
-  // }
   render() {
     return <div className="results">
       {this.state.result.length ? <div>
@@ -159,8 +108,7 @@ function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
-import {executeQuery as executeQuery2} from './tsAstqAdapter'
-function executeQuery(selectedExample?: Example) {
+export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
   const query = selectedExample && selectedExample.query || state.selectedExample.query
   const r = executeQuery2(query)

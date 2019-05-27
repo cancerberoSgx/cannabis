@@ -1,5 +1,5 @@
 import { ASTFile, createSourceFile, queryAst } from 'cannabis'
-import { getEditorText } from './monaco'
+import { getEditorText } from './editor/monaco'
 
 
 export function executeQuery(q: string) {

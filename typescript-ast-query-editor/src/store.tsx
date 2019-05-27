@@ -1,38 +1,26 @@
-import { Emitter } from 'misc-utils-of-mine-generic';
-import { tsMorph } from 'ts-simple-ast-extra';
-import { Example, examples } from "./examples";
-// interface State {
-//   selectedExample: Example
-//   result: tsMorph.Node[]
-//   error?: Error  
-//   examples: Example[]
-//   nodesAtPosition: tsMorph.Node | undefined
-// }
-// type L= () => void;
+import { Emitter } from 'misc-utils-of-mine-generic'
+import { tsMorph } from 'ts-simple-ast-extra'
+import { Example, examples } from "./editor/examples"
+
 class Store extends Emitter<void> {
   protected state: State;
   constructor() {
-    super();
+    super()
     this.state = {
       selectedExample: examples[0],
       result: [], examples,
       nodesAtPosition: undefined
-    };
+    }
   }
-  setState(state: Partial<State>){
-    this.state = {...this.state, ...state}
+  setState(state: Partial<State>) {
+    this.state = { ...this.state, ...state }
     this.emit()
   }
   getState() {
-    return this.state;
+    return this.state
   }
-
 }
 export interface State {
-  // asComponentState(): Readonly<State> {
-  //  return {
-  //    selectedExample: this.selectedExample, 
-  // }
   selectedExample: Example;
   result: tsMorph.Node<tsMorph.ts.Node>[];
   error?: Error | undefined;
@@ -41,8 +29,8 @@ export interface State {
 }
 
 let store: Store
-export function getStore(){
-  if(!store){
+export function getStore() {
+  if (!store) {
     store = new Store()
   }
   return store

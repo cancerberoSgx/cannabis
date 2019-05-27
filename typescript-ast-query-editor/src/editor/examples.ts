@@ -5,9 +5,11 @@ export interface Example {
   code?: string,
   difficulty: 'easy' | 'medium' | 'hard'
 }
+
+
 export const examples: Example[] = [
 
-  
+
   {
     name: 'functions that contains variables, classes or parameters',
     query: `// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`,

@@ -1,9 +1,9 @@
 import { IPosition, ISelection } from 'monaco-editor'
 import { tsMorph } from 'ts-simple-ast-extra'
+import { getSourceFile, setDirty } from '../tsAstqAdapter'
+import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from '../tsUtil'
 import { codeExamples } from './examples'
 import { getMonacoInstance, installEditor } from './monaco'
-import { getSourceFile, setDirty } from './tsAstqAdapter'
-import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
 
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = codeExamples[0].content
@@ -25,13 +25,13 @@ export function highlightNodesInEditor(result: tsMorph.Node[]): any {
 // }
 
 export function getNodesAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
-  const p = monacoPositionToTsPosition(sourceFile || getSourceFile(),pos)
+  const p = monacoPositionToTsPosition(sourceFile || getSourceFile(), pos)
   if (typeof p === 'undefined') {
     return
   }
- return findDescendantContainingRangeLight(sourceFile || getSourceFile(), { pos: p, end: p+1 })
-    // console.log('monaco', p, rr);
-  
+  return findDescendantContainingRangeLight(sourceFile || getSourceFile(), { pos: p, end: p + 1 })
+  // console.log('monaco', p, rr);
+
   // return rr
 }
 
