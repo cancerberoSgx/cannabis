@@ -1,7 +1,7 @@
 import { IPosition, ISelection } from 'monaco-editor'
 import { tsMorph } from 'ts-simple-ast-extra'
 import { getSourceFile, setDirty } from '../tsAstqAdapter'
-import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from '../tsUtil'
+import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
 import { codeExamples } from './examples'
 import { getMonacoInstance, installEditor } from './monaco'
 

@@ -1,7 +1,7 @@
 import { codeExamples } from "../editor/examples";
 import { setEditorText } from '../editor/monaco';
 import * as React from 'react'
-import { executeQuery } from './app';
+import { executeQuery } from "./executeQuery";
 import { AbstractComponent } from "./component";
 
 
