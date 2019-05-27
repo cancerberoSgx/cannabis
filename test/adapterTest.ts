@@ -1,15 +1,14 @@
-import test from 'ava'
-import { queryAst, ASTNode } from '../src'
-import { code1, code2 } from './assets/code'
-import { queryAstSimpleTest, expectSameLength as expectLength, printNode, setNodeProperty, getNodeProperty, expectToInclude, isString } from './testUtil'
-import { getFile } from '../src/file';
-import { getTypeScriptAstq } from '../src/adapter/adapter';
-import { removeWhites, printMs, shorter, indent, sleep, asArray, notSameNotFalsy } from 'misc-utils-of-mine-generic';
-import { tsMorph, getKindName, isNode, ts, isSourceFile } from 'ts-simple-ast-extra';
-import {StepTraceEvent} from 'astq'
-import { getGeneralNodeKindName, getGeneralNodeName, getASTNodeName, getGeneralNodeText } from '../src/astNode';
+import { StepTraceEvent } from 'astq';
+import test from 'ava';
+import { asArray, indent, notSameNotFalsy, printMs, removeWhites } from 'misc-utils-of-mine-generic';
 import { notFalsy } from 'misc-utils-of-mine-typescript';
-import { TypeGuards } from '../src/queryAst';
+import { isSourceFile } from 'ts-simple-ast-extra';
+import { ASTNode, queryAst } from '../src';
+import { getTypeScriptAstq } from '../src/adapter/adapter';
+import { getGeneralNodeKindName, isGeneralNode } from '../src/astNode';
+import { getFile } from '../src/file';
+import { code2, code3 } from './assets/code';
+import { getNodeProperty, isString, printNode, setNodeProperty } from './testUtil';
 
 test('compile and execute should be invocable manually', async t=>{
   const astq = getTypeScriptAstq()  
@@ -20,25 +19,19 @@ test('compile and execute should be invocable manually', async t=>{
       events.push(e)
     }else if(e.event==='endStep'){
       const begin = events.find(be=>be.node === e.node)
-      // console.log('any event', );
       if(begin){
         setNodeProperty(e.node, 'traceTest1Events', {...begin, ...e, t: e.timestamp - begin.timestamp})
-        // console.log(`Node: ${printNode(e.node)} t=${printMs(e.timestamp-begin.timestamp)}`);
-        
       }else {
         console.error('end event but not begin event found', e);
       }
     } 
     else  if(e.event==='finishSearch'){
-      // console.log('SEARCH complete, total time', (e as any).totalSearchTime)
       b.push(['SEARCH complete, total time', (e as any).totalSearchTime])
     }
   }
-  // && (../InterfaceDecsddlaration [ / TypeParamter && (@type=~'Tddd')] )
   const query = astq.compile( " // Identifier [ @name =~ 'I' && @type =~ 'number' && @modifiers =~ 'protected' && type()!='']  ",  e=>{
     if(e.event==='finishCompile'){
       b.push(['finished compilation in ', printMs(e.totalCompileTime!)])
-      // console.log('finished compilation in ', printMs(e.totalCompileTime!))      
     }
   })
   const node = getFile(code2)
@@ -48,26 +41,18 @@ test('compile and execute should be invocable manually', async t=>{
     
     const p = getNodeProperty<StepTraceEvent&{t: number}>(d, 'traceTest1Events' )
     if(!p){return}
-    // b.push('finished compilation in ', printMs(e.totalCompileTime!))
-
     b.push([indent(p.queryNodeDepth, 4), printMs(p.t), printNode(d),'query: ', p.queryNode.type(), 'depth: '+p.queryNodeDepth, 'childs: ', p.queryNode.childs().map(c=>c.type()).join(', ') , 'attrs: '+Object.keys(p.queryNode.attrs()).map(k=>`${k}=${p.queryNode.attrs()[k]}`).join(', ')])
   })
-  // await sleep(200)  
-  // console.log( b.map(l=>asArray(l).join(', ')).join('\n'));
   t.truthy( result.length>10 ||true)
   
   const constants = b.map(l=>l.filter(isString).filter(s=>!s.includes('milliseconds'))).map(l=>asArray(l).join(', ')).join('\n')
 
 t.deepEqual( events
   .map(d=>d.node)
-  //@ts-ignore
   .filter(e=>
-    // !TypeGuards.isIdentifier(e) &&
     notFalsy(e)&&!isSourceFile(e))
     .map(e=>printNode(e, true, false))
     .filter(notSameNotFalsy)  
-  // .map(e=>e.getKindName && e.g etKindName())
-// .sort()
 ,   
 [
 'Identifier A',
@@ -82,28 +67,9 @@ t.deepEqual( events
 'Identifier I',
     ]
 )
-
-
-  // console.log(constants);
-  
-  // const 
-  // t.truthy(query.lastTrace.length>0)
-  // console.log(query.lastTrace)
-  // const result = astq.execute(node1, query, {}, true)
-  // expect(result).to.be.deep.equal([ node5, node6, node7 ])
-  // expect(query.lastTrace).to.length.above(10)
-  // const lastTraceItem = query.lastTrace[query.lastTrace.length - 1]
-  // expect(lastTraceItem.timestamp > 0).to.be.true
-
-  // console.log(query!.lastTrace!);
-  
-//  t.deepEqual(query!.lastTrace!, [1 as any])
 })
 
-// function notIdentifier(a:any){
-//   !TypeGuards.isIdentifier(a)
-// }
-test('query.ast.serialize() && query.dump()', t=>{
+test('query.ast.serialize() && query.dump()', async t=>{
   const astq = getTypeScriptAstq()  
   const query = astq.compile( "//Identifier", true)
   t.is(query.ast.serialize(), `{"ASTy":{"T":"Query","L":{"L":1,"C":1,"O":0},"C":[{"T":"Path","L":{"L":1,"C":1,"O":0},"C":[{"T":"Step","L":{"L":1,"C":1,"O":0},"C":[{"T":"Axis","L":{"L":1,"C":1,"O":0},"A":{"op":"//","type":"*"}},{"T":"Match","L":{"L":1,"C":3,"O":2},"A":{"id":"Identifier"}}]}]}]}}`)
@@ -114,6 +80,46 @@ Query [1,1]
             ├── Axis (op: "//", type: "*") [1,1]
             └── Match (id: "Identifier") [1,3]`.trim()))
 })
+
+
+test.cb('queryAst should let us register a trace event listener', t => {
+  class Tracer {
+    private events: StepTraceEvent<ASTNode>[] = []
+    private onFinish?: (events: StepTraceEvent<ASTNode>[])=>void
+    constructor(options: {onFinish: (events: StepTraceEvent<ASTNode>[])=>void}){
+      this.onFinish = options.onFinish && options.onFinish.bind(this)
+      this.trace = this.trace.bind(this)
+    }
+    trace (e: StepTraceEvent<ASTNode>){
+      this.events.push(e) 
+      if(e.event==='finishSearch'){
+        this.onFinish && this.onFinish(this.events)
+      }
+  }   
+}
+  const tracer = new Tracer({
+    onFinish:events=>{
+      const finishSearch=events.find(e=>e.event==='finishSearch')!
+      t.truthy(finishSearch!.totalSearchTime!>0)  
+      const finishCompile = events.find(e=>e.event==='finishCompile')!
+      t.truthy(typeof finishCompile!.totalCompileTime === 'number')  
+      t.notThrows(()=>JSON.parse((finishCompile!.queryAst! as any)))
+      events.filter(e=>e.event==='endStep').forEach(e=>{
+          t.truthy(isGeneralNode(e.node))
+          t.truthy(e.timestamp>=0)
+        })
+        t.end()
+      }
+    })
+    // I need a query that takes more than 1ms for this test
+  const {error, result, query} = queryAst(`// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`, code3, tracer) 
+  t.falsy(error)
+  t.deepEqual(result!.map(getGeneralNodeKindName), ['Constructor','MethodDeclaration','FunctionDeclaration','MethodDeclaration'])
+})
+
+
+
+
 
 
 // test('trace should be there', t=>{

@@ -1,6 +1,7 @@
 ## research what else we can add as functions or attributes:
 
-attribtues must add: 
+ * async api to execute search/compile so we can clal from browser bit without blocking
+ * attribtues must add: 
  //body, expression, symbol, type, pos, start, getModifiers, 
 
 possible functions

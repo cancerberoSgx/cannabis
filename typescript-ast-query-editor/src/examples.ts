@@ -7,6 +7,14 @@ export interface Example {
 }
 export const examples: Example[] = [
 
+  
+  {
+    name: 'functions that contains variables, classes or parameters',
+    query: `// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`,
+    description: 'Matches function like nodes that contains variables or classes or parameters named "id"',
+    difficulty: 'medium',
+    code: 'code1'
+  },
   {
     name: 'Filtering by @modifiers and @type',
     query: `// * [ @modifiers=~'private' && @modifiers=~'static' || @type=='number[]' ]`,

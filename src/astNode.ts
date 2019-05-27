@@ -38,6 +38,7 @@ export function getGeneralNodeParent(f: ASTNode): ASTNode | undefined {
 export function isGeneralNode(f: any): f is ASTNode {
   return f && (isNode(f) || isDirectory(f))
 }
+export const isASTNode = isGeneralNode
 
 export function getGeneralNodeKindName(n: ASTNode) {
   return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
