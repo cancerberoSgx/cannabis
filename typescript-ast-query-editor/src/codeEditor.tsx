@@ -8,7 +8,7 @@ import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoS
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = codeExamples[0].content
   const editor = installEditor(code, editorContainer)
-  debugger
+  // debugger
   editor.getModel()!.onDidChangeContent(e => { setDirty() })
 }
 
@@ -20,16 +20,19 @@ export function highlightNodesInEditor(result: tsMorph.Node[]): any {
   ed.setSelections(selections)
 }
 
-export function getTsPosition(p: IPosition, sourceFile?: tsMorph.SourceFile) {
-  return monacoPositionToTsPosition(sourceFile || getSourceFile(), p)
-}
+// export function getTsPosition(p: IPosition, sourceFile?: tsMorph.SourceFile) {
+//   return monacoPositionToTsPosition(sourceFile || getSourceFile(), p)
+// }
 
 export function getNodesAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
-  const p = getTsPosition(pos, sourceFile || getSourceFile())
+  const p = monacoPositionToTsPosition(sourceFile || getSourceFile(),pos)
   if (typeof p === 'undefined') {
     return
   }
-  return findDescendantContainingRangeLight(sourceFile || getSourceFile(), { pos: p, end: p })
+ return findDescendantContainingRangeLight(sourceFile || getSourceFile(), { pos: p, end: p+1 })
+    // console.log('monaco', p, rr);
+  
+  // return rr
 }
 
 export function getNodesInSelection(s: ISelection, sourceFile: tsMorph.SourceFile) {

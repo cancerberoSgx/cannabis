@@ -5,12 +5,9 @@ import { isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
  * Same as [[findSmallestDescendantContainingRange]] but nto so strict r.pos <= n.start <=  r.end <= n.end.
  */
 export function findDescendantContainingRangeLight(sourceFile: tsMorph.SourceFile, r: ts.TextRange): tsMorph.Node | undefined {
-  function find(node: tsMorph.Node): tsMorph.Node | undefined {
-    if (r.pos >= node.getStart() && r.end <= node.getEnd()) {
-      return node.forEachChild(find) || node
-    }
-  }
-  return find(sourceFile)
+  // const rr = sourceFile.getDescendantAtStartWithWidth(r.pos, r.end-r.pos)
+ return  sourceFile.getDescendantAtPos(r.pos)
+ 
 }
 
 export function tsRangeToMonacoSelection(sourceFile: ts.SourceFile | tsMorph.SourceFile, tsStart: number, tsEnd: number) {
@@ -36,8 +33,10 @@ export function monacoSelectionToTsRange(sourceFile: ts.SourceFile | tsMorph.Sou
 
 export function monacoPositionToTsPosition(sourceFile: tsMorph.SourceFile, p: IPosition) {
   // sourceFile.getLineAndColumnAtPos
+  
   try {
-    return ts.getPositionOfLineAndCharacter(sourceFile.compilerNode, p.lineNumber - 1, p.column - 1)
+   return  ts.getPositionOfLineAndCharacter(sourceFile.compilerNode, p.lineNumber - 1, p.column - 1)
+   
   } catch (error) {
     console.warn('TypeScript ', 'ts.getPositionOfLineAndCharacter', error)
 

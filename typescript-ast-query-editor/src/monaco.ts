@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor'
-import { isDesktop } from './media'
+import { isDesktop } from './util'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -52,13 +52,13 @@ export function installEditor(code: string, containerEl: HTMLElement) {
     language: 'typescript',
     wordWrap: 'on',
     lineNumbers: isDesktop() ? 'on' : 'off',
-    glyphMargin: isDesktop(),
-    folding: isDesktop(),
-    minimap: isDesktop()
-      ? undefined
-      : {
-        enabled: false,
-      },
+    glyphMargin: false,//isDesktop(),
+    folding: false,//isDesktop(),
+    minimap: {enabled : false, }//isDesktop()
+      // ? undefined
+      // : {
+      //   enabled: false,
+      // },
   })
 
   return editor

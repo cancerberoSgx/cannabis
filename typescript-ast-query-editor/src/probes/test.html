@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <script src="main.js"></script>
+</head>
+<body>
+  <style>
+    
+     /* Full height! */
+body {
+  height: 100vh;
+}
+
+
+/* // Grid layout */
+body {
+  display: grid;
+  grid-template-areas: 'header header'
+                       'nav main'
+                       'footer footer';
+  grid-template-columns: minmax(auto, 12em) 5fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+h1 {
+  grid-area: header;
+}
+
+footer {
+  grid-area: footer;
+}
+
+nav {
+  grid-area: nav;
+}
+
+
+article {
+  grid-area: main;
+}
+
+
+ /* Style */
+* {
+  box-sizing: border-box;
+}
+
+h1, footer {
+  background: lightgray;
+}
+
+nav {
+  border-right: 1px solid lightgray;
+}
+
+nav, article {
+  overflow-y: auto;
+}
+
+h1, nav, article, footer {
+  padding: 1rem;
+}
+</style>
+
+<style>
+
+		h1 {
+			font-size: 5.7vw;
+		}
+		h2 {
+			font-size: 4.0vw;
+		}
+		h3 {
+			font-size: 2.8vw;
+		}
+		p {
+			font-size: 2.5vw;
+		}
+
+		@media (max-width: 800px) {
+			aside, section { width: auto; float: none; }
+    }
+    
+/* #page-wrap { 
+  margin: 80px auto; 
+  padding: 20px;
+}
+#page-wrap, #page-wrap * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+} */
+
+  </style>
+  
+
+  <h1>My<strong>Application</strong></h1>
+
+<nav>
+  <h2>My Projects</h2>
+  <ul>
+    <li><a href="#"></a>Project 1</a></li>
+    <li><a href="#"></a>Project 2</a></li>
+    <li><a href="#"></a>Project 3</a></li>
+    <li><a href="#"></a>Project 4</a></li>
+    <li><a href="#"></a>Project 5</a></li>
+    <li><a href="#"></a>Project 6</a></li>
+    <li><a href="#"></a>Project 7</a></li>
+    <li><a href="#"></a>Project 8</a></li>
+    <li><a href="#"></a>Project 9</a></li>
+    <li><a href="#"></a>Project 10</a></li>
+  </ul>
+</nav>
+
+<article>
+  <h2>Project Title</h2>
+  <p>
+    All the main content lives in here. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem eius cumque, nihil nesciunt qui ea vero consequatur, dignissimos maxime ratione itaque amet, ab aliquid recusandae illo quibusdam debitis? Deserunt, saepe.
+  </p>
+</article>
+
+<footer>
+  Copyright (c) 1017 Nobody Ever
+</footer>
+</body>
+</html>
