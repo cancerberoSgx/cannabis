@@ -9,7 +9,8 @@ class Store extends Emitter<void> {
     this.state = {
       selectedExample: examples[0],
       result: [], examples,
-      nodesAtPosition: undefined
+      nodesAtPosition: undefined,
+      queryTraceText: ''
     }
   }
   setState(state: Partial<State>) {
@@ -20,13 +21,7 @@ class Store extends Emitter<void> {
     return this.state
   }
 }
-export interface State {
-  selectedExample: Example;
-  result: tsMorph.Node<tsMorph.ts.Node>[];
-  error?: Error | undefined;
-  examples: Example[];
-  nodesAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
-}
+
 
 let store: Store
 export function getStore() {
@@ -34,4 +29,13 @@ export function getStore() {
     store = new Store()
   }
   return store
+}
+
+export interface State {
+  selectedExample: Example;
+  queryTraceText: string
+  result: tsMorph.Node<tsMorph.ts.Node>[];
+  error?: Error | undefined;
+  examples: Example[];
+  nodesAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
 }

@@ -1,7 +1,7 @@
-import { getGeneralNodeKindName } from 'ts-simple-ast-extra';
-import { highlightNodesInEditor } from '../editor/codeEditor';
-import { AbstractComponent } from './component';
 import * as React from 'react'
+import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
+import { highlightNodesInEditor } from '../editor/codeEditor'
+import { AbstractComponent } from './component'
 
 export class Results extends AbstractComponent {
   render() {
@@ -17,6 +17,6 @@ export class Results extends AbstractComponent {
       {this.state.error && <div><strong>Error: </strong><br /><pre>
         {this.state.error + ''}
       </pre></div>}
-    </div>;
+    </div>
   }
 }

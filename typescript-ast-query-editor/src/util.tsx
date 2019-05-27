@@ -1,7 +1,6 @@
-import { ASTNode } from '../../dist/src';
-import { isNode, isSourceFile } from 'ts-simple-ast-extra';
-import { isDirectory } from 'ts-simple-ast-extra';
-import { shorter } from 'misc-utils-of-mine-generic';
+import { shorter } from 'misc-utils-of-mine-generic'
+import { isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
+import { ASTNode } from '../../dist/src'
 
 export function width() {
   return document.body.clientWidth
