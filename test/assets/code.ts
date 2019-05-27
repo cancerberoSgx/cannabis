@@ -1,4 +1,3 @@
-let assets
 export const code2 = `
 class A implements I1, J{}
 class B extends A {}

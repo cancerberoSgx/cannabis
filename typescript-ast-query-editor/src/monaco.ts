@@ -64,6 +64,9 @@ export function installEditor(code: string, containerEl: HTMLElement) {
   return editor
 }
 
-export function getEditorText(ed = editor) {
-  return ed.getModel()!.getValue()
+export function getEditorText() {
+  return editor.getModel()!.getValue()
+}
+export function setEditorText(s: string) {
+  return editor.getModel()!.setValue(s)
 }

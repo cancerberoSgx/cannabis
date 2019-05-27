@@ -34,8 +34,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "astq": "^2.6.2",
-    "cannabis": "0.0.5",
+    "cannabis": "..",
     "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",

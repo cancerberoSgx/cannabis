@@ -35,5 +35,11 @@ export function monacoSelectionToTsRange(sourceFile: ts.SourceFile|tsMorph.Sourc
 }
 
 export function monacoPositionToTsPosition(sourceFile: tsMorph.SourceFile, p: IPosition) {
-  return ts.getPositionOfLineAndCharacter(sourceFile.compilerNode, p.lineNumber - 1, p.column - 1)
+  // sourceFile.getLineAndColumnAtPos
+  try {
+    return ts.getPositionOfLineAndCharacter(sourceFile.compilerNode, p.lineNumber - 1, p.column - 1)
+  } catch (error) {
+    console.warn('TypeScript ',  'ts.getPositionOfLineAndCharacter', error);
+    
+  }
 }

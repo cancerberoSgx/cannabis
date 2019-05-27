@@ -8,7 +8,8 @@ import { tsMorph } from 'ts-simple-ast-extra';
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = codeExamples[0].content
   const editor = installEditor(code, editorContainer)
-  editor.getModel()!.onDidChangeContent(e => setDirty)
+  debugger
+  editor.getModel()!.onDidChangeContent(e => {debugger;setDirty()})
 }
 
 export function highlightNodesInEditor(result: tsMorph.Node[]): any {
@@ -19,16 +20,19 @@ export function highlightNodesInEditor(result: tsMorph.Node[]): any {
   ed.setSelections(selections)
 }
 
-export function getTsPosition(p: IPosition, sourceFile: tsMorph.SourceFile = getSourceFile()) {
-  return monacoPositionToTsPosition(sourceFile, p)
+export function getTsPosition(p: IPosition, sourceFile?: tsMorph.SourceFile ) {
+  return monacoPositionToTsPosition(sourceFile||getSourceFile(), p)
 }
 
-export function getNodesAtPosition(pos: IPosition, sourceFile = getSourceFile()) {
-  const p = getTsPosition(pos, sourceFile)
-  return findDescendantContainingRangeLight(sourceFile, { pos: p, end: p })
+export function getNodesAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
+  const p = getTsPosition(pos, sourceFile||getSourceFile())
+  if(typeof p === 'undefined'){
+    return
+  }
+  return findDescendantContainingRangeLight(sourceFile||getSourceFile(), { pos: p, end: p })
 }
 
-export function getNodesInSelection(s: ISelection, sourceFile = getSourceFile()) {
-  const r = monacoSelectionToTsRange(sourceFile, s)
-  return findDescendantContainingRangeLight(sourceFile, r)
+export function getNodesInSelection(s: ISelection, sourceFile: tsMorph.SourceFile) {
+  const r = monacoSelectionToTsRange(sourceFile||getSourceFile(), s)
+  return findDescendantContainingRangeLight(sourceFile||getSourceFile(), r)
 }

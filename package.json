@@ -8,6 +8,7 @@
     "test": "ava",
     "coverage": "npx nyc --nycrc-path nyc.config.js npm test",
     "test-watch": "ava -w",
+    "test-debug": "node --inspect-brk node_modules/ava/..",
     "clean": "rm -rf dist docs",
     "build": "npx tsc",
     "prepare": "npm run build",
@@ -18,7 +19,7 @@
     "docs-api": "rm -rf docs && typedoc --mode modules --ignoreCompilerErrors  --theme markdown --out docs src/index.ts ",
     "docs": "npm run docs-readme-toc && npm run docs-api",
     "all": "npm run clean && npm run lint && npm run build && npm run test",
-    "all-publish": "npm run all && npm version patch && npm publish"
+    "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish"
   },
   "keywords": [
     "typescript",
@@ -44,7 +45,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "astq": "^2.6.2",
+    "astq": "github:cancerberoSgx/astq#package",
     "misc-utils-of-mine-generic": "^0.2.4",
     "ts-simple-ast-extra": "0.1.9"
   }

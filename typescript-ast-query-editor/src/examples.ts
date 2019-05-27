@@ -2,35 +2,51 @@ export interface Example {
   query: string;
   name: string
   description: string;
-  code?: string
+  code?: string,
+  difficulty: 'easy'|'medium'|'hard'
 }
 export const examples: Example[] = [
-  {
-    name: 'All nodes',
-    query: '// *',
-    description: 'All nodes'
-  },
-  {
-    name: 'Class identifier',
-    query: '// Identifier [../ClassDeclaration] ',
-    description: 'Identifiers direct children of a class declaration'
-  },
-  {
-    name: 'Methods and properties identifiers',
-    query: '// Identifier [ ../MethodDeclaration || ../PropertyDeclaration ] ',
-    description: 'Identifiers that are direct children of method or properties declaration.'
-  },
-  {
-    name: 'Function-like containing for-in statements',
-    query: '//* [ //ForInStatement &&  (type()=="MethodDeclaration" || type()=="FunctionDeclaration" || type()=="Constructor") ] ',
-    description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})'
-  },
 
   {
     name: 'Filtering by @modifiers and @type',
     query: `// * [ @modifiers=~'private' && @modifiers=~'static' || @type=='number[]' ]`,
-    description: 'Matches those nodes with private and static modifiers or which type matches number[]. Note about @type: the string representation of node\'s type is what is matched, if the node declare explicitly a type that is used, if not, the type is inferred from usage.'
+    description: 'Matches those nodes with private and static modifiers or type number[]. Note about @type: the string representation of node\'s type is what is matched, if the node declare explicitly a type then that type is used, otherwise the type is inferred from usage.',
+    difficulty: 'easy',
+    code: 'code1'
+  },  
+  {
+    name: 'implements and extends, recursively',
+    query: `// ClassDeclaration [ @modifiers=~'export' && extendsNamed('B') && !implementsNamed('I2') ]`,
+    description: `Gets exported class declarations that extends class B but doesn't implements interface I2`,
+    difficulty: 'easy',
+    code: 'inheritance1'
   },
+  {
+    name: 'All nodes',
+    query: '// *',
+    description: 'All nodes',
+    difficulty: 'easy'
+  },
+  {
+    name: 'Class identifier',
+    query: '// Identifier [../ClassDeclaration] ',
+    description: 'Identifiers direct children of a class declaration',    
+    difficulty: 'easy'
+  },
+  {
+    name: 'Methods and properties identifiers',
+    query: '// Identifier [ ../MethodDeclaration || ../PropertyDeclaration ] ',
+    description: 'Identifiers that are direct children of method or properties declarations (their names)'    ,
+    difficulty: 'easy'
+  },
+  {
+    name: 'Functions with for-in statements',
+    query: '//* [ //ForInStatement && isFunctionLike() ] ',
+    description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})'    ,
+    difficulty: 'easy',
+    code: 'code1'
+  },
+
   
 
 ]
@@ -69,5 +85,21 @@ export class C {
   private static inferredSimple = [4,5,6]
 }   
       `
+  },
+
+  {
+    name: 'inheritance1', 
+    content: `
+class A implements I1, J{}
+class B extends A {}
+class C<T> extends B implements I2<T>, I3<T>{}
+export class D<T> extends C<T> implements I{} 
+export class F extends B implements J{}
+interface I{}
+interface I1 extends I{}
+interface I2<T> extends I1{}
+interface J{}
+interface I3<T> extends I2<T>, J{} 
+    `
   }
 ]

@@ -141,6 +141,11 @@ interface ASTQQuery<Node = any> {
    * Dump the query AST.
    */
   dump(): string;
+  /**
+   * Internal query's AST object builded when compiled. 
+   * @internal
+   */
+  ast: ASTYNode
 
   /**
    * Execute the query AST onto `node`.
@@ -149,3 +154,77 @@ interface ASTQQuery<Node = any> {
 }
 
 export = ASTQClass
+
+
+
+
+/** 
+* Internal Node implementation of the query's AST. https://github.com/rse/asty
+* @internal 
+* */
+interface ASTYNode {
+  //   add: add(...args) { if (args.length === 0) throw new Error("add: invalid number of arguments"); let _add = node => {…}
+  attrs(): ASTYNodeAttrs
+  child(pos: number): ASTYNode | undefined
+  childs(): ASTYNode[]
+  childs(...c: ASTYNode[]): void
+  create(T: string, A: ASTYNodeAttrs, C: DumpedNode[]): ASTYNode
+  // del: del(...args) { if (args.length === 0) throw new Error("del: invalid number of arguments"); args.forEach(node => {…}
+  dump(maxDepth: number, colorize: (type: string, txt: string) => string): string
+  // get: get(...args) { if (args.length !== 1) throw new Error("get: invalid number of arguments"); if (typeof args[0] === "object" && args[0] instanceof Array) { return args[0].map(key => {…}
+  init(ctx: ASTYctx, T: string, A: ASTYNodeAttrs, C: DumpedNode[]): ASTYNode
+  ins(pos: number, ...args: any[]): void
+  merge(node: ASTYNode, takePos: boolean, attrMap: ASTYNodeAttrs): ASTYNode
+  nth(): any
+  parent(): ASTYNode
+  pos(line: number, column: number, offset: number): void
+  pos(): DumpedNodeLocation
+  /** returns the JSON string of [[DumpedNode]], meaning that JSON.parse(node.serialize()) is DumpedNode. This also works to deserialize the object and convert it back to a ASTYNode: `query.ast.ctx.constructor.unserialize(query.ast.serialize())` */
+  serialize(): string
+  // set: set(...args) { if (args.length === 1 && typeof args[0] === "object") { Object.keys(args[0]).forEach(key => {…}
+  type(): string
+  type(t: string): void
+  // unset: unset(...args) { if (args.length === 1 && typeof args[0] === "object" && args[0] instanceof Array) { args[0].forEach(key => {…}
+  // walk: walk(cb, when = "downward") { let _walk = (node, depth, parent) => {…}
+}
+interface ASTYctx { }
+interface ASTYNodeAttrs {
+  [name: string]: any
+}
+/** 
+* format of ASTYNode.serialize output string
+* @internal 
+* */
+interface DumpedNode {
+  /**
+   * Node's type name.
+   */
+  T: string
+  /**
+   * Node's location in the initial query string
+   */
+  L: DumpedNodeLocation
+  /**
+   * Node's children
+   */
+  C: DumpedNode[]
+  /**
+   * Node's attributes
+   */
+  A: ASTYNodeAttrs
+}
+
+interface DumpedNodeLocation {
+  /**
+   * Line number
+   */
+  L: number
+  /**
+   * Column number
+   */
+  C: number
+  /**
+   * Offset
+   */
+  '0': number
+}

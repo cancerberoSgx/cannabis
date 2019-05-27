@@ -1,47 +1,18 @@
 import { ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "./astNode"
-import ASTQClass from './astq'
-import { getAttribute } from './attribtues'
+import { getTypeScriptAstq } from './adapter/adapter'
+import { ASTNode, isGeneralNode } from "./astNode"
 import { getFile } from './file'
-import { installFunctions } from './functions'
-
-const ASTQ = require('astq') as typeof ASTQClass
 
 type Node = tsMorph.Node
-
-let astq: ASTQClass<ASTNode> | undefined
-
-function getTypeScriptAstq() {
-  if (!astq) {
-    astq = new ASTQ<ASTNode>()
-    astq.adapter({
-      taste(node: any) {
-        return isGeneralNode(node) && !!getGeneralNodeKindName(node)
-      },
-      getParentNode(node: ASTNode) {
-        return node && getGeneralNodeParent(node)
-      },
-      getChildNodes(node: ASTNode) {
-        return node && getGeneralNodeChildren(node) || []
-      },
-      getNodeType(node: ASTNode) {
-        return node && getGeneralNodeKindName(node) || 'undefined'
-      },
-      getNodeAttrNames(node: ASTNode) {
-        return ['text', 'name', 'type', 'modifiers']
-      },
-      getNodeAttrValue(node: ASTNode, attr: string) {
-        return getAttribute(node, attr)
-      }
-    })
-    installFunctions(astq)
-  }
-  return astq
-}
 
 export interface QueryResult<T extends ASTNode = ASTNode> {
   result?: T[]
   error?: Error
+  trace?: string
+}
+
+interface QueryAstOptions {
+  trace?: boolean
 }
 
 /**
@@ -50,7 +21,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
  * will be used (internally creating a ts-morph node). If it's a ASTNode, it could be a Directory, a file or a
  * node and that will be used to issue the query.
  */
-export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode): QueryResult<T> {
+export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options?: QueryAstOptions): QueryResult<T> {
   let node: Node | tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
@@ -59,7 +30,6 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     node = codeOrNode
   }
   else {
-    // is a ts.Node
     node = getFile(codeOrNode.getText())
   }
   try {

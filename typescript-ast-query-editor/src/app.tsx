@@ -3,9 +3,9 @@ import * as monaco from 'monaco-editor'
 import * as React from 'react'
 import './app.css'
 import { getNodesAtPosition, highlightNodesInEditor, installCodeEditor } from './codeEditor'
-import { Example } from "./examples"
+import { Example, codeExamples } from "./examples"
 import { ForkRibbon } from './forkRibbon'
-import { getMonacoInstance } from './monaco'
+import { getMonacoInstance, setEditorText } from './monaco'
 import { queryAst, ASTNode } from 'cannabis'
 import { executeQuery } from './tsAstqAdapter';
 import { isNode, isSourceFile, isDirectory, tsMorph } from 'ts-simple-ast-extra';
@@ -68,8 +68,10 @@ export class App extends React.Component<P, S> {
       <h2>Examples</h2>
       <select onChange={e => {
         const selectedExample = this.props.examples.find(ex => ex.query === e.currentTarget.value)!
-        // this.setState({ selectedExample })
-        // console.log({selectedExample: selectedExample.query});
+        if(selectedExample.code){
+          const code = codeExamples.find(c=>c.name===selectedExample.code)
+          code && setEditorText(code.content)
+        }
         this.executeQuery(selectedExample)
       }}>{this.props.examples.map(example =>
         <option value={example.query} key={example.query} >{example.name}</option>
@@ -83,12 +85,14 @@ export class App extends React.Component<P, S> {
     return (<div>
       <textarea value={this.state.selectedExample.query} onChange={e => {
         this.setState({ selectedExample: { ...this.state.selectedExample, query: e.target.value } })
-        // e.currentTarget.textContent = e.currentTarget.value
-        // this.executeQueryThrottled()// { ...this.state.selectedExample, query: e.currentTarget.value } )
       }}></textarea>
       <br />
       <button onClick={e => this.executeQuery()}>Query</button>
+      <button onClick={e => this.traceQuery()}>Trace</button>
     </div>)
+  }
+  protected traceQuery(): void {
+    // const q = this.state.selectedExample.query
   }
 
   protected executeQueryThrottled = throttle(this.executeQuery, 2000, { trailing: true }) as (selectedExample?: Example) => void
@@ -104,11 +108,15 @@ export class App extends React.Component<P, S> {
 
   protected results() {
     return <div>
-      {this.state.result.length ? <ul>
-        {this.state.result.map((node, i) => <li key={i}
-        ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
-        </li>)}
-      </ul> : 'No results'}
+      {this.state.result.length ? <div>
+        <h4>Results</h4>
+      <ul>
+      {this.state.result.map((node, i) => <li key={i}
+      ><a onClick={e => highlightNodesInEditor([node])}>{getGeneralNodeKindName(node)}</a>
+      </li>)}
+      </ul>
+      </div> : 
+      'No results'}
       {this.state.error && <div><strong>Error: </strong><br /><pre>
         {this.state.error + ''}
       </pre></div>}

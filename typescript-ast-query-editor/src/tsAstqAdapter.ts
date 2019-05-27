@@ -8,25 +8,19 @@ export function executeQuery(q: string) {
     console.error(result.error);
   }
   return result
-  // try {
-  //   return { result: astq.query(node, q) }
-  // } catch (error) {
-  //   return { error }
-  // }
 }
  
-
-// export function updateCode(code: string = getEditorText()) {
-//   sourceFile = ts.createSourceFile("foo.ts", code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
-// }
-
 let sourceFile: ASTFile | undefined
 let dirty = true
 export function setDirty(d: boolean = true) {
+  debugger
   dirty = d
 }
 export function getSourceFile() {
   if (!sourceFile || dirty) {
+    debugger
+  // console.log('creating editor', getEditorText());
+
     sourceFile = createSourceFile( getEditorText())
     dirty = false
   }
