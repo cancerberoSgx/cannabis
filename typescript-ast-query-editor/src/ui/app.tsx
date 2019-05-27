@@ -37,8 +37,8 @@ export class App extends AbstractComponent {
               {this.state.queryTraceText}
             </pre>
           </div>
-          <ForkRibbon />
         </div>
+          <ForkRibbon />
       </div>
     )
   }
