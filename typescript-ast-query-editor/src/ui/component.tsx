@@ -1,17 +1,18 @@
 import * as React from 'react'
 import { getStore, State } from '../app/store'
 
-interface Props {
+export interface AbstractProps {
 }
-export class AbstractComponent extends React.Component<Props, State> {
-  constructor(p: Props, s: State) {
+export class AbstractComponent<P extends AbstractProps=AbstractProps, S extends State=State>  extends React.Component<P, S>{
+  constructor(p: P, s: State) {
     super(p, s)
-    this.state = getStore().getState()
+    this.state = getStore().getState() as S
     getStore().add(() => {
       super.setState({ ...getStore().getState() })
     })
   }
-  setState(state: Partial<State>) {
+  //@ts-ignore
+  setState(state: Partial<S> ) {
     getStore().setState(state)
   }
 }

@@ -1,8 +1,6 @@
 import { Emitter } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
 import { Example, examples } from "../editor/examples"
-import { StatefulEmitter } from '../util';
-import * as React from 'react'
 
 class Store extends Emitter<void> {
   protected state: State;

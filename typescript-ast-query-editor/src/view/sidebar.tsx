@@ -1,9 +1,9 @@
-import { asArray, Emitter } from 'misc-utils-of-mine-generic'
+import { asArray } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
-import { Component } from 'react'
 import 'semantic-ui-css/semantic.css'
-import { Button, Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
-import { AbstractComponent } from '../ui/component';
+import { Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { AbstractComponent } from '../ui/component'
+import { SearchInput } from './searchInput';
 
 // interface P {
 //   booleanEmitter: Emitter<boolean>
@@ -11,14 +11,14 @@ import { AbstractComponent } from '../ui/component';
 
 // interface S { visible: boolean }
 
-export class SidebarExampleMultiple extends AbstractComponent  {
+export class SidebarExampleMultiple extends AbstractComponent {
 
   // constructor(p: P, s: S) {
-    // // super(p, s)
-    // this.state  = { visible: false }
-    // this.setVisible = this.setVisible.bind(this)
-    // p.booleanEmitter.add(this.setVisible)
-    // this.props.addHSetVisibleListener(listener=>this.setVisible = this.setVisible)
+  // // super(p, s)
+  // this.state  = { visible: false }
+  // this.setVisible = this.setVisible.bind(this)
+  // p.booleanEmitter.add(this.setVisible)
+  // this.props.addHSetVisibleListener(listener=>this.setVisible = this.setVisible)
   // }
 
   // setVisible(visible: boolean){
@@ -32,15 +32,16 @@ export class SidebarExampleMultiple extends AbstractComponent  {
     // const { visiblse } = this.state
     return (
       <Container fluid >
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable as={Segment} >
           <Sidebar
             as={Menu}
             animation='overlay'
-            direction='left'
+            direction='top'
             icon='labeled'
             inverted
+            
             onHide={this.handleSidebarHide}
-            vertical
+            // vertical
             visible={this.state.sidebarVisibility}
             width='thin'
           >
@@ -56,6 +57,12 @@ export class SidebarExampleMultiple extends AbstractComponent  {
               <Icon name='camera' />
               Channels
             </Menu.Item>
+
+            <Menu.Item>
+            <SearchInput/>
+            </Menu.Item>
+            
+
           </Sidebar>
 
           <Sidebar

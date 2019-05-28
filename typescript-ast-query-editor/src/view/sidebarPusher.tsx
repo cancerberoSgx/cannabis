@@ -1,16 +1,16 @@
-import { Button } from 'semantic-ui-react';
-import { AbstractComponent } from '../ui/component';
 import * as React from 'react'
+import { Button } from 'semantic-ui-react'
+import { AbstractComponent } from '../ui/component'
 
 export class SideBarPusher extends AbstractComponent {
   render() {
     return (<Button.Group>
-      <Button disabled={this.state.sidebarVisibility} onClick={e => this.setState({sidebarVisibility: true})}>
+      <Button disabled={this.state.sidebarVisibility} onClick={e => this.setState({ sidebarVisibility: true })}>
         Show sidebars
       </Button>
-      <Button disabled={!this.state.sidebarVisibility}  onClick={e => this.setState({sidebarVisibility: false})}>
+      <Button disabled={!this.state.sidebarVisibility} onClick={e => this.setState({ sidebarVisibility: false })}>
         Hide sidebars
       </Button>
-    </Button.Group>);
+    </Button.Group>)
   }
 }

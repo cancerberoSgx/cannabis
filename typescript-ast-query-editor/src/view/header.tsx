@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import MenuExampleMenus from './menu'
-import { SideBarPusher } from './sidebarPusher';
+import { SideBarPusher } from './sidebarPusher'
 
 export const MyHeader = () => (<Segment compact>
   <Grid>
@@ -12,11 +12,10 @@ export const MyHeader = () => (<Segment compact>
           TypeScript AST viewer and Advance Query editor
        </Header.Subheader>
       </Header>
-
     </Grid.Column>
     <Grid.Column floated='right' width={8}>
       <MenuExampleMenus />
-<SideBarPusher/>
+      <SideBarPusher />
     </Grid.Column>
   </Grid>
 </Segment>)

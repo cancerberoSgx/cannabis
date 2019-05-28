@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import { initMonacoWorkers } from './editor/monaco'
-import { App } from './ui/app'
+import { App } from './obsolete/app'
 
 function start() {
   initMonacoWorkers()

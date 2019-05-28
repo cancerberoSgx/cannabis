@@ -1,6 +1,6 @@
 {
   "name": "typescript-ast-query-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TypeScript AST viewer and Advance Query editor",
   "main": "index.js",
   "private": true,
@@ -10,11 +10,12 @@
     "format": "npx ts-refactor format \"src/**/*.ts*\" \"test/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
     "organizeImports": "npx ts-refactor organizeImports \"src/**/*.ts*\" \"test/**/*.ts*\"  ./formatCodeSettings.json --tsConfigPath ./tsconfig.json  --dontAsk ",
     "lint": "npm run organizeImports && npm run format",
-    "start": " npx parcel serve  src/index.html -d docs   --no-source-maps",
-    "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
-    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
-    "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './' && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
-    "build2": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/view/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './'",
+    "start": " npx parcel serve  src/view/index.html -d docs   --no-source-maps",
+    "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/view/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
+    "build-dev": "export NODE_ENV=development ; parcel build src/view/index.html -d docs  --no-minify --no-content-hash",
+    "build2": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/view/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './' && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
+    "build": "npm run clean && npx tsc && npm build-only && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
+    "build-only": "export NODE_ENV=production && sh build-workers.sh && parcel build src/view/index.html -d docs --no-content-hash --detailed-report --no-minify --no-content-hash  --no-source-maps  --no-source-maps --public-url './'",
     "all": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [

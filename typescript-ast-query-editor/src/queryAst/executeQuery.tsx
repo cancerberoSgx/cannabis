@@ -1,8 +1,8 @@
 import { queryAst } from 'cannabis'
-import { highlightNodesInEditor } from '../editor/codeEditor'
 import { getStore } from '../app/store'
+import { highlightNodesInEditor } from '../editor/codeEditor'
+import { Example } from '../editor/examples'
 import { getSourceFile } from './astFiles'
-import { Example } from '../editor/examples';
 
 interface Options {
   query: string
