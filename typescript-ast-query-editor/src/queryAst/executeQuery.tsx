@@ -1,8 +1,9 @@
 import { queryAst } from 'cannabis'
 import { getStore } from '../app/store'
 import { highlightNodesInEditor } from '../editor/codeEditor'
-import { Example } from '../editor/examples'
+import { Example } from '../app/examples'
 import { getSourceFile } from './astFiles'
+import { QueryResult } from '../../../dist/src/queryAst';
 
 interface Options {
   query: string
@@ -18,5 +19,19 @@ export function executeQuery(selectedExample?: Example) {
   if (r.result && r.result.length && !r.error) {
     highlightNodesInEditor(r.result)
   }
-  getStore().setState({ selectedExample: { ...selectedExample || state.selectedExample, query }, result: r.result || [], error: r.error, queryTraceText: r.query && r.query.dump() })
+  getStore().setState({ 
+    selectedExample: { ...selectedExample || state.selectedExample, query }, 
+    result: r.result || [], 
+    error: r.error, 
+    queryDump: getQueryDump(r) 
+  })
 }
+
+function getQueryDump(r: QueryResult): string | undefined {
+  if(!r.query){
+    return
+  }
+  let s= r.query.dump().replace(/   /gm, ' ').replace(/├── /gm, '├─').replace(/└── /gm, '└─')
+  return s
+}
+

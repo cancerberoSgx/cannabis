@@ -7,7 +7,7 @@ import { Body } from './body/body'
 import { AbstractComponent } from './component'
 import { MyHeader } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
-import './styles.css'
+import { ForkRibbon } from './forkRibbon';
 
 export class App extends AbstractComponent {
 
@@ -25,6 +25,7 @@ export class App extends AbstractComponent {
       <SidebarExampleMultiple  >
         <Body />
       </SidebarExampleMultiple>
+      <ForkRibbon/>
     </Container>
   }
 }

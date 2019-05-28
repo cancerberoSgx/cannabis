@@ -1,5 +1,4 @@
 import * as monaco from 'monaco-editor'
-import { isDesktop } from '../util'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -36,7 +35,6 @@ export function installEditor(code: string, containerEl: HTMLElement) {
   if (editor) {
     return editor
   }
-
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ES2016,
     allowNonTsExtensions: true,
@@ -51,14 +49,10 @@ export function installEditor(code: string, containerEl: HTMLElement) {
     model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.ts')),
     language: 'typescript',
     wordWrap: 'on',
-    lineNumbers: isDesktop() ? 'on' : 'off',
-    glyphMargin: false,//isDesktop(),
-    folding: false,//isDesktop(),
-    minimap: { enabled: false, }//isDesktop()
-    // ? undefined
-    // : {
-    //   enabled: false,
-    // },
+    // lineNumbers: isDesktop() ? 'on' : 'off',
+    // glyphMargin: false, 
+    // folding: false, 
+    minimap: { enabled: false, } 
   })
 
   return editor
@@ -67,6 +61,7 @@ export function installEditor(code: string, containerEl: HTMLElement) {
 export function getEditorText() {
   return editor.getModel()!.getValue()
 }
+
 export function setEditorText(s: string) {
   return editor.getModel()!.setValue(s)
 }

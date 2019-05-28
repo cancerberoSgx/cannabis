@@ -12,21 +12,39 @@ export const examples: Example[] = [
 
   {
     name: 'functions that contains variables, classes or parameters',
-    query: `// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`,
+    query: `
+// * [ 
+  isFunctionLike() == true && 
+  ( // VariableDeclaration || 
+    // ClassDeclaration ||
+    // Parameter [@name=='id'] 
+  ) 
+]
+`.trim(),
     description: 'Matches function like nodes that contains variables or classes or parameters named "id"',
     difficulty: 'medium',
     code: 'code1'
   },
   {
     name: 'Filtering by @modifiers and @type',
-    query: `// * [ @modifiers=~'private' && @modifiers=~'static' || @type=='number[]' ]`,
+    query: `
+// * [ 
+  @modifiers=~'private' && 
+  @modifiers=~'static' || 
+  @type=='number[]' 
+]`.trim(),
     description: 'Matches those nodes with private and static modifiers or type number[]. Note about @type: the string representation of node\'s type is what is matched, if the node declare explicitly a type then that type is used, otherwise the type is inferred from usage.',
     difficulty: 'easy',
     code: 'code1'
   },
   {
     name: 'implements and extends, recursively',
-    query: `// ClassDeclaration [ @modifiers=~'export' && extendsNamed('B') && !implementsNamed('I2') ]`,
+    query: `
+// ClassDeclaration [ 
+  @modifiers=~'export' && 
+  extendsNamed('B') && 
+  !implementsNamed('I2') 
+]`.trim(),
     description: `Gets exported class declarations that extends class B but doesn't implements interface I2`,
     difficulty: 'easy',
     code: 'inheritance1'
@@ -39,19 +57,30 @@ export const examples: Example[] = [
   },
   {
     name: 'Class identifier',
-    query: '// Identifier [../ClassDeclaration] ',
+    query: `
+// Identifier [
+  ../ClassDeclaration
+] `.trim(),
     description: 'Identifiers direct children of a class declaration',
     difficulty: 'easy'
   },
   {
     name: 'Methods and properties identifiers',
-    query: '// Identifier [ ../MethodDeclaration || ../PropertyDeclaration ] ',
+    query: `
+// Identifier [ 
+  ../MethodDeclaration || 
+  ../PropertyDeclaration 
+] `.trim(),
     description: 'Identifiers that are direct children of method or properties declarations (their names)',
     difficulty: 'easy'
   },
   {
     name: 'Functions with for-in statements',
-    query: '//* [ //ForInStatement && isFunctionLike() ] ',
+    query: `
+//* [ 
+  //ForInStatement && 
+  isFunctionLike() 
+] `.trim(),
     description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})',
     difficulty: 'easy',
     code: 'code1'

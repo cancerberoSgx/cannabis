@@ -1,0 +1,4 @@
+.headerContainer.ui.segment, .headerContainer * {
+  margin: 0; 
+  padding: 0
+}

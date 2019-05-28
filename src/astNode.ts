@@ -21,7 +21,7 @@ export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
       ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles() as ASTNode[])
       : f.forEachChildAsArray()
 }
-
+export const getASTNodeChildren = getGeneralNodeChildren
 /**
  * get general node's parent
  */
@@ -34,6 +34,7 @@ export function getGeneralNodeParent(f: ASTNode): ASTNode | undefined {
         ? f.getDirectory()
         : f.getParent()
 }
+export const getASTNodeParent = getGeneralNodeParent
 
 export function isGeneralNode(f: any): f is ASTNode {
   return f && (isNode(f) || isDirectory(f))
@@ -43,6 +44,7 @@ export const isASTNode = isGeneralNode
 export function getGeneralNodeKindName(n: ASTNode) {
   return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
 }
+export const getASTNodeKindName = getGeneralNodeKindName
 
 export function getASTNodeName(node: ASTNode) {
   if (isDirectory(node) || isSourceFile(node)) {
@@ -57,15 +59,8 @@ export const getGeneralNodeName = getASTNodeName
 export function getGeneralNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
 }
+export const getASTNodeText= getGeneralNodeText
 
-// export function getNodeName(n: Node) {
-//       const id = n.getFirstChildByKind(ts.SyntaxKind.Identifier)
-//       return id ? id.getText() : undefined
-//     } 
-
-/**
- *  Try to call n.getName or returns empty string if there is no such method
- */
 export function getName(n: Node) {
   function getNodeName(n: Node) {
     if(tsMorph.TypeGuards.isIdentifier(n)){

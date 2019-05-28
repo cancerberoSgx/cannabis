@@ -5,6 +5,7 @@ import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Examples } from './examples'
 import { QueryEditor } from './queryEditor'
 import { Results } from './results'
+import { QueryDump } from './queryDump';
 
 export const Body = () => (
   <Segment basic>
@@ -15,13 +16,11 @@ export const Body = () => (
         <Results />
       </Grid.Column>
       <Grid.Column floated='right' width={8}>
-        <CursorBreadcrumb />
         <div id="editor-container" style={{ height: '100vh', maxHeight: '60vh', marginTop: '1em' }}></div>
-        <div className="trace-panel flex-item" >
-          <pre className="trace-text">
-            {getStore().getState().queryTraceText}
-          </pre>
-        </div>
+        <br/>
+        <CursorBreadcrumb />
+        <br/>
+        <QueryDump/>
       </Grid.Column>
     </Grid>
   </Segment>)

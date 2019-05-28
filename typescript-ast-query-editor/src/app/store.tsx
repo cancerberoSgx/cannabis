@@ -1,6 +1,6 @@
 import { Emitter } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
-import { Example, examples } from "../editor/examples"
+import { Example, examples } from "./examples"
 
 class Store extends Emitter<void> {
   protected state: State;
@@ -10,7 +10,7 @@ class Store extends Emitter<void> {
       selectedExample: examples[0],
       result: [], examples,
       nodesAtPosition: undefined,
-      queryTraceText: '',
+      queryDump: '',
       sidebarVisibility: false
     }
   }
@@ -33,7 +33,7 @@ export function getStore() {
 
 export interface State {
   selectedExample: Example;
-  queryTraceText: string
+  queryDump: string
   result: tsMorph.Node<tsMorph.ts.Node>[];
   error?: Error | undefined;
   examples: Example[];

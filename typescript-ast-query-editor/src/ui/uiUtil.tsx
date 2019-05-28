@@ -1,6 +1,7 @@
 import { Emitter, shorter } from 'misc-utils-of-mine-generic'
 import { isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
-import { ASTNode } from '../../dist/src'
+import { ASTNode } from '../../../dist/src'
+import * as React from 'react'
 
 export function width() {
   return document.body.clientWidth
@@ -22,6 +23,7 @@ export function getAscendants(n: ASTNode, andSelf = false) {
     return []
   }
 }
+
 export function printNode(n: ASTNode) {
   if (isSourceFile(n) || isDirectory(n)) {
     return `${n.getBaseName()} (file)`
@@ -30,9 +32,29 @@ export function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
+export const Space = () => (
+  <span style={{ marginRight: '0.5em' }}></span>
+)
 
-export class StatefulEmitter<T> extends Emitter<T>{
-  constructor(public value: T) {
-    super()
+
+export function iconForNodeKind(kind='') {
+  kind = kind.toLowerCase()
+  if (['method', 'member', 'property', 'constructor'].find(s => kind.includes(s))) {
+    return 'cube'
+  }
+  if (['type', 'interface', 'alias'].find(s => kind.includes(s))) {
+    return 'cog'
+  }
+  if (['import', 'export'].find(s => kind.includes(s))) {
+    return 'map'
+  }
+  if (kind.includes('jsx')) {
+    return 'code'
+  }
+  if (kind.includes('declaration')) {
+    return 'puzzle piece'
+  }
+  else {
+    return 'leaf'
   }
 }
