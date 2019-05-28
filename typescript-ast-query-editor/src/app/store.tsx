@@ -38,5 +38,5 @@ export interface State {
   error?: Error | undefined;
   examples: Example[];
   nodesAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
-  sidebarVisibility: boolean  
+  sidebarVisibility: boolean
 }

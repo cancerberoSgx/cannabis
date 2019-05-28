@@ -3,7 +3,7 @@ import { getStore, State } from '../app/store'
 
 export interface AbstractProps {
 }
-export class AbstractComponent<P extends AbstractProps=AbstractProps, S extends State=State>  extends React.Component<P, S>{
+export class AbstractComponent<P extends AbstractProps = AbstractProps, S extends State = State> extends React.Component<P, S>{
   constructor(p: P, s: State) {
     super(p, s)
     this.state = getStore().getState() as S
@@ -12,7 +12,7 @@ export class AbstractComponent<P extends AbstractProps=AbstractProps, S extends 
     })
   }
   //@ts-ignore
-  setState(state: Partial<S> ) {
+  setState(state: Partial<S>) {
     getStore().setState(state)
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Container, Grid, Header, Image, Segment, Tab } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
 import { getStore } from '../../app/store'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Examples } from './examples'
@@ -7,7 +7,7 @@ import { QueryEditor } from './queryEditor'
 import { Results } from './results'
 
 export const Body = () => (
-<Segment basic>
+  <Segment basic>
     <Grid>
       <Grid.Column floated='left' width={8}>
         <Examples />
@@ -24,4 +24,4 @@ export const Body = () => (
         </div>
       </Grid.Column>
     </Grid>
-</Segment>)
+  </Segment>)

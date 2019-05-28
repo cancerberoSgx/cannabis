@@ -1,7 +1,7 @@
 import * as React from 'react'
+import { Button, Form, TextArea } from 'semantic-ui-react'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from '../component'
-import { Form, TextArea, Button } from 'semantic-ui-react';
 
 export class QueryEditor extends AbstractComponent {
   render() {

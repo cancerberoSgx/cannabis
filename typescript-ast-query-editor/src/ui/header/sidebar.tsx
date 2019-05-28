@@ -3,10 +3,10 @@ import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
-import { SearchInput } from '../searchInput';
- 
+import { SearchInput } from '../searchInput'
+
 export class SidebarExampleMultiple extends AbstractComponent {
- 
+
   handleHideClick = () => this.setState({ sidebarVisibility: false })
   handleShowClick = () => this.setState({ sidebarVisibility: true })
   handleSidebarHide = () => this.setState({ sidebarVisibility: false })
@@ -38,7 +38,7 @@ export class SidebarExampleMultiple extends AbstractComponent {
             </Menu.Item>
 
             <Menu.Item>
-            <SearchInput/>
+              <SearchInput />
             </Menu.Item>
           </Sidebar>
           <Sidebar

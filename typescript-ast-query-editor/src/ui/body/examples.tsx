@@ -1,9 +1,9 @@
 import * as React from 'react'
+import { Header, Segment } from 'semantic-ui-react'
 import { codeExamples } from "../../editor/examples"
 import { setEditorText } from '../../editor/monaco'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from "../component"
-import { Segment, Header } from 'semantic-ui-react';
 
 
 export class Examples extends AbstractComponent {

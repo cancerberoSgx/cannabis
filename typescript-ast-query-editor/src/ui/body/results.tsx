@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { Segment } from 'semantic-ui-react'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
-import { Segment } from 'semantic-ui-react';
 
 export class Results extends AbstractComponent {
   render() {
