@@ -1,9 +1,13 @@
 import { queryAst } from 'cannabis'
 import { highlightNodesInEditor } from '../editor/codeEditor'
-import { Example } from "../editor/examples"
-import { getStore } from '../store'
+import { getStore } from '../app/store'
 import { getSourceFile } from './astFiles'
+import { Example } from '../editor/examples';
 
+interface Options {
+  query: string
+  trace?: boolean
+}
 export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
   const query = selectedExample && selectedExample.query || state.selectedExample.query

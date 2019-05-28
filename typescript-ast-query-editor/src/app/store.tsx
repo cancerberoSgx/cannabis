@@ -1,6 +1,8 @@
 import { Emitter } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
-import { Example, examples } from "./editor/examples"
+import { Example, examples } from "../editor/examples"
+import { StatefulEmitter } from '../util';
+import * as React from 'react'
 
 class Store extends Emitter<void> {
   protected state: State;
@@ -10,7 +12,9 @@ class Store extends Emitter<void> {
       selectedExample: examples[0],
       result: [], examples,
       nodesAtPosition: undefined,
-      queryTraceText: ''
+      queryTraceText: '',
+      // sidebarVisibility: new StatefulEmitter<boolean>(false)ç
+      sidebarVisibility: false
     }
   }
   setState(state: Partial<State>) {
@@ -21,7 +25,6 @@ class Store extends Emitter<void> {
     return this.state
   }
 }
-
 
 let store: Store
 export function getStore() {
@@ -38,4 +41,5 @@ export interface State {
   error?: Error | undefined;
   examples: Example[];
   nodesAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
+  sidebarVisibility: boolean  // sidebarVisibility: StatefulEmitter<boolean>
 }

@@ -11,11 +11,11 @@ test('functions that contains variables, classes or parameters', t => {
 
 
 
-export function findLargestDescendantContainingPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
-  function find(node: ts.Node): ts.Node | undefined {
-    if (position >= node.getStart() && position < node.getEnd()) {
-      return ts.forEachChild(node, find) || node
-    }
-  }
-  return find(sourceFile)
-}
+// export function findLargestDescendantContainingPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
+//   function find(node: ts.Node): ts.Node | undefined {
+//     if (position >= node.getStart() && position < node.getEnd()) {
+//       return ts.forEachChild(node, find) || node
+//     }
+//   }
+//   return find(sourceFile)
+// }

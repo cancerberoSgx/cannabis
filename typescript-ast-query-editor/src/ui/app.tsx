@@ -6,9 +6,9 @@ import { AbstractComponent } from './component'
 import { EditorCursorDetails } from './editorCursorDetails'
 import { Examples } from './examples'
 import { ForkRibbon } from './forkRibbon'
+import { Header } from './header'
 import { QueryEditor } from './queryEditor'
 import { Results } from './results'
-import { Header } from './header';
 
 export class App extends AbstractComponent {
 
@@ -23,7 +23,7 @@ export class App extends AbstractComponent {
   render() {
     return (
       <div className="flex-container">
-        <Header/>
+        <Header />
         <div className="flex-item left-panel">
           <Examples></Examples>
           <QueryEditor />
@@ -38,7 +38,7 @@ export class App extends AbstractComponent {
             </pre>
           </div>
         </div>
-          <ForkRibbon />
+        <ForkRibbon />
       </div>
     )
   }

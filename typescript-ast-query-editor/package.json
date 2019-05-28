@@ -14,6 +14,7 @@
     "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
     "build": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './' && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
+    "build2": "npm run clean && npx tsc && export NODE_ENV=production && sh build-workers.sh && parcel build src/view/index.html -d docs --no-content-hash --detailed-report --no-source-maps --public-url './'",
     "all": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [

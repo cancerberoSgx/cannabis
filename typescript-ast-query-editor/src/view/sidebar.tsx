@@ -1,35 +1,37 @@
+import { asArray, Emitter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
-import { render } from 'react-dom'
-import { Grid, Image, Container, Header } from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.css'
 import { Component } from 'react'
-import { Button, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
-import { asArray } from 'misc-utils-of-mine-generic';
+import 'semantic-ui-css/semantic.css'
+import { Button, Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { AbstractComponent } from '../ui/component';
 
-interface P  {
-}
-interface S { visible: boolean }
-export class SidebarExampleMultiple extends Component<P, S> {
-  state: S = { visible: false }
-  constructor(p: P, s: S){
-    super(p, s)
-  }
-  handleHideClick = () => this.setState({ visible: false })
-  handleShowClick = () => this.setState({ visible: true })
-  handleSidebarHide = () => this.setState({ visible: false })
+// interface P {
+//   booleanEmitter: Emitter<boolean>
+// }
+
+// interface S { visible: boolean }
+
+export class SidebarExampleMultiple extends AbstractComponent  {
+
+  // constructor(p: P, s: S) {
+    // // super(p, s)
+    // this.state  = { visible: false }
+    // this.setVisible = this.setVisible.bind(this)
+    // p.booleanEmitter.add(this.setVisible)
+    // this.props.addHSetVisibleListener(listener=>this.setVisible = this.setVisible)
+  // }
+
+  // setVisible(visible: boolean){
+  //   console.log('setVisible');    
+  //   this.setState({ visible})
+  // }
+  handleHideClick = () => this.setState({ sidebarVisibility: false })
+  handleShowClick = () => this.setState({ sidebarVisibility: true })
+  handleSidebarHide = () => this.setState({ sidebarVisibility: false })
   render() {
-    const { visible } = this.state
+    // const { visiblse } = this.state
     return (
       <Container fluid >
-        <Button.Group>
-          <Button disabled={visible} onClick={this.handleShowClick}>
-            Show sidebars
-          </Button>
-          <Button disabled={!visible} onClick={this.handleHideClick}>
-            Hide sidebars
-          </Button>
-        </Button.Group>
-
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             as={Menu}
@@ -39,7 +41,7 @@ export class SidebarExampleMultiple extends Component<P, S> {
             inverted
             onHide={this.handleSidebarHide}
             vertical
-            visible={visible}
+            visible={this.state.sidebarVisibility}
             width='thin'
           >
             <Menu.Item as='a'>
@@ -63,7 +65,7 @@ export class SidebarExampleMultiple extends Component<P, S> {
             inverted
             vertical
             t
-            visible={visible}
+            visible={this.state.sidebarVisibility}
           >
             <Menu.Item as='a' header>
               File Permissions
@@ -75,7 +77,7 @@ export class SidebarExampleMultiple extends Component<P, S> {
           </Sidebar>
 
           <Sidebar.Pusher>
-          {...asArray(this.props.children)}
+            {...asArray(this.props.children)}
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Container>

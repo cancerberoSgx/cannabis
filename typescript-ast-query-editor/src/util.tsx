@@ -1,4 +1,4 @@
-import { shorter } from 'misc-utils-of-mine-generic'
+import { shorter, Emitter } from 'misc-utils-of-mine-generic'
 import { isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode } from '../../dist/src'
 
@@ -30,3 +30,9 @@ export function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
+
+export class StatefulEmitter<T> extends Emitter<T>{
+  constructor(public value: T){
+    super()
+  }
+  }

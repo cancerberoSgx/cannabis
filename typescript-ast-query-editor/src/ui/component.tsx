@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getStore, State } from '../store'
+import { getStore, State } from '../app/store'
 
 interface Props {
 }
