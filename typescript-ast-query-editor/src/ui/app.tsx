@@ -3,14 +3,11 @@ import 'semantic-ui-css/semantic.css'
 import { Container } from 'semantic-ui-react'
 import { getNodesAtPosition, installCodeEditor } from '../editor/codeEditor'
 import { getMonacoInstance } from '../editor/monaco'
-import { AbstractComponent } from '../ui/component'
-import { MyBody } from './body'
-import { MyHeader } from './header'
-import { SidebarExampleMultiple } from './sidebar'
+import { AbstractComponent } from './component'
+import { MyBody } from './body/body'
+import { MyHeader } from './header/header'
+import { SidebarExampleMultiple } from './header/sidebar'
 
-// export interface PassBooleanFunction{ 
-// }
-// class EmitterCOmponent extends 
 export class App extends AbstractComponent {
 
   componentDidMount() {

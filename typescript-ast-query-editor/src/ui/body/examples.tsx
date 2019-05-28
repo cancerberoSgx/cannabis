@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { codeExamples } from "../editor/examples"
-import { setEditorText } from '../editor/monaco'
-import { executeQuery } from "../queryAst/executeQuery"
-import { AbstractComponent } from "./component"
+import { codeExamples } from "../../editor/examples"
+import { setEditorText } from '../../editor/monaco'
+import { executeQuery } from "../../queryAst/executeQuery"
+import { AbstractComponent } from "../component"
 
 
 export class Examples extends AbstractComponent {

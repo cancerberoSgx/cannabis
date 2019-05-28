@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
-import { highlightNodesInEditor } from '../editor/codeEditor'
-import { AbstractComponent } from './component'
+import { highlightNodesInEditor } from '../../editor/codeEditor'
+import { AbstractComponent } from '../component'
 
 export class Results extends AbstractComponent {
   render() {

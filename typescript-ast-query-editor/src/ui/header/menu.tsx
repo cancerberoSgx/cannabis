@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Component } from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Menu, Button } from 'semantic-ui-react'
-import { AbstractComponent, AbstractProps } from '../ui/component';
-import { State } from '../app/store';
+import { AbstractComponent, AbstractProps } from '../component';
+import { State } from '../../app/store';
 // interface S { activeItem?: string }
 
 interface S extends State {

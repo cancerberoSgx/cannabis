@@ -2,8 +2,8 @@ import { asArray } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
-import { AbstractComponent } from '../ui/component'
-import { SearchInput } from './searchInput';
+import { AbstractComponent } from '../component'
+import { SearchInput } from '../searchInput';
 
 // interface P {
 //   booleanEmitter: Emitter<boolean>

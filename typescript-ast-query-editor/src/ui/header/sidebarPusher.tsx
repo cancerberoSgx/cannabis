@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button } from 'semantic-ui-react'
-import { AbstractComponent } from '../ui/component'
+import { AbstractComponent } from '../component'
 
 export class SideBarPusher extends AbstractComponent {
   render() {

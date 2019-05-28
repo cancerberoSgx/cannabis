@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
-import { highlightNodesInEditor } from '../editor/codeEditor'
-import { getAscendants, printNode } from '../util'
-import { AbstractComponent } from './component'
+import { highlightNodesInEditor } from '../../editor/codeEditor'
+import { getAscendants, printNode } from '../../util'
+import { AbstractComponent } from '../component'
 
 export class EditorCursorDetails extends AbstractComponent {
   render() {

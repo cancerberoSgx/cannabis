@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { executeQuery } from "../queryAst/executeQuery"
-import { AbstractComponent } from './component'
+import { executeQuery } from "../../queryAst/executeQuery"
+import { AbstractComponent } from '../component'
 
 export class QueryEditor extends AbstractComponent {
   render() {
