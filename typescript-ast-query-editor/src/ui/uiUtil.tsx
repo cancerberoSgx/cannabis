@@ -1,7 +1,7 @@
-import { Emitter, shorter } from 'misc-utils-of-mine-generic'
+import { shorter } from 'misc-utils-of-mine-generic'
+import * as React from 'react'
 import { isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode } from '../../../dist/src'
-import * as React from 'react'
 
 export function width() {
   return document.body.clientWidth
@@ -37,7 +37,7 @@ export const Space = () => (
 )
 
 
-export function iconForNodeKind(kind='') {
+export function iconForNodeKind(kind = '') {
   kind = kind.toLowerCase()
   if (['method', 'member', 'property', 'constructor'].find(s => kind.includes(s))) {
     return 'cube'

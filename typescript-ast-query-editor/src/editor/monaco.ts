@@ -52,7 +52,7 @@ export function installEditor(code: string, containerEl: HTMLElement) {
     // lineNumbers: isDesktop() ? 'on' : 'off',
     // glyphMargin: false, 
     // folding: false, 
-    minimap: { enabled: false, } 
+    minimap: { enabled: false, }
   })
 
   return editor

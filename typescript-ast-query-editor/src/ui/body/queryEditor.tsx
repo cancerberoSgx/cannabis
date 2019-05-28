@@ -10,8 +10,8 @@ export class QueryEditor extends AbstractComponent {
         <TextArea rows={8} value={this.state.selectedExample.query} onChange={e => {
           this.setState({ selectedExample: { ...this.state.selectedExample, query: (e.target as any).value } })
         }} />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <Button small primary onClick={e => executeQuery()}>Search!</Button>
         <Button small onClick={e => executeQuery()}>Trace Execution</Button>
         <Button small onClick={e => executeQuery()}>Inspect Query</Button>
