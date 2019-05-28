@@ -4,32 +4,13 @@ import 'semantic-ui-css/semantic.css'
 import { Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 import { SearchInput } from '../searchInput';
-
-// interface P {
-//   booleanEmitter: Emitter<boolean>
-// }
-
-// interface S { visible: boolean }
-
+ 
 export class SidebarExampleMultiple extends AbstractComponent {
-
-  // constructor(p: P, s: S) {
-  // // super(p, s)
-  // this.state  = { visible: false }
-  // this.setVisible = this.setVisible.bind(this)
-  // p.booleanEmitter.add(this.setVisible)
-  // this.props.addHSetVisibleListener(listener=>this.setVisible = this.setVisible)
-  // }
-
-  // setVisible(visible: boolean){
-  //   console.log('setVisible');    
-  //   this.setState({ visible})
-  // }
+ 
   handleHideClick = () => this.setState({ sidebarVisibility: false })
   handleShowClick = () => this.setState({ sidebarVisibility: true })
   handleSidebarHide = () => this.setState({ sidebarVisibility: false })
   render() {
-    // const { visiblse } = this.state
     return (
       <Container fluid >
         <Sidebar.Pushable as={Segment} >
@@ -39,9 +20,7 @@ export class SidebarExampleMultiple extends AbstractComponent {
             direction='top'
             icon='labeled'
             inverted
-            
             onHide={this.handleSidebarHide}
-            // vertical
             visible={this.state.sidebarVisibility}
             width='thin'
           >
@@ -61,10 +40,7 @@ export class SidebarExampleMultiple extends AbstractComponent {
             <Menu.Item>
             <SearchInput/>
             </Menu.Item>
-            
-
           </Sidebar>
-
           <Sidebar
             as={Menu}
             animation='overlay'

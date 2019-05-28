@@ -11,7 +11,6 @@ class Store extends Emitter<void> {
       result: [], examples,
       nodesAtPosition: undefined,
       queryTraceText: '',
-      // sidebarVisibility: new StatefulEmitter<boolean>(false)ç
       sidebarVisibility: false
     }
   }
@@ -39,5 +38,5 @@ export interface State {
   error?: Error | undefined;
   examples: Example[];
   nodesAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
-  sidebarVisibility: boolean  // sidebarVisibility: StatefulEmitter<boolean>
+  sidebarVisibility: boolean  
 }

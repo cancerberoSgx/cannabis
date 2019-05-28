@@ -9,5 +9,4 @@ function main() {
   render(<App />, document.getElementById('main'))
 }
 
-
 main()

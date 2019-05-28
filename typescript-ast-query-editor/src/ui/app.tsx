@@ -4,9 +4,10 @@ import { Container } from 'semantic-ui-react'
 import { getNodesAtPosition, installCodeEditor } from '../editor/codeEditor'
 import { getMonacoInstance } from '../editor/monaco'
 import { AbstractComponent } from './component'
-import { MyBody } from './body/body'
+import { Body } from './body/body'
 import { MyHeader } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
+import './styles.css'
 
 export class App extends AbstractComponent {
 
@@ -22,7 +23,7 @@ export class App extends AbstractComponent {
       <MyHeader />
 
       <SidebarExampleMultiple  >
-        <MyBody />
+        <Body />
       </SidebarExampleMultiple>
     </Container>
   }

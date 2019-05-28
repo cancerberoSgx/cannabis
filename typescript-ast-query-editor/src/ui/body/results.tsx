@@ -2,10 +2,11 @@ import * as React from 'react'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
+import { Segment } from 'semantic-ui-react';
 
 export class Results extends AbstractComponent {
   render() {
-    return <div className="results">
+    return <Segment className="results">
       {this.state.result.length ? <div>
         <h3>Results</h3>
         <ul>
@@ -17,6 +18,6 @@ export class Results extends AbstractComponent {
       {this.state.error && <div><strong>Error: </strong><br /><pre>
         {this.state.error + ''}
       </pre></div>}
-    </div>
+    </Segment>
   }
 }

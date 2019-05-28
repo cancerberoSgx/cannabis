@@ -1,21 +1,24 @@
 import * as React from 'react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import MenuExampleMenus from './menu'
-import { SideBarPusher } from './sidebarPusher'
 
-export const MyHeader = () => (<Segment compact>
+export const MyHeader = () => (
+<Segment raised>
   <Grid>
     <Grid.Column floated='left' width={8}>
-      <Header as='h2' floated='right' attached>
-        Cannabis
-        <Header.Subheader attached >
+      <Header as='h1'style={{display: 'inline', margin: 0, padding: 0}}>
+        Cannabis: <Space/>
+        <Header.Subheader as="h3" style={{display: 'inline', margin: 0, padding: 0}} >
           TypeScript AST viewer and Advance Query editor
        </Header.Subheader>
       </Header>
     </Grid.Column>
     <Grid.Column floated='right' width={8}>
       <MenuExampleMenus />
-      <SideBarPusher />
     </Grid.Column>
   </Grid>
 </Segment>)
+
+const Space = ()=>(
+  <span style={{marginRight: '0.5em'}}></span>
+)

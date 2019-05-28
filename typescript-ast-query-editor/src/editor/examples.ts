@@ -94,7 +94,7 @@ export class C {
   }
   private static inferredSimple = [4,5,6]
 }   
-      `
+      `.trim()
   },
 
   {
@@ -110,6 +110,6 @@ interface I1 extends I{}
 interface I2<T> extends I1{}
 interface J{}
 interface I3<T> extends I2<T>, J{} 
-    `
+    `.trim()
   }
 ]
