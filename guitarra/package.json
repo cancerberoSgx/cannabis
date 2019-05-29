@@ -12,6 +12,7 @@
     "format": "npx ts-refactor format \"src/**/*.ts*\" \"test/**/*.ts*\" ./formatCodeSettings.json --tsConfigPath ./tsconfig.json --dontAsk",
     "organizeImports": "npx ts-refactor organizeImports \"src/**/*.ts*\" \"test/**/*.ts*\"  ./formatCodeSettings.json --tsConfigPath ./tsconfig.json  --dontAsk ",
     "lint": "npm run organizeImports && npm run format",
+    "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish",
     "all": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "keywords": [
