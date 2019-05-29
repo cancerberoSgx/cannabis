@@ -52,7 +52,7 @@ export class Body extends AbstractComponent {
             } />
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
-            <div id="editor-container" style={{ height: '100vh', maxHeight: '60vh', marginTop: '1em' }}></div>
+            <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
             <br />
             <CursorBreadcrumb />
             <br />

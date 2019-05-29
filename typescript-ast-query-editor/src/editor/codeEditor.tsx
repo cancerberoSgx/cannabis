@@ -13,12 +13,17 @@ export function installCodeEditor(editorContainer: HTMLElement) {
 }
 
 export function highlightNodesInEditor(result: tsMorph.Node[]): any {
-  const ed = getMonacoInstance()!
   const selections: ISelection[] = result.map(node => {
     return tsRangeToMonacoSelection(node.getSourceFile(), node.getFullStart(), node.getEnd())
   })
+  select(selections)
+}
+
+export function select(selections: monaco.ISelection[]) {
+  const ed = getMonacoInstance()!
   ed.setSelections(selections)
   ed.revealLines(selections[0].selectionStartLineNumber, selections[selections.length - 1].selectionStartLineNumber, monaco.editor.ScrollType.Smooth)
+  window.scrollTo({ top: 0 })
 }
 
 export function getNodeAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {

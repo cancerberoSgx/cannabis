@@ -8,14 +8,14 @@ export class AbstractComponent<P extends AbstractProps = AbstractProps, S extend
     super(p, s)
     this.state = getStore().getState() as S
     getStore().add(() => {
+      //@ts-ignore
+      // this.state = getStore().getState()
+      // super.setState(this.state)
       super.setState({ ...getStore().getState() })
+
     })
   }
-  setState: React.Component['setState'] = state => {
+  setState: React.Component<AbstractProps, State>['setState'] = state => {
     getStore().setState(state as Partial<S>)
   }
-}
-
-export function arrayInterception<A = any, B = any>(a: A[], b: B[]): (A | B)[] {
-  return a.filter(a => b.find((b: any) => b === a))
 }

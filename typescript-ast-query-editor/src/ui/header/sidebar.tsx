@@ -8,9 +8,6 @@ import { SearchInput } from '../searchInput'
 
 export class SidebarExampleMultiple extends AbstractComponent {
 
-  handleHideClick = () => this.setState({ sidebarVisibility: false })
-  handleShowClick = () => this.setState({ sidebarVisibility: true })
-  handleSidebarHide = () => this.setState({ sidebarVisibility: false })
   render() {
     return (
       <Container fluid >
@@ -20,8 +17,9 @@ export class SidebarExampleMultiple extends AbstractComponent {
             animation='overlay'
             direction='top'
             icon='labeled'
+
             inverted
-            onHide={this.handleSidebarHide}
+            // onHide={()=>this.setState({ sidebarVisibility: false })}
             visible={this.state.sidebarVisibility}
             width='thin'
           >
@@ -49,6 +47,7 @@ export class SidebarExampleMultiple extends AbstractComponent {
             inverted
             vertical
             t
+            onHide={() => this.setState({ sidebarVisibility: false })}
             visible={this.state.sidebarVisibility}
           >
 

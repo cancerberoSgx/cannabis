@@ -7,7 +7,6 @@ import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent, AbstractProps } from '../component'
 import { iconForNodeKind, Space } from '../uiUtil'
-import './cursorBreadcrumb.css'
 
 interface P extends AbstractProps {
   node?: ASTNode
@@ -29,7 +28,7 @@ export class Ast extends AbstractComponent<P> {
     }
     return <Segment basic>
       <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {
-        this.setState({ astAutoUpdate: props.checked })
+        this.setState({ astAutoUpdate: !!props.checked })
       }}></Checkbox>
       <Space />
       {this.state.astAutoUpdate ? '' : <Button size="small" onClick={e => this.forceUpdate()}>Update</Button>}
@@ -40,7 +39,10 @@ export class Ast extends AbstractComponent<P> {
   }
   renderNode(node: tsMorph.Node) {
     const children = getASTNodeChildren(node)
-    return (<List.Item onClick={e => highlightNodesInEditor([node])}>
+    return (<List.Item onClick={e => {
+      e.stopPropagation()
+      highlightNodesInEditor([node])
+    }}>
       <List.Icon name={iconForNodeKind(node.getKindName())} />
       <List.Content>
         <List.Header as="a">{getGeneralNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}

@@ -15,9 +15,12 @@ export class App extends AbstractComponent {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
     getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      this.setState({ nodesAtPosition: getNodeAtPosition(e.position) })
+      this.setState({
+        nodeAtPosition: getNodeAtPosition(e.position)
+      })
     })
   }
+
   render() {
     return <Container fluid textAlign="left">
       <Header />

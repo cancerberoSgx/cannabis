@@ -1,15 +1,14 @@
 import * as React from 'react'
-import { Dropdown, Header, Segment } from 'semantic-ui-react'
+import { Dropdown, Header } from 'semantic-ui-react'
 import { codeExamples, examples } from "../../app/examples"
 import { State } from '../../app/store'
 import { setEditorText } from '../../editor/monaco'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from "../component"
 
-
 export class Examples extends AbstractComponent {
   render() {
-    return (<Segment basic>
+    return (<>
       <Header as="h4">Example Gallery</Header>
       <Dropdown
         placeholder='Select an Example'
@@ -31,7 +30,7 @@ export class Examples extends AbstractComponent {
         }))}
       />
       {this.state.selectedExample ? <p><strong>Example description</strong>: {this.state.selectedExample.description}</p> : ''}
-    </Segment>)
+    </>)
   }
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
     return false

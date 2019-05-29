@@ -1,6 +1,7 @@
 import { ASTQQuery, ASTYNode, createSourceFile, queryAst } from 'cannabis'
-import { Emitter } from 'misc-utils-of-mine-generic'
+import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
+import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
 
 class Store extends Emitter<void> {
@@ -24,6 +25,7 @@ class Store extends Emitter<void> {
     }
   }
   setState(state: Partial<State>) {
+    debug('Store setState', objectKeys(state))
     this.state = { ...this.state, ...state }
     this.emit()
   }
