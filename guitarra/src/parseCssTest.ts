@@ -1,6 +1,6 @@
 import test from 'ava'
 import { parseCss, visit } from './parseCss'
-import { printTypes } from './debug'
+import { printTypes, printTypeAndAttrs } from './debug'
 
 test('one kind descendant', t => {
   const p = parseCss(`a{border: 1px solid #ededed}`)
@@ -18,12 +18,5 @@ test('one kind descendant', t => {
      '__  rule, level: 1, value:   __',
      '__  root, level: 0, value:   __',
   ])
-  t.is( printTypes(p).trim(), `root
-  rule
-    decl
-      value
-        word
-        word
-        numeric`.trim());
   
 })
