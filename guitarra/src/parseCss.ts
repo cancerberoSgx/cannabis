@@ -1,4 +1,4 @@
-import { ASTNode } from './astNode';
+import { ASTNode } from './astNode'
 
 const postcss = require('postcss')
 const { parse, nodeToString } = require('postcss-values-parser')
@@ -12,19 +12,19 @@ export function parseCss(s: string) {
 function addParent(n: any, parent?: any) {
   visit(n, (n, parent) => {
     n.parent = parent
-    if (n.value  ) {
+    if (n.value) {
       n.nodes = n.nodes || []
       // n.valueLiteral = n.value
-      const parsed = JSON.parse(JSON.stringify({...parse(n.value), parent: undefined, type: 'value'}))
+      const parsed = JSON.parse(JSON.stringify({ ...parse(n.value), parent: undefined, type: 'value' }))
       // n.value = 
       n.nodes.push(parsed)
       parsed.parent = n
     }
     return false
-  });
+  })
 }
 
-export function visit<T extends ASTNode=any>(n: T, v: (n: T, parent: T|undefined, level: number) => boolean  , childrenFirst = true, parent?: T, level = 0) {
+export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent: T | undefined, level: number) => boolean, childrenFirst = true, parent?: T, level = 0) {
   if (!n) {
     return
   }
