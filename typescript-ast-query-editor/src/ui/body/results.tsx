@@ -6,6 +6,7 @@ import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
 import { iconForNodeKind, Space } from '../uiUtil'
+import { State } from '../../app/store';
 
 interface I { }
 export class Results extends AbstractComponent {
@@ -42,5 +43,8 @@ export class Results extends AbstractComponent {
         )}
       </List>
     </Segment>
+  }
+  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
+    return nextState.result!==this.state.result
   }
 }

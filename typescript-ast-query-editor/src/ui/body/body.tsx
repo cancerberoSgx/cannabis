@@ -10,7 +10,8 @@ import { AbstractComponent } from '../component';
 
 export class Body extends AbstractComponent{
   render(){
-    return (<Segment basic>
+    return (
+    <Segment basic>
       <Grid>
         <Grid.Column floated='left' width={8}>
           <Tab panes={

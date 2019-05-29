@@ -1,13 +1,14 @@
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container } from 'semantic-ui-react'
-import { getNodesAtPosition, installCodeEditor } from '../editor/codeEditor'
+import { getNodeAtPosition, installCodeEditor } from '../editor/codeEditor'
 import { getMonacoInstance } from '../editor/monaco'
 import { Body } from './body/body'
 import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
+import { getStore, NodeAtPositionAction } from '../app/store';
 
 export class App extends AbstractComponent {
 
@@ -15,7 +16,8 @@ export class App extends AbstractComponent {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
     getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      this.setState({ nodesAtPosition: getNodesAtPosition(e.position) })
+      getStore().dispatch(new NodeAtPositionAction(getNodeAtPosition(e.position)))
+      // this.setState({ nodesAtPosition: getNodeAtPosition(e.position) })
     })
   }
   render() {

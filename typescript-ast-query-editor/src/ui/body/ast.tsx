@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Breadcrumb, BreadcrumbDivider, Icon, List, Label } from 'semantic-ui-react'
+import { Breadcrumb, BreadcrumbDivider, Icon, List, Label, Segment, Checkbox, Button } from 'semantic-ui-react'
 import { getGeneralNodeKindName, tsMorph, isNode } from 'ts-simple-ast-extra'
 import { getASTNodeKindName, ASTNode, getASTNodeName, getASTNodeChildren, createSourceFile, getASTNodeText } from 'cannabis'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
@@ -9,21 +9,43 @@ import './cursorBreadcrumb.css'
 import { getEditorText } from '../../editor/monaco';
 import { shorter } from 'misc-utils-of-mine-generic';
 import { debug } from '../../app/dispatchers';
+import { State } from '../../app/store';
 
 interface P extends AbstractProps {
   node?: ASTNode
 }
 
 export class Ast extends AbstractComponent<P> {
+  componentWillMount(){
+    this.forceUpdate()
+  }
+  // protected shouldUpdateIfStateChange(p: StateChange){
+  //   return p.partial.currentEditorText!==p.newState.currentEditorText
+  // }
+
+  // private firstTimeRendered = true
+  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
+    return nextState.currentEditorText!==this.state.currentEditorText && this.state.astAutoUpdate ||  nextState.astAutoUpdate!==this.state.astAutoUpdate 
+  }
+
   render() {
+    // debugger
+    // this.firstTimeRendered = false
     debug('ast render()')
     let node: tsMorph.Node = this.props.node as tsMorph.Node
     if (!node) {
       node = this.state.currentEditorAst
     }
-    return <List>
-      {this.renderNode(node)}
+    return <Segment basic>
+    <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props)=>{
+      this.setState({astAutoUpdate: props.checked})
+    }}></Checkbox>
+    <Space/>
+    {this.state.astAutoUpdate ? '' : <Button size="small" onClick={e=> this.forceUpdate()}>Update</Button>}
+    <List>
+    {this.renderNode(node)}
     </List>
+    </Segment>
   }
   renderNode(node: tsMorph.Node) {
     const children = getASTNodeChildren(node)

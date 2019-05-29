@@ -3,8 +3,12 @@ import { Button, Form as Segment, TextArea } from 'semantic-ui-react'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from '../component'
 import { debug } from '../../app/dispatchers';
+import { State } from '../../app/store';
 
 export class QueryEditor extends AbstractComponent {
+  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
+    return (nextState.selectedExample && nextState.selectedExample.query)!==(this.state.selectedExample && this.state.selectedExample.query)
+  }
   render() {
     debug('queryEditor render')    
     return (

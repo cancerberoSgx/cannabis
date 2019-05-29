@@ -21,7 +21,7 @@ export function highlightNodesInEditor(result: tsMorph.Node[]): any {
   ed.revealLines(selections[0].selectionStartLineNumber, selections[selections.length - 1].selectionStartLineNumber, monaco.editor.ScrollType.Smooth)
 }
 
-export function getNodesAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
+export function getNodeAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
   const p = monacoPositionToTsPosition(sourceFile || getSourceFile(), pos)
   if (typeof p === 'undefined') {
     return
