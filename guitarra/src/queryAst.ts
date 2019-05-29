@@ -2,6 +2,7 @@ import { ASTQQuery, TraceListener } from 'astq'
 import { getTypeScriptAstq } from './adapter'
 import { ASTNode } from './astNode'
 import { parseCss } from './parseCss'
+
 export function queryAst(q: string, codeOrNode: string | ASTNode, options: QueryAstOptions = { params: {} }): QueryResult {
   const node = typeof codeOrNode === 'string' ? parseCss(codeOrNode) : codeOrNode
   try {

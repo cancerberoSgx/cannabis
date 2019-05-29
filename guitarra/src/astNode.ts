@@ -1,4 +1,4 @@
-export const astNodeAttributeNames = ['prop', 'value', 'important', 'name', 'params', 'selector', 'text', 'isColor', 'isHex', 'isUrl', 'isVariable', 'unit', 'prefix', 'inline', 'quote']
+export const astNodeAttributeNames = ['prop', 'value', 'important', 'name', 'params', 'selector', 'text', 'isColor', 'isHex', 'isUrl', 'isVariable', 'unit', 'prefix', 'inline', 'quote', 'number']
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API

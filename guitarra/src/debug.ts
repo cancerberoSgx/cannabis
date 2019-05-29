@@ -1,11 +1,10 @@
 import { indent } from 'misc-utils-of-mine-generic'
 import { ASTNode, astNodeAttributeNames } from './astNode'
-import { parseCss, visit } from './parseCss'
+import { visit } from './parseCss'
 
 export function printTypes(n: ASTNode) {
-  const p = parseCss(`a{border: 1px solid #ededed}`)
   const a = ['']
-  visit(p, (c, p, l) => {
+  visit(n, (c, p, l) => {
     a.push(indent(l) + c.type)
     return false
   })
@@ -13,11 +12,8 @@ export function printTypes(n: ASTNode) {
 }
 
 export function printTypeAndAttrs(n: ASTNode) {
-  const p = parseCss(`a{border: 1px solid #ededed}`)
   const a = ['']
-  visit(p, (c, p, l) => {
-    // console.log({...n, parent: undefined}, getAttrs(n));
-
+  visit(n, (c, p, l) => {
     a.push(`${indent(l)}<${c.type} ${getAttrs(c).map(a => `${a.name}="${a.value}"`).join(' ')}>`)
     return false
   })
@@ -25,4 +21,8 @@ export function printTypeAndAttrs(n: ASTNode) {
 }
 function getAttrs(n: ASTNode) {
   return astNodeAttributeNames.map(a => ({ name: a, value: (n as any)[a] })).filter(a => a.value !== undefined)
+}
+
+export function toJson(n: ASTNode) {
+  return JSON.stringify(n, (key, value) => ['source', 'parent', 'raws'].includes(key) ? undefined : value, 2)
 }

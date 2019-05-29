@@ -4,13 +4,15 @@ import { parseCss } from './parseCss'
 
 test('printTypes', t => {
   const p = parseCss(`a{border: 1px solid #ededed}`)
-  t.is(printTypes(p).trim(), `root
+  t.is(printTypes(p).trim(), `
+root
   rule
     decl
       value
         word
         word
         numeric`.trim())
+
 })
 
 test('printTypeAndAttrs', t => {
@@ -22,6 +24,7 @@ test('printTypeAndAttrs', t => {
       <value >
         <word value="#ededed" isColor="true" isHex="true" isUrl="false" isVariable="false">
         <word value="solid" isColor="false" isHex="false" isUrl="false" isVariable="false">
-        <numeric value="1" unit="px">`.trim())
+        <numeric value="1" unit="px">
+          `.trim())
 
 })

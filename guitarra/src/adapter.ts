@@ -23,9 +23,10 @@ export function getTypeScriptAstq() {
         return astNodeAttributeNames
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
-        return node && (node as any)[attr] || null
+        return node && attr === 'number' ? parseFloat((node as any).value) : ((node as any)[attr] || null)
       }
     })
   }
+
   return astq
 }
