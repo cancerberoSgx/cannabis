@@ -1,5 +1,5 @@
+import { ts, tsMorph } from 'cannabis'
 import { IPosition, ISelection } from 'monaco-editor'
-import { isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
 
 /** 
  * Same as [[findSmallestDescendantContainingRange]] but nto so strict r.pos <= n.start <=  r.end <= n.end.
@@ -35,4 +35,16 @@ export function monacoPositionToTsPosition(sourceFile: tsMorph.SourceFile, p: IP
   } catch (error) {
     console.warn('TypeScript ', 'ts.getPositionOfLineAndCharacter', error)
   }
+}
+
+export function isNode(n: any): n is tsMorph.Node {
+  return n && typeof n.getText === 'function' && typeof n.getKindName === 'function'
+}
+
+export function isSourceFile(f: any): f is tsMorph.SourceFile {
+  return f && f.organizeImports
+}
+
+export function isDirectory(f: any): f is tsMorph.Directory {
+  return f && f.getDescendantSourceFiles && f.getDescendantDirectories
 }

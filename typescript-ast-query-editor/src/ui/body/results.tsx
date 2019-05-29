@@ -1,8 +1,7 @@
-import { getASTNodeName, getASTNodeText } from 'cannabis'
+import { getASTNodeKindName, getASTNodeName, getASTNodeText } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Icon, Label, List, Segment } from 'semantic-ui-react'
-import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
@@ -31,9 +30,9 @@ export class Results extends AbstractComponent {
           <List.Item as='a' key={i} onClick={e => highlightNodesInEditor([node])}>
             <List.Content>
               <List.Header>
-                <Icon name={iconForNodeKind(getGeneralNodeKindName(node) || '')} />
+                <Icon name={iconForNodeKind(getASTNodeKindName(node) || '')} />
                 {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''} <Space />
-                {getGeneralNodeKindName(node)}
+                {getASTNodeKindName(node)}
               </List.Header>
               <List.Description >
                 <code>{shorter(getASTNodeText(node), 100)}</code>

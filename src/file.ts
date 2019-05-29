@@ -18,14 +18,14 @@ export function getProject() {
   if (!reuseProject || !_project) {
     _project = new tsMorph.Project(
       {
-      compilerOptions: {
-        target: ts.ScriptTarget.ES2015,
-        module: ts.ModuleKind.CommonJS,
-        lib: ['es2015'],
-        jsx: ts.JsxEmit.React,
-        rootDir: ".",
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2015,
+          module: ts.ModuleKind.CommonJS,
+          lib: ['es2015'],
+          jsx: ts.JsxEmit.React,
+          rootDir: ".",
+        }
       }
-    }
     )
   }
   return _project
@@ -43,11 +43,19 @@ export function createSourceFile(code = '', name = getNewFileName(), parent?: AS
   }
 }
 
-export function loadProject(tsConfigFilePath: string): ASTRoot {
+export function loadProject(tsConfigFilePath: string) {
   if (_project) {
     _project.getSourceFiles().forEach(f => f.forget())
   }
   _project = new tsMorph.Project({ tsConfigFilePath, addFilesFromTsConfig: true })
+  return new ASTRootImpl(_project)
+}
+
+export function setProject(project: tsMorph.Project) {
+  if (_project) {
+    _project.getSourceFiles().forEach(f => f.forget())
+  }
+  _project = project
   return new ASTRootImpl(_project)
 }
 

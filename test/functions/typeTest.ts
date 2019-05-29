@@ -3,7 +3,7 @@ import test from 'ava'
 // import { code1 } from '../assets/code'
 // import { queryAstSimpleTest } from '../testUtil'
 
-test('dummy', t=>t.pass())
+test('dummy', t => t.pass())
 // // test('funciton type', queryAstSimpleTest, queryAst(`// VariableDeclaration [ nonExistent() ]`, `const a = 1`), { error: 'invalid function "nonExistent"' })
 
 

@@ -36,14 +36,12 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "add": "^2.0.6",
     "cannabis": "file:..",
     "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1",
-    "ts-simple-ast-extra": "^0.1.10"
+    "semantic-ui-react": "^0.87.1"
   }
 }

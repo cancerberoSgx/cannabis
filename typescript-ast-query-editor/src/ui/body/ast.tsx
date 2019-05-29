@@ -1,8 +1,7 @@
-import { ASTNode, getASTNodeChildren, getASTNodeName, getASTNodeText } from 'cannabis'
+import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
-import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent, AbstractProps } from '../component'
@@ -45,13 +44,13 @@ export class Ast extends AbstractComponent<P> {
     }}>
       <List.Icon name={iconForNodeKind(node.getKindName())} />
       <List.Content>
-        <List.Header as="a">{getGeneralNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
+        <List.Header as="a">{getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
         </List.Header>
         <List.Description>
           {getASTNodeName(node) ? <><Label size="small"><strong>{getASTNodeName(node)}</strong></Label><Space /></> : ''}
           "<code>{shorter(getASTNodeText(node), 100)}</code>"
   </List.Description>
-        {children.length ? <List.List>{children.filter(isNode).map(c => this.renderNode(c))}</List.List> : <></>}
+        {children.length ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>
     </List.Item>)
   }

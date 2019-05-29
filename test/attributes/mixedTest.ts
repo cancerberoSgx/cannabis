@@ -1,6 +1,5 @@
 import test from 'ava'
-import { queryAst, queryOne } from '../../src'
-import { code1 } from '../assets/code'
+import { queryAst } from '../../src'
 import { queryAstSimpleTest } from '../testUtil'
 
 test('incorrect attribute should not throw error and much 0', queryAstSimpleTest, queryAst(`// * [ @nonExistent == 1]`, 'class C {}'), { result: { kind: [] } })
@@ -16,5 +15,4 @@ test('@name && @modifiers', queryAstSimpleTest, queryAst(`// * [ @name=='f' && @
     function f(){}
   }
 `), { result: { kind: ['FunctionDeclaration'] } })
- 
- 
+

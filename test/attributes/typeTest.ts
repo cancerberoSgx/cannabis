@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAst, queryOne } from '../../src'
+import { queryAst } from '../../src'
 import { queryAstSimpleTest } from '../testUtil'
 
 

@@ -1,8 +1,5 @@
 import ASTQ from 'astq'
 import { getExtendsRecursivelyNames, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { tryTo } from 'misc-utils-of-mine-generic';
-// import { appendFileSync } from 'fs';
-import { inspect } from 'util';
 
 export function installFunctions(astq: ASTQ) {
   astq.func('isFunctionLike', (adapter, node) => {
@@ -20,10 +17,10 @@ export function installFunctions(astq: ASTQ) {
   astq.func('sourceFile', (adapter, node) => {
     return isNode(node) && node.getSourceFile()
   })
-  astq.func('kindName', (adapter, node, arg?) => {   
-    return arg ? isNode(arg) && arg.getKindName() :isNode(node) && node.getKindName()  ||''
+  astq.func('kindName', (adapter, node, arg?) => {
+    return arg ? isNode(arg) && arg.getKindName() : isNode(node) && node.getKindName() || ''
   })
-  astq.func('debug', (adapter, node, ...args: any[]) => {   
+  astq.func('debug', (adapter, node, ...args: any[]) => {
     // typeof appendFileSync!=='undefined' && appendFileSync('log2.txt', args.map(a=>inspect(a)).join(', ')+'\n')
     console.log(...args)
     return true

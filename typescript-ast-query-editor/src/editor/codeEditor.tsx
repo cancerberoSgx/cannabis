@@ -1,6 +1,6 @@
+import { tsMorph } from 'cannabis'
 import * as monaco from 'monaco-editor'
 import { IPosition, ISelection } from 'monaco-editor'
-import { tsMorph } from 'ts-simple-ast-extra'
 import { codeExamples } from '../app/examples'
 import { getSourceFile, setDirty } from '../queryAst/astFiles'
 import { getMonacoInstance, installEditor } from './monaco'

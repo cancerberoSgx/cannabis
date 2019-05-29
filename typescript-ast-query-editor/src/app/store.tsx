@@ -1,6 +1,5 @@
-import { ASTQQuery, ASTYNode, createSourceFile, queryAst } from 'cannabis'
+import { ASTQQuery, ASTYNode, createSourceFile, queryAst, tsMorph } from 'cannabis'
 import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
-import { tsMorph } from 'ts-simple-ast-extra'
 import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
 
