@@ -1,23 +1,23 @@
-import { getTypeScriptAstq } from './adapter';
-import { ASTNode } from './astNode';
-import { ASTQQuery, TraceListener } from 'astq';
-import { parseCss } from './parseCss';
+import { ASTQQuery, TraceListener } from 'astq'
+import { getTypeScriptAstq } from './adapter'
+import { ASTNode } from './astNode'
+import { parseCss } from './parseCss'
 export function queryAst(q: string, codeOrNode: string | ASTNode, options: QueryAstOptions = { params: {} }): QueryResult {
-  const node = typeof codeOrNode === 'string' ? parseCss(codeOrNode) : codeOrNode;
+  const node = typeof codeOrNode === 'string' ? parseCss(codeOrNode) : codeOrNode
   try {
-    const astq = getTypeScriptAstq();
-    const trace = options.trace || false;
-    const query = astq.compile(q, trace) as ASTQQuery<ASTNode>;
-    const result = astq.execute(node, query, options.params || {}, trace);
+    const astq = getTypeScriptAstq()
+    const trace = options.trace || false
+    const query = astq.compile(q, trace) as ASTQQuery<ASTNode>
+    const result = astq.execute(node, query, options.params || {}, trace)
     return {
       result,
       query
-    };
+    }
   }
   catch (error) {
     return {
       error
-    };
+    }
   }
 }
 interface QueryAstOptions<T extends ASTNode = ASTNode> {

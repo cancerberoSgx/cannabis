@@ -19,7 +19,8 @@
     "ast",
     "query",
     "astq",
-    "selector"
+    "selector",
+    "queries"
   ],
   "author": "Sebastián Gurin",
   "license": "MIT",
@@ -27,9 +28,9 @@
     "@types/node": "^12.0.3",
     "ava": "^1.4.1",
     "ts-node": "^8.2.0",
+    "ts-refactor": "0.0.5",
     "typescript": "^3.4.5"
   },
-  "peerDependencies": {},
   "dependencies": {
     "astq": "github:cancerberoSgx/astq",
     "postcss": "^7.0.16",

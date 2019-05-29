@@ -11,9 +11,9 @@
     "rootDir": ".",
   },
   "include": [
-    "src", "test"
+    "src"
   ],
   "exclude": [
-    "node_modules", "typescript-ast-query-editors", "coverage", ".nyc_output", "test/assets/project1"
+    "dist", "node_modules"
   ]
 }

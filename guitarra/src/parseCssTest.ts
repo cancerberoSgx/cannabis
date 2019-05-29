@@ -1,12 +1,11 @@
 import test from 'ava'
-import { queryAst } from './queryAst';
-import { parseCss, visit } from './parseCss';
+import { parseCss, visit } from './parseCss'
 
 test('one kind descendant', t => {
   const p = parseCss(`a{border: 1px solid #ededed}`)
-  const types:string[] = []
-  visit(p, (n,p, level)=>{
-    types.push('__  '+n.type+ ', level: ' + level+ ', value: ' + (n.value||'') + '  __')
+  const types: string[] = []
+  visit(p, (n, p, level) => {
+    types.push('__  ' + n.type + ', level: ' + level + ', value: ' + (n.value || '') + '  __')
   }, undefined, false)
   t.deepEqual(types, [
     '__  numeric, level: 4, value: 1  __',
