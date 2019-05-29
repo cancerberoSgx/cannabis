@@ -2,11 +2,11 @@ import * as React from 'react'
 import { Grid, Segment, Tab, Menu, Label, Header } from 'semantic-ui-react'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Examples } from './examples'
-import { QueryAnalysis } from './queryAnalysis'
 import { QueryEditor } from './queryEditor'
 import { Results } from './results'
 import { Ast } from './ast';
 import { AbstractComponent } from '../component';
+import { QueryAst } from './queryAst';
 
 export class Body extends AbstractComponent{
   render(){
@@ -25,7 +25,7 @@ export class Body extends AbstractComponent{
                 </Tab.Pane>,
               },
               {
-                menuItem: <Menu.Item key='ast'>AST</Menu.Item>,
+                menuItem: <Menu.Item key='ast'>TypeScript AST</Menu.Item>,
                 render: () => <Tab.Pane>
                   <Ast />
                 </Tab.Pane>,
@@ -33,13 +33,13 @@ export class Body extends AbstractComponent{
               {
                 menuItem: <Menu.Item key='ast'>Query AST</Menu.Item>,
                 render: () => <Tab.Pane>
-                  <QueryAnalysis/>
+                  <QueryAst/>
                 </Tab.Pane>,
               },
               {
-                menuItem: <Menu.Item key='queryAnalysis'>Query Analysis</Menu.Item>,
+                menuItem: <Menu.Item key='queryAnalysis'>Search Trace</Menu.Item>,
                 render: () => <Tab.Pane>
-                  <QueryAnalysis/>
+                  Trace of last Search
                 </Tab.Pane>,
               },
               {

@@ -11,7 +11,7 @@ interface Options {
 }
 export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
-  const query = selectedExample && selectedExample.query || state.selectedExample && state.selectedExample.query
+  const query = selectedExample && selectedExample.query ||  state.selectedExample.query
   if(!query){
     return 
   }
@@ -23,16 +23,18 @@ export function executeQuery(selectedExample?: Example) {
     highlightNodesInEditor(r.result)
   }
   getStore().setState({
-    selectedExample: { ...selectedExample || state.selectedExample!, query },
+    selectedExample: { ...selectedExample || state.selectedExample, query },
     result: r.result || [],
     error: r.error,
-    queryDump: getQueryDump(r)
+    queryDump: getQueryDump(r),
+    query: r.query || state.query,
+    queryAst: r.query && r.query.ast || state.queryAst
   })
 }
 
 function getQueryDump(r: QueryResult): string | undefined {
   if (!r.query) {
-    return
+    return ''
   }
   let s = r.query.dump().replace(/   /gm, ' ').replace(/├── /gm, '├─').replace(/└── /gm, '└─')
   return s

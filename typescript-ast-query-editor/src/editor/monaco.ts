@@ -49,9 +49,6 @@ export function installEditor(code: string, containerEl: HTMLElement) {
     model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.tsx')),
     language: 'typescript',
     wordWrap: 'on',
-    // lineNumbers: isDesktop() ? 'on' : 'off',
-    // glyphMargin: false, 
-    // folding: false, 
     minimap: { enabled: false, }
   })
 

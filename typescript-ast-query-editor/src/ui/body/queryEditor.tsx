@@ -7,13 +7,13 @@ import { State } from '../../app/store';
 
 export class QueryEditor extends AbstractComponent {
   shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
-    return (nextState.selectedExample && nextState.selectedExample.query)!==(this.state.selectedExample && this.state.selectedExample.query)
+    return  nextState.selectedExample.query!== this.state.selectedExample.query
   }
   render() {
     debug('queryEditor render')    
     return (
       <Segment basic>
-        <TextArea rows={8} value={this.state.selectedExample ? this.state.selectedExample.query: ''} onChange={(e, props) => {
+        <TextArea rows={8} value={this.state.selectedExample.query} onChange={(e, props) => {
           if(this.state.selectedExample){
             this.setState({ selectedExample: { ...this.state.selectedExample, query: (props.value+'') } })
           }

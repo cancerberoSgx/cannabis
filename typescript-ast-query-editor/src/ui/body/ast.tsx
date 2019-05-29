@@ -18,20 +18,13 @@ interface P extends AbstractProps {
 export class Ast extends AbstractComponent<P> {
   componentWillMount(){
     this.forceUpdate()
-  }
-  // protected shouldUpdateIfStateChange(p: StateChange){
-  //   return p.partial.currentEditorText!==p.newState.currentEditorText
-  // }
+  } 
 
-  // private firstTimeRendered = true
   shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
-    return nextState.currentEditorText!==this.state.currentEditorText && this.state.astAutoUpdate ||  nextState.astAutoUpdate!==this.state.astAutoUpdate 
+    return nextState.currentEditorAst!==this.state.currentEditorAst && this.state.astAutoUpdate ||  nextState.astAutoUpdate!==this.state.astAutoUpdate 
   }
 
   render() {
-    // debugger
-    // this.firstTimeRendered = false
-    debug('ast render()')
     let node: tsMorph.Node = this.props.node as tsMorph.Node
     if (!node) {
       node = this.state.currentEditorAst

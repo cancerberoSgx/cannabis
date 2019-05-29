@@ -18,7 +18,7 @@ export function getSourceFile() {
     if(newText!==text){
       text = newText
       sourceFile = createSourceFile(text)
-      getStore().setState({currentEditorAst: sourceFile, currentEditorText: text})
+      getStore().setState({currentEditorAst: sourceFile })
     }
   }
   return sourceFile!
