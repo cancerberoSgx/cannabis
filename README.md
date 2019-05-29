@@ -100,6 +100,14 @@ Examples:
 
 `// Parameter [ @type=='boolean' || @type=='number']`
 
+## @expression
+
+`@expression`  - `Node` (ts-morph Node instance) 
+
+Returns a AST Node if the node has an expression, or null other wise. 
+
+Examples:
+TODO
 
 
 # Custom Functions 

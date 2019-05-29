@@ -64,5 +64,5 @@ export class C {
     return new Array(Math.round(Math.random())).fill(0).map(String)
   }
   private static inferredSimple = [4,5,6]
-}   
+}
 `

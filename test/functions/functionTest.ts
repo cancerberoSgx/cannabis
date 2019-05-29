@@ -1,7 +1,7 @@
 import test from 'ava'
-import { queryAst } from '../src'
-import { code1 } from './assets/code'
-import { queryAstSimpleTest } from './testUtil'
+import { queryAst } from '../../src'
+import { code1 } from '../assets/code'
+import { queryAstSimpleTest } from '../testUtil'
 
 
 test('incorrect functions should throw error', queryAstSimpleTest, queryAst(`// VariableDeclaration [ nonExistent() ]`, `const a = 1`), { error: 'invalid function "nonExistent"' })

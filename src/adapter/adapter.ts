@@ -32,7 +32,7 @@ export function getTypeScriptAstq() {
         return node && getGeneralNodeKindName(node) || 'undefined'
       },
       getNodeAttrNames(node: ASTNode) {
-        return ['text', 'name', 'type', 'modifiers']
+        return ['text', 'name', 'type', 'modifiers', 'expression']
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
         return getAttribute(node, attr) || null

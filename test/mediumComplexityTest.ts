@@ -1,6 +1,6 @@
 import test from 'ava'
 import { queryAst } from '../src'
-import { getGeneralNodeKindName } from '../src/astNode'
+import { getGeneralNodeKindName, getASTNodeName } from '../src/astNode'
 import { code3 } from './assets/code'
 
 test('functions that contains variables, classes or parameters', t => {
@@ -9,13 +9,31 @@ test('functions that contains variables, classes or parameters', t => {
   t.deepEqual(f.result!.map(getGeneralNodeKindName), ['Constructor', 'MethodDeclaration', 'FunctionDeclaration', 'MethodDeclaration'])
 })
 
+test('members with given modifiers that belong to a class with given members', t => {
+const q = `
+// *[ 
+  .//* [ 
+    @modifiers=~'private' && 
+    @modifiers=~'static' || 
+    @type=='number[]' 
+  ] && 
+  ../ClassDeclaration [
+    @name=='C'
+  ]
+]
+`
+  const f = queryAst(q, code3)
+  t.falsy(f.error)
+  t.deepEqual(f.result!.map(getASTNodeName), [    'instanceAttr',  'inferred',  'sttMethod',  'inferredSimple',])
+})
 
-
-// export function findLargestDescendantContainingPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
-//   function find(node: ts.Node): ts.Node | undefined {
-//     if (position >= node.getStart() && position < node.getEnd()) {
-//       return ts.forEachChild(node, find) || node
-//     }
-//   }
-//   return find(sourceFile)
-// }
+test.skip('debug types', t => {
+  const q = `
+// * [  debug('*', kindName(), '*' ,@type, '*' ,@name,'*' , @text)==true ]
+  `
+    const f = queryAst(q, `var a = [1]`)
+    t.falsy(f.error)
+    t.deepEqual(f.result!.map(getASTNodeName), [ ])
+  })
+  
+ 

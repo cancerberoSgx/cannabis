@@ -16,3 +16,5 @@ test('@name && @modifiers', queryAstSimpleTest, queryAst(`// * [ @name=='f' && @
     function f(){}
   }
 `), { result: { kind: ['FunctionDeclaration'] } })
+ 
+ 

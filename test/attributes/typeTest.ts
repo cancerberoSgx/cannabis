@@ -1,6 +1,5 @@
 import test from 'ava'
 import { queryAst, queryOne } from '../../src'
-import { code1 } from '../assets/code'
 import { queryAstSimpleTest } from '../testUtil'
 
 

@@ -12,7 +12,7 @@ interface I { }
 export class Results extends AbstractComponent {
   render() {
     if (this.state.error) {
-      <Segment>
+      return <Segment>
         <strong>Error! </strong><br />
         <pre>
           {this.state.error + ''}

@@ -41,7 +41,7 @@ test('compile and execute should be invocable manually', async t => {
 
     const p = getNodeProperty<StepTraceEvent & { t: number }>(d, 'traceTest1Events')
     if (!p) { return }
-    b.push([indent(p.queryNodeDepth, 4), printMs(p.t), printNode(d), 'query: ', p.queryNode.type(), 'depth: ' + p.queryNodeDepth, 'childs: ', p.queryNode.childs().map(c => c.type()).join(', '), 'attrs: ' + Object.keys(p.queryNode.attrs()).map(k => `${k}=${p.queryNode.attrs()[k]}`).join(', ')])
+    b.push([indent(p.queryNodeDepth, 4), printMs(p.t), printNode(d), 'query: ', p.queryNode.type(), 'depth: ' + p.queryNodeDepth, 'childs: ', p.queryNode.childs().map(c => c.type()).join(', '), 'attrs: ' + Object.keys(p.queryNode.attrs()).map(k => `${k}=${p.queryNode.get(k)}`).join(', ')])
   })
   t.truthy(result.length > 10 || true)
 

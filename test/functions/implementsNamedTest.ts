@@ -1,8 +1,8 @@
 import test from 'ava'
 import { ts } from 'ts-simple-ast-extra'
-import { queryAst } from '../src'
-import { getTsMorphFile } from "../src/file"
-import { code2 } from './assets/code'
+import { queryAst } from '../../src'
+import { getTsMorphFile } from "../../src/file"
+import { code2 } from '../assets/code'
 
 test('implementsNamed', t => {
   const f = getTsMorphFile(code2)

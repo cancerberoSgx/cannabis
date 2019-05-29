@@ -14,17 +14,19 @@ export function getFile(code: string) {
   return file!
 }
 
-function getProject() {
+export function getProject() {
   if (!reuseProject || !_project) {
-    _project = new tsMorph.Project({
+    _project = new tsMorph.Project(
+      {
       compilerOptions: {
         target: ts.ScriptTarget.ES2015,
         module: ts.ModuleKind.CommonJS,
-        lib: [],
+        lib: ['es2015'],
         jsx: ts.JsxEmit.React,
         rootDir: ".",
       }
-    })
+    }
+    )
   }
   return _project
 }
