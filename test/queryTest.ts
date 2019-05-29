@@ -51,10 +51,10 @@ test('queryOne syntax error dont throw', t => {
 
 test('queryAll success match several returns all', t => {
   t.deepEqual(queryAll(`//* [@name=='i' && type()!='Identifier']`, code1)!
-  .map(c => c.getParent()!.getParent()!.getText()).map(a => removeWhites(a)), 
-  // [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`]
+    .map(c => c.getParent()!.getParent()!.getText()).map(a => removeWhites(a)),
+    // [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`]
     [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`].map(a => removeWhites(a))
-    )
+  )
 })
 
 test('queryAll negative dont throw', t => {
@@ -79,8 +79,8 @@ test('queryOneOrThrow throws if syntax error', t => {
 
 test('queryAllOrThrow success match several returns all and dont throw', t => {
   t.deepEqual(queryAllOrThrow(`//* [@name=='i' && type()!='Identifier']`, code1)!
-  .map(c => c.getParent()!.getParent()!.getText()).map(a => removeWhites(a)), 
-  // [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`])
+    .map(c => c.getParent()!.getParent()!.getText()).map(a => removeWhites(a)),
+    // [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`])
     [`for(let i in o) console.log(i)`, `for(let i in o) console.log(i)`].map(a => removeWhites(a)))
 })
 

@@ -11,7 +11,7 @@ export const examples: Example[] = [
 
 
   {
-    name: 'functions that contains variables, classes or parameters',
+    name: 'Functions that contains variables, classes or parameters',
     query: `
 // * [ 
   isFunctionLike() == true && 
@@ -38,7 +38,7 @@ export const examples: Example[] = [
     code: 'code1'
   },
   {
-    name: 'implements and extends, recursively',
+    name: 'Implements and extends',
     query: `
 // ClassDeclaration [ 
   @modifiers=~'export' && 
@@ -48,6 +48,17 @@ export const examples: Example[] = [
     description: `Gets exported class declarations that extends class B but doesn't implements interface I2`,
     difficulty: 'easy',
     code: 'inheritance1'
+  },  
+  {
+    name: 'JSXTextNode containing text',
+    query: `
+// * [ 
+  //ForInStatement && 
+  isFunctionLike() 
+] `.trim(),
+    description: 'Returns those JSXElements which directly contain matching text',
+    difficulty: 'easy',
+    code: 'jsxCode1'
   },
   {
     name: 'All nodes',
@@ -77,7 +88,7 @@ export const examples: Example[] = [
   {
     name: 'Functions with for-in statements',
     query: `
-//* [ 
+// * [ 
   //ForInStatement && 
   isFunctionLike() 
 ] `.trim(),
@@ -139,6 +150,24 @@ interface I1 extends I{}
 interface I2<T> extends I1{}
 interface J{}
 interface I3<T> extends I2<T>, J{} 
+    `.trim()
+  },
+  {
+    name: 'jsxCode1',
+    content: `
+import './queryDump.css'
+import * as React from 'react'
+
+export class QueryDump extends React.Component {
+  render() {
+    return <article className="queryDump">
+      <h3>Query Analysis</h3>
+      <p>Officia cillum amet est ipsum excepteur occaecat nulla in quis. Id esse exercitation reprehenderit ipsum commodo sunt sunt quis laboris eu commodo do. </p>
+      <p>Consectetur veniam ullamco fugiat dolor proident commodo velit veniam adipisicing ex enim ut. Duis nulla incididunt labore ad aliqua aliquip adipisicing ea ullamco magna.</p>
+    </article>
+  }
+}
+    
     `.trim()
   }
 ]

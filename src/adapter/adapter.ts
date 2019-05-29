@@ -13,14 +13,14 @@ export function getTypeScriptAstq() {
         return isGeneralNode(node) && !!getGeneralNodeKindName(node)
       },
       getParentNode(node: ASTNode) {
-        if(!node) {
+        if (!node) {
           return null as any
         }
-        const parent =  getGeneralNodeParent(node)
-        if(!parent){
+        const parent = getGeneralNodeParent(node)
+        if (!parent) {
           return null
         }
-        if(node===parent){
+        if (node === parent) {
           return null
         }
         return parent || null
@@ -35,7 +35,7 @@ export function getTypeScriptAstq() {
         return ['text', 'name', 'type', 'modifiers']
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
-        return getAttribute(node, attr)||null
+        return getAttribute(node, attr) || null
       }
     })
     installFunctions(astq)

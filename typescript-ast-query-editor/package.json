@@ -13,8 +13,8 @@
     "start": " npx parcel serve  src/index.html -d docs   --no-source-maps",
     "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
-    "build": "npm run clean && npx tsc && npm build-only && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
-    "build-only": "export NODE_ENV=production && sh build-workers.sh && node --max-old-space-size=5000 node_modules/parcel/bin/cli.js src/index.html -d docs --no-content-hash --detailed-report  --no-content-hash  --no-source-maps  --no-source-maps --public-url './'",
+    "build": "npm run clean && npx tsc && npm run build-only && rm -rf ../../demos/docs/cannabis/typescript-ast-query-editor/* && mv docs/* ../../demos/docs/cannabis/typescript-ast-query-editor/",
+    "build-only": "export NODE_ENV=production && sh build-workers.sh && node --max-old-space-size=5000 node_modules/parcel/bin/cli.js build src/index.html -d docs --no-content-hash --detailed-report  --no-source-maps --public-url './'",
     "all": "npm run clean && npm run lint && npm run build"
   },
   "keywords": [

@@ -1,8 +1,8 @@
+import { ASTQQuery, TraceListener } from 'astq'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isGeneralNode } from "./astNode"
 import { getFile } from './file'
-import { ASTQQuery, TraceListener } from 'astq';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -17,7 +17,7 @@ interface QueryAstOptions<T extends ASTNode = ASTNode> {
   /**
    * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
    */
-  trace?: boolean|TraceListener<T>
+  trace?: boolean | TraceListener<T>
   /**
    * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default value is `{}.`
    */
@@ -44,14 +44,14 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
     const astq = getTypeScriptAstq()
-      const trace = options.trace||false
-      console.log({trace: !!trace});
-      const query = astq.compile(q, trace ) as ASTQQuery<T>
-      const result = astq.execute(node, query, options.params||{}, trace) as T[]
-      return {
-        result,
-        query
-      }
+    const trace = options.trace || false
+    console.log({ trace: !!trace })
+    const query = astq.compile(q, trace) as ASTQQuery<T>
+    const result = astq.execute(node, query, options.params || {}, trace) as T[]
+    return {
+      result,
+      query
+    }
   } catch (error) {
     return {
       error

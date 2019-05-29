@@ -1,7 +1,7 @@
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getGeneralNodeText } from '../astNode'
 
-export function getAttribute(node: ASTNode, attr: string): string|null {
+export function getAttribute(node: ASTNode, attr: string): string | null {
   try {
     if (!node) {
       return null
@@ -11,7 +11,7 @@ export function getAttribute(node: ASTNode, attr: string): string|null {
       getGeneralNodeText(node)
     }
     else if (attr === 'name') {
-      return getASTNodeName(node)||''
+      return getASTNodeName(node) || ''
     }
     else if (attr === 'type') {
       return isNode(node) && node.getType().getText() || ''

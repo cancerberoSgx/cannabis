@@ -1,5 +1,5 @@
-import { GeneralNode,  isDirectory, isNode, isSourceFile, tsMorph, ts } from 'ts-simple-ast-extra'
-import { Node } from './queryAst';
+import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
+import { Node } from './queryAst'
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -59,11 +59,11 @@ export const getGeneralNodeName = getASTNodeName
 export function getGeneralNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
 }
-export const getASTNodeText= getGeneralNodeText
+export const getASTNodeText = getGeneralNodeText
 
 export function getName(n: Node) {
   function getNodeName(n: Node) {
-    if(tsMorph.TypeGuards.isIdentifier(n)){
+    if (tsMorph.TypeGuards.isIdentifier(n)) {
       return n.getText()
     }
     const id = n.getFirstChildByKind(ts.SyntaxKind.Identifier)

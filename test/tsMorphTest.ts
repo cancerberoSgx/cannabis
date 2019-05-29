@@ -1,6 +1,6 @@
 import test from 'ava'
 import { tsMorph } from 'ts-simple-ast-extra'
-import { queryAst } from '../src'
+import { queryAst, queryOne } from '../src'
 import { getTsMorphFile } from "../src/file"
 import { queryAstSimpleTest } from './testUtil'
 
@@ -36,4 +36,9 @@ test('multiple queries in same changing node ', t => {
   queryAstSimpleTest(t, queryAst(`//FunctionDeclaration [@name=='g'&&type()!='Identifier']`, file), { result: { kind: ['FunctionDeclaration'] } })
   queryAstSimpleTest(t, queryAst(`//VariableDeclaration [@name=='y'&&type()!='Identifier']`, file), { result: { text: ['y = g(2)'] } })
 
+})
+
+test('should parse jsx', t => {
+  const node = queryOne('// JsxText', `export const a = <p>hello world</p>`)
+  t.is(node && node.getText(), 'hello world')
 })

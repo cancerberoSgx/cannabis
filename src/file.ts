@@ -1,5 +1,5 @@
 import { unique } from 'misc-utils-of-mine-generic'
-import { tsMorph } from 'ts-simple-ast-extra'
+import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { ASTDirectory, ASTFile } from './astNode'
 
 let file: ASTFile | undefined
@@ -16,13 +16,21 @@ export function getFile(code: string) {
 
 function getProject() {
   if (!reuseProject || !_project) {
-    _project = new tsMorph.Project({})
+    _project = new tsMorph.Project({
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2015,
+        module: ts.ModuleKind.CommonJS,
+        lib: [],
+        jsx: ts.JsxEmit.React,
+        rootDir: ".",
+      }
+    })
   }
   return _project
 }
 
 function getNewFileName(): string {
-  return `${unique('cannabis_test_file_')}.ts`
+  return `${unique('cannabis_test_file_')}.tsx`
 }
 
 export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTFile {

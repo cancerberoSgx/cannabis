@@ -46,7 +46,7 @@ export function installEditor(code: string, containerEl: HTMLElement) {
   })
 
   editor = monaco.editor.create(containerEl, {
-    model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.ts')),
+    model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.tsx')),
     language: 'typescript',
     wordWrap: 'on',
     // lineNumbers: isDesktop() ? 'on' : 'off',
