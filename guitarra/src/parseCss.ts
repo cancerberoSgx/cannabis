@@ -16,10 +16,18 @@ function addParent(n: any, parent?: any) {
     if (n.value) {
       n.nodes = n.nodes || []
       // n.valueLiteral = n.value
-      const parsed = JSON.parse(JSON.stringify({ ...tryTo(() => parse(n.value)) || {}, parent: undefined, type: 'value' }))
+      const parsed = JSON.parse(JSON.stringify({ 
+        ...tryTo(() => parse(n.value)) || {}, 
+      parent: undefined,
+       type: 'value' 
+      }))
       // n.value = 
       n.nodes.push(parsed)
       parsed.parent = n
+    }
+    if(n.type==='atrule'&&n.name==='media'){
+      n.nodes = n.nodes||[]
+      n.nodes.push(...n.params.split(/[\s()]/).map((w:string)=>parse(w).nodes).flat())
     }
     return false
   })

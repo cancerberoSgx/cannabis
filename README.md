@@ -52,6 +52,19 @@ if(error){
 }
 ```
 
+## From string
+
+## From ts.Node
+
+## Loading projects
+
+cannabis supports AST Nodes of type File and Directory, so it's possible to load a project or folder or sets of files as AST Nodes. 
+
+```
+TODO example
+```
+
+
 # Custom Attributes
 
 In general attributes will return a value if there is something to return, empty array, empty string, false or 0 for those types if there is no value to return, and null if thevalue is an object or there was an error. 

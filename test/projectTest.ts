@@ -46,3 +46,14 @@ test('loadProject', t => {
   t.is(queryOne<ASTDirectory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
   t.deepEqual(queryAll<ASTFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
 })
+
+
+test.skip('loadProject real life', t => {
+  const p = loadProject('test/assets/project1/tsconfig.json')
+  const root = p.getRootDirectory()
+  t.is(queryOne<ASTDirectory>(`.//SourceFile [@name=='src']`, root)!.getBaseName(), 'src')
+
+  // files matching src/**/*Test.ts* that does't contain a class implementing (recursively) an interface called Gestured  
+  // TODO: same but: "an interface declared in directory src/gestures/*"
+  t.deepEqual(queryAll<ASTFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+})

@@ -1,3 +1,26 @@
+## Objective real life queries:
+
+* `// ClassDeclaration [implements({IDNode})]` - example: 
+
+```ts
+var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
+var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/implements({touchable})])', {params: {touchable}})
+// class 
+```
+
+*   // files matching src/**/*Test.ts* that doesn't contain a class implementing (recursively) an the interface import('src/service/login/loginService.ts').LoginService
+* // files in src/** referencing type import('old-library').Obsolete
+* function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
+`//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
+meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
+
+
+ * idea  : git integration
+```ts
+var luisSuarezArea48Functions = queryAll(`//FunctionDeclaration [match(@path, 'src/**/*area48/**/*.ts')==true && git('lastModifiedBy')=='luisSuarez']`)
+```
+ * https://isomorphic-git.org/docs/en/fs
+
 ## research what else we can add as functions or attributes:
 
  * async api to execute search/compile so we can clal from browser bit without blocking
