@@ -1,7 +1,7 @@
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { isDirectory, isNode, isSourceFile } from 'ts-simple-ast-extra'
-import { ASTNode } from '../../../dist/src'
+import { ASTNode } from 'cannabis'
 
 export function width() {
   return document.body.clientWidth

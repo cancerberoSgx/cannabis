@@ -23,11 +23,11 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
   if (expected.result) {
     t.truthy(input.result)
     if (expected.result.kind) {
-      // expectSameLength(t, expected.result.kind, input.result!.map(c => getGeneralNodeKindName(c)))
+      expectSameLength(t, expected.result.kind, input.result!.map(c => getGeneralNodeKindName(c)))
       t.deepEqual(expected.result.kind, input.result!.map(getGeneralNodeKindName))
     }
     if (expected.result.text) {
-      // expectSameLength(t, expected.result.text, input.result!.map(getGeneralNodeText))
+      expectSameLength(t, expected.result.text, input.result!.map(getGeneralNodeText))
       expected.result.text.forEach((te, i) => expectToInclude(t, getGeneralNodeText(input.result![i]), te))
     }
   }

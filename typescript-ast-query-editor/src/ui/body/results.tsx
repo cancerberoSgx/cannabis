@@ -35,7 +35,7 @@ export class Results extends AbstractComponent {
                 {getGeneralNodeKindName(node)}
               </List.Header>
               <List.Description >
-                "<code><FixedHeight>{shorter(getASTNodeText(node), 100)}</FixedHeight></code>"
+                <code>{shorter(getASTNodeText(node), 100)}</code>
               </List.Description>
             </List.Content>
           </List.Item>
@@ -44,7 +44,3 @@ export class Results extends AbstractComponent {
     </Segment>
   }
 }
-
-const FixedHeight = (props: { height?: string, children: string } = { height: '0.7em', children: '' }) => (
-  <span style={{ maxHeight: props.height || '0.7em', overflow: 'hidden' }}>{props.children}</span>
-)

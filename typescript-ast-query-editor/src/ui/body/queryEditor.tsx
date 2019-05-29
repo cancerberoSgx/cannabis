@@ -2,13 +2,17 @@ import * as React from 'react'
 import { Button, Form as Segment, TextArea } from 'semantic-ui-react'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from '../component'
+import { debug } from '../../app/dispatchers';
 
 export class QueryEditor extends AbstractComponent {
   render() {
+    debug('queryEditor render')    
     return (
       <Segment basic>
-        <TextArea rows={8} value={this.state.selectedExample.query} onChange={e => {
-          this.setState({ selectedExample: { ...this.state.selectedExample, query: (e.target as any).value } })
+        <TextArea rows={8} value={this.state.selectedExample ? this.state.selectedExample.query: ''} onChange={(e, props) => {
+          if(this.state.selectedExample){
+            this.setState({ selectedExample: { ...this.state.selectedExample, query: (props.value+'') } })
+          }
         }} />
         <br />
         <br />

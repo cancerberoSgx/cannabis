@@ -45,7 +45,6 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   try {
     const astq = getTypeScriptAstq()
     const trace = options.trace || false
-    console.log({ trace: !!trace })
     const query = astq.compile(q, trace) as ASTQQuery<T>
     const result = astq.execute(node, query, options.params || {}, trace) as T[]
     return {

@@ -1,7 +1,7 @@
 import test from 'ava'
-import { tsMorph } from 'ts-simple-ast-extra'
+import { tsMorph, ts } from 'ts-simple-ast-extra'
 import { queryAst, queryOne } from '../src'
-import { getTsMorphFile } from "../src/file"
+import { getTsMorphFile, getFile } from "../src/file"
 import { queryAstSimpleTest } from './testUtil'
 
 test('multiple queries in same changing node ', t => {
@@ -41,4 +41,11 @@ test('multiple queries in same changing node ', t => {
 test('should parse jsx', t => {
   const node = queryOne('// JsxText', `export const a = <p>hello world</p>`)
   t.is(node && node.getText(), 'hello world')
+})
+
+test('should get JsxText', t => {
+  const f = getFile(`const a = <p>foo</p>`)
+  t.is(f.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'foo')
+  const f2= getFile(`const a = <p>hello world</p>`)
+  t.is(f2.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'hello world')
 })

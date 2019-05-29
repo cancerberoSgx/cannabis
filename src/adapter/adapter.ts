@@ -1,6 +1,6 @@
 import ASTQ from 'astq'
 import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "../astNode"
-import { getAttribute } from './attribtues'
+import { getAttribute } from './attributes'
 import { installFunctions } from './functions'
 
 let astq: ASTQ<ASTNode> | undefined

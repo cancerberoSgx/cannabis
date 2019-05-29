@@ -6,7 +6,7 @@ import { getMonacoInstance } from '../editor/monaco'
 import { Body } from './body/body'
 import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
-import { MyHeader } from './header/header'
+import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
 
 export class App extends AbstractComponent {
@@ -20,8 +20,7 @@ export class App extends AbstractComponent {
   }
   render() {
     return <Container fluid textAlign="left">
-      <MyHeader />
-
+      <Header />
       <SidebarExampleMultiple  >
         <Body />
       </SidebarExampleMultiple>

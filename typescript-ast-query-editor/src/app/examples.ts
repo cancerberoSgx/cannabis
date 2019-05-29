@@ -21,10 +21,11 @@ export const examples: Example[] = [
   ) 
 ]
 `.trim(),
-    description: 'Matches function like nodes that contains variables or classes or parameters named "id"',
+    description: 'Matches function-like nodes (arrow functions, methods, etc.) that contains variables, classes or parameters named "id".',
     difficulty: 'medium',
     code: 'code1'
   },
+  
   {
     name: 'Filtering by @modifiers and @type',
     query: `
@@ -37,6 +38,7 @@ export const examples: Example[] = [
     difficulty: 'easy',
     code: 'code1'
   },
+
   {
     name: 'Implements and extends',
     query: `
@@ -45,36 +47,42 @@ export const examples: Example[] = [
   extendsNamed('B') && 
   !implementsNamed('I2') 
 ]`.trim(),
-    description: `Gets exported class declarations that extends class B but doesn't implements interface I2`,
+    description: `Gets exported class declarations that extends class B but doesn't implements interface I2.`,
     difficulty: 'easy',
     code: 'inheritance1'
   },  
+
   {
-    name: 'JSXTextNode containing text',
+    name: 'JsxText containing text',
     query: `
-// * [ 
-  //ForInStatement && 
-  isFunctionLike() 
-] `.trim(),
-    description: 'Returns those JSXElements which directly contain matching text',
+// JsxElement [
+  ./ JsxOpeningElement [
+    ./ Identifier  [ @text == 'h3' ]
+  ] && 
+  ./ JsxText [ @text =~ 'Query Analysis' ]
+]`.trim(),
+    description: `Returns those JSX Elements which tag is 'h3' and contains the text 'Query Analysis'.`,
     difficulty: 'easy',
     code: 'jsxCode1'
   },
+
   {
     name: 'All nodes',
     query: '// *',
-    description: 'All nodes',
+    description: 'All nodes.',
     difficulty: 'easy'
   },
+
   {
     name: 'Class identifier',
     query: `
 // Identifier [
   ../ClassDeclaration
 ] `.trim(),
-    description: 'Identifiers direct children of a class declaration',
+    description: 'Returns identifiers that are direct children of a class declaration.',
     difficulty: 'easy'
   },
+
   {
     name: 'Methods and properties identifiers',
     query: `
@@ -82,9 +90,10 @@ export const examples: Example[] = [
   ../MethodDeclaration || 
   ../PropertyDeclaration 
 ] `.trim(),
-    description: 'Identifiers that are direct children of method or properties declarations (their names)',
+    description: 'Returns identifiers that are direct children of method or properties declarations (their names).',
     difficulty: 'easy'
   },
+
   {
     name: 'Functions with for-in statements',
     query: `
@@ -92,7 +101,7 @@ export const examples: Example[] = [
   //ForInStatement && 
   isFunctionLike() 
 ] `.trim(),
-    description: 'Functions methods or constructors that contain a ForInStatement (for(var i in obj){})',
+    description: 'Returns functions, methods or constructors that contain a ForInStatement (for(var i in obj)...)',
     difficulty: 'easy',
     code: 'code1'
   },
@@ -152,6 +161,7 @@ interface J{}
 interface I3<T> extends I2<T>, J{} 
     `.trim()
   },
+
   {
     name: 'jsxCode1',
     content: `

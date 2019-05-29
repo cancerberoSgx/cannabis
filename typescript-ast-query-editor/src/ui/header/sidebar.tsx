@@ -1,9 +1,10 @@
 import { asArray } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
-import { Container, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Container, Icon, Menu, Segment, Sidebar, Modal, Button } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 import { SearchInput } from '../searchInput'
+import { Logs } from '../body/logs';
 
 export class SidebarExampleMultiple extends AbstractComponent {
 
@@ -50,10 +51,16 @@ export class SidebarExampleMultiple extends AbstractComponent {
             t
             visible={this.state.sidebarVisibility}
           >
-            <Menu.Item as='a' header>
-              File Permissions
-            </Menu.Item>
-            <Menu.Item as='a'>Share on Social</Menu.Item>
+
+
+            <Modal trigger={<Menu.Item as='a'>Logs</Menu.Item>}>
+              <Modal.Header>Logs</Modal.Header>
+              <Modal.Content>
+                <Logs />
+              </Modal.Content>
+            </Modal>
+
+            {/* <Menu.Item as='a' onClick={e=>}>Logs</Menu.Item> */}
             <Menu.Item as='a'>Share by E-mail</Menu.Item>
             <Menu.Item as='a'>Edit Permissions</Menu.Item>
             <Menu.Item as='a'>Delete Permanently</Menu.Item>

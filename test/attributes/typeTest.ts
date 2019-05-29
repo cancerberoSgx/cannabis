@@ -1,0 +1,21 @@
+import test from 'ava'
+import { queryAst, queryOne } from '../../src'
+import { code1 } from '../assets/code'
+import { queryAstSimpleTest } from '../testUtil'
+
+
+test('@type explicit', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @type=='Date[]']`, `export const a: Date[] = []`), { result: { text: ['a: Date[] = []'] } })
+
+test('@type infer from usage', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @type=='number']`, `
+function f(){return 1}
+export const b = 'foo'
+export const a = f() + 2
+`), { result: { text: ['a = f() + 2'] } })
+
+test('@type infer from usage negative', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @type=='boolean']`, `
+export const b = 'foo'
+`), { result: { text: [] } })
+
+test('@type infer from usage several parameters', queryAstSimpleTest, queryAst(`// Parameter [ @type=='boolean' || @type=='number']`, `
+function f(a=1, b='s', c=false, d={})
+`), { result: { text: ['a=1', 'c=false'] } })

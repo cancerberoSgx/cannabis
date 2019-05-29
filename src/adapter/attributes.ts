@@ -8,7 +8,7 @@ export function getAttribute(node: ASTNode, attr: string): string | null {
     }
     else if (attr === 'text') {
       // return isNode(node) ? node.getText() : ''
-      getGeneralNodeText(node)
+      return getGeneralNodeText(node)
     }
     else if (attr === 'name') {
       return getASTNodeName(node) || ''

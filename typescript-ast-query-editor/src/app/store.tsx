@@ -1,6 +1,7 @@
 import { Emitter } from 'misc-utils-of-mine-generic'
 import { tsMorph } from 'ts-simple-ast-extra'
-import { Example, examples } from "./examples"
+import { Example, examples, codeExamples } from "./examples"
+import { getFile } from '../../../dist/src/file';
 
 class Store extends Emitter<void> {
   protected state: State;
@@ -8,7 +9,9 @@ class Store extends Emitter<void> {
     super()
     this.state = {
       selectedExample: examples[0],
+      currentEditorAst: getFile(codeExamples.find(c=>c.name===examples[0].code)&&codeExamples.find(c=>c.name===examples[0].code)!.content||codeExamples[0].content),
       result: [], examples,
+      logs: [],
       nodesAtPosition: undefined,
       queryDump: '',
       sidebarVisibility: false
@@ -32,8 +35,10 @@ export function getStore() {
 }
 
 export interface State {
-  selectedExample: Example;
+  selectedExample?: Example;
+  currentEditorAst: tsMorph.SourceFile
   queryDump: string
+  logs:string[]
   result: tsMorph.Node<tsMorph.ts.Node>[];
   error?: Error | undefined;
   examples: Example[];
