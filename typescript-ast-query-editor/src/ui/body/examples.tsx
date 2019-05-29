@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Header, Segment, Select, Dropdown } from 'semantic-ui-react'
+import { Dropdown, Header, Segment } from 'semantic-ui-react'
 import { codeExamples, examples } from "../../app/examples"
+import { State } from '../../app/store'
 import { setEditorText } from '../../editor/monaco'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from "../component"
-import { State } from '../../app/store';
 
 
 export class Examples extends AbstractComponent {
@@ -15,7 +15,6 @@ export class Examples extends AbstractComponent {
         placeholder='Select an Example'
         fluid
         search
-        // text={this.state.selectedExample.name}
         selection
         closeOnChange
         selectOnNavigation={false}
@@ -28,14 +27,13 @@ export class Examples extends AbstractComponent {
           executeQuery(selectedExample)
         }}
         options={examples.map(e => ({
-          key: e.name, value: e.query, text: e.name 
+          key: e.name, value: e.query, text: e.name
         }))}
       />
-
-      {this.state.selectedExample? <p><strong>Example description</strong>: {this.state.selectedExample.description}</p> : ''}
+      {this.state.selectedExample ? <p><strong>Example description</strong>: {this.state.selectedExample.description}</p> : ''}
     </Segment>)
   }
-  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
+  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
     return false
   }
 }

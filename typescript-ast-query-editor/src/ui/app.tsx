@@ -8,7 +8,6 @@ import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
-// import { getStore, NodeAtPositionAction } from '../app/store';
 
 export class App extends AbstractComponent {
 
@@ -16,7 +15,6 @@ export class App extends AbstractComponent {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
     getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      // getStore().dispatch(new NodeAtPositionAction(getNodeAtPosition(e.position)))
       this.setState({ nodesAtPosition: getNodeAtPosition(e.position) })
     })
   }

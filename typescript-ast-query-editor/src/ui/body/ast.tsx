@@ -1,27 +1,25 @@
+import { ASTNode, getASTNodeChildren, getASTNodeName, getASTNodeText } from 'cannabis'
+import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
-import { Breadcrumb, BreadcrumbDivider, Icon, List, Label, Segment, Checkbox, Button } from 'semantic-ui-react'
-import { getGeneralNodeKindName, tsMorph, isNode } from 'ts-simple-ast-extra'
-import { getASTNodeKindName, ASTNode, getASTNodeName, getASTNodeChildren, createSourceFile, getASTNodeText } from 'cannabis'
+import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
+import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
+import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent, AbstractProps } from '../component'
-import { getAscendants, iconForNodeKind, Space } from '../uiUtil'
+import { iconForNodeKind, Space } from '../uiUtil'
 import './cursorBreadcrumb.css'
-import { getEditorText } from '../../editor/monaco';
-import { shorter } from 'misc-utils-of-mine-generic';
-import { debug } from '../../app/dispatchers';
-import { State } from '../../app/store';
 
 interface P extends AbstractProps {
   node?: ASTNode
 }
 
 export class Ast extends AbstractComponent<P> {
-  componentWillMount(){
+  componentWillMount() {
     this.forceUpdate()
-  } 
+  }
 
-  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
-    return nextState.currentEditorAst!==this.state.currentEditorAst && this.state.astAutoUpdate ||  nextState.astAutoUpdate!==this.state.astAutoUpdate 
+  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
+    return nextState.currentEditorAst !== this.state.currentEditorAst && this.state.astAutoUpdate || nextState.astAutoUpdate !== this.state.astAutoUpdate
   }
 
   render() {
@@ -30,14 +28,14 @@ export class Ast extends AbstractComponent<P> {
       node = this.state.currentEditorAst
     }
     return <Segment basic>
-    <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props)=>{
-      this.setState({astAutoUpdate: props.checked})
-    }}></Checkbox>
-    <Space/>
-    {this.state.astAutoUpdate ? '' : <Button size="small" onClick={e=> this.forceUpdate()}>Update</Button>}
-    <List>
-    {this.renderNode(node)}
-    </List>
+      <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {
+        this.setState({ astAutoUpdate: props.checked })
+      }}></Checkbox>
+      <Space />
+      {this.state.astAutoUpdate ? '' : <Button size="small" onClick={e => this.forceUpdate()}>Update</Button>}
+      <List>
+        {this.renderNode(node)}
+      </List>
     </Segment>
   }
   renderNode(node: tsMorph.Node) {

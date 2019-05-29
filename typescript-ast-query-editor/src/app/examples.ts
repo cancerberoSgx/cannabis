@@ -25,7 +25,7 @@ export const examples: Example[] = [
     difficulty: 'medium',
     code: 'code1'
   },
-  
+
   {
     name: 'Filtering by @modifiers and @type',
     query: `
@@ -50,7 +50,7 @@ export const examples: Example[] = [
     description: `Gets exported class declarations that extends class B but doesn't implements interface I2.`,
     difficulty: 'easy',
     code: 'inheritance1'
-  },  
+  },
 
   {
     name: 'JsxText containing text',

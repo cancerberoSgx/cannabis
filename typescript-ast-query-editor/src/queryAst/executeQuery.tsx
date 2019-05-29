@@ -1,5 +1,4 @@
-import { queryAst } from 'cannabis'
-import { QueryResult } from 'cannabis'
+import { queryAst, QueryResult } from 'cannabis'
 import { Example } from '../app/examples'
 import { getStore } from '../app/store'
 import { highlightNodesInEditor } from '../editor/codeEditor'
@@ -11,9 +10,9 @@ interface Options {
 }
 export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
-  const query = selectedExample && selectedExample.query ||  state.selectedExample.query
-  if(!query){
-    return 
+  const query = selectedExample && selectedExample.query || state.selectedExample.query
+  if (!query) {
+    return
   }
   const r = queryAst(query, getSourceFile())
   if (r.error) {

@@ -3,10 +3,10 @@ import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Icon, Label, List, Segment } from 'semantic-ui-react'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
+import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
 import { iconForNodeKind, Space } from '../uiUtil'
-import { State } from '../../app/store';
 
 interface I { }
 export class Results extends AbstractComponent {
@@ -44,7 +44,7 @@ export class Results extends AbstractComponent {
       </List>
     </Segment>
   }
-  shouldComponentUpdate(nextProps:any, nextState: Readonly<State>, nextContext: any){
-    return nextState.result!==this.state.result
+  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
+    return nextState.result !== this.state.result
   }
 }
