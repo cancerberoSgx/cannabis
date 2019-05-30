@@ -25,6 +25,16 @@ export async function exists(dir: string) {
     return false
   }
 }
+export function promisify(cb: (...args: any[]) => any) {
+  return function(...args: any[]) {
+    return new Promise(resolve => {
+      cb(...args, resolve)
+    })
+  }
+}
+export function promiseMethod(o: any, member: string) {
+  return promisify(o[member].bind(o))
+}
 
 // export async function rm_rf(dir: string) {
 //   const pfs = await initPsmDir()
