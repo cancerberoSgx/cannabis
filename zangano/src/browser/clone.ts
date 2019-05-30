@@ -1,7 +1,7 @@
+import { deepEqual, equal, notDeepEqual, ok } from 'assert'
 import * as git from 'isomorphic-git'
 import { clone as cloneFn } from 'isomorphic-git'
-import { initPsmDir, exists } from './util';
-import { equal, deepEqual, ok, notDeepEqual } from 'assert';
+import { exists, initPsmDir } from './util'
 
 type Options = Partial<Parameters<typeof cloneFn>[0]> & {
   // removeExisting?: boolean
@@ -10,7 +10,7 @@ type Options = Partial<Parameters<typeof cloneFn>[0]> & {
 export async function clone(options: Options = {}) {
 
   const defaultOptions = {
-    dir: options.dir||'/project_' + Date.now(),
+    dir: options.dir || '/project_' + Date.now(),
     removeExisting: false,
     corsProxy: 'https://cors.isomorphic-git.org',
     url: 'https://github.com/isomorphic-git/isomorphic-git',
