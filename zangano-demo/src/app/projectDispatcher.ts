@@ -2,7 +2,7 @@ import { clone, createBrowserProjectFromDirectory } from 'zangano'
 import { getStore, GitProject } from './store'
 
 export async function importGitProject() {
-    getStore().setState({ error: undefined, status: 'git clone' })
+  getStore().setState({ error: undefined, status: 'git clone' })
   const url = getStore().getState().gitUrlInput
   try {
     const { dir } = await clone({
@@ -32,7 +32,7 @@ export async function importGitProject() {
 
 
 
-export function selectProject(gitProject: GitProject){
+export function selectProject(gitProject: GitProject) {
   getStore().setState({
     currentProject: gitProject,
     currentSourceFile: gitProject.project.getSourceFiles()[0]

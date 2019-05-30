@@ -14,7 +14,7 @@
     "start": " npx parcel serve  src/index.html -d docs   --no-source-maps",
     "build-dev-no-maps": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash  --no-source-maps",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d docs  --no-minify --no-content-hash",
-    "build-app": "npm run clean && npm run build-only && rm -rf ../../demos/docs/cannabis/zangano-demo/* && mv docs/* ../../demos/docs/cannabis/zangano-demo/",
+    "build-app": "npm run clean && npm run build-only && mkdir -p ../../demos/docs/cannabis/zangano-demo/ && rm -rf ../../demos/docs/cannabis/zangano-demo/*' && mv docs/* ../../demos/docs/cannabis/zangano-demo/",
     "build-only": "export NODE_ENV=production && npm run build && sh build-workers.sh && node --max-old-space-size=5000 node_modules/parcel/bin/cli.js build src/index.html -d docs --no-content-hash --detailed-report  --no-source-maps --public-url './'",
     "all": "npm run clean && npm run lint && npm run build-app"
   },

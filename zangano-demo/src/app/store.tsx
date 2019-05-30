@@ -1,7 +1,7 @@
 import { Emitter, pathJoin } from 'misc-utils-of-mine-generic'
+import { editor } from 'monaco-editor'
 import { } from 'ts-morph'
 import { createBrowserProject, tsMorph } from 'zangano'
-import { editor } from 'monaco-editor';
 
 
 class Store extends Emitter<void> {
@@ -9,11 +9,11 @@ class Store extends Emitter<void> {
   constructor() {
     super()
     const currentProject = {
-      project: createBrowserProject(), 
-      gitUrl: 'http://TODO', 
+      project: createBrowserProject(),
+      gitUrl: 'http://TODO',
       baseFolder: '/dummy',
-      packageJson: { name: 'dummy', version: '0.0.1' }    
-}
+      packageJson: { name: 'dummy', version: '0.0.1' }
+    }
     const currentSourceFile = currentProject.project.createSourceFile('test.ts', 'var a = [1,2]')
     this.state = {
       projects: [],
@@ -76,26 +76,26 @@ interface TypeScriptProjectBase {
 class BrowserTypeScriptProject implements TypeScriptProjectBase {
   constructor(public project: tsMorph.Project,
     public baseFolder: string,
-    public name: string){
-      
-    }  
+    public name: string) {
+
+  }
 }
-class MonacoTypeScriptProject  extends BrowserTypeScriptProject {
+class MonacoTypeScriptProject extends BrowserTypeScriptProject {
   getTsConfigFilePath(): string {
     return pathJoin(this.baseFolder, 'tsconfig.json')
   }
   constructor(public project: tsMorph.Project,
     public baseFolder: string,
-    public name: string, public editor: editor.IEditor){
-      super(project , baseFolder, name)
-      this.project.addSourceFilesFromTsConfig(this.getTsConfigFilePath())
-    }
-    // getFileModel(file: tsMorph.SourceFile){
-    //   if(!this.models[file.getFilePath()]){
-    //     const model = new editor.createModel(
-    //       file.getFullText(), ''
+    public name: string, public editor: editor.IEditor) {
+    super(project, baseFolder, name)
+    this.project.addSourceFilesFromTsConfig(this.getTsConfigFilePath())
+  }
+  // getFileModel(file: tsMorph.SourceFile){
+  //   if(!this.models[file.getFilePath()]){
+  //     const model = new editor.createModel(
+  //       file.getFullText(), ''
 
-    //     )
-    //   }
-    // }
+  //     )
+  //   }
+  // }
 }

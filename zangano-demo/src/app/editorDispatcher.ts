@@ -1,9 +1,8 @@
-import { tsMorph } from 'zangano';
-import { getStore } from './store';
-import { setEditorText, setActiveModel } from '../editor/monaco';
-import { setTextRange } from 'typescript';
+import { tsMorph } from 'zangano'
+import { setActiveModel } from '../editor/monaco'
+import { getStore } from './store'
 
-export function selectFile(f: tsMorph.SourceFile){
+export function selectFile(f: tsMorph.SourceFile) {
 
   getStore().setState({
     currentSourceFile: f,

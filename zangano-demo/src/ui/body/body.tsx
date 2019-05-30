@@ -1,35 +1,34 @@
 import * as React from 'react'
-import { Button, Grid, Header, List, Menu, Segment, Tab, Ref, Sticky, Label, Icon } from 'semantic-ui-react'
+import { Grid, Label, Menu, Ref, Segment, Sticky, Tab } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
-import { Space } from '../uiUtil'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
+import { Error } from './error'
 import { ImportProject } from './importProject'
 import { Project } from './project'
-import { Projects } from './projects';
-import { Error } from './error';
+import { Projects } from './projects'
 
 export class Body extends AbstractComponent {
   protected contextRef = React.createRef()
   render() {
     return (
       <Segment basic>
-        <Error/>
+        <Error />
         <Grid>
           <Grid.Column floated='left' width={8}>
-            <Tab onTabChange={(e, props)=>this.setState({currentTab: props.activeIndex as number})} panes={
+            <Tab onTabChange={(e, props) => this.setState({ currentTab: props.activeIndex as number })} panes={
               [
                 {
-                  menuItem: <Menu.Item  key='import'>Import Git Project</Menu.Item>,
+                  menuItem: <Menu.Item key='import'>Import Git Project</Menu.Item>,
                   render: () => <Tab.Pane>
                     <ImportProject />
                   </Tab.Pane>,
                 },
                 {
-                  menuItem: <Menu.Item key='ast'>Projects Loaded 
-                  <Label circular >{this.state.projects.length+''}</Label>
+                  menuItem: <Menu.Item key='ast'>Projects Loaded
+                  <Label circular >{this.state.projects.length + ''}</Label>
                   </Menu.Item>,
                   render: () => <Tab.Pane>
-                    <Projects/>
+                    <Projects />
                   </Tab.Pane>
                 },
                 {
@@ -49,13 +48,13 @@ export class Body extends AbstractComponent {
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
 
-          <Ref innerRef={this.contextRef}> 
-                <Sticky context={this.contextRef}>
-            <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
-            <br />
-            <CursorBreadcrumb />
-            <br />
-            </Sticky>
+            <Ref innerRef={this.contextRef}>
+              <Sticky context={this.contextRef}>
+                <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
+                <br />
+                <CursorBreadcrumb />
+                <br />
+              </Sticky>
             </Ref>
           </Grid.Column>
         </Grid>

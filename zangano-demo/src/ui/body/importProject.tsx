@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Button, Header, Input, Label, Modal } from 'semantic-ui-react'
 import { importGitProject } from '../../app/projectDispatcher'
+import { State } from '../../app/store'
 import { AbstractComponent } from '../component'
 import { Space } from '../uiUtil'
-import { State } from '../../app/store';
 
 export class ImportProject extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.currentTab==0
+    return nextState.currentTab == 0
   }
   render() {
     return <>

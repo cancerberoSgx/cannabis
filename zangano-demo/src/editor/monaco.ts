@@ -1,7 +1,7 @@
+import { unique } from 'misc-utils-of-mine-generic'
 import * as monaco from 'monaco-editor'
-import { unique, } from 'misc-utils-of-mine-generic';
-import { tsMorph } from 'zangano';
-import { isSourceFile } from './tsUtil';
+import { tsMorph } from 'zangano'
+import { isSourceFile } from './tsUtil'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -49,7 +49,7 @@ export function installEditor(containerEl: HTMLElement, content?: string) {
   })
 
   editor = monaco.editor.create(containerEl, {
-    model: getModel({ path: `/${unique('unamed')}.tsx`, content:content||'const a = <p>hello <strong>world</strong</p>' }),
+    model: getModel({ path: `/${unique('unamed')}.tsx`, content: content || 'const a = <p>hello <strong>world</strong</p>' }),
     language: 'typescript',
     wordWrap: 'on',
     minimap: { enabled: false, }
@@ -62,8 +62,8 @@ const validExtensions = ['.js', '.ts', '.jsx', '.json', '.tsx', '.d.ts']
 
 const models: { [name: string]: monaco.editor.ITextModel } = {}
 
-export function getModel(fileOrFilePath: string | tsMorph.SourceFile|{ path: string, content: string }): monaco.editor.ITextModel|undefined {
-  const { path, content } = typeof fileOrFilePath === 'string' ? { path: fileOrFilePath, content: '' } : isSourceFile(fileOrFilePath) ? {path: fileOrFilePath.getFilePath(), content: fileOrFilePath.getText()} :  fileOrFilePath
+export function getModel(fileOrFilePath: string | tsMorph.SourceFile | { path: string, content: string }): monaco.editor.ITextModel | undefined {
+  const { path, content } = typeof fileOrFilePath === 'string' ? { path: fileOrFilePath, content: '' } : isSourceFile(fileOrFilePath) ? { path: fileOrFilePath.getFilePath(), content: fileOrFilePath.getText() } : fileOrFilePath
 
   if (!path.startsWith('/') || !validExtensions.find(e => path!.endsWith(e))) {
     throw new Error('To create a model give an absolute path and an extension in ' + validExtensions.join(', '))
@@ -71,32 +71,32 @@ export function getModel(fileOrFilePath: string | tsMorph.SourceFile|{ path: str
   if (models[path]) {
     return models[path]
   }
-  const model = monaco.editor.createModel(content || '', 'typescript', monaco.Uri.parse(`file://${path}`));
+  const model = monaco.editor.createModel(content || '', 'typescript', monaco.Uri.parse(`file://${path}`))
   models[path] = model
   return model
 }
 
-export function setActiveModel(f: tsMorph.SourceFile){
+export function setActiveModel(f: tsMorph.SourceFile) {
   debugger
   const model = getModel(f)
-  if(!model){
-    throw new Error('No model exists for '+ f)
+  if (!model) {
+    throw new Error('No model exists for ' + f)
   }
 
 
-  if(isSourceFile(f)){
+  if (isSourceFile(f)) {
     model.setValue(f.getText())
     model.pushEditOperations(
       [],
-      
+
       [
         {
           range: model.getFullModelRange(),
           text: model.getValue(),
         },
-      ], (e)=>{return null}
+      ], (e) => { return null }
     )
-// editor.model
+    // editor.model
   }
   setTimeout(() => {
     editor.setModel(null)
@@ -104,11 +104,11 @@ export function setActiveModel(f: tsMorph.SourceFile){
       editor.setModel(model)
       setTimeout(() => {
         editor.layout()
-      }, 0);
-    }, 0);
-  }, 0);
- 
-  
+      }, 0)
+    }, 0)
+  }, 0)
+
+
 }
 
 export function getEditorText() {
