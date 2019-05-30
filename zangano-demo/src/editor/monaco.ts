@@ -2,6 +2,9 @@ import { unique } from 'misc-utils-of-mine-generic'
 import * as monaco from 'monaco-editor'
 import { tsMorph } from 'zangano'
 import { isSourceFile } from './tsUtil'
+import { getMonacoDefinitionAtPosition } from './tsWorker';
+import { install } from './navigateExternalDefinitions';
+import {lib_es2015_core_d_ts ,lib_es5_d_ts, lib_es2015_iterable_d_ts, lib_es2015_symbol_d_ts} from 'zangano'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -34,10 +37,14 @@ export function getMonacoInstance() {
   return editor
 }
 
-export function installEditor(containerEl: HTMLElement, content?: string) {
+
+
+export function getEditor(containerEl: HTMLElement, content?: string) {
   if (editor) {
     return editor
   }
+  
+  monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ES2016,
     allowNonTsExtensions: true,
@@ -47,7 +54,11 @@ export function installEditor(containerEl: HTMLElement, content?: string) {
     typeRoots: ['node_modules/@types'],
     jsx: monaco.languages.typescript.JsxEmit.React,
   })
-
+  // monaco.languages.typescript.typescriptDefaults.addExtraLib(lib_es5_d_ts,`node_modules/typescript/lib/lib.es5.d.ts`)
+  // monaco.languages.typescript.typescriptDefaults.addExtraLib(lib_es2015_core_d_ts,`node_modules/typescript/lib/lib.es2015.core.d.ts`)
+  //  monaco.languages.typescript.typescriptDefaults.addExtraLib(lib_es2015_iterable_d_ts,`node_modules/typescript/lib/lib.es2015.iterable.d.ts`) 
+  //  monaco.languages.typescript.typescriptDefaults.addExtraLib(lib_es2015_core_d_ts,`node_modules/typescript/lib/lib.es2015.core.d.ts`)
+  
   editor = monaco.editor.create(containerEl, {
     model: getModel({ path: `/${unique('unamed')}.tsx`, content: content || 'const a = <p>hello <strong>world</strong</p>' }),
     language: 'typescript',
@@ -55,12 +66,39 @@ export function installEditor(containerEl: HTMLElement, content?: string) {
     minimap: { enabled: false, }
   })
 
+  // project.createSourceFile('lib.es5.d.ts', lib_es5_d_ts)
+  // project.createSourceFile('lib.es2015.core.d.ts', lib_es2015_core_d_ts)
+  // // project.createSourceFile('lib.es2015.symbol.d.ts', lib_es2015_symbol_d_ts)
+  // project.createSourceFile('lib.es2015.iterable.d.ts', lib_es2015_iterable_d_ts)
+  // project.createSourceFile('lib.dom.d.ts', lib_dom_d_ts)
+
+  // const fileName = `node_modules/@types${d.name.substring('@types'.length, d.name.length)}/index.d.ts`
+          // getMonaco().languages.typescript.typescriptDefaults.addExtraLib(text, fileName)
+          // const fileName = `node_modules/typescript/lib/${lib}`
+              // const url = `https://unpkg.com/typescript@2.9.2/lib/${lib}`
+              // console.log(`addExtraLib url: ${url} . Filename: ${fileName}. libs value: ${lib}`);
+              // libResource = { fileName, url, content }
+           
+  // lib_es2015_core_d_ts
+  
+  // install(editor, (ed, model, def)=>{
+  //   console.log(ed, model, def);    
+  // })
+
+  // monaco.editor.onDidCreateEditor(ed=>{
+
+  // })
+
+  // getMonaco().
+
+
   return editor
 }
 
 const validExtensions = ['.js', '.ts', '.jsx', '.json', '.tsx', '.d.ts']
 
 const models: { [name: string]: monaco.editor.ITextModel } = {}
+let activeFilePath: string=''
 
 export function getModel(fileOrFilePath: string | tsMorph.SourceFile | { path: string, content: string }): monaco.editor.ITextModel | undefined {
   const { path, content } = typeof fileOrFilePath === 'string' ? { path: fileOrFilePath, content: '' } : isSourceFile(fileOrFilePath) ? { path: fileOrFilePath.getFilePath(), content: fileOrFilePath.getText() } : fileOrFilePath
@@ -77,38 +115,34 @@ export function getModel(fileOrFilePath: string | tsMorph.SourceFile | { path: s
 }
 
 export function setActiveModel(f: tsMorph.SourceFile) {
-  debugger
+  const fp = f.getFilePath()
+  if(fp===activeFilePath){
+    return
+  }
   const model = getModel(f)
   if (!model) {
     throw new Error('No model exists for ' + f)
   }
+    updateEditorModel(model, fp);
+}
 
+const viewStates : {[s: string]: monaco.editor.ICodeEditorViewState|null} = {}
+function updateEditorModel(model: monaco.editor.ITextModel, f: string) {
+  viewStates[activeFilePath] = editor.saveViewState()
+  model.pushEditOperations([], [
+    {
+      range: model.getFullModelRange(),
+      text: model.getValue(),
+    },
+  ], (e) => { return null; });
+  editor.setModel(null);
+  editor.setModel(model);
 
-  if (isSourceFile(f)) {
-    model.setValue(f.getText())
-    model.pushEditOperations(
-      [],
-
-      [
-        {
-          range: model.getFullModelRange(),
-          text: model.getValue(),
-        },
-      ], (e) => { return null }
-    )
-    // editor.model
+  activeFilePath = f
+  const nextViewState = viewStates[f]
+  if(nextViewState){
+    editor.restoreViewState(nextViewState)
   }
-  setTimeout(() => {
-    editor.setModel(null)
-    setTimeout(() => {
-      editor.setModel(model)
-      setTimeout(() => {
-        editor.layout()
-      }, 0)
-    }, 0)
-  }, 0)
-
-
 }
 
 export function getEditorText() {

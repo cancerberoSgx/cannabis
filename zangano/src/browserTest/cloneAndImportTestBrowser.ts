@@ -1,8 +1,8 @@
 import { deepEqual, equal, notDeepEqual, ok } from 'assert'
 import * as git from 'isomorphic-git'
 import { ts } from 'ts-morph'
-import { clone } from '../browser/clone'
-import { exists, initPsmDir } from '../browser/util'
+import { clone } from '../git/clone'
+import { exists, initPsmDir } from '../fs/util'
 import { createBrowserProjectFromDirectory } from '../project/createProject'
 import { getType } from '../project/util'
 const FS = require('@isomorphic-git/lightning-fs')
@@ -32,7 +32,7 @@ async function cloneAndImportTest() {
   ok((await git.log({ dir })).length > 0)
   ok((await git.status({ dir, filepath: 'README.md' })).length > 0)
 
-  const project = await createBrowserProjectFromDirectory({ dir })
+  const {project} = await createBrowserProjectFromDirectory({ dir })
   console.log(project.getSourceFiles().map(f => f.getBaseName()), project.getDirectories().map(d => d.getPath()), project.getRootDirectories().map(d => d.getPath()))
   debugger
   const f = project.getRootDirectories()[0].createSourceFile('test.ts', 'var a = [1,2]')

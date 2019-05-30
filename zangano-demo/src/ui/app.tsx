@@ -1,7 +1,7 @@
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container } from 'semantic-ui-react'
-import { installCodeEditor } from '../editor/codeEditor'
+import { installCodeEditor, getNodeAtPosition } from '../editor/codeEditor'
 import { getMonacoInstance } from '../editor/monaco'
 import './app.css'
 import { Body } from './body/body'
@@ -16,9 +16,9 @@ export class App extends AbstractComponent {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
     getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      // this.setState({
-      //   nodeAtPosition: getNodeAtPosition(e.position)
-      // })
+      this.setState({
+        nodeAtPosition: getNodeAtPosition(e.position)
+      })
     })
   }
 

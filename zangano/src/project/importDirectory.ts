@@ -1,6 +1,6 @@
 import { FileSystemHost } from 'ts-morph'
-import { initPsmDir } from '../browser/util'
-import { visit } from '../browser/visit'
+import { initPsmDir } from '../fs/util'
+import { visit } from '../fs/visit'
 
 export async function importProjectFromDirectory(dir: string, fs: FileSystemHost) {
   const pfs = await initPsmDir(dir)

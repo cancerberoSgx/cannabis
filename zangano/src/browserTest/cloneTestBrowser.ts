@@ -1,7 +1,7 @@
 import { deepEqual, equal, notDeepEqual, ok } from 'assert'
 import * as git from 'isomorphic-git'
-import { clone } from '../browser/clone'
-import { exists, initPsmDir } from '../browser/util'
+import { clone } from '../git/clone'
+import { exists, initPsmDir } from '../fs/util'
 
 async function cloneTest() {
   const dir = '/project_' + Date.now()

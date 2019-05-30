@@ -1,7 +1,7 @@
 import { deepEqual, equal, notDeepEqual, ok } from 'assert'
 import * as git from 'isomorphic-git'
 import { clone as cloneFn } from 'isomorphic-git'
-import { exists, initPsmDir } from './util'
+import { exists, initPsmDir } from '../fs/util'
 
 type Options = Partial<Parameters<typeof cloneFn>[0]> & {
   // removeExisting?: boolean

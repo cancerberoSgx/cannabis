@@ -1,14 +1,22 @@
 import * as React from 'react'
-import { Grid, Label, Menu, Ref, Segment, Sticky, Tab } from 'semantic-ui-react'
+import { Grid, Label, Menu, Ref, Segment, Sticky, Tab, Button } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Error } from './error'
 import { ImportProject } from './importProject'
 import { Project } from './project'
 import { Projects } from './projects'
+import { saveEditorFile } from '../../app/editorDispatcher';
 
 export class Body extends AbstractComponent {
   protected contextRef = React.createRef()
+
+  componentWillUnmount() {
+    debugger
+    // this._editor && this._editor.dispose();
+    // this._subscription && this._subscription.dispose();
+  }
+
   render() {
     return (
       <Segment basic>
@@ -50,6 +58,8 @@ export class Body extends AbstractComponent {
 
             <Ref innerRef={this.contextRef}>
               <Sticky context={this.contextRef}>
+              <br/>
+              <Button onClick={saveEditorFile}>Save</Button>
                 <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
                 <br />
                 <CursorBreadcrumb />

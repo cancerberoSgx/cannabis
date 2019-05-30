@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      // {
+      //   "type": "node",
+      //   "request": "attach",
+      //   "name": "Attach",
+      //   "port": 9229,
+      //   "sourceMaps": true
+      // },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug TypeScript in Node.js",
+        // "preLaunchTask": "typescript",
+        "program": "${workspaceFolder}/node_modules/ts-node/dist/bin",
+        // "runtimeArgs": ["${workspaceFolder}/src/browserTest/filerTest/filterTest.ts"],
+        "args": ["-T", "${workspaceFolder}/src/browserTest/filerTest/filterTest.ts"],
+        "cwd": "${workspaceFolder}",
+        "protocol": "inspector",
+        // "sourceMaps": false,
+        // "outFiles": [
+        //   "${workspaceFolder}/dist/**/*"
+        // ]
+      },
+      // {
+      //   "type": "node",
+      //   "request": "launch",
+      //   "name": "Debug 2",
+      //   "preLaunchTask": "typescript",
+      //   "program": "${workspaceFolder}/dist/src/browserTest/filerTest/filterTest.js",
+      //   // "runtimeArgs": ["${workspaceFolder}/src/browserTest/filerTest/filterTest.ts"],
+      //   // "args": ["-T", "${workspaceFolder}/src/browserTest/filerTest/filterTest.ts"],
+      //   "cwd": "${workspaceFolder}",
+      //   "protocol": "inspector",
+      //   "sourceMaps": true,
+      //   "outFiles": [
+      //     "${workspaceFolder}/dist/**/*"
+      //   ]
+      // },
+    ]
+}

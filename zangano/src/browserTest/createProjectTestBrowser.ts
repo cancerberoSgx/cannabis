@@ -4,7 +4,7 @@ import { createBrowserProject, createBrowserProjectFromDirectory } from '../proj
 import { getType } from '../project/util'
 
 async function createProjectFromBrowserDirTest() {
-  const project = await createBrowserProjectFromDirectory({
+  const {project} = await createBrowserProjectFromDirectory({
     dir: '/tutorial'
   })
   console.log(project.getSourceFiles().map(f => f.getBaseName()), project.getDirectories().map(d => d.getPath()), project.getRootDirectories().map(d => d.getPath()))
@@ -16,8 +16,8 @@ async function createProjectFromBrowserDirTest() {
 createProjectFromBrowserDirTest()
 
 
-function createVirtualFilesystemProjectTest() {
-  const project = createBrowserProject()
+async function createVirtualFilesystemProjectTest() {
+  const {project} = await createBrowserProject()
   const f = project.createSourceFile('test.ts', 'var a = [1,2]')
   const v = f.getFirstDescendantByKind(ts.SyntaxKind.VariableDeclaration)!
   equal(getType(v), 'number[]')

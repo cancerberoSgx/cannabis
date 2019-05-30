@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { Checkbox, Header, List, Segment } from 'semantic-ui-react'
+import { Checkbox, Header, List, Segment, Button } from 'semantic-ui-react'
 import { tsMorph } from 'zangano'
-import { selectFile } from '../../app/editorDispatcher'
-import { State } from '../../app/store'
+import { selectFile, addNewFile } from '../../app/editorDispatcher'
+import { State, getStore } from '../../app/store'
 import { isSourceFile } from '../../editor/tsUtil'
 import { AbstractComponent } from '../component'
+import { unique } from 'misc-utils-of-mine-generic';
 
 export class Project extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
@@ -17,6 +18,7 @@ export class Project extends AbstractComponent {
         <Header.Subheader>{this.state.currentProject.packageJson.description || ''}</Header.Subheader>
       </Header>
       <Checkbox checked={this.state.showAllFiles} label="Show all files" onChange={e => { alert('Not implemented') }}></Checkbox>
+      <Button  onClick={addNewFile} >Add new File</Button>
       <List >
         {(p.getRootDirectories().length === 1 ? [...p.getRootDirectories()[0].getDirectories(), ...p.getRootDirectories()[0].getSourceFiles()] : p.getRootDirectories()).map(d => isSourceFile(d) ? this.file(d) : this.directory(d))}
       </List>
@@ -49,3 +51,5 @@ export class Project extends AbstractComponent {
     </List.Item>
   }
 }
+
+

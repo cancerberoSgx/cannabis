@@ -2,13 +2,13 @@ import * as monaco from 'monaco-editor'
 import { IPosition, ISelection } from 'monaco-editor'
 import { tsMorph } from 'zangano'
 import { getStore } from '../app/store'
-import { getMonacoInstance, installEditor } from './monaco'
+import { getMonacoInstance, getEditor } from './monaco'
 import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
 
 export function installCodeEditor(editorContainer: HTMLElement) {
-  const editor = installEditor(editorContainer)
+  const editor = getEditor(editorContainer)
   editor.getModel()!.onDidChangeContent(e => {
-    alert('not implemented')
+    // alert('not implemented')
     //setDirty() 
   })
 }

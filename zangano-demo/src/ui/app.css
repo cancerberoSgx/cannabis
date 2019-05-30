@@ -23,6 +23,7 @@ input[type="checkbox"]{
 }
 #editor-container{
   border: 1px solid pink;
+  padding-top: 4.5em;
 }
 
 /** List.Icon */
