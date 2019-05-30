@@ -36,7 +36,6 @@
     "@types/puppeteer": "^1.12.4",
     "ava": "^1.4.1",
     "browserify": "^16.2.3",
-    "fake-indexeddb": "^2.1.0",
     "http-server": "^0.11.1",
     "jsdom": "^15.1.1",
     "puppeteer": "^1.17.0",
@@ -49,9 +48,8 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@isomorphic-git/lightning-fs": "^3.2.1",
+    "babel-polyfill": "^6.26.0",
     "browserfs": "^1.4.3",
-    "filer": "^1.1.2",
     "isomorphic-git": "^0.55.2",
     "misc-utils-of-mine-generic": "^0.2.4",
     "ts-morph": "^1.3.4"

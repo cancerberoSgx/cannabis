@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["esnext", "dom"], 
@@ -10,6 +10,7 @@
     "outDir": "./dist", 
     "declaration": true,
     "rootDir": ".",
+    "skipLibCheck": true
   },
   "include": [
     "src"
