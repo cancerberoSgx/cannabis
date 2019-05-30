@@ -7,7 +7,7 @@
   "scripts": {
     "test": "ava",
     "clean": "rm -rf dist docs",
-    "build": "TARGET='dist/src/probes/testBrowser1.js' &&  npx tsc && npx browserify $TARGET -o dist/bundle.js && cp src/bundle.html dist && echo DONE build",
+    "build": "TARGET='dist/src/project/importDirectoryTestBrowser.js' &&  npx tsc && npx browserify $TARGET -o dist/bundle.js && cp src/bundle.html dist && echo DONE build",
     "build-watch": "watch 'npm run build' src",
     "build-watch-serve": "npm run build && npx http-server dist & watch 'npm run build' src",
     "start": "npm run build-watch-serve",

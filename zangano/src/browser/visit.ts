@@ -9,7 +9,9 @@ export async function visit(pfs: any, dir: string, visitor: (file: File) => bool
   const content = await pfs.readFile(dir)
   const stat = await pfs.stat(dir)
   const r = await visitor({
-    path: dir, content, type: stat.isFile() ? 'file' : 'directory'
+    path: dir, 
+    content: content &&  new TextDecoder("utf-8").decode(content), 
+    type: stat.isFile() ? 'file' : 'directory'
   })
   if (r) {
     return
