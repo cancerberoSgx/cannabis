@@ -7,7 +7,7 @@
   "scripts": {
     "test": "ava",
     "clean": "rm -rf dist docs",
-    "build": "TARGET=dist/src/project/createProjectTestBrowser.js; npx tsc && npx browserify $TARGET -o dist/bundle.js && cp src/bundle.html dist",
+    "build": "TARGET='dist/src/probes/testBrowser1.js' &&  npx tsc && npx browserify $TARGET -o dist/bundle.js && cp src/bundle.html dist && echo DONE build",
     "build-watch": "watch 'npm run build' src",
     "build-watch-serve": "npm run build && npx http-server dist & watch 'npm run build' src",
     "start": "npm run build-watch-serve",
@@ -44,6 +44,7 @@
     "@isomorphic-git/lightning-fs": "^3.2.1",
     "astq": "github:cancerberoSgx/astq",
     "isomorphic-git": "^0.55.2",
+    "misc-utils-of-mine-generic": "^0.2.4",
     "postcss": "^7.0.16",
     "postcss-values-parser": "^3.0.4",
     "ts-morph": "^1.3.4"
