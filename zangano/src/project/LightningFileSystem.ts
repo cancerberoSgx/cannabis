@@ -2,7 +2,7 @@
 // import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost';
 
 // interface Options {}
- 
+
 // export function createInstance(options: Options): LightningFileSystem{
 //   const fs = new VirtualFileSystemHostConstructor() as (FileSystemHost&Originals)
 //   fs.writeFileSync_original = fs.writeFileSync

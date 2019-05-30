@@ -1,8 +1,5 @@
 import test from 'ava'
-import { ts } from 'ts-morph'
-import { createProject } from './createProject'
-import { getType } from './util'
-import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost';
+import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost'
 
 test('VirtualFileSystemHostConstructor', t => {
   const fs = new VirtualFileSystemHostConstructor()

@@ -1,5 +1,5 @@
 import * as git from 'isomorphic-git'
-import { serial, basename, pathJoin } from 'misc-utils-of-mine-generic'
+import { pathJoin, serial } from 'misc-utils-of-mine-generic'
 
 interface File {
   path: string, type: 'file' | 'directory', content?: string
