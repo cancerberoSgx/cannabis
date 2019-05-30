@@ -1,5 +1,5 @@
-import { ts, tsMorph } from 'zangano'
 import { IPosition, ISelection } from 'monaco-editor'
+import { ts, tsMorph } from 'zangano'
 
 /** 
  * Same as [[findSmallestDescendantContainingRange]] but nto so strict r.pos <= n.start <=  r.end <= n.end.

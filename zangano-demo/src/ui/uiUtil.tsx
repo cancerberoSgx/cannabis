@@ -1,7 +1,7 @@
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
-import { isDirectory, isNode, isSourceFile } from '../editor/tsUtil'
-import { tsMorph } from 'zangano';
+import { tsMorph } from 'zangano'
+import { isDirectory, isSourceFile } from '../editor/tsUtil'
 
 export function width() {
   return document.body.clientWidth

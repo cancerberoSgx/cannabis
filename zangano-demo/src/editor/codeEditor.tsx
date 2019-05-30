@@ -1,16 +1,16 @@
 import * as monaco from 'monaco-editor'
 import { IPosition, ISelection } from 'monaco-editor'
+import { tsMorph } from 'zangano'
+import { getStore } from '../app/store'
 import { getMonacoInstance, installEditor } from './monaco'
 import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
-import { Node } from 'ts-morph';
-import {createBrowserProject, tsMorph, ts} from 'zangano'
-import { getStore } from '../app/store';
 
 export function installCodeEditor(editorContainer: HTMLElement) {
   const editor = installEditor('code', editorContainer)
-  editor.getModel()!.onDidChangeContent(e => { alert('not implemented'); 
-  //setDirty() 
-})
+  editor.getModel()!.onDidChangeContent(e => {
+    alert('not implemented')
+    //setDirty() 
+  })
 }
 
 export function highlightNodesInEditor(result: tsMorph.Node[]): any {
@@ -32,10 +32,10 @@ export function getNodeAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFil
   if (typeof p === 'undefined') {
     return
   }
-  return findDescendantContainingRangeLight(sourceFile ||  getStore().getState().currentSourceFile, { pos: p, end: p + 1 })
+  return findDescendantContainingRangeLight(sourceFile || getStore().getState().currentSourceFile, { pos: p, end: p + 1 })
 }
 
 export function getNodesInSelection(s: ISelection, sourceFile: tsMorph.SourceFile) {
-  const r = monacoSelectionToTsRange(sourceFile ||  getStore().getState().currentSourceFile, s)
-  return findDescendantContainingRangeLight(sourceFile ||  getStore().getState().currentSourceFile, r)
+  const r = monacoSelectionToTsRange(sourceFile || getStore().getState().currentSourceFile, s)
+  return findDescendantContainingRangeLight(sourceFile || getStore().getState().currentSourceFile, r)
 }

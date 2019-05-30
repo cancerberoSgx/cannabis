@@ -1,4 +1,4 @@
-import "babel-polyfill";
+import "babel-polyfill"
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container } from 'semantic-ui-react'

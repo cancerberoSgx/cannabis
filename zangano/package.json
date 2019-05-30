@@ -1,6 +1,6 @@
 {
   "name": "zangano",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "node.js and browser JavaScript library with easy to use API to load a TypeScript projects from git repositories, ready to be used by Compiler API, with full LanguageService and TypeChecker, read/write support.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

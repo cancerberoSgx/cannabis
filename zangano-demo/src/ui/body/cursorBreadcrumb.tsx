@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbDivider, Icon } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/codeEditor'
 import { AbstractComponent } from '../component'
-import {  iconForNodeKind } from '../uiUtil'
+import { iconForNodeKind } from '../uiUtil'
 
 export class CursorBreadcrumb extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
@@ -19,7 +19,7 @@ export class CursorBreadcrumb extends AbstractComponent {
           {this.state.nodeAtPosition.getAncestors().reverse().map(a => <>
             <BreadcrumbDivider />
             <Breadcrumb.Section link onClick={e => highlightNodesInEditor([a])}>
-            <Icon name={iconForNodeKind(a.getKindName())} />{a.getKindName()}
+              <Icon name={iconForNodeKind(a.getKindName())} />{a.getKindName()}
             </Breadcrumb.Section>
           </>
           )}

@@ -16,3 +16,4 @@ formatCodeSettings.json
 dist/*.*
 .vscode
 src/bundle.html
+dist/src/**/*Test*

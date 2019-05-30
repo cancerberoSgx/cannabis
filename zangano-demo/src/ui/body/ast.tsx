@@ -1,11 +1,5 @@
-import {  tsMorph } from 'zangano'
-import { shorter } from 'misc-utils-of-mine-generic'
-import * as React from 'react'
-import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
-import { State } from '../../app/store'
-import { highlightNodesInEditor } from '../../editor/codeEditor'
+import { tsMorph } from 'zangano'
 import { AbstractComponent, AbstractProps } from '../component'
-import { iconForNodeKind, Space } from '../uiUtil'
 
 interface P extends AbstractProps {
   // node?: ASTNode
@@ -38,21 +32,21 @@ export class Ast extends AbstractComponent<P> {
     return 'not imple'
   }
   renderNode(node: tsMorph.Node) {
-  //   const children = getASTNodeChildren(node)
-  //   return (<List.Item onClick={e => {
-  //     e.stopPropagation()
-  //     highlightNodesInEditor([node])
-  //   }}>
-  //     <List.Icon name={iconForNodeKind(node.getKindName())} />
-  //     <List.Content>
-  //       <List.Header as="a">{getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
-  //       </List.Header>
-  //       <List.Description>
-  //         {getASTNodeName(node) ? <><Label size="small"><strong>{getASTNodeName(node)}</strong></Label><Space /></> : ''}
-  //         "<code>{shorter(getASTNodeText(node), 100)}</code>"
-  // </List.Description>
-  //       {children.length ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
-  //     </List.Content>
-  //   </List.Item>)
+    //   const children = getASTNodeChildren(node)
+    //   return (<List.Item onClick={e => {
+    //     e.stopPropagation()
+    //     highlightNodesInEditor([node])
+    //   }}>
+    //     <List.Icon name={iconForNodeKind(node.getKindName())} />
+    //     <List.Content>
+    //       <List.Header as="a">{getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
+    //       </List.Header>
+    //       <List.Description>
+    //         {getASTNodeName(node) ? <><Label size="small"><strong>{getASTNodeName(node)}</strong></Label><Space /></> : ''}
+    //         "<code>{shorter(getASTNodeText(node), 100)}</code>"
+    // </List.Description>
+    //       {children.length ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
+    //     </List.Content>
+    //   </List.Item>)
   }
 }

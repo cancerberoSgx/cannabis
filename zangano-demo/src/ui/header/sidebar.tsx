@@ -35,7 +35,7 @@ export class SidebarExampleMultiple extends AbstractComponent {
               Channels
             </Menu.Item>
 
-          
+
           </Sidebar>
           <Sidebar
             as={Menu}

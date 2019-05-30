@@ -9,7 +9,7 @@ export const Header = () => (
     <Grid>
       <Grid.Column floated='left' width={12}>
         <H as='h1' style={{ display: 'inline', margin: 0, padding: 0 }}>
-          Zángano: 
+          Zángano:
         </H>
         <Space />
         <H.Subheader as="h3" style={{ display: 'inline', margin: 0, padding: 0 }} >

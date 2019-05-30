@@ -1,16 +1,16 @@
-import {} from 'ts-morph'
-import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
-import {createBrowserProject, tsMorph, ts} from 'zangano'
+import { Emitter } from 'misc-utils-of-mine-generic'
+import { } from 'ts-morph'
+import { createBrowserProject, tsMorph } from 'zangano'
 
 
 class Store extends Emitter<void> {
   protected state: State;
   constructor() {
     super()
-     const currentProject = createBrowserProject()
-     const currentSourceFile = currentProject.createSourceFile('test.ts', 'var a = [1,2]')
+    const currentProject = createBrowserProject()
+    const currentSourceFile = currentProject.createSourceFile('test.ts', 'var a = [1,2]')
     this.state = {
-      projects: [{project: currentProject , gitUrl: 'http://TODO', internalDir :'/dummy' }], 
+      projects: [{ project: currentProject, gitUrl: 'http://TODO', internalDir: '/dummy' }],
       currentSourceFile,
       currentProject,
       logs: [],
@@ -38,18 +38,18 @@ export function getStore() {
 }
 
 export interface GitProject {
-  project:  tsMorph.Project
+  project: tsMorph.Project
   gitUrl: string
   internalDir: string
 }
 export interface State {
   projects: GitProject[]
   sidebarVisibility: boolean,
-  currentProject: tsMorph. Project
-  currentSourceFile:  tsMorph.SourceFile
+  currentProject: tsMorph.Project
+  currentSourceFile: tsMorph.SourceFile
   nodeAtPosition?: tsMorph.Node
   logs: string[]
   gitUrlInput: string,
-  status: undefined|string
-  error: Error|undefined
+  status: undefined | string
+  error: Error | undefined
 }
