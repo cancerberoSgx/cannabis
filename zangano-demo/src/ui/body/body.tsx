@@ -1,49 +1,41 @@
 import * as React from 'react'
-import { Button, Grid, Header, Input, Label, Menu, Modal, Segment, Tab } from 'semantic-ui-react'
-import { importGitProject } from '../../app/importGitProject'
+import { Button, Grid, Header, List, Menu, Segment, Tab, Ref, Sticky, Label, Icon } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 import { Space } from '../uiUtil'
-import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
+import { ImportProject } from './importProject'
+import { Project } from './project'
+import { Projects } from './projects';
+import { Error } from './error';
 
 export class Body extends AbstractComponent {
+  protected contextRef = React.createRef()
   render() {
     return (
       <Segment basic>
+        <Error/>
         <Grid>
           <Grid.Column floated='left' width={8}>
-            <Tab panes={
+            <Tab onTabChange={(e, props)=>this.setState({currentTab: props.activeIndex as number})} panes={
               [
                 {
-                  menuItem: <Menu.Item key='import'>Import Git Project</Menu.Item>,
+                  menuItem: <Menu.Item  key='import'>Import Git Project</Menu.Item>,
                   render: () => <Tab.Pane>
-                    <Header>Import TypeScript Project
-                      <Header.Subheader>From Git Repository</Header.Subheader>
-                    </Header>
-                    <Label>Enter git URL:</Label><br />
-                    <Input id="git-project-url" focus fluid
-                      onChange={(e) => this.setState({ gitUrlInput: e.currentTarget.value })}></Input>
-                    <br />
-                    <Button primary loading={!!this.state.status}
-                      onClick={e => importGitProject()}>Import</Button><Space />
-
-                    <Modal trigger={<Button>Details</Button>}>
-                      <Modal.Header>Details</Modal.Header>
-                      <Modal.Content>
-                        <p>
-                          Git project will be imported using the browser 100%, then a TypeScript project will be creating using <code>tsconfig.json</code> top-level file.
-                        </p>
-                        <p>
-                          An example working git url is <code>https://github.com/cancerberoSgx/yamat</code>. This is a small TypeScript node.js Application.
-                        </p>
-                      </Modal.Content>
-                    </Modal>
+                    <ImportProject />
                   </Tab.Pane>,
+                },
+                {
+                  menuItem: <Menu.Item key='ast'>Projects Loaded 
+                  <Label circular >{this.state.projects.length+''}</Label>
+                  </Menu.Item>,
+                  render: () => <Tab.Pane>
+                    <Projects/>
+                  </Tab.Pane>
                 },
                 {
                   menuItem: <Menu.Item key='ast'>Current Project</Menu.Item>,
                   render: () => <Tab.Pane>
-                    <Ast />
+                    <Project />
                   </Tab.Pane>,
                 },
                 {
@@ -56,10 +48,15 @@ export class Body extends AbstractComponent {
             } />
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
+
+          <Ref innerRef={this.contextRef}> 
+                <Sticky context={this.contextRef}>
             <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
             <br />
             <CursorBreadcrumb />
             <br />
+            </Sticky>
+            </Ref>
           </Grid.Column>
         </Grid>
       </Segment>)

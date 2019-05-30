@@ -1,4 +1,7 @@
 import * as monaco from 'monaco-editor'
+import { unique, } from 'misc-utils-of-mine-generic';
+import { tsMorph } from 'zangano';
+import { isSourceFile } from './tsUtil';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -31,7 +34,7 @@ export function getMonacoInstance() {
   return editor
 }
 
-export function installEditor(code: string, containerEl: HTMLElement) {
+export function installEditor(containerEl: HTMLElement, content?: string) {
   if (editor) {
     return editor
   }
@@ -46,13 +49,66 @@ export function installEditor(code: string, containerEl: HTMLElement) {
   })
 
   editor = monaco.editor.create(containerEl, {
-    model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.tsx')),
+    model: getModel({ path: `/${unique('unamed')}.tsx`, content:content||'const a = <p>hello <strong>world</strong</p>' }),
     language: 'typescript',
     wordWrap: 'on',
     minimap: { enabled: false, }
   })
 
   return editor
+}
+
+const validExtensions = ['.js', '.ts', '.jsx', '.json', '.tsx', '.d.ts']
+
+const models: { [name: string]: monaco.editor.ITextModel } = {}
+
+export function getModel(fileOrFilePath: string | tsMorph.SourceFile|{ path: string, content: string }): monaco.editor.ITextModel|undefined {
+  const { path, content } = typeof fileOrFilePath === 'string' ? { path: fileOrFilePath, content: '' } : isSourceFile(fileOrFilePath) ? {path: fileOrFilePath.getFilePath(), content: fileOrFilePath.getText()} :  fileOrFilePath
+
+  if (!path.startsWith('/') || !validExtensions.find(e => path!.endsWith(e))) {
+    throw new Error('To create a model give an absolute path and an extension in ' + validExtensions.join(', '))
+  }
+  if (models[path]) {
+    return models[path]
+  }
+  const model = monaco.editor.createModel(content || '', 'typescript', monaco.Uri.parse(`file://${path}`));
+  models[path] = model
+  return model
+}
+
+export function setActiveModel(f: tsMorph.SourceFile){
+  debugger
+  const model = getModel(f)
+  if(!model){
+    throw new Error('No model exists for '+ f)
+  }
+
+
+  if(isSourceFile(f)){
+    model.setValue(f.getText())
+    model.pushEditOperations(
+      [],
+      
+      [
+        {
+          range: model.getFullModelRange(),
+          text: model.getValue(),
+        },
+      ], (e)=>{return null}
+    )
+// editor.model
+  }
+  setTimeout(() => {
+    editor.setModel(null)
+    setTimeout(() => {
+      editor.setModel(model)
+      setTimeout(() => {
+        editor.layout()
+      }, 0);
+    }, 0);
+  }, 0);
+ 
+  
 }
 
 export function getEditorText() {

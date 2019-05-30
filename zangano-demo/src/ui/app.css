@@ -1,0 +1,49 @@
+.logsList {
+  overflow: scroll;
+  display: block;
+}
+
+input[type="checkbox"]{
+  cursor: pointer;    
+  line-height: 22px;  
+  font-size: 22px;
+  border-radius: 5px;
+  transition: color 0.2s ease;
+  background-color: #CCE2FF;
+  color: rgba(0, 0, 0, 0.87);
+  left: 0px; 
+  z-index: 3;
+  zoom: 1.2;
+  width: 22px;
+  height: 22px;
+}
+.headerContainer.ui.segment, .headerContainer * {
+  margin: 0; 
+  padding: 0
+}
+#editor-container{
+  border: 1px solid pink;
+}
+
+/** List.Icon */
+ .ui.list .list > .item > i.icon,
+.ui.list > .item > i.icon  {
+  padding: 0 !important;
+  /* padding-right: 0 !important; */
+
+}
+/** List.COntent */
+.ui.list .list > .item > .image + .content,
+.ui.list .list > .item > .icon + .content,
+.ui.list > .item > .image + .content,
+.ui.list > .item > .icon + .content {
+  padding: 0!important;
+
+}
+
+.ui.list .list > .item > .content > .list,
+.ui.list > .item > .content > .list {
+  margin: 0 !important;
+  padding: .4em 0 0 0 !important;
+
+} 

@@ -1,6 +1,6 @@
-import "babel-polyfill"
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
+import './app.css'
 import { Container } from 'semantic-ui-react'
 import { getNodeAtPosition, installCodeEditor } from '../editor/codeEditor'
 import { getMonacoInstance } from '../editor/monaco'
@@ -16,9 +16,9 @@ export class App extends AbstractComponent {
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
     getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      this.setState({
-        nodeAtPosition: getNodeAtPosition(e.position)
-      })
+      // this.setState({
+      //   nodeAtPosition: getNodeAtPosition(e.position)
+      // })
     })
   }
 

@@ -6,7 +6,7 @@ import { getMonacoInstance, installEditor } from './monaco'
 import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
 
 export function installCodeEditor(editorContainer: HTMLElement) {
-  const editor = installEditor('code', editorContainer)
+  const editor = installEditor( editorContainer)
   editor.getModel()!.onDidChangeContent(e => {
     alert('not implemented')
     //setDirty() 

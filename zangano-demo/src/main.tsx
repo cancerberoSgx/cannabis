@@ -1,3 +1,5 @@
+import "babel-polyfill"
+
 import * as React from 'react'
 import { render } from 'react-dom'
 import 'semantic-ui-css/semantic.css'
