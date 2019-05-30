@@ -1,17 +1,15 @@
-import * as git from 'isomorphic-git'
-import { pathJoin, serial } from 'misc-utils-of-mine-generic'
-import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost';
-import { importDirectoryFromBrowserDir } from './importDirectory';
-import { equal, ok, deepEqual } from 'assert';
+import { deepEqual, ok } from 'assert'
+import { importDirectoryFromBrowserDir } from './importDirectory'
+import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost'
 
-async function testImportDirectory(){
+async function testImportDirectory() {
   const fs = new VirtualFileSystemHostConstructor()
-  deepEqual(fs.readDirSync('/'), []);
+  deepEqual(fs.readDirSync('/'), [])
   await importDirectoryFromBrowserDir('/tutorial', fs)
-  deepEqual(fs.readDirSync('/'),['/tutorial']);
+  deepEqual(fs.readDirSync('/'), ['/tutorial'])
   const f1 = fs.readFileSync('/tutorial/tsconfig.json')
-  console.log(f1);
-  ok  (f1.length>20 && f1.includes(`"compilerOptions":`))
+  console.log(f1)
+  ok(f1.length > 20 && f1.includes(`"compilerOptions":`))
 }
 
 testImportDirectory()

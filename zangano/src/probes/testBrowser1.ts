@@ -1,7 +1,7 @@
 import * as git from 'isomorphic-git'
 import { pathJoin, serial } from 'misc-utils-of-mine-generic'
-import { VirtualFileSystemHostConstructor } from '../project/VirtualFileSystemHost';
-import { importDirectoryFromBrowserDir } from '../project/importDirectory';
+import { importDirectoryFromBrowserDir } from '../project/importDirectory'
+import { VirtualFileSystemHostConstructor } from '../project/VirtualFileSystemHost'
 const FS = require('@isomorphic-git/lightning-fs')
 
 async function testNode3() {
@@ -63,11 +63,11 @@ async function test4() {
   })
 }
 
-async function testImportDirectory(){
+async function testImportDirectory() {
   const fs = new VirtualFileSystemHostConstructor()
-  console.log(fs.readDirSync('/'));
+  console.log(fs.readDirSync('/'))
   await importDirectoryFromBrowserDir('/tutorial', fs)
-  console.log(fs.readDirSync('/'));
+  console.log(fs.readDirSync('/'))
 }
 
 testImportDirectory()
