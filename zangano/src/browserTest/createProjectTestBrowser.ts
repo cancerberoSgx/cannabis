@@ -1,7 +1,7 @@
 import { equal } from 'assert'
 import { ts } from 'ts-morph'
-import { createProjectFromBrowserDir2, createVirtualFilesystemProject } from './createProject'
-import { getType } from './util'
+import { createProjectFromBrowserDir2, createVirtualFilesystemProject } from '../project/createProject'
+import { getType } from '../project/util'
 
 async function createProjectFromBrowserDir2Test() {
   const project = await createProjectFromBrowserDir2({
@@ -23,7 +23,3 @@ function createVirtualFilesystemProjectTest() {
   equal(getType(v), 'number[]')
   console.log(getType(v))
 }
-// createVirtualFilesystemProjectTest()
-
-
-// https://github.com/cancerberoSgx/yamat.git

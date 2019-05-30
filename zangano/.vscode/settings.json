@@ -1,5 +1,7 @@
 {
   "files.exclude": {
-    "src/project/tsLibraries": true
+    "src/project/tsLibraries": true,
+    "dist": true,
+    "node_modules": true
   }
 }

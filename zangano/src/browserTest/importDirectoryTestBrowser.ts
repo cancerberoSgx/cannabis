@@ -1,6 +1,6 @@
 import { deepEqual, ok } from 'assert'
-import { importDirectoryFromBrowserDir } from './importDirectory'
-import { VirtualFileSystemHostConstructor } from './VirtualFileSystemHost'
+import { importDirectoryFromBrowserDir } from '../project/importDirectory'
+import { VirtualFileSystemHostConstructor } from '../project/VirtualFileSystemHost'
 
 async function testImportDirectory() {
   const fs = new VirtualFileSystemHostConstructor()

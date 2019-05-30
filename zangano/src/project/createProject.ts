@@ -25,12 +25,12 @@ export async function createProjectFromBrowserDir2(options: { dir: string, compi
 export function createVirtualFilesystemProject(options: { compilerOptions?: Partial<ts.CompilerOptions>, fs?: FileSystemHost, tsconfigFilePath?: string } = {}) {
   const projectOptions = {
     useVirtualFileSystem: true,
-    ...{      
-...options.tsconfigFilePath ? {
+    ...{
+      ...options.tsconfigFilePath ? {
         tsconfigFilePath: options.tsconfigFilePath,
         addFilesFromTsConfig: true
-      } : {}    
-},
+      } : {}
+    },
     compilerOptions: {
       ...options.compilerOptions || {},
       target: ts.ScriptTarget.ES2016,

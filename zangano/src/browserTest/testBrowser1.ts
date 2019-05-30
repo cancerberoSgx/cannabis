@@ -4,17 +4,34 @@ import { importDirectoryFromBrowserDir } from '../project/importDirectory'
 import { VirtualFileSystemHostConstructor } from '../project/VirtualFileSystemHost'
 const FS = require('@isomorphic-git/lightning-fs')
 
-async function testNode3() {
+
+async function cloneTest() {
   const dir = '/tutorial'
   const pfs = await initPsmDir(dir)
-  console.log(await git.clone({
+  await git.clone({
     dir,
     corsProxy: 'https://cors.isomorphic-git.org',
     url: 'https://github.com/isomorphic-git/isomorphic-git',
     ref: 'master',
     singleBranch: true,
     depth: 10
-  }))
+  })
+  console.log(await pfs.readdir(dir))
+  console.log(await git.log({ dir }))
+  console.log(await git.status({ dir, filepath: 'README.md' }))
+}
+
+async function testNode3() {
+  const dir = '/tutorial'
+  const pfs = await initPsmDir(dir)
+  await git.clone({
+    dir,
+    corsProxy: 'https://cors.isomorphic-git.org',
+    url: 'https://github.com/isomorphic-git/isomorphic-git',
+    ref: 'master',
+    singleBranch: true,
+    depth: 10
+  })
   console.log(await pfs.readdir(dir))
   console.log(await git.log({ dir }))
   console.log(await git.status({ dir, filepath: 'README.md' }))
