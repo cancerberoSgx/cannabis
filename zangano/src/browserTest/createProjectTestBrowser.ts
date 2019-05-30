@@ -1,10 +1,10 @@
 import { equal } from 'assert'
 import { ts } from 'ts-morph'
-import { createProjectFromBrowserDir2, createVirtualFilesystemProject } from '../project/createProject'
+import { createBrowserProject, createBrowserProjectFromDirectory } from '../project/createProject'
 import { getType } from '../project/util'
 
-async function createProjectFromBrowserDir2Test() {
-  const project = await createProjectFromBrowserDir2({
+async function createProjectFromBrowserDirTest() {
+  const project = await createBrowserProjectFromDirectory({
     dir: '/tutorial'
   })
   console.log(project.getSourceFiles().map(f => f.getBaseName()), project.getDirectories().map(d => d.getPath()), project.getRootDirectories().map(d => d.getPath()))
@@ -13,11 +13,11 @@ async function createProjectFromBrowserDir2Test() {
   const v = f.getFirstDescendantByKind(ts.SyntaxKind.VariableDeclaration)!
   equal(getType(v), 'number[]')
 }
-createProjectFromBrowserDir2Test()
+createProjectFromBrowserDirTest()
 
 
 function createVirtualFilesystemProjectTest() {
-  const project = createVirtualFilesystemProject()
+  const project = createBrowserProject()
   const f = project.createSourceFile('test.ts', 'var a = [1,2]')
   const v = f.getFirstDescendantByKind(ts.SyntaxKind.VariableDeclaration)!
   equal(getType(v), 'number[]')

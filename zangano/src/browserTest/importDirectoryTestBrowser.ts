@@ -1,11 +1,11 @@
 import { deepEqual, ok } from 'assert'
-import { importDirectoryFromBrowserDir } from '../project/importDirectory'
+import { importProjectFromDirectory } from '../project/importDirectory'
 import { VirtualFileSystemHostConstructor } from '../project/VirtualFileSystemHost'
 
 async function testImportDirectory() {
   const fs = new VirtualFileSystemHostConstructor()
   deepEqual(fs.readDirSync('/'), [])
-  await importDirectoryFromBrowserDir('/tutorial', fs)
+  await importProjectFromDirectory('/tutorial', fs)
   deepEqual(fs.readDirSync('/'), ['/tutorial'])
   const f1 = fs.readFileSync('/tutorial/tsconfig.json')
   console.log(f1)

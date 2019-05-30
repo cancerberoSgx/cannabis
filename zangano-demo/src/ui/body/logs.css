@@ -1,0 +1,45 @@
+.logsList {
+  /* height: 70vh; 
+  max-height: 70vh; */
+
+  /* height: 70vh; 
+  max-height: 70vh;
+  overflow: scroll; */
+
+  /* width: 70vw; 
+  max-width: 70vw; */
+  overflow: scroll;
+  display: block;
+}
+
+input[type="checkbox"]{
+  /* transition: color 0.1s ease; */
+  cursor: pointer;    
+  line-height: 22px;  
+  /* padding-left: 10px; */
+  /* padding-right: 10px; */
+  /* padding-left: 0em !important;    */
+   /* position: relative; */
+  /* display: block;    */
+   /* outline: none; */
+  font-size: 22px;
+  /* cursor: pointer; */
+  border-radius: 5px;
+  /* background: rgba(0, 0, 0, 0.25); */
+  /* -webkit-transition: color 0.2s ease; */
+  transition: color 0.2s ease;
+  background-color: #CCE2FF;
+  color: rgba(0, 0, 0, 0.87);
+  /* cursor: pointer; */
+  /* position: absolute; */
+  /* top: 0px;
+  left: 0px; */
+  /* opacity: 0 !important; */
+  /* outline: none; */
+  z-index: 3;
+  zoom: 1.2;
+  /* -webkit-appearancCe: none; */
+  /* appearance: none; */
+  width: 22px;
+  height: 22px;
+}

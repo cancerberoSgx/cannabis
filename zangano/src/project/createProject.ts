@@ -1,28 +1,18 @@
 import { FileSystemHost, Project, ts } from 'ts-morph'
-import { importDirectoryFromBrowserDir } from './importDirectory'
+import { importProjectFromDirectory } from './importDirectory'
 import { lib_es2015_core_d_ts } from './tsLibraries/lib_es2015_core_d_ts'
 import { lib_es2015_iterable_d_ts } from './tsLibraries/lib_es2015_iterable_d_ts'
 import { lib_es2015_symbol_d_ts } from './tsLibraries/lib_es2015_symbol_d_ts'
 import { lib_es5_d_ts } from './tsLibraries/lib_es5_d_ts'
 
-// export async function createProjectFromBrowserDir(options: {dir: string, compilerOptions?: Partial<ts.CompilerOptions>}) {
-//   const fs = new VirtualFileSystemHostConstructor()
-//   await importDirectoryFromBrowserDir(options.dir, fs)
-//   const f1 = fs.readFileSync(pathJoin(options.dir,'tsconfig.json'))
-//   ok  (f1.includes(`"compilerOptions":`))
-//   const project = createVirtualFilesystemProject({fs, tsconfigFilePath: pathJoin(options.dir, 'tsconfig.json')})
-//   return project
-// } 
-
-export async function createProjectFromBrowserDir2(options: { dir: string, compilerOptions?: Partial<ts.CompilerOptions> }) {
-  const project = createVirtualFilesystemProject()
-  await importDirectoryFromBrowserDir(options.dir, project.getFileSystem())
-  // const f1 = project.getFileSystem().readFileSync(pathJoin('/tsconfig.json'))
-  // ok  (f1.includes(`"compilerOptions":`))
+export async function createBrowserProjectFromDirectory(options: { dir: string, compilerOptions?: Partial<ts.CompilerOptions> }) {
+  const project = createBrowserProject()
+  await importProjectFromDirectory(options.dir, project.getFileSystem())
   project.addSourceFilesFromTsConfig('/tsconfig.json')
   return project
 }
-export function createVirtualFilesystemProject(options: { compilerOptions?: Partial<ts.CompilerOptions>, fs?: FileSystemHost, tsconfigFilePath?: string } = {}) {
+
+export function createBrowserProject(options: { compilerOptions?: Partial<ts.CompilerOptions>, fs?: FileSystemHost, tsconfigFilePath?: string } = {}) {
   const projectOptions = {
     useVirtualFileSystem: true,
     ...{

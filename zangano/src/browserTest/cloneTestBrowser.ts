@@ -13,7 +13,7 @@ async function cloneTest() {
 
   await clone({
     dir,
-    removeExisting: true,
+    // removeExisting: true,
     corsProxy: 'https://cors.isomorphic-git.org',
     url: 'https://github.com/cancerberoSgx/yamat',
     ref: 'master',
