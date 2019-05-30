@@ -8,11 +8,9 @@ export const VirtualFileSystemHostConstructor: VirtualFileSystemHostConstructor 
 
 module.exports.VirtualFileSystemHostConstructor = getFileSystemHostConstructor().constructor
 
-// const fs = getFileSystemHostConstructor();
 function getFileSystemHostConstructor() {
   const p = new Project({ useVirtualFileSystem: true })
   const fs = p.getFileSystem()
-  // console.log(fs.constructor);
   return fs
 }
 

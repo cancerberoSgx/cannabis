@@ -22,7 +22,3 @@ async function clone(options: Options = {}) {
   console.log(await git.log({ dir: allOptions.dir }))
 }
 
-// function readAllFiles(dir:string, visitor: (fileName:string, contents: string)=>boolean){
-
-// }
-
