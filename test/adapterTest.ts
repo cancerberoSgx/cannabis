@@ -5,7 +5,7 @@ import { notFalsy } from 'misc-utils-of-mine-typescript'
 import { isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode, queryAst } from '../src'
 import { getTypeScriptAstq } from '../src/adapter/adapter'
-import { getGeneralNodeKindName, getNodeProperty, isGeneralNode, setNodeProperty } from '../src/astNode'
+import { getGeneralNodeKindName, getNodeProperty, isGeneralNode, setNodeProperty, getASTNodeDescendants } from '../src/astNode'
 import { getFile } from '../src/file'
 import { code2, code3 } from './assets/code'
 import { isString, printNode } from './testUtil'
@@ -37,15 +37,13 @@ test('compile and execute should be invocable manually', async t => {
   const node = getFile(code2)
   const result = astq.execute(node, query, {}, trace)
 
-  node.forEachDescendant(d => {
+getASTNodeDescendants(node).forEach(d => {
 
     const p = getNodeProperty<StepTraceEvent & { t: number }>(d, 'traceTest1Events')
     if (!p) { return }
     b.push([indent(p.queryNodeDepth, 4), printMs(p.t), printNode(d), 'query: ', p.queryNode.type(), 'depth: ' + p.queryNodeDepth, 'childs: ', p.queryNode.childs().map(c => c.type()).join(', '), 'attrs: ' + Object.keys(p.queryNode.attrs()).map(k => `${k}=${p.queryNode.get(k)}`).join(', ')])
   })
   t.truthy(result.length > 10 || true)
-
-  const constants = b.map(l => l.filter(isString).filter(s => !s.includes('milliseconds'))).map(l => asArray(l).join(', ')).join('\n')
 
   t.deepEqual(events
     .map(d => d.node)

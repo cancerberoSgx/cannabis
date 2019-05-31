@@ -1,6 +1,7 @@
 import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
 import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph, getGeneralNodePath } from 'ts-simple-ast-extra'
 import { Node } from './queryAst'
+import { getConfig } from './config';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -18,7 +19,7 @@ export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
   return !f
     ? []
     : isDirectory(f)
-      ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles() as ASTNode[])
+      ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f=>getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
       : f.forEachChildAsArray()
 }
 export const getASTNodeChildren = getGeneralNodeChildren
@@ -64,8 +65,6 @@ export function getASTNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
 }
 
-// export const getASTNodeText = getGeneralNodeText
-
 export function getASTNodeFilePath(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getSourceFile().getFilePath()
 }
@@ -85,7 +84,7 @@ export function getName(n: Node) {
   }
 }
 
-export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent: T | undefined, level: number) => boolean, childrenFirst = true, parent?: T, level = 0) {
+export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | undefined, level?: number|undefined) => boolean, childrenFirst = true, parent?: T, level = 0) {
   if (!n) {
     return
   }
@@ -94,6 +93,15 @@ export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent: T | undef
   }
   getASTNodeChildren(n).forEach((c: any) => { visit(c, v, childrenFirst, n, level + 1) })
   return childrenFirst && v(n, parent, level)
+}
+
+export function getASTNodeDescendants(node: ASTNode){
+  const a: ASTNode[] = []
+  visit(node, n=>{
+    a.push(n)
+    return false
+  })
+  return a
 }
 
 export function setNodeProperty(n: GeneralNode, path: string | (string | number)[], value: any) {

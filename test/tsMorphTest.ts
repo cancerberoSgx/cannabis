@@ -1,15 +1,15 @@
 import test from 'ava'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { queryAst, queryOne } from '../src'
-import { getFile, getTsMorphFile } from "../src/file"
+import { getFile } from "../src/file"
 import { queryAstSimpleTest } from './testUtil'
 
 test('multiple queries in same changing node ', t => {
-  const file = getTsMorphFile(`
+  const file = getFile(`
   function f(a: number){return a+1}
   const y = f(2)
   function k(){}
-  `)
+  `)as tsMorph.SourceFile
 
   // in the middle, suppose that someone makes a new query
   queryAstSimpleTest(t, queryAst(`//* [@name=='g' && type()!='Identifier']`, 'const g = 1'), { result: { kind: ['VariableDeclaration'] } })
@@ -44,8 +44,8 @@ test('should parse jsx', t => {
 })
 
 test('should get JsxText', t => {
-  const f = getFile(`const a = <p>foo</p>`)
+  const f = getFile(`const a = <p>foo</p>`) as tsMorph.SourceFile
   t.is(f.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'foo')
-  const f2 = getFile(`const a = <p>hello world</p>`)
+  const f2 = getFile(`const a = <p>hello world</p>`)as tsMorph.SourceFile
   t.is(f2.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'hello world')
 })

@@ -1,11 +1,11 @@
 import test from 'ava'
 import { ts } from 'ts-simple-ast-extra'
 import { queryAst } from '../../src'
-import { getTsMorphFile } from "../../src/file"
+import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 
 test('extendsNamed', t => {
-  const f = getTsMorphFile(code2)
+  const f = getFile(code2)
   let result = queryAst(`//* [ extendsNamed('C') ]`, f)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getFirstChildByKind(ts.SyntaxKind.Identifier)!.getText()), ['D'])

@@ -8,12 +8,12 @@
     "sourceMap": true,
     "outDir": "./dist", 
     "declaration": true,
-    "rootDir": ".",
+    "rootDir": "."
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "bin"
+    "bin", "node_modules", "dist"
   ]
 }

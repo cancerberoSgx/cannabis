@@ -1,8 +1,7 @@
 import { test } from 'shelljs';
 import { join } from 'path';
-import {loadProject, queryAll, getASTNodePath, QueryResult, ASTNode, queryAst, getASTNodeName, getASTNodeKindName, getASTNodeText} from 'cannabis'
+import {loadProject, queryAll, getASTNodePath, QueryResult, getASTNodeFilePath,  ASTNode, queryAst, getASTNodeName, getASTNodeKindName, getASTNodeText} from 'cannabis'
 import {arrayToObject} from 'misc-utils-of-mine-generic'
-import { getASTNodeFilePath } from '../../dist/src/astNode';
 import { writeFileSync } from 'fs';
 
 interface Config {
@@ -68,7 +67,7 @@ export async function main() {
     if(!test('-f', tsConfigFile)) {
       fail(`Project's tsconfig.json file cannot be found, exiting.`)
     }
-    const p = loadProject(options.project)
+    const p = loadProject(tsConfigFile)
     const root = p.getRootDirectory()
     const result = queryAst(options.query, root)
     if(result.error){
