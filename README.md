@@ -11,9 +11,22 @@ Based on the powerful [astq](https://github.com/rse/astq) AST Query engine and s
 
 - [Playground](#playground)
 - [Usage](#usage)
+  * [From string](#from-string)
+  * [From ts.Node](#from-tsnode)
+  * [Loading projects](#loading-projects)
 - [Custom Attributes](#custom-attributes)
+  * [@text](#text)
+  * [@name](#name)
+  * [@modifiers](#modifiers)
+  * [@type](#type)
+  * [@expression](#expression)
 - [Custom Functions](#custom-functions)
+  * [isFunctionLike()](#isfunctionlike)
+  * [extendsNamed(name)](#extendsnamedname)
+  * [implementsNamed(name)](#implementsnamedname)
+  * [sourceFile()](#sourcefile)
 - [Query Syntax](#query-syntax)
+- [TODO](#todo)
 
 <!-- tocstop -->
 
@@ -129,7 +142,7 @@ The following are custom function that can be used in the queries directly, adde
 
 ## isFunctionLike()
 
- * `isFunctionLike()` - `boolean`
+ * `isFunctionLike(arg?)` - `boolean`
  
  Returns true if current node kind is function like, this is a callable node like FunctionDeceleration, MethodDeclaration, ArrowFunction, etc.
 
@@ -165,11 +178,20 @@ Examples:
  
 `//ClassDeclaration [implementsNamed('Touchable')]`
 
- ## sourceFile()
+ ## sourceFile(node?)
 
 `sourceFile()` - `SourceFile` (ts-morph Node)
  
 Returns current sourceFile Node
+
+## findReferences(node?)
+
+TODO
+
+## debug(...args?)
+
+TODO
+
 
 
 # Query Syntax
@@ -178,6 +200,8 @@ Returns current sourceFile Node
  * Based on https://github.com/rse/astq
  * This is a very WIP project...
  * Helper functions to reference high level AST concepts will be added & documented
+
+
 
 
 # TODO
