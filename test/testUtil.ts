@@ -1,9 +1,9 @@
 import { ExecutionContext } from 'ava'
-import { getObjectProperty, setObjectProperty, shorter, indent } from 'misc-utils-of-mine-generic'
-import { GeneralNode, getGeneralNodeKindName } from 'ts-simple-ast-extra'
-import { ASTNode, getGeneralNodeName, getGeneralNodeText, visit, getASTNodeKindName } from '../src/astNode'
+import { indent, shorter } from 'misc-utils-of-mine-generic'
+import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
+import { attributeNames, getAttribute } from '../src/adapter/attributes'
+import { ASTNode, getASTNodeKindName, getGeneralNodeName, getGeneralNodeText, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
-import { attributeNames, getAttribute } from '../src/adapter/attributes';
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
   t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)

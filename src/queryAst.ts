@@ -3,7 +3,6 @@ import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isGeneralNode } from "./astNode"
 import { getFile } from './file'
-import { timingSafeEqual } from 'crypto';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -13,7 +12,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   error?: Error
   query?: ASTQQuery<T>
   ast: ASTNode,
-  timings: {    parseAst:number, compileQuery:number, executeQuery:number}
+  timings: { parseAst: number, compileQuery: number, executeQuery: number }
 }
 
 export interface ExecutionContext {
@@ -31,8 +30,8 @@ interface QueryAstOptions<T extends ASTNode = ASTNode> {
 
   context?: ExecutionContext
 }
-function now(){
-return  Date.now()
+function now() {
+  return Date.now()
 }
 /**
  * It will create and execute a new query defined by [[q]] on nodes defined by [[codeOrNode]] as follows. If
@@ -44,7 +43,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   const timings = {
     parseAst: -1, compileQuery: -1, executeQuery: -1
   }
-  const parseAstT0 =now()
+  const parseAstT0 = now()
   let node: Node | tsMorph.Directory
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
@@ -55,19 +54,19 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   else {
     node = getFile(codeOrNode.getText())
   }
-  timings.parseAst =now()-parseAstT0
-  let executeQueryT0= -1
+  timings.parseAst = now() - parseAstT0
+  let executeQueryT0 = -1
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
-    const compileQueryT0 =now()
-    const context: ExecutionContext = options.context || {logs:[]}
+    const compileQueryT0 = now()
+    const context: ExecutionContext = options.context || { logs: [] }
     const astq = getTypeScriptAstq(context)
     const trace = options.trace || false
     const query = astq.compile(q, trace) as ASTQQuery<T>
-    timings.compileQuery = now()-compileQueryT0
-    executeQueryT0 =now()
+    timings.compileQuery = now() - compileQueryT0
+    executeQueryT0 = now()
     const result = astq.execute(node, query, options.params || {}, trace) as T[]
-    timings.executeQuery = now()-executeQueryT0
+    timings.executeQuery = now() - executeQueryT0
     return {
       result,
       query,
@@ -75,7 +74,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
       timings
     }
   } catch (error) {
-    timings.executeQuery = now()-executeQueryT0
+    timings.executeQuery = now() - executeQueryT0
 
     return {
       error,

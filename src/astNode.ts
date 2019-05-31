@@ -1,7 +1,6 @@
+import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
 import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
 import { Node } from './queryAst'
-import { indent, setObjectProperty, getObjectProperty } from 'misc-utils-of-mine-generic';
-import { attributeNames, getAttribute } from './adapter/attributes';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -89,7 +88,7 @@ export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent: T | undef
   if (!childrenFirst && v(n, parent, level)) {
     return true
   }
-    getASTNodeChildren(n).forEach((c: any) => { visit(c, v, childrenFirst, n, level + 1) })
+  getASTNodeChildren(n).forEach((c: any) => { visit(c, v, childrenFirst, n, level + 1) })
   return childrenFirst && v(n, parent, level)
 }
 

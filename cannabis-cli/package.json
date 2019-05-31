@@ -1,14 +1,10 @@
 {
-  "name": "cannabis",
-  "version": "0.0.7",
-  "description": "TypeScript AST Query library",
+  "name": "cannabis-cli",
+  "version": "0.0.1",
+  "description": "Command line interface for cannabis, the TypeScript advanced AST Query library",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "ava",
-    "coverage": "npx nyc --nycrc-path nyc.config.js npm test",
-    "test-watch": "ava -w",
-    "test-debug": "node --inspect-brk node_modules/ava/..",
     "clean": "rm -rf dist docs",
     "build": "npx tsc",
     "prepare": "npm run build",
@@ -38,7 +34,7 @@
     "markdown-toc": "^1.2.0",
     "nyc": "^14.1.1",
     "ts-node": "^8.2.0",
-    "ts-refactor": "0.0.6",
+    "ts-refactor": "0.0.5",
     "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.2.1"
   },
@@ -47,7 +43,7 @@
   },
   "dependencies": {
     "astq": "github:cancerberoSgx/astq",
-    "misc-utils-of-mine-generic": "^0.2.5",
+    "misc-utils-of-mine-generic": "^0.2.4",
     "string.ify": "^1.0.58",
     "ts-simple-ast-extra": "0.1.11"
   }

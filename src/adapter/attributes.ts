@@ -31,5 +31,5 @@ export function getAttribute(node: ASTNode, attr: string) {
   //body,  symbol, type, pos, start 
 }
 
-export type AttributeNames = 'text'|'name'|'type'|'modifiers'|'expression'
-export const attributeNames : AttributeNames[] =  ['text', 'name', 'type', 'modifiers', 'expression']
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression'
+export const attributeNames: AttributeNames[] = ['text', 'name', 'type', 'modifiers', 'expression']

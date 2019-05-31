@@ -1,19 +1,25 @@
 ## Objective real life queries:
 
-* `// ClassDeclaration [implements({IDNode})]` - example: 
+* function containsAnyOf: // ClassDeclaration [containsAnyOf(@name, {classNames})] . containAnyOf(s: string, a: string[]). 
+  * similar containedInAnyOf, containedInAllOf, containsAllOf
+  * or a general function: contain(predicate: 'contains'|'contained', multiplicity: 'allOf', 'anyOf', 'noneOf', s: string|number, a: string[]|number[])
+  * CLI example: `cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --paramsFile blackListWords.txt`
+  
+* search text in comments : //LineComment [@text =~ ]
 
+* `// ClassDeclaration [implements({IDNode})]` - example: 
 ```ts
 var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
 var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/implements({touchable})])', {params: {touchable}})
 // class 
 ```
+ * function isDeclaration()
 
 *   // files matching src/**/*Test.ts* that doesn't contain a class implementing (recursively) an the interface import('src/service/login/loginService.ts').LoginService
 * // files in src/** referencing type import('old-library').Obsolete
 * function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
 `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
 meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
-
 
  * idea  : git integration
 ```ts
