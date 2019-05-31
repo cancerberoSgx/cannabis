@@ -21,7 +21,7 @@ cannabis --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
  * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, or a combination of any of them. 
  * `--help`: prints help and exits.
  * `--outputFile`: If given the search result will be written in that file, otherwise will be written in stdout.
-
+ * `--one`: If given will stop searching when a node matches so result will be at most 1 node. Otherwise it will search on every file and all matching nodes will be returned.
 ## Examples
 
 Give a query as argument and search it across files that match given glob pattern:
@@ -53,3 +53,9 @@ Same as before, but passing parameters literally in the argument:
 ```sh
 cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params '{"blackList": ["foo","bar"]}'
 ```
+
+## TODO: 
+
+ --timings
+ --trace
+ --logs to write query logs.

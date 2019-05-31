@@ -1,6 +1,6 @@
 import { tryTo } from 'misc-utils-of-mine-generic'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName, getGeneralNodeText } from '../astNode'
+import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {
@@ -8,7 +8,7 @@ export function getAttribute(node: ASTNode, attr: string) {
       return null
     }
     else if (attr === 'text') {
-      return getGeneralNodeText(node)
+      return getASTNodeText(node)
     }
     else if (attr === 'name') {
       return getASTNodeName(node) || ''

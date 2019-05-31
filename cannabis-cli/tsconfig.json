@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["esnext"], 
     "strict": true, 
-    "esModuleInterop": true,
     "sourceMap": true,
     "outDir": "./dist", 
     "declaration": true,
     "rootDir": ".",
   },
   "include": [
-    "src", "test"
+    "src"
   ],
   "exclude": [
-    "node_modules", "typescript-ast-query-editors", "coverage", ".nyc_output", "test/assets/project1", "guitarra", "zangano", "zangano-demo"
+    "bin"
   ]
 }

@@ -1,5 +1,5 @@
 import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
-import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
+import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph, getGeneralNodePath } from 'ts-simple-ast-extra'
 import { Node } from './queryAst'
 
 /**
@@ -60,11 +60,15 @@ export function getASTNodeName(node: ASTNode) {
 
 export const getGeneralNodeName = getASTNodeName
 
-export function getGeneralNodeText(n: ASTNode) {
+export function getASTNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
 }
 
-export const getASTNodeText = getGeneralNodeText
+// export const getASTNodeText = getGeneralNodeText
+
+export function getASTNodeFilePath(n: ASTNode) {
+  return isDirectory(n) ? n.getPath() : n.getSourceFile().getFilePath()
+}
 
 export function getName(n: Node) {
   function getNodeName(n: Node) {
@@ -105,3 +109,10 @@ export function getNodeProperty<T = any>(n: GeneralNode, path: string | (string 
   }
   return getObjectProperty<T>((n as any).cannabis_meta, path)
 }
+
+export {getGeneralNodePath as getASTNodePath} from 'ts-simple-ast-extra'
+// export function getASTNodePath(node: ASTNode) {
+//   if (isDirectory(node) || isSourceFile(node)) {
+//     return node.get
+//   }
+// }

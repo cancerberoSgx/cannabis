@@ -2,7 +2,7 @@ import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { attributeNames, getAttribute } from '../src/adapter/attributes'
-import { ASTNode, getASTNodeKindName, getGeneralNodeName, getGeneralNodeText, visit } from '../src/astNode'
+import { ASTNode, getASTNodeKindName, getGeneralNodeName, getASTNodeText, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
@@ -28,8 +28,8 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
       expectSameLength(t, expected.result.kind, input.result!.map(c => getGeneralNodeKindName(c)))
     }
     if (expected.result.text) {
-      expected.result.text.forEach((te, i) => expectToInclude(t, getGeneralNodeText(input.result![i]), te))
-      expectSameLength(t, expected.result.text, input.result!.map(getGeneralNodeText))
+      expected.result.text.forEach((te, i) => expectToInclude(t, getASTNodeText(input.result![i]), te))
+      expectSameLength(t, expected.result.text, input.result!.map(getASTNodeText))
     }
   }
   else {
@@ -38,7 +38,7 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
 }
 
 export function printNode(n: ASTNode, name = false, text = false) {
-  return `${getGeneralNodeKindName(n)} ${name ? getGeneralNodeName(n) : ''}${text ? `("` + shorter(getGeneralNodeText(n)) + `")` : ''}`
+  return `${getGeneralNodeKindName(n)} ${name ? getGeneralNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}`
 }
 
 export function printTypeAndAttrs(n: ASTNode) {
