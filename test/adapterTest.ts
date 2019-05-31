@@ -5,10 +5,10 @@ import { notFalsy } from 'misc-utils-of-mine-typescript'
 import { isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode, queryAst } from '../src'
 import { getTypeScriptAstq } from '../src/adapter/adapter'
-import { getGeneralNodeKindName, isGeneralNode } from '../src/astNode'
+import { getGeneralNodeKindName, isGeneralNode, getNodeProperty, setNodeProperty } from '../src/astNode'
 import { getFile } from '../src/file'
 import { code2, code3 } from './assets/code'
-import { getNodeProperty, isString, printNode, setNodeProperty } from './testUtil'
+import { isString, printNode } from './testUtil'
 
 test('compile and execute should be invocable manually', async t => {
   const astq = getTypeScriptAstq()

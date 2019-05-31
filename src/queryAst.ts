@@ -16,6 +16,9 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   timings: {    parseAst:number, compileQuery:number, executeQuery:number}
 }
 
+export interface ExecutionContext {
+  logs: string[]
+}
 interface QueryAstOptions<T extends ASTNode = ASTNode> {
   /**
    * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
@@ -25,6 +28,8 @@ interface QueryAstOptions<T extends ASTNode = ASTNode> {
    * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default value is `{}.`
    */
   params?: { [name: string]: any }
+
+  context?: ExecutionContext
 }
 function now(){
 return  Date.now()
@@ -55,7 +60,8 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
     const compileQueryT0 =now()
-    const astq = getTypeScriptAstq()
+    const context: ExecutionContext = options.context || {logs:[]}
+    const astq = getTypeScriptAstq(context)
     const trace = options.trace || false
     const query = astq.compile(q, trace) as ASTQQuery<T>
     timings.compileQuery = now()-compileQueryT0

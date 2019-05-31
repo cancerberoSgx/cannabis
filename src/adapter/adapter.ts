@@ -1,11 +1,12 @@
 import ASTQ from 'astq'
 import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "../astNode"
-import { getAttribute } from './attributes'
+import { getAttribute, AttributeNames, attributeNames } from './attributes'
 import { installFunctions } from './functions'
+import { ExecutionContext } from '../queryAst';
 
 let astq: ASTQ<ASTNode> | undefined
 
-export function getTypeScriptAstq() {
+export function getTypeScriptAstq(context: ExecutionContext = {logs: []}) {
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({
@@ -31,14 +32,14 @@ export function getTypeScriptAstq() {
       getNodeType(node: ASTNode) {
         return node && getGeneralNodeKindName(node) || 'undefined'
       },
-      getNodeAttrNames(node: ASTNode) {
-        return ['text', 'name', 'type', 'modifiers', 'expression']
+      getNodeAttrNames(node: ASTNode): AttributeNames[] {
+        return attributeNames
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
         return getAttribute(node, attr) || null
       }
     })
-    installFunctions(astq)
+    installFunctions(astq, context)
   }
   return astq
 }

@@ -1,8 +1,9 @@
 import { ExecutionContext } from 'ava'
-import { getObjectProperty, setObjectProperty, shorter } from 'misc-utils-of-mine-generic'
+import { getObjectProperty, setObjectProperty, shorter, indent } from 'misc-utils-of-mine-generic'
 import { GeneralNode, getGeneralNodeKindName } from 'ts-simple-ast-extra'
-import { ASTNode, getGeneralNodeName, getGeneralNodeText } from '../src/astNode'
+import { ASTNode, getGeneralNodeName, getGeneralNodeText, visit, getASTNodeKindName } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
+import { attributeNames, getAttribute } from '../src/adapter/attributes';
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
   t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)
@@ -36,23 +37,19 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
   }
 }
 
-
 export function printNode(n: ASTNode, name = false, text = false) {
   return `${getGeneralNodeKindName(n)} ${name ? getGeneralNodeName(n) : ''}${text ? `("` + shorter(getGeneralNodeText(n)) + `")` : ''}`
 }
 
-export function setNodeProperty(n: GeneralNode, path: string | (string | number)[], value: any) {
-  if (!(n as any).cannabis_meta) {
-    (n as any).cannabis_meta = {}
-  }
-  setObjectProperty((n as any).cannabis_meta, path, value)
+export function printTypeAndAttrs(n: ASTNode) {
+  const a = ['']
+  visit(n, (c, p, l) => {
+    a.push(`${indent(l)}<${getASTNodeKindName(c)} ${attributeNames.map(a => `${a}="${getAttribute(c, a)}"`).join(' ')}>`)
+    return false
+  })
+  return a.reverse().join('\n')
 }
-export function getNodeProperty<T = any>(n: GeneralNode, path: string | (string | number)[]): T | undefined {
-  if (!(n as any).cannabis_meta) {
-    (n as any).cannabis_meta = {}
-  }
-  return getObjectProperty<T>((n as any).cannabis_meta, path)
-}
+
 export function isString(a: any): a is string {
   return typeof a === 'string'
 }

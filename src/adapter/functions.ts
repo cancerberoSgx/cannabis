@@ -1,8 +1,10 @@
 import ASTQ from 'astq'
 import { getExtendsRecursivelyNames, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { tryTo } from 'misc-utils-of-mine-generic';
+import { ExecutionContext } from '../queryAst';
+const stringify = require ('string.ify')
 
-export function installFunctions(astq: ASTQ) {
+export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   astq.func('isFunctionLike', (adapter, node) => {
     return isNode(node) && ts.isFunctionLike(node.compilerNode)
   })  
@@ -25,11 +27,10 @@ export function installFunctions(astq: ASTQ) {
   astq.func('kindName', (adapter, node, arg?) => {
     return  isNode(arg||node) && arg.getKindName(arg||node)
   })
-  // astq.func('debug', (adapter, node, ...args: any[]) => {
-  //   // typeof appendFileSync!=='undefined' && appendFileSync('log2.txt', args.map(a=>inspect(a)).join(', ')+'\n')
-  //   console.log(...args)
-  //   return true
-  // })
+  astq.func('debug', (adapter, node, ...args: any[]) => {
+    context.logs.push(args.length ? args.map( a=>stringify(a)).join(', ') : node)
+    return true // return tue so users can write AND expressions and keep the query.
+  })
   astq.func('get', (adapter, node, name: string, ...args: any[]) => {
     const getter = name.substring(0,1).toUpperCase()+name.substring(1, name.length)
     let value:any|null = null

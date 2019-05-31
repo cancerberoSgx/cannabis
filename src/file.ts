@@ -14,7 +14,7 @@ export function getFile(code: string) {
   return file!
 }
 
-export function getProject() {
+function getProject() {
   if (!reuseProject || !_project) {
     _project = new tsMorph.Project(
       {
@@ -35,6 +35,9 @@ function getNewFileName(): string {
   return `${unique('cannabis_test_file_')}.tsx`
 }
 
+/**
+ * Creates a new SourceFile kind of node from given code with given name.
+ */
 export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTFile {
   if (parent) {
     return parent.createSourceFile(name, code)
@@ -43,6 +46,10 @@ export function createSourceFile(code = '', name = getNewFileName(), parent?: AS
   }
 }
 
+/**
+ * Returns an object representing the project that gives access to the root directories using
+ * [[getRootDirectories]] which are queriable nodes. 
+ */
 export function loadProject(tsConfigFilePath: string) {
   if (_project) {
     _project.getSourceFiles().forEach(f => f.forget())
@@ -51,6 +58,9 @@ export function loadProject(tsConfigFilePath: string) {
   return new ASTRootImpl(_project)
 }
 
+/**
+ * Allows to load an existing ts-morph project instance.
+ */
 export function setProject(project: tsMorph.Project) {
   if (_project) {
     _project.getSourceFiles().forEach(f => f.forget())
@@ -60,7 +70,8 @@ export function setProject(project: tsMorph.Project) {
 }
 
 /**
- * Returns an object representing the project that gives access to the root directories using [[getRootDirectories]] which are queriable nodes. 
+ * Creates a new directory kind ASTNode with given name and cihldren of given parent directory or at the root
+ * if no parent is given.
  */
 export function createDirectory(name: string, parent?: ASTDirectory) {
   if (parent) {
@@ -70,16 +81,16 @@ export function createDirectory(name: string, parent?: ASTDirectory) {
   }
 }
 
+/**
+ * @internal
+ */
 export function getTsMorphFile(code: string = '') {
   return getFile(code)
 }
 
-export function getTsFile(code: string = '') {
-  return getFile(code).compilerNode
-}
-
 /**
- * This represents the project and is not a valid Node. Query on the root directories using [[getRootDirectory]].
+ * This represents the project and is not a valid Node. Query on the root directories using
+ * [[getRootDirectory]].
  */
 interface ASTRoot {
   getRootDirectory(): ASTDirectory
@@ -91,14 +102,17 @@ class ASTRootImpl implements ASTRoot {
   constructor(private _project: tsMorph.Project) { }
 
   /**
-   * Returns all project's root directories, including those in node_modules project dependencies. The first one will be thir project's source directory alghouth you can force omitting node_modules ones with [[getRootDirectory]] .
+   * Returns all project's root directories, including those in node_modules project dependencies. The first
+   * one will be thir project's source directory alghouth you can force omitting node_modules ones with
+   * [[getRootDirectory]] .
    */
   getRootDirectories(): ASTDirectory[] {
     return this._project.getRootDirectories()
   }
 
   /**
-   * [[getRootDirectories]] could return many folders since it will include also the ones in node_modules project dependencies. Use [[getRootDirectory]] to ignore those. 
+   * [[getRootDirectories]] could return many folders since it will include also the ones in node_modules
+   * project dependencies. Use [[getRootDirectory]] to ignore those. 
    */
   getRootDirectory(): ASTDirectory {
     const filtered = this.getRootDirectories().filter(f => !f.getPath().includes('node_modules'))
