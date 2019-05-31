@@ -1,14 +1,14 @@
 import { StepTraceEvent } from 'astq'
 import test from 'ava'
-import { asArray, indent, notSameNotFalsy, printMs, removeWhites } from 'misc-utils-of-mine-generic'
+import { indent, notSameNotFalsy, printMs, removeWhites } from 'misc-utils-of-mine-generic'
 import { notFalsy } from 'misc-utils-of-mine-typescript'
 import { isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode, queryAst } from '../src'
 import { getTypeScriptAstq } from '../src/adapter/adapter'
-import { getGeneralNodeKindName, getNodeProperty, isGeneralNode, setNodeProperty, getASTNodeDescendants } from '../src/astNode'
+import { getASTNodeDescendants, getGeneralNodeKindName, getNodeProperty, isGeneralNode, setNodeProperty } from '../src/astNode'
 import { getFile } from '../src/file'
 import { code2, code3 } from './assets/code'
-import { isString, printNode } from './testUtil'
+import { printNode } from './testUtil'
 
 test('compile and execute should be invocable manually', async t => {
   const astq = getTypeScriptAstq()
@@ -37,7 +37,7 @@ test('compile and execute should be invocable manually', async t => {
   const node = getFile(code2)
   const result = astq.execute(node, query, {}, trace)
 
-getASTNodeDescendants(node).forEach(d => {
+  getASTNodeDescendants(node).forEach(d => {
 
     const p = getNodeProperty<StepTraceEvent & { t: number }>(d, 'traceTest1Events')
     if (!p) { return }

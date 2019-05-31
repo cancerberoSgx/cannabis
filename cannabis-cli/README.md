@@ -18,10 +18,11 @@ cannabis --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
  * `--files`: TypeScript files to search. Valid files are .ts, .tsx, .js, .jsx. The value could be a glob pattern, in that case all files matching the pattern will be the input. Examples: `--files "src/**/are42/**/*.ts?"`.
  * `--project`: TypeScript project in which to search. It could be a folder or a `tsconfig.json` path. If `--files` also given it will be used as a filter pattern.
  * `--params`: query parameters. It could be a json file containing an object or a literal json text. Examples: `--params blackListWords.json`, `--params '{"blackList": ["foo","bar"]}'`
- * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, or a combination of any of them. 
+ * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, `kind` or a combination of any of them, comma separated. 
  * `--help`: prints help and exits.
  * `--outputFile`: If given the search result will be written in that file, otherwise will be written in stdout.
  * `--one`: If given will stop searching when a node matches so result will be at most 1 node. Otherwise it will search on every file and all matching nodes will be returned.
+ 
 ## Examples
 
 Give a query as argument and search it across files that match given glob pattern:
@@ -53,6 +54,14 @@ Same as before, but passing parameters literally in the argument:
 ```sh
 cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params '{"blackList": ["foo","bar"]}'
 ```
+
+Listing only name and kind of matches using --output:
+
+```sh
+cannabis --query "// Identifier [..//InterfaceDeclaration]" --project . --output "name,kind"
+```
+
+
 
 ## TODO: 
 

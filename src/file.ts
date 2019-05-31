@@ -1,7 +1,7 @@
 import { unique } from 'misc-utils-of-mine-generic'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { ASTDirectory, ASTFile, ASTNode, getASTNodeFilePath } from './astNode'
-import { getConfig } from './config';
+import { getConfig } from './config'
 
 let file: ASTFile | undefined
 let _project: tsMorph.Project | undefined
@@ -10,7 +10,7 @@ let reuseProject = true
 /**
  * Creates a new file with given code
  */
-export function getFile(code: string) : ASTNode{
+export function getFile(code: string): ASTNode {
   file = getProject().createSourceFile(getNewFileName(), code)
   return file!
 }
@@ -108,7 +108,7 @@ class ASTRootImpl implements ASTRoot {
    * [[getRootDirectory]] .
    */
   getRootDirectories(): ASTNode[] {
-    return this._project.getRootDirectories().filter(d=>getConfig('includeFilesInNodeModules')||!d.getPath().includes('node_modules'))
+    return this._project.getRootDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
   }
 
   /**
@@ -116,7 +116,7 @@ class ASTRootImpl implements ASTRoot {
    * project dependencies. Use [[getRootDirectory]] to ignore those. 
    */
   getRootDirectory(): ASTNode {
-    const filtered = this.getRootDirectories().filter(f => getConfig('includeFilesInNodeModules')||!getASTNodeFilePath(f).includes('node_modules'))
+    const filtered = this.getRootDirectories().filter(f => getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
     return filtered.length ? filtered[0] : this.getRootDirectories()[0]
   }
 

@@ -1,9 +1,8 @@
 import test from 'ava'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { loadProject, queryAll, queryAst, queryOne } from '../src'
-import { ASTDirectory, ASTFile, getASTNodeFilePath, getASTNodeName, getASTNodeDescendants } from "../src/astNode"
+import { ASTDirectory, ASTFile, getASTNodeDescendants, getASTNodeFilePath } from "../src/astNode"
 import { code1, code2 } from './assets/code'
-import { expectToInclude } from './testUtil';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -50,10 +49,10 @@ test('loadProject', t => {
 test('source files should not be in node modules', t => {
   const p = loadProject('test/assets/project1/tsconfig.json')
   const root = p.getRootDirectory()
-  t.deepEqual(queryAll<tsMorph.SourceFile>(`.// SourceFile `, root)!. map(getASTNodeFilePath).filter(p=>p.includes('node_modules')) , [])
-  p.getRootDirectories().forEach(d=>{
+  t.deepEqual(queryAll<tsMorph.SourceFile>(`.// SourceFile `, root)!.map(getASTNodeFilePath).filter(p => p.includes('node_modules')), [])
+  p.getRootDirectories().forEach(d => {
     t.falsy(getASTNodeFilePath(d).includes('node_modules'))
-    t.deepEqual(getASTNodeDescendants(d).map(getASTNodeFilePath).filter(p=>p.includes('node_modules')).concat(getASTNodeFilePath(d)), [getASTNodeFilePath(d)])
+    t.deepEqual(getASTNodeDescendants(d).map(getASTNodeFilePath).filter(p => p.includes('node_modules')).concat(getASTNodeFilePath(d)), [getASTNodeFilePath(d)])
   })
 
   // files matching src/**/*Test.ts* that doesn't contain a class implementing (recursively) an interface called Gestured  

@@ -1,7 +1,7 @@
 import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
-import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph, getGeneralNodePath } from 'ts-simple-ast-extra'
+import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
+import { getConfig } from './config'
 import { Node } from './queryAst'
-import { getConfig } from './config';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -19,7 +19,7 @@ export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
   return !f
     ? []
     : isDirectory(f)
-      ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f=>getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
+      ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f => getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
       : f.forEachChildAsArray()
 }
 export const getASTNodeChildren = getGeneralNodeChildren
@@ -84,7 +84,7 @@ export function getName(n: Node) {
   }
 }
 
-export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | undefined, level?: number|undefined) => boolean, childrenFirst = true, parent?: T, level = 0) {
+export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | undefined, level?: number | undefined) => boolean, childrenFirst = true, parent?: T, level = 0) {
   if (!n) {
     return
   }
@@ -95,9 +95,9 @@ export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | unde
   return childrenFirst && v(n, parent, level)
 }
 
-export function getASTNodeDescendants(node: ASTNode){
+export function getASTNodeDescendants(node: ASTNode) {
   const a: ASTNode[] = []
-  visit(node, n=>{
+  visit(node, n => {
     a.push(n)
     return false
   })
@@ -118,7 +118,7 @@ export function getNodeProperty<T = any>(n: GeneralNode, path: string | (string 
   return getObjectProperty<T>((n as any).cannabis_meta, path)
 }
 
-export {getGeneralNodePath as getASTNodePath} from 'ts-simple-ast-extra'
+export { getGeneralNodePath as getASTNodePath } from 'ts-simple-ast-extra'
 // export function getASTNodePath(node: ASTNode) {
 //   if (isDirectory(node) || isSourceFile(node)) {
 //     return node.get

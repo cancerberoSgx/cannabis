@@ -9,7 +9,7 @@ test('multiple queries in same changing node ', t => {
   function f(a: number){return a+1}
   const y = f(2)
   function k(){}
-  `)as tsMorph.SourceFile
+  `) as tsMorph.SourceFile
 
   // in the middle, suppose that someone makes a new query
   queryAstSimpleTest(t, queryAst(`//* [@name=='g' && type()!='Identifier']`, 'const g = 1'), { result: { kind: ['VariableDeclaration'] } })
@@ -46,6 +46,6 @@ test('should parse jsx', t => {
 test('should get JsxText', t => {
   const f = getFile(`const a = <p>foo</p>`) as tsMorph.SourceFile
   t.is(f.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'foo')
-  const f2 = getFile(`const a = <p>hello world</p>`)as tsMorph.SourceFile
+  const f2 = getFile(`const a = <p>hello world</p>`) as tsMorph.SourceFile
   t.is(f2.getFirstDescendantByKind(ts.SyntaxKind.JsxText)!.getText(), 'hello world')
 })

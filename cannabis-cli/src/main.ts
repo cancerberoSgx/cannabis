@@ -32,7 +32,7 @@ interface Config {
   params?: string
 
   /**
-   * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, or a combination of
+   * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, `kind`, or a combination of
    * any of them. By default is `nodePath` which is a selector-like string uniquely identifying the node in
    * its project.
    */
@@ -52,7 +52,7 @@ interface Config {
   help?: string
 }
 
-type Output = 'nodePath' | 'text' | 'name' | 'filePath'|'nodeKind'
+type Output = 'nodePath' | 'text' | 'name' | 'filePath'|'kind'
 
 export async function main() {
   const options = require('yargs-parser')(process.argv.slice(2)) as Config
@@ -85,7 +85,7 @@ export async function main() {
   }
 }
 
-function getResultOutput(result: ASTNode[], style: Output[] = ['nodePath', 'name', 'nodeKind']) {
+function getResultOutput(result: ASTNode[], style: Output[] = ['nodePath', 'name', 'kind']) {
   return result.map(node=>
     arrayToObject(style, s=>{
       if(s==='nodePath'){
@@ -94,7 +94,7 @@ function getResultOutput(result: ASTNode[], style: Output[] = ['nodePath', 'name
       else  if(s==='name'){
         return getASTNodeName(node)
       }
-      else  if(s==='nodeKind'){
+      else  if(s==='kind'){
         return getASTNodeKindName(node)
       }
       else  if(s==='text'){
@@ -112,6 +112,9 @@ function printError(e: Error){
 }
 
 function preconditions(options: Config) {
+  if(options.output){
+    options.output = (options.output as any).split(',') as any
+  }
   if (options.help) {
     printHelp();
     process.exit(0);

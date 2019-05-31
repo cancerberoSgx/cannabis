@@ -2,7 +2,7 @@ import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { attributeNames, getAttribute } from '../src/adapter/attributes'
-import { ASTNode, getASTNodeKindName, getGeneralNodeName, getASTNodeText, visit } from '../src/astNode'
+import { ASTNode, getASTNodeKindName, getASTNodeText, getGeneralNodeName, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
