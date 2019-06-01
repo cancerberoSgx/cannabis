@@ -10,7 +10,7 @@
     "clean": "rm -rf dist docs",
     "build": "npm run clean && npx tsc",
     "prepare": "npm run build",
-    "all": "npm run clean && npm run lint && npm run build && npm run test",
+    "all": "npm run clean && npm run build && npm run test",
     "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish"
   },
   "keywords": [
