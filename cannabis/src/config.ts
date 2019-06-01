@@ -1,9 +1,13 @@
 const config = {
-  includeFilesInNodeModules: false
+  includeFilesInNodeModules: false,
+  getChildren: false,
+  includeJSDocTagNodes: false,
 }
 
 interface Config {
   includeFilesInNodeModules: boolean
+  getChildren: boolean
+  includeJSDocTagNodes: boolean
 }
 
 export function getConfig(p: keyof Config) {

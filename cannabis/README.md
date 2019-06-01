@@ -80,7 +80,7 @@ TODO example
 ```
 
 
-# Custom Attributes
+# Attributes
 
 In general attributes will return a value if there is something to return, empty array, empty string, false or 0 for those types if there is no value to return, and null if thevalue is an object or there was an error. 
 
@@ -137,8 +137,24 @@ Returns a AST Node if the node has an expression, or null other wise.
 Examples:
 TODO
 
+## @literalText
 
-# Custom Functions 
+Gets the literal text of a literal-like node , example
+
+`// LiteralString [compareText({forbidden}, @literalText, 'verb:equals,caseSensitive:true']`
+
+## @start
+
+## @end
+
+## @width
+## @body
+
+
+
+
+
+# Functions 
  
 The following are custom function that can be used in the queries directly, added to standard query functions of astq library, related to TypeScript AST.
 

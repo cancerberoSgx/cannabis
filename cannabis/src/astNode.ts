@@ -15,12 +15,12 @@ export type ASTFile = tsMorph.SourceFile
 /**
  * Returns immediate children. In case of Nodes, children are obtained using forEachChild instead of getChildren method
  */
-export function getASTNodeChildren(f: ASTNode): ASTNode[] {
+export function getASTNodeChildren(f: ASTNode, getChildren?: boolean): ASTNode[] {
   return !f
     ? []
     : isDirectory(f)
       ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f => getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
-      : f.forEachChildAsArray()
+      : getChildren ? f.getChildren() : f.forEachChildAsArray()
 }
 
 /**

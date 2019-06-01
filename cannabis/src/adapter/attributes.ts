@@ -1,4 +1,4 @@
-import { tryTo } from 'misc-utils-of-mine-generic'
+import { tryTo, objectKeys } from 'misc-utils-of-mine-generic'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
 
@@ -25,13 +25,30 @@ export function getAttribute(node: ASTNode, attr: string) {
     else if (attr === 'literalText') {
       return isNode(node) && tsMorph.TypeGuards.isLiteralLikeNode(node) && node.getLiteralText() || null
     }
+    else if (attr === 'start') {
+      return isNode(node) && node.getStart() || null
+    }
+    else if (attr === 'end') {
+      return isNode(node) && node.getEnd() || null
+    }
+    else if (attr === 'width') {
+      return isNode(node) && node.getWidth() || null
+    }
+    else if (attr === 'body') {
+      return isNode(node) && tsMorph.TypeGuards.isBodyableNode(node) && node.getBody() || null
+    }
+
   } catch (error) {
     console.error('ERROR on getAttribute for attr==', attr, error)
-
   }
   return null
-  //body,  symbol, type, pos, start 
+  //body,  symbol,
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText'
-export const attributeNames: AttributeNames[] = ['text', 'name', 'type', 'modifiers', 'expression', 'literalText']
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText'|'start'|'end'|'width'|'body'
+
+const attributeNamesMap : {[a in AttributeNames]:1} = {
+  'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1,'start': 1, 'end': 1, 'width': 1, 'body'
+  : 1
+}
+export const attributeNames = objectKeys(attributeNamesMap)
