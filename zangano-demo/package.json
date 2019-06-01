@@ -34,10 +34,10 @@
     "parcel": "^1.12.3",
     "ts-refactor": "0.0.5",
     "typescript": "^3.4.5",
+    "babel-polyfill": "^6.26.0",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "misc-utils-of-mine-generic": "^0.2.4",
     "monaco-editor": "^0.17.0",
     "react": "^16.8.6",
