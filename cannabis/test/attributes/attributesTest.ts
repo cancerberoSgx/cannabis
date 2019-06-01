@@ -1,8 +1,8 @@
 import test from 'ava'
+import { Project } from 'ts-morph'
 import { queryAst, queryOne, setProject } from '../../src'
+import { getASTNodeIndexPath, getASTNodeKindPath } from '../../src/astNode'
 import { queryAstSimpleTest } from '../testUtil'
-import { getASTNodeIndexPath, getASTNodeKindPath } from '../../src/astNode';
-import { Project } from 'ts-morph';
 
 test('@start', queryAstSimpleTest, queryAst(`// VariableDeclaration [@start<10]`, 'var a = 1; if(true){var b=1}'),
   { result: { text: ['a = 1'] } })
@@ -13,9 +13,9 @@ test('@end', queryAstSimpleTest, queryAst(`// VariableDeclaration [@end>20]`, 'v
 test('@width', queryAstSimpleTest, queryAst(`// VariableDeclaration [@width>6]`, 'var a = 1; if(true) {var b = 123451}'),
   { result: { text: ['b = 123451'] } })
 
-test('@body', queryAstSimpleTest, queryAst(`//IfStatement  [text(@body)=~'12345']`, 'var a = 1; if(true) {var b = 123451} if(false){b = 4}{ return 1}'),  { result: { text: ['if(true) {var b = 123451}'] } })
+test('@body', queryAstSimpleTest, queryAst(`//IfStatement  [text(@body)=~'12345']`, 'var a = 1; if(true) {var b = 123451} if(false){b = 4}{ return 1}'), { result: { text: ['if(true) {var b = 123451}'] } })
 
-  const code= `
+const code = `
 // foo
 /* seba */
 var a = 1;

@@ -1,7 +1,7 @@
 import ASTQ from 'astq'
 import { compareTexts, isArray, isString, stringToObject } from 'misc-utils-of-mine-generic'
 import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { getASTNodeDescendants, getASTNodeParent, getASTNodeText, ASTNode } from '../astNode'
+import { getASTNodeDescendants, getASTNodeParent, getASTNodeText } from '../astNode'
 import { ExecutionContext } from '../queryAst'
 const stringify = require('string.ify')
 

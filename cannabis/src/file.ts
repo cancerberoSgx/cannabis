@@ -1,6 +1,6 @@
 import { unique } from 'misc-utils-of-mine-generic'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
-import {  ASTNode, getASTNodeFilePath } from './astNode'
+import { ASTNode, getASTNodeFilePath } from './astNode'
 import { getConfig } from './config'
 
 let file: tsMorph.SourceFile | undefined
@@ -60,7 +60,7 @@ export function loadProject(tsConfigFilePath: string): ASTRoot {
   return _astRoot = new ASTRootImpl(_project)
 }
 
-let _astRoot : ASTRoot
+let _astRoot: ASTRoot
 
 /**
  * Allows to load an existing ts-morph project instance.
@@ -102,11 +102,11 @@ interface ASTRoot {
   getSourceFiles(): ASTNode[]
 }
 
-export function getASTRoot(){
-if(!_astRoot){
-  _astRoot = new ASTRootImpl(getProject())
-}
-return _astRoot
+export function getASTRoot() {
+  if (!_astRoot) {
+    _astRoot = new ASTRootImpl(getProject())
+  }
+  return _astRoot
 }
 
 class ASTRootImpl implements ASTRoot {

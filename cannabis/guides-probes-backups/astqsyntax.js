@@ -2,161 +2,168 @@
 
 monaco.languages.register({ id: 'cannabisTypeScriptQueries' });
 
-monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
-  tokenizer: {
-    root: [
-      [/[\[\]]{1}/igm, "square-brackets"],
+function setMonarchTokensProvider() {
+  monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
+    tokenizer: {
+      root: [
+        [/[\[\]]{1}/igm, "square-brackets"],
+  
+        [/@[a-zA-Z0-9]+/, "attribute"],
+  
+        [/\'[^\'']+\'/, "literal"],
+        [/\"[^\]]+\"/, "literal"],
+        [/[0-9\.]+/, "literal"],
+  
+        [/\s*[\a-zA-Z0-9_]+\s*\(/, "function"],
+        [/[\(\)]/, "function"],
+  
+        [/\[[a-zA-Z 0-9:]+\]/, "function"],
+  
+        [/&/, "operator"], [/=/, "operator"],
+        [/>/, "operator"], [/</, "operator"], [/!/, "operator"],
+  
+        [/[\/\.]+\s*[A-Z-a-z0-9]+/, "axis"],
+        [/[\/\.\*]+/, "axis"]
+  
+      ]
+    }
+  });
+}
+setMonarchTokensProvider()
 
-      [/@[a-zA-Z0-9]+/, "attribute"],
-
-      [/\'[^\'']+\'/, "literal"],
-      [/\"[^\]]+\"/, "literal"],
-      [/[0-9\.]+/, "literal"],
-
-      [/\s*[\a-zA-Z0-9_]+\s*\(/, "function"],
-      [/[\(\)]/, "function"],
-
-      [/\[[a-zA-Z 0-9:]+\]/, "function"],
-
-      [/&/, "operator"], [/=/, "operator"],
-      [/>/, "operator"], [/</, "operator"], [/!/, "operator"],
-
-      [/[\/\.]+\s*[A-Z-a-z0-9]+/, "axis"],
-      [/[\/\.\*]+/, "axis"]
-
+function defineTheme(){
+  monaco.editor.defineTheme('cannabisTypeScriptQueriesLightTheme', {
+    base: 'vs',
+    inherit: false,
+    rules: [
+      { token: 'literal', foreground: '808080' },
+      { token: 'square-brackets', foreground: 'ff0000' },
+      { token: 'attribute', foreground: 'FFA500' },
+      { token: 'function', foreground: '008800' },
+      { token: 'operator', foreground: '0055aa' },
+      { token: 'axis', foreground: '992288', fontStyle: 'bold' },
     ]
+  });
+}
+defineTheme()
+
+function registerCompletionItemProvider(){
+
+  function typesCompletion(n) {
+    return `\${${n}|${types.join(',')}|}`
   }
-});
-
-// Define a new theme that contains only rules that match this language
-monaco.editor.defineTheme('cannabisTypeScriptQueriesLightTheme', {
-  base: 'vs',
-  inherit: false,
-  rules: [
-    { token: 'literal', foreground: '808080' },
-    { token: 'square-brackets', foreground: 'ff0000' },
-    { token: 'attribute', foreground: 'FFA500' },
-    { token: 'function', foreground: '008800' },
-    { token: 'operator', foreground: '0055aa' },
-    { token: 'axis', foreground: '992288', fontStyle: 'bold' },
-  ]
-});
-
-function typesCompletion(n) {
-  return `\${${n}|${types.join(',')}|}`
-}
-
-function attributesCompletion(n) {
-  return `@\${${n}|${attributes.join(',')}|}`
-}
-
-function operatorsCompletion(n) {
-  return `\${${n}|${operators.join(',')}|}`
-}
-
-function axisCompletion(n) {
-  return `\${${n}|${axis.join(',')}|}`
-}
-
-function functionsCompletion(n) {
-  return `\${${n}|${functions.join(',')}|}()`
-}
-
-monaco.languages.registerHoverProvider('cannabisTypeScriptQueries', {
-  provideHover: (model, p) => {
-    //console.log(p, model.getValueInRange({startColumn: Math.max(0, p.column-2), startLineNumber: p.lineNumber, endColumn: p.column+2, endLineNumber: p.lineNumber}))
-    let w = model.getWordAtPosition(p)
-
-    w = w && w.word || model.getValueInRange({ startColumn: Math.max(0, p.column - 2), startLineNumber: p.lineNumber, endColumn: p.column + 2, endLineNumber: p.lineNumber }).trim()
-    if (!w) {
-      return
-    }
-    const contents = []
-    let operator
-    if ((operator = operators.find(o => w.includes(o)))) {
-      contents.push({
-        value: `**${operator}** : ASTQ query operator. TODO DOCUMENT; REFerence.`
-      }
-      )
-    }
-    let anAxis
-    if ((anAxis = axis.find(o => w.includes(o)))) {
-      contents.push({
-        value: `**${anAxis}** : ASTQ query axis. TODO DOCUMENT; REFerence.`
-      }
-      )
-    }
-    let type
-    if ((type = types.find(t => t.includes(w) || w.includes(t)))) {
-      contents.push({
-        value: `**${type}** : TypeScript / JavaScript node\'s syntax kind. TODO document, reference.`
-      })
-    }
-    let aFunction
-    if ((aFunction = functions.find(t => t.includes(w) || w.includes(t)))) {
-      contents.push({
-        value: `**${aFunction}** : a Cannabis AST Querty function. Its signature is : TODO. reference, document.`
-      })
-    }
-    let anAttr
-    if ((anAttr = attributes.find(t => t.includes(w) || w.includes(t)))) {
-      contents.push({
-        value: `**${anAttr}** : a Cannabis AST Query attribute. Its signature is : TODO. reference, document.`
-      })
-    }
-    // console.log(w, contents)
-    if (contents.length) {
-      return {
-        //range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
-        contents
-      }
-    }
+  function attributesCompletion(n) {
+    return `@\${${n}|${attributes.join(',')}|}`
   }
-});
-
-monaco.languages.registerCompletionItemProvider('cannabisTypeScriptQueries', {
-  provideCompletionItems: () => {
-    var suggestions = [{
-      label: 'attribute',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: attributesCompletion(1),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    },
-    {
-      label: 'type',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: typesCompletion(1),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    }, {
-      label: 'function',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: functionsCompletion(1),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    },
-    {
-      label: 'axis',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: axisCompletion(1),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    },
-    {
-      label: 'operator',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: operatorsCompletion(1),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    },
-    {
-      label: 'path',
-      kind: monaco.languages.CompletionItemKind.Keyword,
-      insertText: `
-${axisCompletion(1)} ${typesCompletion(2)} ${functionsCompletion(3)} ${operatorsCompletion(4)} ${attributesCompletion(5)} ]
-`.trim(),
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
-    }
-    ];
-    return { suggestions }
+  function operatorsCompletion(n) {
+    return `\${${n}|${operators.join(',')}|}`
   }
-})
+  function axisCompletion(n) {
+    return `\${${n}|${axis.join(',')}|}`
+  }
+  function functionsCompletion(n) {
+    return `\${${n}|${functions.join(',')}|}()`
+  }
+  monaco.languages.registerCompletionItemProvider('cannabisTypeScriptQueries', {
+    provideCompletionItems: () => {
+      var suggestions = [{
+        label: 'attribute',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: attributesCompletion(1),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      },
+      {
+        label: 'type',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: typesCompletion(1),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      }, {
+        label: 'function',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: functionsCompletion(1),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      },
+      {
+        label: 'axis',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: axisCompletion(1),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      },
+      {
+        label: 'operator',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: operatorsCompletion(1),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      },
+      {
+        label: 'path',
+        kind: monaco.languages.CompletionItemKind.Keyword,
+        insertText: `
+  ${axisCompletion(1)} ${typesCompletion(2)} ${functionsCompletion(3)} ${operatorsCompletion(4)} ${attributesCompletion(5)} ]
+  `.trim(),
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+      }
+      ];
+      return { suggestions }
+    }
+  })
+  
+}
+registerCompletionItemProvider()
+
+function registerHoverProvider() {
+  monaco.languages.registerHoverProvider('cannabisTypeScriptQueries', {
+    provideHover: (model, p) => {
+      let w = model.getWordAtPosition(p)
+      w = w && w.word || model.getValueInRange({ startColumn: Math.max(0, p.column - 2), startLineNumber: p.lineNumber, endColumn: p.column + 2, endLineNumber: p.lineNumber }).trim()
+      if (!w) {
+        return
+      }
+      const contents = []
+      let operator
+      if ((operator = operators.find(o => w.includes(o)))) {
+        contents.push({
+          value: `**${operator}** : ASTQ query operator. TODO DOCUMENT; REFerence.`
+        }
+        )
+      }
+      let anAxis
+      if ((anAxis = axis.find(o => w.includes(o)))) {
+        contents.push({
+          value: `**${anAxis}** : ASTQ query axis. TODO DOCUMENT; REFerence.`
+        }
+        )
+      }
+      let type
+      if ((type = types.find(t => t.includes(w) || w.includes(t)))) {
+        contents.push({
+          value: `**${type}** : TypeScript / JavaScript node\'s syntax kind. TODO document, reference.`
+        })
+      }
+      let aFunction
+      if ((aFunction = functions.find(t => t.includes(w) || w.includes(t)))) {
+        contents.push({
+          value: `**${aFunction}** : a Cannabis AST Querty function. Its signature is : TODO. reference, document.`
+        })
+      }
+      let anAttr
+      if ((anAttr = attributes.find(t => t.includes(w) || w.includes(t)))) {
+        contents.push({
+          value: `**${anAttr}** : a Cannabis AST Query attribute. Its signature is : TODO. reference, document.`
+        })
+      }
+      if (contents.length) {
+        return {
+          //range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
+          contents
+        }
+      }
+    }
+  });
+  
+}
+registerHoverProvider()
+
 
 monaco.editor.create(document.getElementById("container"), {
   theme: 'cannabisTypeScriptQueriesLightTheme',

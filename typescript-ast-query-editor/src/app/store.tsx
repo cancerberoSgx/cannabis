@@ -5,7 +5,7 @@ import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
 
 class Store extends Emitter<void> {
-  protected state: State;
+  protected state: State
   constructor() {
     super()
     const selectedExample = examples[0]
@@ -23,7 +23,8 @@ class Store extends Emitter<void> {
       query: r.query!,
       queryAst: r.query!.ast,
       getChildren: false,
-      astShowText: true
+      astShowText: true,
+      queryNodeAtPosition: undefined
     }
   }
   setState(state: Partial<State>) {
@@ -45,18 +46,19 @@ export function getStore() {
 }
 
 export interface State {
-  selectedExample: Example;
+  selectedExample: Example
   currentEditorAst: tsMorph.SourceFile
   astAutoUpdate: boolean
   queryDump: string
   logs: string[]
-  result: tsMorph.Node<tsMorph.ts.Node>[];
-  error?: Error | undefined;
-  examples: Example[];
-  nodeAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined;
+  result: tsMorph.Node<tsMorph.ts.Node>[]
+  error?: Error | undefined
+  examples: Example[]
+  nodeAtPosition: tsMorph.Node<tsMorph.ts.Node> | undefined
   sidebarVisibility: boolean
   query: ASTQQuery
   queryAst: ASTYNode
-  getChildren: boolean,
+  getChildren: boolean
   astShowText: boolean
+  queryNodeAtPosition: ASTYNode| undefined
 }

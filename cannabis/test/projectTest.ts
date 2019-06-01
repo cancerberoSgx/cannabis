@@ -1,9 +1,9 @@
 import test from 'ava'
+import { Project } from 'ts-morph'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { loadProject, queryAll, queryAst, queryOne, setProject } from '../src'
-import {   getASTNodeDescendants, getASTNodeFilePath, getASTNodeName, getASTNodeKindName } from "../src/astNode"
+import { getASTNodeDescendants, getASTNodeFilePath, getASTNodeName } from "../src/astNode"
 import { code1, code2 } from './assets/code'
-import { Project } from 'ts-morph';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -57,13 +57,13 @@ test('source files should not be in node modules', t => {
 
 
 test('setProject', t => {
-  const project = new Project({tsConfigFilePath: 'test/assets/project1/tsconfig.json', addFilesFromTsConfig: true})
+  const project = new Project({ tsConfigFilePath: 'test/assets/project1/tsconfig.json', addFilesFromTsConfig: true })
   // HEADS UP: in order to be a node child the file must be associated with a directory - 
   // if we use project.createSourceFile() it wont and so it won't be present in the AST:
-  project.getRootDirectories()[0].createSourceFile('src/foo12312322.ts', 'var a') 
+  project.getRootDirectories()[0].createSourceFile('src/foo12312322.ts', 'var a')
   const p = setProject(project)
   const root = p.getRootDirectory()
-  t.deepEqual(p.getSourceFiles().map(getASTNodeName).filter(r=>r!.includes('foo12312322.ts')), ['foo12312322.ts'])
+  t.deepEqual(p.getSourceFiles().map(getASTNodeName).filter(r => r!.includes('foo12312322.ts')), ['foo12312322.ts'])
   t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
   t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
   t.is(queryOne<tsMorph.SourceFile>(`//SourceFile [@name=~'foo12312322']`, root)!.getBaseName(), 'foo12312322.ts')

@@ -9,6 +9,7 @@ import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
+import { installQueryEditor, getQueryEditor } from '../editor/monacoQuery';
 
 export class App extends AbstractComponent {
 
@@ -20,7 +21,15 @@ export class App extends AbstractComponent {
         nodeAtPosition: getNodeAtPosition(e.position)
       })
     })
+    const queryEditorContainer = document.getElementById("query-editor-container")!
+    installQueryEditor('// Identifier [@text ≠~ "Cool"]', queryEditorContainer)
+    getQueryEditor()!.onDidChangeCursorPosition(e => {
+      this.setState({
+        queryNodeAtPosition: undefined
+      })
+    })
   }
+
   render() {
     return <Container fluid textAlign="left">
       <Header />

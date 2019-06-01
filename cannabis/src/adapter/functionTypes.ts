@@ -1,6 +1,5 @@
-import { ASTNode } from '../astNode';
-import { objectKeys } from 'misc-utils-of-mine-generic';
-import { enumKeys } from 'misc-utils-of-mine-typescript';
+import { enumKeys } from 'misc-utils-of-mine-typescript'
+import { ASTNode } from '../astNode'
 
 
 interface Functions extends BuiltInFunctions {

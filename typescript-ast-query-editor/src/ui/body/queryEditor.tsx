@@ -19,6 +19,8 @@ export class QueryEditor extends AbstractComponent {
           }
         }} />
         <br />
+        <div id="query-editor-container" style={{ height: '100vh', maxHeight: '40vh', margin: 0, padding: 0 , width: '100%'}}></div>
+                <br />
         <br />
         <Button small primary onClick={e => executeQuery()}>Search!</Button>
         <Button small onClick={e => executeQuery()}>Trace Execution</Button>

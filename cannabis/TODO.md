@@ -3,16 +3,17 @@
 - [ ] issue trailingComments not working
 - [ ] issue: debug() I think it won't work debugging more than once. check!
 - [ ] there are two functions, includes() and contains() - decide with one and drop the other
+
 ## Road map
 
-- [ ] define functions separately and document their signatures so we have documentation.
-- [ ] getASTNodePath() should cache/memoize
 - [ ] async api to execute search/compile so we can clal from browser bit without blocking
-- [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
-- [x] search text in comments : //LineComment [@text =~ ]
-- [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
 - [ ] function isDeclaration()
 - [ ] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
+- [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
+- [x] search text in comments : //LineComment [@text =~ ]
+- [x] define functions separately and document their signatures so we have documentation.
+- [ ] getASTNodePath() should cache/memoize (?)
+- [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
 `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
 meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
 - [x]`// ClassDeclaration [implements({IDNode})]`. Example: 

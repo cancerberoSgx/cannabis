@@ -1,9 +1,8 @@
 import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
-import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph, printAstPath, buildAstPath } from 'ts-simple-ast-extra'
+import { buildAstPath, GeneralNode, isDirectory, isNode, isSourceFile, printAstPath, ts, tsMorph } from 'ts-simple-ast-extra'
 import { getConfig } from './config'
+import { getASTRoot } from './file'
 import { Node } from './queryAst'
-import { config } from 'shelljs';
-import { getASTRoot } from './file';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -116,12 +115,12 @@ interface NodePathOptions {
   // mode?: 'getChildren' | 'forEachChildren';
 
 }
-const defaultPathOptions: Required<NodePathOptions> = { 
-  onlyIndex: false, 
-  onlyKindName: false, 
+const defaultPathOptions: Required<NodePathOptions> = {
+  onlyIndex: false,
+  onlyKindName: false,
   // levelSeparator: '/', 
   //  mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren' 
-  }
+}
 
 export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPathOptions): string {
   const finalOptions = { ...defaultPathOptions, ...options, dontPrintSourceFilePrefix: false, levelSeparator: '/' }
@@ -132,9 +131,9 @@ export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPat
     return (p.startsWith('./') ? p.substring(2) : p).replace(/\//g, finalOptions.levelSeparator)
   }
   else {
-    const p = buildAstPath(n, n.getSourceFile(),{mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren', includeNodeKind: true })
+    const p = buildAstPath(n, n.getSourceFile(), { mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren', includeNodeKind: true })
     const nodePath = printAstPath(p, finalOptions)
-    return getASTNodePath(n.getSourceFile(), finalOptions) + finalOptions.levelSeparator + nodePath.substring(nodePath.indexOf('/')+1)
+    return getASTNodePath(n.getSourceFile(), finalOptions) + finalOptions.levelSeparator + nodePath.substring(nodePath.indexOf('/') + 1)
   }
 }
 
