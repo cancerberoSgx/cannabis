@@ -44,8 +44,8 @@ export const examples: Example[] = [
     query: `
 // ClassDeclaration [ 
   @modifiers=~'export' && 
-  extendsNamed('B') && 
-  !implementsNamed('I2') 
+  extendsAnyNamed('B') && 
+  !implementsAnyNamed('I2') 
 ]`.trim(),
     description: `Gets exported class declarations that extends class B but doesn't implements interface I2.`,
     difficulty: 'easy',

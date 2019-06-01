@@ -20,8 +20,10 @@ export function getAttribute(node: ASTNode, attr: string) {
       return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ') || ''
     }
     else if (attr === 'expression') {
-      const e = isNode(node) && node.compilerNode && (node.compilerNode as any).expression || null
-      return e
+      return isNode(node) && node.compilerNode && (node.compilerNode as any).expression || null
+    }
+    else if (attr === 'literalText') {
+      return isNode(node) && tsMorph.TypeGuards.isLiteralLikeNode(node) && node.getLiteralText() || null
     }
   } catch (error) {
     console.error('ERROR on getAttribute for attr==', attr, error)
@@ -31,5 +33,5 @@ export function getAttribute(node: ASTNode, attr: string) {
   //body,  symbol, type, pos, start 
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression'
-export const attributeNames: AttributeNames[] = ['text', 'name', 'type', 'modifiers', 'expression']
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression'|'literalText'
+export const attributeNames: AttributeNames[] = ['text', 'name', 'type', 'modifiers', 'expression', 'literalText']

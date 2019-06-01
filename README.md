@@ -22,8 +22,8 @@ Based on the powerful [astq](https://github.com/rse/astq) AST Query engine and s
   * [@expression](#expression)
 - [Custom Functions](#custom-functions)
   * [isFunctionLike()](#isfunctionlike)
-  * [extendsNamed(name)](#extendsnamedname)
-  * [implementsNamed(name)](#implementsnamedname)
+  * [extendsAnyNamed(name)](#extendsAnyNamedname)
+  * [implementsAnyNamed(name)](#implementsAnyNamedname)
   * [sourceFile(node?)](#sourcefilenode)
   * [findReferences(node?)](#findreferencesnode)
   * [debug(...args?)](#debugargs)
@@ -80,7 +80,7 @@ TODO example
 ```
 
 
-# Custom Attributes
+# Attributes
 
 In general attributes will return a value if there is something to return, empty array, empty string, false or 0 for those types if there is no value to return, and null if thevalue is an object or there was an error. 
 
@@ -137,8 +137,15 @@ Returns a AST Node if the node has an expression, or null other wise.
 Examples:
 TODO
 
+## @literalText
 
-# Custom Functions 
+Gets the literal text of a literal-like node , example
+
+`// LiteralString [compareText({forbidden}, @literalText, 'verb:equals,caseSensitive:true']`
+
+
+
+# Functions 
  
 The following are custom function that can be used in the queries directly, added to standard query functions of astq library, related to TypeScript AST.
 
@@ -152,9 +159,9 @@ The following are custom function that can be used in the queries directly, adde
  
  `//* [ isFunctionLike() && type() != ConstructorDeclaration]`
 
-## extendsNamed(name)
+## extendsAnyNamed(name)
 
-`extendsNamed(name)` - `boolean`
+`extendsAnyNamed(name)` - `boolean`
  
 Returns true if current node (class declaration or interface declaration) extends recursively a type with given name. 
 
@@ -164,13 +171,13 @@ Also notice that it applies  both to classes and interfaces and remember that an
 
 Examples: 
 
-`//ClassDeclaration [extendsNamed('BaseClass')]`
+`//ClassDeclaration [extendsAnyNamed('BaseClass')]`
 
-`//InterfaceDeclaration [extendsNamed('Touchable')]`
+`//InterfaceDeclaration [extendsAnyNamed('Touchable')]`
  
-## implementsNamed(name)
+## implementsAnyNamed(name)
 
-`implementsNamed(name)` - `boolean`
+`implementsAnyNamed(name)` - `boolean`
  
 Returns true if current node (class declaration) implements recursively an interface with given name. 
  
@@ -178,7 +185,7 @@ Take into account that it will search across all implemented HeritageClauses of 
  
 Examples: 
  
-`//ClassDeclaration [implementsNamed('Touchable')]`
+`//ClassDeclaration [implementsAnyNamed('Touchable')]`
 
  ## sourceFile(node?)
 
@@ -208,7 +215,7 @@ TODO
 
 # TODO
 
- * `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsNamed and implementsNamed : 
+ * `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
 
  * `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
 

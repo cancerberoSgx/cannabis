@@ -22,8 +22,8 @@ Based on the powerful [astq](https://github.com/rse/astq) AST Query engine and s
   * [@expression](#expression)
 - [Custom Functions](#custom-functions)
   * [isFunctionLike()](#isfunctionlike)
-  * [extendsNamed(name)](#extendsnamedname)
-  * [implementsNamed(name)](#implementsnamedname)
+  * [extendsAnyNamed(name)](#extendsAnyNamedname)
+  * [implementsAnyNamed(name)](#implementsAnyNamedname)
   * [sourceFile(node?)](#sourcefilenode)
   * [findReferences(node?)](#findreferencesnode)
   * [debug(...args?)](#debugargs)
@@ -152,15 +152,15 @@ The following are custom function that can be used in the queries directly, adde
  
  `//* [ isFunctionLike() && type() != ConstructorDeclaration]`
 
-## extendsNamed 
+## extendsAnyNamed 
 
-`extendsNamed(name?: string, all?: boolean)` - `boolean`
+`extendsAnyNamed(name?: string, all?: boolean)` - `boolean`
  
 
- * `extendsNamed('A,B')`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' OR type named 'B' 
+ * `extendsAnyNamed('A,B')`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' OR type named 'B' 
 
- * `extendsNamed('A,B', true)`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' AND type named 'B' 
- * extendsNamed(): returns comma-separated names of all types that current node extends, recursively.
+ * `extendsAnyNamed('A,B', true)`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' AND type named 'B' 
+ * extendsAnyNamed(): returns comma-separated names of all types that current node extends, recursively.
 
 Take into account that it will search across all `extends` HeritageClauses, recursively.
 
@@ -168,15 +168,17 @@ Also notice that it applies  both to classes and interfaces and remember that an
 
 Examples: 
 
-`//ClassDeclaration [extendsNamed('BaseClass')]`
+`//ClassDeclaration [extendsAnyNamed('BaseClass')]`
 
-`//InterfaceDeclaration [extendsNamed('Touchable,Base', true)]`
+`//InterfaceDeclaration [extendsAnyNamed('Touchable,Base', true)]`
  
-`//* [ compareText(extendsNamed(), 'A,I')]`
+`//* [ compareText(extendsAnyNamed(), 'A,I')]`
 
-## implementsNamed 
+## extendsAllNamed 
 
-`implementsNamed(name: string): boolean`
+## implementsAnyNamed 
+
+`implementsAnyNamed(name: string): boolean`
  
 Returns true if current node (class declaration) implements recursively an interface with given name. 
  
@@ -184,7 +186,9 @@ Take into account that it will search across all implemented HeritageClauses of 
  
 Examples: 
  
-`//ClassDeclaration [implementsNamed('Touchable')]`
+`//ClassDeclaration [implementsAnyNamed('Touchable')]`
+
+## implementsAllNamed 
 
  ## sourceFile 
 
@@ -244,7 +248,7 @@ Examples:
 
 # TODO
 
- * `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsNamed and implementsNamed : 
+ * `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
 
  * `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
 
