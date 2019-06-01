@@ -43,5 +43,7 @@
     "react-dom": "^16.8.6",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.1"
-  }
+  },
+  "repository": {"type": "git", "url": "https://github.com/cancerberoSgx/cannabis.git"}, 
+  "bugs": {"url": "https://github.com/cancerberoSgx/cannabis"}
 }

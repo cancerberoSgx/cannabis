@@ -13,3 +13,15 @@
 test
 typescript-ast-query-editor
 formatCodeSettings.json
+.nyc_output
+cannabis-cli
+coverage
+guitarra
+test
+zangano
+zangano-demo
+astq-query*
+ava.config.js
+nyc.config.js
+TODO.md
+ts-ast

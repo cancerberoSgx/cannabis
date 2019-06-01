@@ -3,13 +3,13 @@ Command line interface for [cannabis](..), the TypeScript advanced AST Query lib
 ## Install
 
 ```sh
-npm install -g cannabis-cli
+npm install -g ts-ast
 ```
 
 ## Syntax
 
 ```sh
-cannabis --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
+ts-ast --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
 ```
 
 ## Options
@@ -28,37 +28,37 @@ cannabis --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
 Give a query as argument and search it across files that match given glob pattern:
 
 ```sh
-cannabis --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
+ts-ast --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
 ```
 
 Give a query from a file and search it across files of given project
 
 ```sh
-cannabis --query "./queries/myLongQuery.txt" --project ../git/project1/tsconfig.json
+ts-ast --query "./queries/myLongQuery.txt" --project ../git/project1/tsconfig.json
 ```
 
 Search given query in all files of current folder's TypeScript project:
 
 ```sh
-cannabis --query "//* [@name == 'foo']" --project .
+ts-ast --query "//* [@name == 'foo']" --project .
 ```
 
 Search given query in current folder's project, filtering files using given pattern in `--files` argument, and using query parameters from given file's text:
 
 ```sh
-cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params blackListWords.json
+ts-ast --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params blackListWords.json
 ```
 
 Same as before, but passing parameters literally in the argument:
 
 ```sh
-cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params '{"blackList": ["foo","bar"]}'
+ts-ast --query "[//* containsAnyOf(@name, {blackList}]" --project . --files "**/area44/**/*" --params '{"blackList": ["foo","bar"]}'
 ```
 
 Listing only name and kind of matches using --output:
 
 ```sh
-cannabis --query "// Identifier [..//InterfaceDeclaration]" --project . --output "name,kind"
+ts-ast --query "// Identifier [..//InterfaceDeclaration]" --project . --output "name,kind"
 ```
 
 

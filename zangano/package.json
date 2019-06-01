@@ -53,5 +53,7 @@
     "isomorphic-git": "^0.55.2",
     "misc-utils-of-mine-generic": "^0.2.4",
     "ts-morph": "^1.3.4"
-  }
+  },
+  "repository": {"type": "git", "url": "https://github.com/cancerberoSgx/cannabis.git"}, 
+  "bugs": {"url": "https://github.com/cancerberoSgx/cannabis"}
 }
