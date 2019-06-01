@@ -1,8 +1,9 @@
 import test from 'ava'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
-import { loadProject, queryAll, queryAst, queryOne } from '../src'
-import { ASTDirectory, ASTFile, getASTNodeDescendants, getASTNodeFilePath } from "../src/astNode"
+import { loadProject, queryAll, queryAst, queryOne, setProject } from '../src'
+import {   getASTNodeDescendants, getASTNodeFilePath, getASTNodeName, getASTNodeKindName } from "../src/astNode"
 import { code1, code2 } from './assets/code'
+import { Project } from 'ts-morph';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -34,16 +35,13 @@ test('should be able to query at a project level, selecting directories and sour
   // and I can use the result source file as a query source
   t.deepEqual(queryAst(`//InterfaceDeclaration`, r2.result![0]).result!.map(getName), ['I', `I1`, 'I2', 'J', 'I3'])
 
-  // results can have mixed dirs, files and nodes:
-  // t.deepEqual(JSON.stringify(queryAst(`//* [@name=~'o' && type()!='Identifier]`, src).result!.map(printNode).sort()), `["Directory code2 (\\"/Users/seb...\\")","Directory foo (\\"/Users/seb...\\")","ForInStatement o (\\"for(let i ...\\")","ForInStatement o (\\"for(let i ...\\")","MethodDeclaration method1 (\\"private me...\\")","MethodDeclaration method2 (\\"protected ...\\")","Parameter o (\\"o: any...\\")","PropertyAccessExpression log (\\"console.lo...\\")","PropertyAccessExpression log (\\"console.lo...\\")","PropertyDeclaration foo (\\"foo=f=>{\\n ...\\")","SourceFile code1.ts (\\"export fun...\\")","SourceFile code2.ts (\\"class A im...\\")","SourceFile foo.ts (\\"export con...\\")"]`
-  // )
 })
 
 test('loadProject', t => {
   const p = loadProject('test/assets/project1/tsconfig.json')
   const root = p.getRootDirectory()
-  t.is(queryOne<ASTDirectory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
-  t.deepEqual(queryAll<ASTFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+  t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
+  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
 })
 
 test('source files should not be in node modules', t => {
@@ -55,7 +53,19 @@ test('source files should not be in node modules', t => {
     t.deepEqual(getASTNodeDescendants(d).map(getASTNodeFilePath).filter(p => p.includes('node_modules')).concat(getASTNodeFilePath(d)), [getASTNodeFilePath(d)])
   })
 
-  // files matching src/**/*Test.ts* that doesn't contain a class implementing (recursively) an interface called Gestured  
-  // TODO: same but: "an interface declared in directory src/gestures/*"
-  // t.deepEqual(queryAll<ASTFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
 })
+
+
+test('setProject', t => {
+  const project = new Project({tsConfigFilePath: 'test/assets/project1/tsconfig.json', addFilesFromTsConfig: true})
+  // HEADS UP: in order to be a node child the file must be associated with a directory - 
+  // if we use project.createSourceFile() it wont and so it won't be present in the AST:
+  project.getRootDirectories()[0].createSourceFile('src/foo12312322.ts', 'var a') 
+  const p = setProject(project)
+  const root = p.getRootDirectory()
+  t.deepEqual(p.getSourceFiles().map(getASTNodeName).filter(r=>r!.includes('foo12312322.ts')), ['foo12312322.ts'])
+  t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
+  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+  t.is(queryOne<tsMorph.SourceFile>(`//SourceFile [@name=~'foo12312322']`, root)!.getBaseName(), 'foo12312322.ts')
+})
+

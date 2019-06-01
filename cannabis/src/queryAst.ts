@@ -14,20 +14,12 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   query?: ASTQQuery<T>
   ast: ASTNode,
   timings: { parseAst: number, compileQuery: number, executeQuery: number }
-
 }
 
 export interface ExecutionContext {
   logs: string[]
-
-  // _getChildren?: boolean
-  // /**
-  //  * Flag to stop searching if options.one was set and a result was already found.
-  //  * @internal
-  //  */
-  // _one?: boolean
-  // _query?: ASTQQuery<any>
 }
+
 interface QueryAstOptions<T extends ASTNode = ASTNode> {
   /**
    * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
@@ -40,11 +32,6 @@ interface QueryAstOptions<T extends ASTNode = ASTNode> {
   params?: { [name: string]: any }
 
   context?: ExecutionContext
-  // /**
-  //  * Flag to stop searching if options.one was set and a result was already found.
-  //  * @internal
-  //  */
-  // one?: boolean
 
   /**
    * TypeScript Children node mode. Default: 'forEachChild' that return only nodes with high level semantics.

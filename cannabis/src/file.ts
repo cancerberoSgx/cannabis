@@ -1,14 +1,14 @@
 import { unique } from 'misc-utils-of-mine-generic'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTDirectory, ASTFile, ASTNode, getASTNodeFilePath } from './astNode'
+import {  ASTNode, getASTNodeFilePath } from './astNode'
 import { getConfig } from './config'
 
-let file: ASTFile | undefined
+let file: tsMorph.SourceFile | undefined
 let _project: tsMorph.Project | undefined
 let reuseProject = true
 
 /**
- * Creates a new file with given code
+ * Creates a new file with given code. If there is a project loaded, the new file won't be associated with any directory. 
  */
 export function getFile(code: string): ASTNode {
   file = getProject().createSourceFile(getNewFileName(), code)
@@ -28,6 +28,7 @@ function getProject() {
         }
       }
     )
+    _astRoot = new ASTRootImpl(_project)
   }
   return _project
 }
@@ -36,16 +37,16 @@ function getNewFileName(): string {
   return `${unique('cannabis_test_file_')}.tsx`
 }
 
-/**
- * Creates a new SourceFile kind of node from given code with given name.
- */
-export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTNode {
-  if (parent) {
-    return parent.createSourceFile(name, code)
-  } else {
-    return getFile(code)
-  }
-}
+// /**
+//  * Creates a new SourceFile kind of node from given code with given name.
+//  */
+// export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTNode {
+//   if (parent) {
+//     return parent.createSourceFile(name, code)
+//   } else {
+//     return getFile(code)
+//   }
+// }
 
 /**
  * Returns an object representing the project that gives access to the root directories using
@@ -56,8 +57,10 @@ export function loadProject(tsConfigFilePath: string): ASTRoot {
     _project.getSourceFiles().forEach(f => f.forget())
   }
   _project = new tsMorph.Project({ tsConfigFilePath, addFilesFromTsConfig: true })
-  return new ASTRootImpl(_project)
+  return _astRoot = new ASTRootImpl(_project)
 }
+
+let _astRoot : ASTRoot
 
 /**
  * Allows to load an existing ts-morph project instance.
@@ -67,20 +70,20 @@ export function setProject(project: tsMorph.Project): ASTRoot {
     _project.getSourceFiles().forEach(f => f.forget())
   }
   _project = project
-  return new ASTRootImpl(_project)
+  return _astRoot = new ASTRootImpl(_project)
 }
 
-/**
- * Creates a new directory kind ASTNode with given name and cihldren of given parent directory or at the root
- * if no parent is given.
- */
-export function createDirectory(name: string, parent?: ASTDirectory): ASTNode {
-  if (parent) {
-    return parent.createDirectory(name)
-  } else {
-    return getProject().createDirectory(name)
-  }
-}
+// /**
+//  * Creates a new directory kind ASTNode with given name and cihldren of given parent directory or at the root
+//  * if no parent is given.
+//  */
+// export function createDirectory(name: string, parent?: ASTDirectory): ASTNode {
+//   if (parent) {
+//     return parent.createDirectory(name)
+//   } else {
+//     return getProject().createDirectory(name)
+//   }
+// }
 
 // /**
 //  * @internal
@@ -96,6 +99,14 @@ export function createDirectory(name: string, parent?: ASTDirectory): ASTNode {
 interface ASTRoot {
   getRootDirectory(): ASTNode
   getRootDirectories(): ASTNode[]
+  getSourceFiles(): ASTNode[]
+}
+
+export function getASTRoot(){
+if(!_astRoot){
+  _astRoot = new ASTRootImpl(getProject())
+}
+return _astRoot
 }
 
 class ASTRootImpl implements ASTRoot {
@@ -120,7 +131,7 @@ class ASTRootImpl implements ASTRoot {
     return filtered.length ? filtered[0] : this.getRootDirectories()[0]
   }
 
-  getSourceFiles(): ASTFile[] {
+  getSourceFiles(): ASTNode[] {
     return this._project.getSourceFiles()
   }
 }

@@ -1,16 +1,14 @@
 import { getObjectProperty, setObjectProperty } from 'misc-utils-of-mine-generic'
-import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
+import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph, printAstPath, buildAstPath } from 'ts-simple-ast-extra'
 import { getConfig } from './config'
 import { Node } from './queryAst'
+import { config } from 'shelljs';
+import { getASTRoot } from './file';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
  */
 export type ASTNode = GeneralNode
-
-export type ASTDirectory = tsMorph.Directory
-
-export type ASTFile = tsMorph.SourceFile
 
 /**
  * Returns immediate children. In case of Nodes, children are obtained using forEachChild instead of getChildren method
@@ -110,4 +108,54 @@ export function getNodeProperty<T = any>(n: ASTNode, path: string | (string | nu
   return getObjectProperty<T>((n as any).cannabis_meta, path)
 }
 
-export { getGeneralNodePath as getASTNodePath } from 'ts-simple-ast-extra'
+interface NodePathOptions {
+  onlyIndex?: boolean;
+  onlyKindName?: boolean
+  // levelSeparator?: string
+  // dontPrintSourceFilePrefix?: boolean
+  // mode?: 'getChildren' | 'forEachChildren';
+
+}
+const defaultPathOptions: Required<NodePathOptions> = { 
+  onlyIndex: false, 
+  onlyKindName: false, 
+  // levelSeparator: '/', 
+  //  mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren' 
+  }
+
+export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPathOptions): string {
+  const finalOptions = { ...defaultPathOptions, ...options, dontPrintSourceFilePrefix: false, levelSeparator: '/' }
+  if (isDirectory(n) || isSourceFile(n)) {
+    const root = getASTRoot().getRootDirectory() as tsMorph.Directory
+    const p = root.getRelativePathAsModuleSpecifierTo(n as any)
+    // console.log(options, finalOptions, p, finalOptions.levelSeparator, (p.startsWith('./') ? p.substring(2) : p).replace(/\//g, finalOptions.levelSeparator));    
+    return (p.startsWith('./') ? p.substring(2) : p).replace(/\//g, finalOptions.levelSeparator)
+  }
+  else {
+    const p = buildAstPath(n, n.getSourceFile(),{mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren', includeNodeKind: true })
+    const nodePath = printAstPath(p, finalOptions)
+    return getASTNodePath(n.getSourceFile(), finalOptions) + finalOptions.levelSeparator + nodePath.substring(nodePath.indexOf('/')+1)
+  }
+}
+
+export function getASTNodeIndexPath(n: ASTNode): string {
+  return getASTNodePath(n, { onlyIndex: true })
+}
+
+export function getASTNodeKindPath(n: ASTNode): string {
+  return getASTNodePath(n, { onlyKindName: true })
+}
+
+// export function getRoot(n:ASTNode): tsMorph.Directory|tsMorph.SourceFile{
+//   getpro
+//   const p = getASTNodeParent(n)
+//   console.log('root', (n as tsMorph.Directory).getBaseName(),p&& (p as tsMorph.Directory).getBaseName());
+
+//   if(!p||p===n){
+//     return (isDirectory(n)||isSourceFile(n) )? n : getRoot(n.getSourceFile())
+//   }
+//   else {
+//     return getRoot(p)
+//   }
+// }
+// export { getGeneralNodePath as getASTNodePath } from 'ts-simple-ast-extra'

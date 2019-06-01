@@ -34,23 +34,22 @@ if(true) {var b = 123451}
 if(false){b = 4}{ return 1}`),
   { result: { text: ['a = 1', `var a = 1`] } })
 
-//   test('@trailingComments and includes', queryAstSimpleTest, queryAst(
-//     `//* [count(@trailingComments)>0]`
-
-//     // `//* [includes(@trailingComments, '/*domingo*/')]`
-//     , `
-//   // foo
-//   /* seba */
-//   var a = 1;
-//   /* foo */ 
-//   if(true) {var b = 123451} 
-//   /* bar */
-//   jj()
-//   /*domingo*/
-//   if(false){b = 4}{ return 1}`),
-//   { result: { kind: ['jj()'] } 
-
-// })
+test.skip('@trailingComments not working', queryAstSimpleTest, queryAst(
+    // `//* [count(@trailingComments)>0]`
+    // `//* [includes(@trailingComments, '/*domingo*/')]`
+    `//* [compareText(@trailingComments, '/*domingo*/,/* bar */')]`
+    , `
+  // foo
+  /* seba */
+  var a = 1;
+  /* foo */ 
+  if(true) {var b = 123451} 
+  /* bar */
+  jj()
+  /*domingo*/
+  if(false){b = 4}{ return 1}`),
+  { result: { kind: ['jj()'] } 
+})
 
 // // ## @body
 // // ## @leadingComments

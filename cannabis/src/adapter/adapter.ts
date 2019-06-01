@@ -8,11 +8,6 @@ import { installFunctions } from './functions'
 let astq: ASTQ<ASTNode> | undefined
 
 export function getTypeScriptAstq(context: ExecutionContext) {
-  // function getChildrenMode(){
-  //   console.log(context._getChildren);
-
-  //   return context._getChildren
-  // }
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({

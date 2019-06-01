@@ -1,49 +1,62 @@
-## Objective real life queries:
+## ISSUES
 
-* function containsAnyOf: // ClassDeclaration [containsAnyOf(@name, {classNames})] . containAnyOf(s: string, a: string[]). 
-  * similar containedInAnyOf, containedInAllOf, containsAllOf
-  * or a general function: contain(predicate: 'contains'|'contained', multiplicity: 'allOf', 'anyOf', 'noneOf', s: string|number, a: string[]|number[])
-  * CLI example: `cannabis --query "[//* containsAnyOf(@name, {blackList}]" --project . --paramsFile blackListWords.txt`
-  
-* search text in comments : //LineComment [@text =~ ]
+- [ ] issue trailingCOmments not working
+- [ ] issue: debug() I think it won't work debugging more than once. check!
 
-* `// ClassDeclaration [implements({IDNode})]` - example: 
-```ts
-var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
-var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/implements({touchable})])', {params: {touchable}})
-// class 
-```
- * function isDeclaration()
+## Road map
 
-*   // files matching src/**/*Test.ts* that doesn't contain a class implementing (recursively) an the interface import('src/service/login/loginService.ts').LoginService
-* // files in src/** referencing type import('old-library').Obsolete
-* function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
+- [ ] define functions separately and document their signatures so we have documentation.
+- [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
+- [x] search text in comments : //LineComment [@text =~ ]
+- [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
+- [ ] async api to execute search/compile so we can clal from browser bit without blocking
+- [ ] function isDeclaration()
+- [ ] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
 `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
 meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
+- [x]`// ClassDeclaration [implements({IDNode})]`. Example: 
+    ```ts
+    var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
+    var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/implements({touchable})])', {params: {touchable}})
+    ```
+
+- [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
+
+- [ ] `hasParameter(type: string, index?: number)`: If no index is given, returns true if any parameter of current (function-like) node as given type ( compared as string). If index is given the parameter's type in that index must match the string . Example: `//MethodDeclaration [ hasParameter('number[]', 1) ]` will match `function f(a: string, b: number[])`.
+
+- [ ] `hasParameterList()` : `//MethodDeclaration [ hasParameterList('number[],boolean,Foo<Apple>[]') ]`. The type is compared as string.
+
+
+## query examples:
+
+- [ ]  real us files matching src/**/*Test.ts that doesn't contain a class implementing (recursively) an the interface import('src/service/login/loginService.ts').LoginService
+- [ ] // files in src/** referencing type import('old-library').Obsolete
+
+
+## Ideas
 
  * idea  : git integration
+
 ```ts
 var luisSuarezArea48Functions = queryAll(`//FunctionDeclaration [match(@path, 'src/**/*area48/**/*.ts')==true && git('lastModifiedBy')=='luisSuarez']`)
 ```
  * https://isomorphic-git.org/docs/en/fs
 
-## research what else we can add as functions or attributes:
+## attributes and functions: 
 
- * async api to execute search/compile so we can clal from browser bit without blocking
- * attribtues must add: 
- //body, expression, symbol, type, pos, start, getModifiers, 
+research what else we can add as functions or attributes:
 
 possible functions
+```ts
+isTypeParameteredNode, isAbstractableNode, isAmbientableNode, isArgumentedNode, isAsyncableNode,
+isAwaitableNode, isBodiedNode, isBodyableNode, DecoratableNode, ScopedNode, staticableNode,
+PropertyNamedNode, OverloadableNode, GeneratorableNode, ModifierableNode, JSDocableNode, ReadonlyableNode,
+ExclamationTokenableNode, QuestionTokenableNode, InitializerExpressionableNode, PropertyNamedNode
+```
 
-// isTypeParameteredNode, isAbstractableNode, isAmbientableNode, isArgumentedNode, isAsyncableNode,
-// isAwaitableNode, isBodiedNode, isBodyableNode, DecoratableNode, ScopedNode, staticableNode,
-// PropertyNamedNode, OverloadableNode, GeneratorableNode, ModifierableNode, JSDocableNode, ReadonlyableNode,
-// ExclamationTokenableNode, QuestionTokenableNode, InitializerExpressionableNode, PropertyNamedNode
-
-/*
 
 possible attributes:
-
+```ts
  // TODO: body, expression, symbol, type, pos, start, fullStart, fuillText, width, fullWIdth,
  leadingtriviaWidth, trailingTriviaWidth, trailingTriviaEnd, getCombinedModifierFlags, getLastToken,
  childIndex, getIndentationLevel, getChildIndentationLevel, getIndentationText, getChildIndentationText,
@@ -53,94 +66,14 @@ possible attributes:
  getStaticMethods, getInstanceMethods, getStaticMembers, getInstanceMembers, getMembers, getBaseTypes,.
  getBaseClass, getDerivedClasses, children, childCount
 
-*/
-
-
- add scope, isASync isStatic, isExported, etc or just with modifiers is OK ? 
-   
-   
-   /**
-     * Gets the compiler symbol or undefined if it doesn't exist.
-     */
     getSymbol(): Symbol | undefined;
-    /**
-     * Gets the type of the node.
-     */
     getType(): Type;
-    /**
-     * If the node contains the provided range (inclusive).
-     * @param pos - Start position.
-     * @param end - End position.
-     */
     containsRange(pos: number, end: number): boolean;
-    /**
-     * Gets if the specified position is within a string.
-     * @param pos - Position.
-     */
     isInStringAtPos(pos: number): boolean;
-
-    
-    /**
-     * Gets the child syntax list if it exists.
-     */
     getChildSyntaxList(): SyntaxList | undefined;
-
-
-      /**
-     * Gets the child at the provided text position, or undefined if not found.
-     * @param pos - Text position to search for.
-     */
     getChildAtPos(pos: number): Node | undefined;
-    /**
-     * Gets the most specific descendant at the provided text position, or undefined if not found.
-     * @param pos - Text position to search for.
-     */
     getDescendantAtPos(pos: number): Node | undefined;
-    /**
-     * Gets the most specific descendant at the provided start text position with the specified width, or undefined if not found.
-     * @param start - Start text position to search for.
-     * @param width - Text length of the node to search for.
-     */
     getDescendantAtStartWithWidth(start: number, width: number): Node | undefined;
-
-      /**
-     * Gets the last token of this node. Usually this is a close brace.
-     */
     getLastToken(): Node;
-    /**
-     * Gets if this node is in a syntax list.
-     */
-    isInSyntaxList(): boolean;
-    /**
-     * Gets the parent if it's a syntax list or throws an error otherwise.
-     */
-    getParentSyntaxListOrThrow(): SyntaxList;
-    /**
-     * Gets the parent if it's a syntax list.
-     */
-    getParentSyntaxList(): SyntaxList | undefined;
-    /**
-     * Gets the child index of this node relative to the parent.
-     */
     getChildIndex(): number;
-
-      /**
-     * Gets the last token of this node. Usually this is a close brace.
-     */
-    getLastToken(): Node;
-    /**
-     * Gets if this node is in a syntax list.
-     */
-    isInSyntaxList(): boolean;
-    /**
-     * Gets the parent if it's a syntax list or throws an error otherwise.
-     */
-    getParentSyntaxListOrThrow(): SyntaxList;
-    /**
-     * Gets the parent if it's a syntax list.
-     */
-    getParentSyntaxList(): SyntaxList | undefined;
-    /**
-     * Gets the child index of this node relative to the parent.
-     */
-    getChildIndex(): number;
+```
