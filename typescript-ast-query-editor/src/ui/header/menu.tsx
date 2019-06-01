@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
-import { Menu, Checkbox } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 export default class MenuExampleMenus extends AbstractComponent {
 

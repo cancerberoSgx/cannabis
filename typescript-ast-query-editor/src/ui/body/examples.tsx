@@ -1,12 +1,10 @@
 import * as React from 'react'
 import { Dropdown, Header } from 'semantic-ui-react'
-import { codeExamples, examples } from "../../app/examples"
+import { selectExample } from '../../app/dispatchers'
+import { examples } from "../../app/examples"
 import { State } from '../../app/store'
-import { setEditorText } from '../../editor/monaco'
-import { executeQuery } from "../../queryAst/executeQuery"
+import { GetChildrenMode } from '../common/getChildrenMode'
 import { AbstractComponent } from "../component"
-import { selectExample } from '../../app/dispatchers';
-import { GetChildrenMode } from '../common/getChildrenMode';
 
 export class Examples extends AbstractComponent {
   render() {
@@ -20,7 +18,7 @@ export class Examples extends AbstractComponent {
         closeOnChange
         selectOnNavigation={false}
         onChange={(e, props) => {
-          selectExample(props.value+'');
+          selectExample(props.value + '')
         }}
         value={this.state.selectedExample.query}
         options={examples.map(e => ({
@@ -28,10 +26,10 @@ export class Examples extends AbstractComponent {
         }))}
       />
       {this.state.selectedExample ? <p><strong>Example description</strong>: {this.state.selectedExample.description}</p> : ''}
-        <GetChildrenMode/>
+      <GetChildrenMode />
     </>)
   }
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.getChildren !== this.state.getChildren ||nextState.selectedExample.query !== this.state.selectedExample.query 
+    return nextState.getChildren !== this.state.getChildren || nextState.selectedExample.query !== this.state.selectedExample.query
   }
 }

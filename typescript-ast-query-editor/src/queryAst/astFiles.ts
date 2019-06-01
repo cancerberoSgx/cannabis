@@ -1,7 +1,7 @@
+import { tsMorph } from 'cannabis'
+import { getFile } from 'cannabis/dist/src/file'
 import { getStore } from '../app/store'
 import { getEditorText } from '../editor/monaco'
-import { getFile } from 'cannabis/dist/src/file';
-import { ASTNode, tsMorph } from 'cannabis';
 
 let sourceFile: tsMorph.SourceFile | undefined
 let text: string | undefined
@@ -22,7 +22,7 @@ export function getSourceFile() {
     const newText = getEditorText()
     if (newText !== text) {
       text = newText
-      sourceFile = getFile(text) as  tsMorph.SourceFile
+      sourceFile = getFile(text) as tsMorph.SourceFile
       getStore().setState({ currentEditorAst: sourceFile })
     }
   }

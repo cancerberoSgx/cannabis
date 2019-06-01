@@ -1,4 +1,4 @@
-import { ASTYNode, QueryExpressions } from 'astq'
+import { ASTYNode, QueryExpressions } from 'cannabis'
 import { ISelection } from 'monaco-editor'
 import * as React from 'react'
 import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'

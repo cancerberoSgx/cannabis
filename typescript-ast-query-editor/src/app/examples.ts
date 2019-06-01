@@ -70,7 +70,7 @@ export const examples: Example[] = [
     query: '// *',
     description: 'All nodes.',
     difficulty: 'easy'
-  },  
+  },
 
   {
     name: 'Comments without certain words',

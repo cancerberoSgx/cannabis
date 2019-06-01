@@ -8,10 +8,10 @@ import { getAscendants, iconForNodeKind } from '../uiUtil'
 
 export class CursorBreadcrumb extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.nodeAtPosition !== this.state.nodeAtPosition 
-    || 
-    nextState.getChildren !== this.state.getChildren
-  } 
+    return nextState.nodeAtPosition !== this.state.nodeAtPosition
+      ||
+      nextState.getChildren !== this.state.getChildren
+  }
   render() {
     if (!this.state.nodeAtPosition) {
       return <></>
@@ -22,7 +22,7 @@ export class CursorBreadcrumb extends AbstractComponent {
           {getAscendants(this.state.nodeAtPosition).reverse().map(a => <>
             <BreadcrumbDivider />
             <Breadcrumb.Section link onClick={e => highlightNodesInEditor([a])}>
-            <Icon name={iconForNodeKind(getASTNodeKindName(a))} />{getASTNodeKindName(a)}
+              <Icon name={iconForNodeKind(getASTNodeKindName(a))} />{getASTNodeKindName(a)}
             </Breadcrumb.Section>
           </>
           )}

@@ -1,4 +1,4 @@
-import "babel-polyfill";
+import "babel-polyfill"
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
 import { Container } from 'semantic-ui-react'
@@ -9,7 +9,6 @@ import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
-import { State } from '../app/store';
 
 export class App extends AbstractComponent {
 

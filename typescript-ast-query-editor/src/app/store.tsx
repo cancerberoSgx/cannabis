@@ -1,8 +1,8 @@
 import { ASTQQuery, ASTYNode, queryAst, tsMorph } from 'cannabis'
+import { getFile } from 'cannabis/dist/src/file'
 import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
 import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
-import { getFile } from 'cannabis/dist/src/file';
 
 class Store extends Emitter<void> {
   protected state: State;

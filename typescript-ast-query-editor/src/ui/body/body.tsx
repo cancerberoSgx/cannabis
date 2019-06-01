@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react'
+import { State } from '../../app/store'
 import { AbstractComponent } from '../component'
 import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
@@ -7,8 +8,6 @@ import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QueryEditor } from './queryEditor'
 import { Results } from './results'
-import { State } from '../../app/store';
-import { GetChildrenMode } from '../common/getChildrenMode';
 
 export class Body extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
@@ -60,13 +59,13 @@ export class Body extends AbstractComponent {
           <Grid.Column floated='right' width={8}>
             <Segment>
               <>
-              <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
-            <br />
-            <CursorBreadcrumb />
-            <br />
-            </>
+                <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
+                <br />
+                <CursorBreadcrumb />
+                <br />
+              </>
             </Segment>
-            </Grid.Column>
+          </Grid.Column>
         </Grid>
       </Segment>)
   }

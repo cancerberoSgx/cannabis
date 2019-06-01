@@ -1,3 +1,98 @@
+   <!-- // Register a new language
+monaco.languages.register({ id: 'astq' });
+
+// Register a tokens provider for the language
+monaco.languages.setMonarchTokensProvider('astq', {
+	tokenizer: {
+		root: [
+		//	[/\[[^]]*\]/igm, "square-brackets"],
+			[/[\[\]]{1}/igm, "square-brackets"],
+			[/@[a-zA-Z0-9]+/, "attribute"],
+			[/\'[^\'']+\'/, "literal"],
+			[/\"[^\]]+\"/, "literal"],
+            [/[0-9\.]+/, "literal"],
+
+            [/\s*[\a-zA-Z0-9_]+\s*\(/, "function"],
+			[/[\(\)]/, "function"],
+
+			[/\[[a-zA-Z 0-9:]+\]/, "function"],
+
+
+			[/&/, "operator"],	[/=/, "operator"],
+	[/>/, "operator"],	[/</, "operator"],	[/!/, "operator"],
+
+[/[\/\.]+\s*[A-Z-a-z0-9]+/, "axis"],
+			[/[\/\.\*]+/, "axis"]
+
+		]
+	}
+});
+
+// Define a new theme that contains only rules that match this language
+monaco.editor.defineTheme('myCoolTheme', {
+	base: 'vs',
+	inherit: false,
+	rules: [
+		{ token: 'literal', foreground: '808080' },
+		{ token: 'square-brackets', foreground: 'ff0000' },
+		{ token: 'attribute', foreground: 'FFA500' },
+		{ token: 'function', foreground: '008800' },
+		{ token: 'operator', foreground: '0055aa'  },
+		{ token: 'axis', foreground: '992288' , fontStyle: 'bold' },
+        
+	]
+});
+
+// Register a completion item provider for the new language
+monaco.languages.registerCompletionItemProvider('astq', {
+	provideCompletionItems: () => {
+		var suggestions = [{
+			label: 'simpleText',
+			kind: monaco.languages.CompletionItemKind.Text,
+			insertText: 'simpleText'
+		}, {
+			label: 'testing',
+			kind: monaco.languages.CompletionItemKind.Keyword,
+			insertText: 'testing(${1:condition})',
+			insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+		}, {
+			label: 'ifelse',
+			kind: monaco.languages.CompletionItemKind.Snippet,
+			insertText: [
+				'if (${1:condition}) {',
+				'\t$0',
+				'} else {',
+				'\t',
+				'}'
+			].join('\n'),
+			insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+			documentation: 'If-Else Statement'
+		}];
+		return { suggestions: suggestions };
+	}
+});
+
+monaco.editor.create(document.getElementById("container"), {
+	theme: 'myCoolTheme',
+	value: getCode(),
+	language: 'astq'
+});
+
+function getCode() {
+	return [
+	`
+// Foo [
+    @sdf=='asdasd' && 
+    [..// && [func(@attr) >= 9988 ] ]
+]
+`.trim()
+	].join('\n');;
+}
+
+ -->
+
+   
+   
     <!-- /**
      * Gets the line and column number at the provided position (1-indexed).
      * @param pos - Position in the source file.
