@@ -1,6 +1,6 @@
 {
   "name": "cannabis",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "TypeScript AST Query library",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -51,6 +51,11 @@
     "string.ify": "^1.0.58",
     "ts-simple-ast-extra": "0.1.11"
   },
-  "repository": {"type": "git", "url": "https://github.com/cancerberoSgx/cannabis.git"}, 
-  "bugs": {"url": "https://github.com/cancerberoSgx/cannabis"}
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cancerberoSgx/cannabis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cancerberoSgx/cannabis"
+  }
 }
