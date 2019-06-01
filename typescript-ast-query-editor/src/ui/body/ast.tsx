@@ -1,11 +1,12 @@
-import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis'
-import { shorter } from 'misc-utils-of-mine-generic'
-import * as React from 'react'
-import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
-import { State } from '../../app/store'
-import { highlightNodesInEditor } from '../../editor/codeEditor'
-import { AbstractComponent, AbstractProps } from '../component'
-import { iconForNodeKind, Space } from '../uiUtil'
+import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis';
+import { shorter } from 'misc-utils-of-mine-generic';
+import * as React from 'react';
+import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react';
+import { State } from '../../app/store';
+import { highlightNodesInEditor } from '../../editor/codeEditor';
+import { GetChildrenMode } from '../common/getChildrenMode';
+import { AbstractComponent, AbstractProps } from '../component';
+import { iconForNodeKind, Space } from '../uiUtil';
 
 interface P extends AbstractProps {
   node?: ASTNode
@@ -17,7 +18,7 @@ export class Ast extends AbstractComponent<P> {
   }
 
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.currentEditorAst !== this.state.currentEditorAst && this.state.astAutoUpdate || nextState.astAutoUpdate !== this.state.astAutoUpdate
+    return nextState.currentEditorAst !== this.state.currentEditorAst && this.state.astAutoUpdate || nextState.astAutoUpdate !== this.state.astAutoUpdate || nextState.getChildren !== this.state.getChildren || nextState.astShowText !== this.state.astShowText
   }
 
   render() {
@@ -25,19 +26,24 @@ export class Ast extends AbstractComponent<P> {
     if (!node) {
       node = this.state.currentEditorAst
     }
-    return <Segment basic>
+    return <>
+      <GetChildrenMode />
       <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {
         this.setState({ astAutoUpdate: !!props.checked })
       }}></Checkbox>
       <Space />
       {this.state.astAutoUpdate ? '' : <Button size="small" onClick={e => this.forceUpdate()}>Update</Button>}
-      <List>
+      <Checkbox defaultChecked={this.state.astShowText} label="Show Text" onChange={(e, props) => {
+        this.setState({ astShowText: !!props.checked })
+      }}></Checkbox>
+      <List className="astTree">
         {this.renderNode(node)}
       </List>
-    </Segment>
+    </>
   }
+
   renderNode(node: tsMorph.Node) {
-    const children = getASTNodeChildren(node)
+    const children = getASTNodeChildren(node, this.state.getChildren)
     return (<List.Item onClick={e => {
       e.stopPropagation()
       highlightNodesInEditor([node])
@@ -47,8 +53,8 @@ export class Ast extends AbstractComponent<P> {
         <List.Header as="a">{getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
         </List.Header>
         <List.Description>
-          {getASTNodeName(node) ? <><Label size="small"><strong>{getASTNodeName(node)}</strong></Label><Space /></> : ''}
-          "<code>{shorter(getASTNodeText(node), 100)}</code>"
+        {this.state.astShowText ? 
+        (<> <code>{shorter(getASTNodeText(node), 100)}</code>}</>) : ''}
   </List.Description>
         {children.length ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>

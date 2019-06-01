@@ -5,6 +5,8 @@ import { State } from '../../app/store'
 import { setEditorText } from '../../editor/monaco'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from "../component"
+import { selectExample } from '../../app/dispatchers';
+import { GetChildrenMode } from '../common/getChildrenMode';
 
 export class Examples extends AbstractComponent {
   render() {
@@ -18,21 +20,18 @@ export class Examples extends AbstractComponent {
         closeOnChange
         selectOnNavigation={false}
         onChange={(e, props) => {
-          const selectedExample = this.state.examples.find(ex => ex.query === props.value)!
-          if (selectedExample.code) {
-            const code = codeExamples.find(c => c.name === selectedExample.code)
-            code && setEditorText(code.content)
-          }
-          executeQuery(selectedExample)
+          selectExample(props.value+'');
         }}
+        value={this.state.selectedExample.query}
         options={examples.map(e => ({
           key: e.name, value: e.query, text: e.name
         }))}
       />
       {this.state.selectedExample ? <p><strong>Example description</strong>: {this.state.selectedExample.description}</p> : ''}
+        <GetChildrenMode/>
     </>)
   }
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return false
+    return nextState.getChildren !== this.state.getChildren ||nextState.selectedExample.query !== this.state.selectedExample.query 
   }
 }

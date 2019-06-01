@@ -9,6 +9,10 @@ import { iconForNodeKind, Space } from '../uiUtil'
 
 interface I { }
 export class Results extends AbstractComponent {
+  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
+    return nextState.result !== this.state.result
+  }
+
   render() {
     if (this.state.error) {
       return <Segment>
@@ -43,7 +47,5 @@ export class Results extends AbstractComponent {
       </List>
     </Segment>
   }
-  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.result !== this.state.result
-  }
+
 }

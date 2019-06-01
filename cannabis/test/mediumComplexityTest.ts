@@ -39,7 +39,7 @@ test.skip('debug types', t => {
 
 test('comments without TODO or HEADS UP words', t => {
   const q = `
-// *  [(type()=='${Kind.SingleLineCommentTrivia}' || type()=='${Kind.MultiLineCommentTrivia}') &&  lc(@text)!~'todo' && lc(@text)!~'heads up']
+// *  [(type()=='SingleLineCommentTrivia' || type()=='MultiLineCommentTrivia') &&  lc(@text)!~'todo' && lc(@text)!~'heads up']
   `
   const f = queryAst(q, `
 var a = 1

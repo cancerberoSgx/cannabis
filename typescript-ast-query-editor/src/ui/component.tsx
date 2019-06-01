@@ -8,11 +8,7 @@ export class AbstractComponent<P extends AbstractProps = AbstractProps, S extend
     super(p, s)
     this.state = getStore().getState() as S
     getStore().add(() => {
-      //@ts-ignore
-      // this.state = getStore().getState()
-      // super.setState(this.state)
       super.setState({ ...getStore().getState() })
-
     })
   }
   setState: React.Component<AbstractProps, State>['setState'] = state => {

@@ -7,11 +7,16 @@ import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QueryEditor } from './queryEditor'
 import { Results } from './results'
+import { State } from '../../app/store';
+import { GetChildrenMode } from '../common/getChildrenMode';
 
 export class Body extends AbstractComponent {
+  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
+    return nextState.getChildren !== this.state.getChildren
+  }
   render() {
     return (
-      <Segment basic>
+      <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab panes={
@@ -20,6 +25,7 @@ export class Body extends AbstractComponent {
                   menuItem: <Menu.Item key='all'>All</Menu.Item>,
                   render: () => <Tab.Pane>
                     <Examples />
+                    {/* <GetChildrenMode/> */}
                     <QueryEditor />
                     <Results />
                   </Tab.Pane>,
@@ -52,11 +58,15 @@ export class Body extends AbstractComponent {
             } />
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
-            <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
+            <Segment>
+              <>
+              <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
             <br />
             <CursorBreadcrumb />
             <br />
-          </Grid.Column>
+            </>
+            </Segment>
+            </Grid.Column>
         </Grid>
       </Segment>)
   }

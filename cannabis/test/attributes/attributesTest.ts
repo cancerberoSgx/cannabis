@@ -1,6 +1,8 @@
 import test from 'ava'
-import { queryAst } from '../../src'
+import { queryAst, queryOne, setProject } from '../../src'
 import { queryAstSimpleTest } from '../testUtil'
+import { getASTNodeIndexPath, getASTNodeKindPath } from '../../src/astNode';
+import { Project } from 'ts-morph';
 
 test('@start', queryAstSimpleTest, queryAst(`// VariableDeclaration [@start<10]`, 'var a = 1; if(true){var b=1}'),
   { result: { text: ['a = 1'] } })
@@ -11,45 +13,51 @@ test('@end', queryAstSimpleTest, queryAst(`// VariableDeclaration [@end>20]`, 'v
 test('@width', queryAstSimpleTest, queryAst(`// VariableDeclaration [@width>6]`, 'var a = 1; if(true) {var b = 123451}'),
   { result: { text: ['b = 123451'] } })
 
-test('@body', queryAstSimpleTest, queryAst(`//IfStatement  [text(@body)=~'12345']`, 'var a = 1; if(true) {var b = 123451} if(false){b = 4}{ return 1}'),
-  { result: { text: ['if(true) {var b = 123451}'] } })
+test('@body', queryAstSimpleTest, queryAst(`//IfStatement  [text(@body)=~'12345']`, 'var a = 1; if(true) {var b = 123451} if(false){b = 4}{ return 1}'),  { result: { text: ['if(true) {var b = 123451}'] } })
 
-test('@leadingComments and join()', queryAstSimpleTest, queryAst(`//* [join(@leadingComments)=~'seba']`, `
-// foo
-/* seba */
-var a = 1;
-/* foo */ 
-if(true) {var b = 123451} 
-/** bar */
-if(false){b = 4}{ return 1}`),
-  { result: { text: ['a = 1', `var a = 1`] } })
-
-test('@leadingComments and includes()', queryAstSimpleTest, queryAst(`//* [includes(@leadingComments, '/* seba */')]`, `
+  const code= `
 // foo
 /* seba */
 var a = 1;
 /* foo */ 
 if(true) {var b = 123451} 
 /* bar */
-if(false){b = 4}{ return 1}`),
+jj()
+/*domingo*/
+if(false){b = 4}{ return 1}`
+
+test('@leadingComments and join()', queryAstSimpleTest, queryAst(`//* [join(@leadingComments)=~'seba']`, code),
+  { result: { text: ['a = 1', `var a = 1`] } })
+
+test('@leadingComments and includes()', queryAstSimpleTest, queryAst(`//* [includes(@leadingComments, '/* seba */')]`, code),
   { result: { text: ['a = 1', `var a = 1`] } })
 
 test.skip('@trailingComments not working', queryAstSimpleTest, queryAst(
-    // `//* [count(@trailingComments)>0]`
-    // `//* [includes(@trailingComments, '/*domingo*/')]`
-    `//* [compareText(@trailingComments, '/*domingo*/,/* bar */')]`
-    , `
-  // foo
-  /* seba */
-  var a = 1;
-  /* foo */ 
-  if(true) {var b = 123451} 
-  /* bar */
-  jj()
-  /*domingo*/
-  if(false){b = 4}{ return 1}`),
-  { result: { kind: ['jj()'] } 
+  // `//* [count(@trailingComments)>0]`
+  // `//* [includes(@trailingComments, '/*domingo*/')]`
+  `//* [compareText(@trailingComments, '/*domingo*/,/* bar */')]`
+  , code),
+  {
+    result: { kind: ['jj()'] }
+  })
+
+test('@indexPath', t => {
+  const p = new Project()
+  const f = p.createSourceFile('banana.ts', `import 'ss'; interface{i:number,m(m:{f:Array<Foo<XXX>>}):void}`)
+  setProject(p)
+  const e = queryOne(`//Identifier [@indexPath=='banana/2/0/1/0/2/2/0/1/1/1/0']`, f)
+  t.deepEqual(getASTNodeIndexPath(e!), 'banana/2/0/1/0/2/2/0/1/1/1/0')
 })
+
+test('@kindPath', t => {
+  const p = new Project()
+  const f = p.createSourceFile('banana.ts', `import 'ss'; interface{i:number,m(m:{f:Array<Foo<XXX>>}):void}`)
+  setProject(p)
+  const path = 'banana/Block/LabeledStatement/ExpressionStatement/BinaryExpression/CallExpression/ObjectLiteralExpression/PropertyAssignment/CallExpression/TypeReference/TypeReference/Identifier'
+  const e = queryOne(`//Identifier [@kindPath=='${path}']`, f)
+  t.deepEqual(getASTNodeKindPath(e!), path)
+})
+
 
 // // ## @body
 // // ## @leadingComments

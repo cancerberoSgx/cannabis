@@ -155,6 +155,13 @@ Gets the literal text of a literal-like node , example
 
 ## @trailingComments
 
+## @indexPath
+
+Returns a child-index based path for the node, similar to `src/services/login/loginService/2/1`
+
+## @kindPath
+
+Returns a node kind based path for the node, like `src/services/login/loginService/InterfaceDeclaration/Identifier`. Notice that unlike @indexPath, this doesn't necessarily points to the node.
 
 
 # Functions 
@@ -267,12 +274,4 @@ Examples:
 
 # TODO
 
- * `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
-
- * `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
-
- *`hasParameter(type: string, index?: number)`: If no index is given, returns true if any parameter of current (function-like) node as given type ( compared as string). If index is given the parameter's type in that index must match the string . Example: `//MethodDeclaration [ hasParameter('number[]', 1) ]` will match `function f(a: string, b: number[])`.
-
- * `hasParameterList()` : `//MethodDeclaration [ hasParameterList('number[],boolean,Foo<Apple>[]') ]`. The type is compared as string.
-
- * `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
+See [TODO.md](TODO.md)

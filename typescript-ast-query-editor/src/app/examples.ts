@@ -4,11 +4,10 @@ export interface Example {
   description: string;
   code?: string,
   difficulty: 'easy' | 'medium' | 'hard'
+  getChildren?: boolean
 }
 
-
 export const examples: Example[] = [
-
 
   {
     name: 'Functions that contains variables, classes or parameters',
@@ -71,6 +70,23 @@ export const examples: Example[] = [
     query: '// *',
     description: 'All nodes.',
     difficulty: 'easy'
+  },  
+
+  {
+    name: 'Comments without certain words',
+    query: `
+// * [
+  ( type()=='SingleLineCommentTrivia' || 
+    type()=='MultiLineCommentTrivia' 
+  ) && 
+  lc(@text)!~'todo' && 
+  lc(@text)!~'heads up'
+]
+`.trim(),
+    description: 'Select non jsdoc comments that doesn\'t contains "TODO" nor "HEADS UP", case insensitive, because we generally remove those to clean up the code.',
+    difficulty: 'easy',
+    code: 'comments1',
+    getChildren: true
   },
 
   {
@@ -106,10 +122,7 @@ export const examples: Example[] = [
     code: 'code1'
   },
 
-
-
 ]
-
 
 export const codeExamples = [
   {
@@ -176,8 +189,28 @@ export class QueryDump extends React.Component {
       <p>Consectetur veniam ullamco fugiat dolor proident commodo velit veniam adipisicing ex enim ut. Duis nulla incididunt labore ad aliqua aliquip adipisicing ea ullamco magna.</p>
     </article>
   }
+}    
+    `.trim()
+  },
+
+  {
+    name: 'comments1',
+    content: `
+var a = 1
+// TODO: fff
+function f(){
+  // cccmmm
+  var b
+  /* sad */
+  // TODO: foo
+  var c
 }
-    
+/* TODO: */
+var middle=''
+/* bar */
+var g
+// heads up!: jaskkajs
+// foooo
     `.trim()
   }
 ]

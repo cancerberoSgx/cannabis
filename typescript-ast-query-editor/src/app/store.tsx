@@ -1,7 +1,8 @@
-import { ASTQQuery, ASTYNode, createSourceFile, queryAst, tsMorph } from 'cannabis'
+import { ASTQQuery, ASTYNode, queryAst, tsMorph } from 'cannabis'
 import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
 import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
+import { getFile } from 'cannabis/dist/src/file';
 
 class Store extends Emitter<void> {
   protected state: State;
@@ -13,14 +14,16 @@ class Store extends Emitter<void> {
     this.state = {
       selectedExample,
       astAutoUpdate: false,
-      currentEditorAst: createSourceFile(selectedExampleCode),
+      currentEditorAst: getFile(selectedExampleCode) as tsMorph.SourceFile,
       result: [], examples,
       logs: [],
       nodeAtPosition: undefined,
       queryDump: r.query && r.query.dump() || '',
       sidebarVisibility: false,
       query: r.query!,
-      queryAst: r.query!.ast
+      queryAst: r.query!.ast,
+      getChildren: false,
+      astShowText: true
     }
   }
   setState(state: Partial<State>) {
@@ -54,4 +57,6 @@ export interface State {
   sidebarVisibility: boolean
   query: ASTQQuery
   queryAst: ASTYNode
+  getChildren: boolean,
+  astShowText: boolean
 }

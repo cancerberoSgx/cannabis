@@ -4,5 +4,5 @@ module.exports =  {
     "reporter": [
       "html", 'lcov', 'text-summary'
     ],
-  "check-coverage": true
+  // "check-coverage": true
 }

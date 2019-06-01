@@ -1,8 +1,9 @@
-import { ASTFile, createSourceFile } from 'cannabis'
 import { getStore } from '../app/store'
 import { getEditorText } from '../editor/monaco'
+import { getFile } from 'cannabis/dist/src/file';
+import { ASTNode, tsMorph } from 'cannabis';
 
-let sourceFile: ASTFile | undefined
+let sourceFile: tsMorph.SourceFile | undefined
 let text: string | undefined
 let dirty = true
 let firstTime = true
@@ -14,7 +15,6 @@ export function setDirty(d: boolean = true) {
 export function getSourceFile() {
   if (firstTime) {
     const project = createProject()
-    // setProject(project)
     firstTime = false
   }
   if (!sourceFile || dirty) {
@@ -22,7 +22,7 @@ export function getSourceFile() {
     const newText = getEditorText()
     if (newText !== text) {
       text = newText
-      sourceFile = createSourceFile(text)
+      sourceFile = getFile(text) as  tsMorph.SourceFile
       getStore().setState({ currentEditorAst: sourceFile })
     }
   }

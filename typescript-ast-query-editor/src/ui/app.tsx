@@ -9,6 +9,7 @@ import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
+import { State } from '../app/store';
 
 export class App extends AbstractComponent {
 
@@ -21,7 +22,6 @@ export class App extends AbstractComponent {
       })
     })
   }
-
   render() {
     return <Container fluid textAlign="left">
       <Header />

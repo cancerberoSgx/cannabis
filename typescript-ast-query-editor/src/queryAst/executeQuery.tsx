@@ -4,10 +4,10 @@ import { getStore } from '../app/store'
 import { highlightNodesInEditor } from '../editor/codeEditor'
 import { getSourceFile } from './astFiles'
 
-interface Options {
-  query: string
-  trace?: boolean
-}
+// interface Options {
+//   query: string
+//   trace?: boolean
+// }
 export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
   const query = selectedExample && selectedExample.query || state.selectedExample.query

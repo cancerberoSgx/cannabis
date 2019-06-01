@@ -1,13 +1,14 @@
 import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
+import { ASTNode, getASTNodeName, getASTNodeText, getASTNodeIndexPath, getASTNodeKindPath } from '../astNode'
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {
-    if (!node) {
-      return null
-    }
-    else if (attr === 'text') {
+    // if (!node) {
+    //   return null
+    // }
+    // else 
+    if (attr === 'text') {
       return getASTNodeText(node)
     }
     else if (attr === 'name') {
@@ -15,6 +16,12 @@ export function getAttribute(node: ASTNode, attr: string) {
     }
     else if (attr === 'type') {
       return isNode(node) && tryTo(() => node.getType().getText()) || ''
+    }
+    else if (attr === 'indexPath') {
+      return isNode(node) && getASTNodeIndexPath(node) || ''
+    }
+    else if (attr === 'kindPath') {
+      return isNode(node) && getASTNodeKindPath(node) || ''
     }
     else if (attr === 'modifiers') {
       return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ') || ''
@@ -50,10 +57,10 @@ export function getAttribute(node: ASTNode, attr: string) {
   //   symbol,
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments'
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments'|'kindPath'|'indexPath'
 
 const attributeNamesMap: { [a in AttributeNames]: 1 } = {
   'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1, 'start': 1, 'end': 1, 'width': 1, 'body'
-    : 1, 'leadingComments': 1, 'trailingComments': 1
+    : 1, 'leadingComments': 1, 'trailingComments': 1, 'kindPath': 1, 'indexPath': 1
 }
 export const attributeNames = objectKeys(attributeNamesMap)

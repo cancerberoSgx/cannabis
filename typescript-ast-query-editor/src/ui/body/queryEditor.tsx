@@ -4,10 +4,11 @@ import { debug } from '../../app/dispatchers'
 import { State } from '../../app/store'
 import { executeQuery } from "../../queryAst/executeQuery"
 import { AbstractComponent } from '../component'
+import { GetChildrenMode } from '../common/getChildrenMode';
 
 export class QueryEditor extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.selectedExample.query !== this.state.selectedExample.query
+    return nextState.selectedExample.query !== this.state.selectedExample.query 
   }
   render() {
     debug('queryEditor render')
@@ -23,6 +24,7 @@ export class QueryEditor extends AbstractComponent {
         <Button small primary onClick={e => executeQuery()}>Search!</Button>
         <Button small onClick={e => executeQuery()}>Trace Execution</Button>
         <Button small onClick={e => executeQuery()}>Inspect Query</Button>
+        <br/>
       </>
     )
   }
