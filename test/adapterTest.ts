@@ -5,13 +5,13 @@ import { notFalsy } from 'misc-utils-of-mine-typescript'
 import { isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode, queryAst } from '../src'
 import { getTypeScriptAstq } from '../src/adapter/adapter'
-import { getASTNodeDescendants, getGeneralNodeKindName, getNodeProperty, isGeneralNode, setNodeProperty } from '../src/astNode'
+import { getASTNodeDescendants, getASTNodeKindName, getNodeProperty, isASTNode, setNodeProperty } from '../src/astNode'
 import { getFile } from '../src/file'
 import { code2, code3 } from './assets/code'
 import { printNode } from './testUtil'
 
 test('compile and execute should be invocable manually', async t => {
-  const astq = getTypeScriptAstq({logs: []})
+  const astq = getTypeScriptAstq({ logs: [] })
   const b: (string | number)[][] = []
   const events: StepTraceEvent<ASTNode>[] = []
   function trace(e: StepTraceEvent<ASTNode>) {
@@ -68,7 +68,7 @@ test('compile and execute should be invocable manually', async t => {
 })
 
 test('query.ast.serialize() && query.dump()', async t => {
-  const astq = getTypeScriptAstq({logs: []})
+  const astq = getTypeScriptAstq({ logs: [] })
   const query = astq.compile("//Identifier", true)
   t.is(query.ast.serialize(), `{"ASTy":{"T":"Query","L":{"L":1,"C":1,"O":0},"C":[{"T":"Path","L":{"L":1,"C":1,"O":0},"C":[{"T":"Step","L":{"L":1,"C":1,"O":0},"C":[{"T":"Axis","L":{"L":1,"C":1,"O":0},"A":{"op":"//","type":"*"}},{"T":"Match","L":{"L":1,"C":3,"O":2},"A":{"id":"Identifier"}}]}]}]}}`)
   t.is(removeWhites(query.dump()), removeWhites(`
@@ -103,7 +103,7 @@ test.cb('queryAst should let us register a trace event listener', t => {
       t.truthy(typeof finishCompile!.totalCompileTime === 'number')
       t.notThrows(() => JSON.parse((finishCompile!.queryAst! as any)))
       events.filter(e => e.event === 'endStep').forEach(e => {
-        t.truthy(isGeneralNode(e.node))
+        t.truthy(isASTNode(e.node))
         t.truthy(e.timestamp >= 0)
       })
       t.end()
@@ -112,6 +112,6 @@ test.cb('queryAst should let us register a trace event listener', t => {
   // I need a query that takes more than 1ms for this test
   const { error, result, query } = queryAst(`// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`, code3, tracer)
   t.falsy(error)
-  t.deepEqual(result!.map(getGeneralNodeKindName), ['Constructor', 'MethodDeclaration', 'FunctionDeclaration', 'MethodDeclaration'])
+  t.deepEqual(result!.map(getASTNodeKindName), ['Constructor', 'MethodDeclaration', 'FunctionDeclaration', 'MethodDeclaration'])
 })
 

@@ -1,6 +1,6 @@
 {
   "name": "ts-ast",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Command line interface for cannabis, the TypeScript advanced AST Query library",
   "main": "dist/src/index.js",
   "bin": "bin/ts-ast.js",
@@ -32,7 +32,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "cannabis": "0.0.9",
+    "cannabis": "0.0.10",
     "glob": "^7.1.4",
     "misc-utils-of-mine-generic": "^0.2.4"
   },

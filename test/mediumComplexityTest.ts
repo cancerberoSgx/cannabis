@@ -1,12 +1,12 @@
 import test from 'ava'
 import { queryAst } from '../src'
-import { getASTNodeName, getGeneralNodeKindName } from '../src/astNode'
+import { getASTNodeKindName, getASTNodeName } from '../src/astNode'
 import { code3 } from './assets/code'
 
 test('functions that contains variables, classes or parameters', t => {
   const f = queryAst(`// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`, code3)
   t.falsy(f.error)
-  t.deepEqual(f.result!.map(getGeneralNodeKindName), ['Constructor', 'MethodDeclaration', 'FunctionDeclaration', 'MethodDeclaration'])
+  t.deepEqual(f.result!.map(getASTNodeKindName), ['Constructor', 'MethodDeclaration', 'FunctionDeclaration', 'MethodDeclaration'])
 })
 
 test('members with given modifiers that belong to a class with given members', t => {

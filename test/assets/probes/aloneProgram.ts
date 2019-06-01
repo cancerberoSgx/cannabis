@@ -1,4 +1,4 @@
-import { queryAst } from '../../../src';
+import { queryAst } from '../../../src'
 
 const code = `
 function f(o: any){
@@ -14,10 +14,10 @@ class A{
 `
 // match Blocks containing ForInStatement direct children
 const query = '//Block [ /ForInStatement ]'
-const { result, error} = queryAst(query, code)
+const { result, error } = queryAst(query, code)
 debugger
-if(error){
+if (error) {
   // there was a query syntax error 
-}else{
-  result!.map(node=>console.log(node.getStart(), node.getEnd()))
+} else {
+  result!.map(node => console.log(node.getStart(), node.getEnd()))
 }

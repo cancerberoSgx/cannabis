@@ -15,18 +15,18 @@ export type ASTFile = tsMorph.SourceFile
 /**
  * Returns immediate children. In case of Nodes, children are obtained using forEachChild instead of getChildren method
  */
-export function getGeneralNodeChildren(f: ASTNode): ASTNode[] {
+export function getASTNodeChildren(f: ASTNode): ASTNode[] {
   return !f
     ? []
     : isDirectory(f)
       ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f => getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
       : f.forEachChildAsArray()
 }
-export const getASTNodeChildren = getGeneralNodeChildren
+
 /**
  * get general node's parent
  */
-export function getGeneralNodeParent(f: ASTNode): ASTNode | undefined {
+export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
   return !f
     ? undefined
     : isDirectory(f)
@@ -36,19 +36,13 @@ export function getGeneralNodeParent(f: ASTNode): ASTNode | undefined {
         : f.getParent()
 }
 
-export const getASTNodeParent = getGeneralNodeParent
-
-export function isGeneralNode(f: any): f is ASTNode {
+export function isASTNode(f: any): f is ASTNode {
   return f && (isNode(f) || isDirectory(f))
 }
 
-export const isASTNode = isGeneralNode
-
-export function getGeneralNodeKindName(n: ASTNode) {
+export function getASTNodeKindName(n: ASTNode) {
   return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
 }
-
-export const getASTNodeKindName = getGeneralNodeKindName
 
 export function getASTNodeName(node: ASTNode) {
   if (isDirectory(node) || isSourceFile(node)) {
@@ -58,8 +52,6 @@ export function getASTNodeName(node: ASTNode) {
     return getName(node)
   }
 }
-
-export const getGeneralNodeName = getASTNodeName
 
 export function getASTNodeText(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n.getText()
@@ -104,14 +96,14 @@ export function getASTNodeDescendants(node: ASTNode) {
   return a
 }
 
-export function setNodeProperty(n: GeneralNode, path: string | (string | number)[], value: any) {
+export function setNodeProperty(n: ASTNode, path: string | (string | number)[], value: any) {
   if (!(n as any).cannabis_meta) {
     (n as any).cannabis_meta = {}
   }
   setObjectProperty((n as any).cannabis_meta, path, value)
 }
 
-export function getNodeProperty<T = any>(n: GeneralNode, path: string | (string | number)[]): T | undefined {
+export function getNodeProperty<T = any>(n: ASTNode, path: string | (string | number)[]): T | undefined {
   if (!(n as any).cannabis_meta) {
     (n as any).cannabis_meta = {}
   }
@@ -119,8 +111,3 @@ export function getNodeProperty<T = any>(n: GeneralNode, path: string | (string 
 }
 
 export { getGeneralNodePath as getASTNodePath } from 'ts-simple-ast-extra'
-// export function getASTNodePath(node: ASTNode) {
-//   if (isDirectory(node) || isSourceFile(node)) {
-//     return node.get
-//   }
-// }

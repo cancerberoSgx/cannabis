@@ -1,5 +1,5 @@
 import { ASTQQuery, TraceListener } from 'astq'
-import { ts, tsMorph, isDirectory } from 'ts-simple-ast-extra'
+import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isASTNode } from "./astNode"
 import { getFile } from './file'

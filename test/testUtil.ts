@@ -2,7 +2,7 @@ import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
 import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
 import { attributeNames, getAttribute } from '../src/adapter/attributes'
-import { ASTNode, getASTNodeKindName, getASTNodeText, getGeneralNodeName, visit } from '../src/astNode'
+import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
@@ -38,7 +38,7 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
 }
 
 export function printNode(n: ASTNode, name = false, text = false) {
-  return `${getGeneralNodeKindName(n)} ${name ? getGeneralNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}`
+  return `${getGeneralNodeKindName(n)} ${name ? getASTNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}`
 }
 
 export function printTypeAndAttrs(n: ASTNode) {
