@@ -25,3 +25,4 @@ ava.config.js
 nyc.config.js
 TODO.md
 ts-ast
+.vscode

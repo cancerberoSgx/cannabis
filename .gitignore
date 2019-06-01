@@ -9,3 +9,4 @@ coverage
 typescript-ast-query-editor/src/queryAst/tsLibraries
 log2.txt
 /package
+.vscode
