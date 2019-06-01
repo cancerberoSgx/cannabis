@@ -142,7 +142,7 @@ TODO
  
 The following are custom function that can be used in the queries directly, added to standard query functions of astq library, related to TypeScript AST.
 
-## isFunctionLike()
+## isFunctionLike
 
  * `isFunctionLike(arg?)` - `boolean`
  
@@ -152,13 +152,17 @@ The following are custom function that can be used in the queries directly, adde
  
  `//* [ isFunctionLike() && type() != ConstructorDeclaration]`
 
-## extendsNamed(name)
+## extendsNamed 
 
-`extendsNamed(name)` - `boolean`
+`extendsNamed(name?: string, all?: boolean)` - `boolean`
  
-Returns true if current node (class declaration or interface declaration) extends recursively a type with given name. 
 
-Take into account that it will search across  HeritageClauses of all Take into account that it will search across all `extends` HeritageClauses, recursively.
+ * `extendsNamed('A,B')`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' OR type named 'B' 
+
+ * `extendsNamed('A,B', true)`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' AND type named 'B' 
+ * extendsNamed(): returns comma-separated names of all types that current node extends, recursively.
+
+Take into account that it will search across all `extends` HeritageClauses, recursively.
 
 Also notice that it applies  both to classes and interfaces and remember that an interface can extend both interfaces and classes. 
 
@@ -166,11 +170,13 @@ Examples:
 
 `//ClassDeclaration [extendsNamed('BaseClass')]`
 
-`//InterfaceDeclaration [extendsNamed('Touchable')]`
+`//InterfaceDeclaration [extendsNamed('Touchable,Base', true)]`
  
-## implementsNamed(name)
+`//* [ compareText(extendsNamed(), 'A,I')]`
 
-`implementsNamed(name)` - `boolean`
+## implementsNamed 
+
+`implementsNamed(name: string): boolean`
  
 Returns true if current node (class declaration) implements recursively an interface with given name. 
  
@@ -180,20 +186,50 @@ Examples:
  
 `//ClassDeclaration [implementsNamed('Touchable')]`
 
- ## sourceFile(node?)
+ ## sourceFile 
 
-`sourceFile()` - `SourceFile` (ts-morph Node)
+`sourceFile(node?: ASTNode): ASTNode | null` 
  
-Returns current sourceFile Node
+Returns current sourceFile Node.
 
-## findReferences(node?)
+## findReferences
 
-TODO
+`(node?: ASTNode): ASTNode[]`
 
-## debug(...args?)
+Returns an array of Nodes which are referencing current node. If a project was used as starting node, and current node is exported, then it could return references of nodes in other files.
 
-TODO
+If an argument is passed it will return the references of that node. 
 
+Examples: 
+
+Find unused variables:
+
+`// VariableDeclaration [@modifiers!~'export' && count(findReferences())==0]`
+
+Passing a node argument:
+
+`// Identifier [@name=='Foo22' && count(findReferences(parent()))>=0]`
+
+
+## debug(...args?: any[]): true
+
+Examples: 
+
+`// Identifier [..//* && debug(count(findReferences()), kindName(), @name) && count(findReferences())==2]`
+
+## contains
+
+`contains(a: string, b: any)`
+
+
+## parent 
+
+`parent(arg?ASTNode): ASTNode|null`
+
+
+## children 
+
+`children(arg?:ASTNode): ASTNode[]`
 
 
 # Query Syntax

@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "astq": "github:cancerberoSgx/astq",
-    "misc-utils-of-mine-generic": "^0.2.5",
+    "misc-utils-of-mine-generic": "^0.2.6",
     "string.ify": "^1.0.58",
     "ts-simple-ast-extra": "0.1.11"
   },

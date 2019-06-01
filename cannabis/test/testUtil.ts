@@ -49,7 +49,3 @@ export function printTypeAndAttrs(n: ASTNode) {
   })
   return a.reverse().join('\n')
 }
-
-export function isString(a: any): a is string {
-  return typeof a === 'string'
-}
