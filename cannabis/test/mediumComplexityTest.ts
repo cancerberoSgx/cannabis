@@ -1,8 +1,8 @@
 import test from 'ava'
 import { queryAst } from '../src'
 import { getASTNodeKindName, getASTNodeName, getASTNodeText } from '../src/astNode'
+import { Kind } from '../src/nodeKinds'
 import { code3 } from './assets/code'
-import { Kind } from '../src/nodeKinds';
 
 test('functions that contains variables, classes or parameters', t => {
   const f = queryAst(`// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`, code3)
@@ -56,7 +56,7 @@ function f(){
 var g
 // heads up!: jaskkajs
 // foooo
-  `, {getChildrenMode: true})
+  `, { getChildrenMode: true })
   t.falsy(f.error)
-  t.deepEqual(f.result!.map(getASTNodeText), ['// cccmmm','/* sad */' ,'/* bar */', '// foooo', ])
+  t.deepEqual(f.result!.map(getASTNodeText), ['// cccmmm', '/* sad */', '/* bar */', '// foooo',])
 })

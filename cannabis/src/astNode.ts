@@ -20,7 +20,7 @@ export function getASTNodeChildren(f: ASTNode, getChildren?: boolean): ASTNode[]
     ? []
     : isDirectory(f)
       ? (f.getDirectories() as ASTNode[]).concat(f.getSourceFiles()).filter(f => getConfig('includeFilesInNodeModules') || !getASTNodeFilePath(f).includes('node_modules'))
-      : getChildren ? f.getChildren() : f.forEachChildAsArray()
+      : f ? getChildren ? f.getChildren() : f.forEachChildAsArray() : []
 }
 
 /**
@@ -54,11 +54,11 @@ export function getASTNodeName(node: ASTNode) {
 }
 
 export function getASTNodeText(n: ASTNode) {
-  return isDirectory(n) ? n.getPath() : n.getText()
+  return isDirectory(n) ? n.getPath() : n ? n.getText() : ''
 }
 
 export function getASTNodeFilePath(n: ASTNode) {
-  return isDirectory(n) ? n.getPath() : n.getSourceFile().getFilePath()
+  return isDirectory(n) ? n.getPath() : n ? n.getSourceFile().getFilePath() : ''
 }
 
 export function getName(n: Node) {

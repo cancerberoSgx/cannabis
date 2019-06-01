@@ -1,6 +1,6 @@
 import { ok } from 'assert'
-import { Project, TypeGuards, SyntaxKind } from 'ts-morph'
-import { repeat, enumNoValueKeys } from 'misc-utils-of-mine-generic';
+import { enumNoValueKeys } from 'misc-utils-of-mine-generic'
+import { Project, SyntaxKind, TypeGuards } from 'ts-morph'
 
 const p = new Project()
 const c = p.createSourceFile('d.ts', `
@@ -50,9 +50,9 @@ console.log(cc.getTrailingCommentRanges().map(r => r.getText()))
 console.log(cc.getJsDocs().map(r => r.getTags().map(t => ({ name: t.getTagName(), text: t.getText(), p: TypeGuards.isJSDocParameterTag(t) ? t.getName() : TypeGuards.isJSDocReturnTag(t) ? t.getTypeExpression() && t.getTypeExpression()!.getText() : '' }))))
 
 
-console.log(f.getDescendants().map(d=>({c: d.getText()+d.getKindName(), comments: d.getLeadingCommentRanges().map(r=>r.getText())})).filter(o=>o.comments.length))
+console.log(f.getDescendants().map(d => ({ c: d.getText() + d.getKindName(), comments: d.getLeadingCommentRanges().map(r => r.getText()) })).filter(o => o.comments.length))
 
-console.log(f.getDescendants().map(d=>d.getChildIndentationText()+d.getKindName()));
+console.log(f.getDescendants().map(d => d.getChildIndentationText() + d.getKindName()))
 
 var a = enumNoValueKeys(SyntaxKind)
-console.log(JSON.stringify(a));
+console.log(JSON.stringify(a))

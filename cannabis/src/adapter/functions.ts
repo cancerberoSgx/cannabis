@@ -1,5 +1,5 @@
 import ASTQ from 'astq'
-import { compareTexts, isString, stringToObject } from 'misc-utils-of-mine-generic'
+import { compareTexts, isArray, isString, stringToObject } from 'misc-utils-of-mine-generic'
 import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { getASTNodeDescendants, getASTNodeParent, getASTNodeText } from '../astNode'
 import { ExecutionContext } from '../queryAst'
@@ -18,11 +18,11 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   astq.func('getExtendedNames', (adapter, node, arg?) => {
     return getExtendsRecursivelyNames(arg || node) || []
   })
-  
+
   astq.func('text', (adapter, node, arg?) => {
     return getASTNodeText(arg || node) || ''
   })
-  
+
   astq.func('extendsAllNamed', (adapter, node, name, arg3?) => {
     if (typeof arg3 === 'string') {
       node = name
@@ -90,6 +90,14 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
     return getASTNodeDescendants(arg || node) || []
   })
 
+  astq.func('join', (adapter, node, arr: string[], joinChar?: string) => {
+    return isArray(arr) && arr.join(joinChar || ' ') || ''
+  })
+
+  astq.func('includes', (adapter, node, arr: any[], item: any) => {
+    return isArray(arr) && arr.includes(item) || false
+  })
+
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
     if (!actual || !expected) {
       return false
@@ -107,9 +115,9 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   })
 
 
-function splitString(s:string|string[], splitChar=','){
-  return isString(s) ? s.split(splitChar) : s
-}
+  function splitString(s: string | string[], splitChar = ',') {
+    return isString(s) ? s.split(splitChar) : s
+  }
   // astq.func('get', (adapter, node, name: string, ...args: any[]) => {
   //   const getter = name.substring(0,1).toUpperCase()+name.substring(1, name.length)
   //   let value:any|null = null

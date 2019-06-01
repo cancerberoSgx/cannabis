@@ -49,7 +49,7 @@ test('compile and execute should be invocable manually', async t => {
     .map(d => d.node)
     .filter(e =>
       notFalsy(e) && !isSourceFile(e))
-    .map(e => printNode(e, true, false))
+    .map(e => printNode(e, { name: true }))
     .filter(notSameNotFalsy)
     ,
     [

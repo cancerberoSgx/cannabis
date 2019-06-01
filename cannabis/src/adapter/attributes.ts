@@ -38,19 +38,19 @@ export function getAttribute(node: ASTNode, attr: string) {
       return isNode(node) && tsMorph.TypeGuards.isBodyableNode(node) && node.getBody() || null
     }
     else if (attr === 'leadingComments') {
-      return isNode(node) &&   node.getLeadingCommentRanges().map(c=>c.getText()) || []
+      return isNode(node) && node.getLeadingCommentRanges().map(c => c.getText()) || []
     }
     else if (attr === 'trailingComments') {
-      return isNode(node) &&   node.getTrailingCommentRanges().map(c=>c.getText()) || []
+      return isNode(node) && node.getTrailingCommentRanges().map(c => c.getText()) || []
     }
   } catch (error) {
     console.error('ERROR on getAttribute for attr==', attr, error)
   }
   return null
-  //body,  symbol,
+  //   symbol,
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body'|'leadingComments'|'trailingComments'
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments'
 
 const attributeNamesMap: { [a in AttributeNames]: 1 } = {
   'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1, 'start': 1, 'end': 1, 'width': 1, 'body'

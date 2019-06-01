@@ -1,6 +1,6 @@
 import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
-import { getGeneralNodeKindName } from 'ts-simple-ast-extra'
+import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
 import { attributeNames, getAttribute } from '../src/adapter/attributes'
 import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
@@ -37,8 +37,8 @@ export function queryAstSimpleTest<T extends ASTNode = ASTNode>(t: ExecutionCont
   }
 }
 
-export function printNode(n: ASTNode, name = false, text = false) {
-  return `${getGeneralNodeKindName(n)} ${name ? getASTNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}`
+export function printNode(n: ASTNode, { name = false, text = false, other = n => '' }: { name?: boolean, text?: boolean, other?: (n: tsMorph.Node) => string } = {}) {
+  return `${getGeneralNodeKindName(n)} ${name ? getASTNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}${isNode(n) && other(n) ? `, (other: ${other(n)})` : ''}`
 }
 
 export function printTypeAndAttrs(n: ASTNode) {
@@ -49,3 +49,4 @@ export function printTypeAndAttrs(n: ASTNode) {
   })
   return a.reverse().join('\n')
 }
+
