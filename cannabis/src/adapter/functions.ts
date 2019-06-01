@@ -1,6 +1,6 @@
 import ASTQ from 'astq'
 import { compareTexts, isString, stringToObject } from 'misc-utils-of-mine-generic'
-import { getExtendsRecursivelyNames, getImplementsAllNames, isNode, ts, tsMorph, getImplementsAll, getExtendsRecursively } from 'ts-simple-ast-extra'
+import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { getASTNodeDescendants, getASTNodeParent } from '../astNode'
 import { ExecutionContext } from '../queryAst'
 const stringify = require('string.ify')
@@ -12,26 +12,26 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   })
 
   astq.func('getExtended', (adapter, node, arg?) => {
-    return getExtendsRecursively(arg||node)||[]
+    return getExtendsRecursively(arg || node) || []
   })
   astq.func('getExtendedNames', (adapter, node, arg?) => {
-    return getExtendsRecursivelyNames(arg||node)||[]
+    return getExtendsRecursivelyNames(arg || node) || []
   })
   astq.func('extendsAllNamed', (adapter, node, name, arg3?) => {
-      // const extended = getExtendsRecursivelyNames(node)
-      if (typeof arg3 === 'string') {
-        node = name
-        name = arg3
-      }
-      return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) ||tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&   
-      compareTexts(name.split(','), getExtendsRecursivelyNames(node), {verb: 'equals', multiplicity: 'allOf'})||false
-      
-      // if (extended.length === 0) {
-      //   return false
-      // }
-      // const r = compareTexts(extended.join(','), name.split(','), { multiplicity: all ? 'allOf' : 'anyOf', verb: 'contains' })
-      // console.log(r, extended.join(','), classOrInterfaceName.split(','));
-      // return r
+    // const extended = getExtendsRecursivelyNames(node)
+    if (typeof arg3 === 'string') {
+      node = name
+      name = arg3
+    }
+    return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
+      compareTexts(name.split(','), getExtendsRecursivelyNames(node), { verb: 'equals', multiplicity: 'allOf' }) || false
+
+    // if (extended.length === 0) {
+    //   return false
+    // }
+    // const r = compareTexts(extended.join(','), name.split(','), { multiplicity: all ? 'allOf' : 'anyOf', verb: 'contains' })
+    // console.log(r, extended.join(','), classOrInterfaceName.split(','));
+    // return r
   })
   astq.func('extendsAnyNamed', (adapter, node, name, arg3?) => {
     // const extended = getExtendsRecursivelyNames(node)
@@ -39,37 +39,37 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
       node = name
       name = arg3
     }
-    return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&   
-    compareTexts(name.split(','), getExtendsRecursivelyNames(node), {verb: 'equals'})||false//.find(n=>name === n)||false
-    
+    return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
+      compareTexts(name.split(','), getExtendsRecursivelyNames(node), { verb: 'equals' }) || false//.find(n=>name === n)||false
+
     // if (extended.length === 0) {
     //   return false
     // }
     // const r = compareTexts(extended.join(','), name.split(','), { multiplicity: all ? 'allOf' : 'anyOf', verb: 'contains' })
     // console.log(r, extended.join(','), classOrInterfaceName.split(','));
     // return r
-})
+  })
   astq.func('getImplementations', (adapter, node, arg?) => {
-    return getImplementsAll(arg||node)||[]
+    return getImplementsAll(arg || node) || []
   })
   astq.func('getImplementationNames', (adapter, node, arg?) => {
-    return getImplementsAllNames(arg||node)||[]
+    return getImplementsAllNames(arg || node) || []
   })
-  astq.func('implementsAnyNamed', (adapter, node, name, arg3?) => {   
+  astq.func('implementsAnyNamed', (adapter, node, name, arg3?) => {
     if (typeof arg3 === 'string') {
       node = name
       name = arg3
     }
-    return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) && compareTexts(name.split(','), getImplementsAllNames(node), {verb: 'equals',multiplicity:'anyOf'})||false
-  }) 
-  astq.func('implementsAllNamed', (adapter, node, name, arg3?) => {   
+    return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) && compareTexts(name.split(','), getImplementsAllNames(node), { verb: 'equals', multiplicity: 'anyOf' }) || false
+  })
+  astq.func('implementsAllNamed', (adapter, node, name, arg3?) => {
     if (typeof arg3 === 'string') {
       node = name
       name = arg3
     }
-    console.log(getImplementsAllNames(node), name.split(','), compareTexts(name.split(','), getImplementsAllNames(node), {verb: 'equals',multiplicity:'allOf'}));
-    
-    return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) &&  compareTexts(name.split(','), getImplementsAllNames(node), {verb: 'equals',multiplicity:'allOf'})||false
+    console.log(getImplementsAllNames(node), name.split(','), compareTexts(name.split(','), getImplementsAllNames(node), { verb: 'equals', multiplicity: 'allOf' }))
+
+    return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) && compareTexts(name.split(','), getImplementsAllNames(node), { verb: 'equals', multiplicity: 'allOf' }) || false
   })
 
   astq.func('findReferences', (adapter, node, arg) => {
@@ -101,8 +101,8 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
     if (!actual || !expected) {
       return false
     }
-    // console.log(actual.split(','), expected.split(','), commaColonStringToObject(options));
-    
+    // console.log(actual.split(','), expected.split(','), stringToObject(options), compareTexts(actual.split(','), expected.split(','), stringToObject(options)));
+
     return compareTexts(actual.split(','), expected.split(','), stringToObject(options))
   })
 
@@ -116,7 +116,7 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   })
 
 
-  
+
   // astq.func('get', (adapter, node, name: string, ...args: any[]) => {
   //   const getter = name.substring(0,1).toUpperCase()+name.substring(1, name.length)
   //   let value:any|null = null
@@ -135,4 +135,3 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
 
 
 
- 

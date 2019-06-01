@@ -1,6 +1,5 @@
 import test from 'ava'
-import { ts } from 'ts-simple-ast-extra'
-import { queryAst, getASTNodeName } from '../../src'
+import { getASTNodeName, queryAst } from '../../src'
 import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 
