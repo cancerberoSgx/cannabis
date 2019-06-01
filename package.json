@@ -8,7 +8,7 @@
     "test": "ava",
     "coverage": "npx nyc --nycrc-path nyc.config.js npm test",
     "test-watch": "ava -w",
-    "test-debug": "node --inspect-brk node_modules/ava/..",
+    "test-debug": "node --inspect-brk node_modules/ava/cli.js --serial",
     "clean": "rm -rf dist docs",
     "build": "npx tsc",
     "prepare": "npm run build",

@@ -1,11 +1,12 @@
 {
   "name": "ts-ast",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Command line interface for cannabis, the TypeScript advanced AST Query library",
   "main": "dist/src/index.js",
-  "bin": "bin/cannabis.js",
+  "bin": "bin/ts-ast.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "test": "npx ts-node -T node_modules/jasmine/bin/jasmine.js",
     "clean": "rm -rf dist docs",
     "build": "npm run clean && npx tsc",
     "prepare": "npm run build",
@@ -23,14 +24,23 @@
   "author": "Sebastián Gurin",
   "license": "MIT",
   "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/jasmine": "^3.3.13",
     "@types/node": "^12.0.4",
+    "jasmine": "^3.4.0",
     "ts-node": "^8.2.0",
     "typescript": "^3.5.1"
   },
   "dependencies": {
     "cannabis": "0.0.9",
+    "glob": "^7.1.4",
     "misc-utils-of-mine-generic": "^0.2.4"
   },
-  "repository": {"type": "git", "url": "https://github.com/cancerberoSgx/cannabis.git"}, 
-  "bugs": {"url": "https://github.com/cancerberoSgx/cannabis"}
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cancerberoSgx/cannabis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cancerberoSgx/cannabis"
+  }
 }

@@ -1,4 +1,4 @@
-Command line interface for [cannabis](..), the TypeScript advanced AST Query library
+Command line interface for [cannabis](..), the TypeScript/JavaScript advanced AST Query library
 
 ## Install
 
@@ -21,8 +21,10 @@ ts-ast --query "//* [@name == 'foo']" --files "src/**/are42/**/*.ts?"
  * `--output`: the output style. Valid values: `nodePath`, `text`, `name`, `filePath`, `kind` or a combination of any of them, comma separated. 
  * `--help`: prints help and exits.
  * `--outputFile`: If given the search result will be written in that file, otherwise will be written in stdout.
- * `--one`: If given will stop searching when a node matches so result will be at most 1 node. Otherwise it will search on every file and all matching nodes will be returned.
- 
+ <!-- * `--one`: If given will stop searching when a node matches so result will be at most 1 node. Otherwise it will search on every file and all matching nodes will be returned. -->
+ * `--outputCompress`: if given JSON output will be minified.
+ * `--outputCount`: Just print the result count.
+
 ## Examples
 
 Give a query as argument and search it across files that match given glob pattern:
@@ -61,7 +63,11 @@ Listing only name and kind of matches using --output:
 ts-ast --query "// Identifier [..//InterfaceDeclaration]" --project . --output "name,kind"
 ```
 
+Since TypeScript is a superset of JavaScript, this also support JavaScript. In this case we use --files to target .js files and --outputCount to just print the matched nodes count.
 
+```sh
+ts-node bin/cannabis.js --query "//FunctionDeclaration" --files "../../js-project/lib/**/*.js" --outputCount
+```
 
 ## TODO: 
 

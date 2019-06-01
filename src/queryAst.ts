@@ -1,7 +1,7 @@
 import { ASTQQuery, TraceListener } from 'astq'
-import { ts, tsMorph } from 'ts-simple-ast-extra'
+import { ts, tsMorph, isDirectory } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
-import { ASTNode, isGeneralNode } from "./astNode"
+import { ASTNode, isASTNode } from "./astNode"
 import { getFile } from './file'
 
 export type Node = tsMorph.Node
@@ -13,26 +13,38 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   query?: ASTQQuery<T>
   ast: ASTNode,
   timings: { parseAst: number, compileQuery: number, executeQuery: number }
+
 }
 
 export interface ExecutionContext {
   logs: string[]
+
+  // /**
+  //  * Flag to stop searching if options.one was set and a result was already found.
+  //  * @internal
+  //  */
+  // _one?: boolean
+  // _query?: ASTQQuery<any>
 }
 interface QueryAstOptions<T extends ASTNode = ASTNode> {
   /**
    * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
    */
   trace?: boolean | TraceListener<T>
+
   /**
    * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default value is `{}.`
    */
   params?: { [name: string]: any }
 
   context?: ExecutionContext
+  // /**
+  //  * Flag to stop searching if options.one was set and a result was already found.
+  //  * @internal
+  //  */
+  // one?: boolean
 }
-function now() {
-  return Date.now()
-}
+
 /**
  * It will create and execute a new query defined by [[q]] on nodes defined by [[codeOrNode]] as follows. If
  * it's a string, then a new source file will be created with that content. If it's a ts.Node, then that node
@@ -48,7 +60,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   if (typeof codeOrNode === 'string') {
     node = getFile(codeOrNode)!
   }
-  else if (isGeneralNode(codeOrNode)) {
+  else if (isASTNode(codeOrNode)) {
     node = codeOrNode
   }
   else {
@@ -65,6 +77,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     const query = astq.compile(q, trace) as ASTQQuery<T>
     timings.compileQuery = now() - compileQueryT0
     executeQueryT0 = now()
+    // context._query = query
     const result = astq.execute(node, query, options.params || {}, trace) as T[]
     timings.executeQuery = now() - executeQueryT0
     return {
@@ -75,7 +88,6 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     }
   } catch (error) {
     timings.executeQuery = now() - executeQueryT0
-
     return {
       error,
       ast: node as any,
@@ -136,4 +148,6 @@ export function queryOneOrThrow<T extends ASTNode = Node>(q: string, codeOrNode:
   }
 }
 
-
+function now() {
+  return Date.now()
+}

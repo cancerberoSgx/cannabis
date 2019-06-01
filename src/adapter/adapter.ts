@@ -1,23 +1,23 @@
 import ASTQ from 'astq'
-import { ASTNode, getGeneralNodeChildren, getGeneralNodeKindName, getGeneralNodeParent, isGeneralNode } from "../astNode"
+import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, isASTNode } from "../astNode"
 import { ExecutionContext } from '../queryAst'
 import { AttributeNames, attributeNames, getAttribute } from './attributes'
 import { installFunctions } from './functions'
 
 let astq: ASTQ<ASTNode> | undefined
 
-export function getTypeScriptAstq(context: ExecutionContext = { logs: [] }) {
+export function getTypeScriptAstq(context: ExecutionContext) {
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({
       taste(node: any) {
-        return isGeneralNode(node) && !!getGeneralNodeKindName(node)
+        return isASTNode(node) && !!getASTNodeKindName(node)
       },
       getParentNode(node: ASTNode) {
         if (!node) {
           return null as any
         }
-        const parent = getGeneralNodeParent(node)
+        const parent = getASTNodeParent(node)
         if (!parent) {
           return null
         }
@@ -27,10 +27,10 @@ export function getTypeScriptAstq(context: ExecutionContext = { logs: [] }) {
         return parent || null
       },
       getChildNodes(node: ASTNode) {
-        return node && getGeneralNodeChildren(node) || []
+        return node && getASTNodeChildren(node) || []
       },
       getNodeType(node: ASTNode) {
-        return node && getGeneralNodeKindName(node) || 'undefined'
+        return node && getASTNodeKindName(node) || 'undefined'
       },
       getNodeAttrNames(node: ASTNode): AttributeNames[] {
         return attributeNames

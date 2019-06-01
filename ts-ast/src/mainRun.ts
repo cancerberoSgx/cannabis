@@ -1,6 +1,4 @@
-#!/usr/bin/env node
-
-const {main} = require('../dist/src/main')
+import { main } from './main';
 
 main().catch(error => {
   console.error('Error: ' + error)

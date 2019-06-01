@@ -11,7 +11,7 @@
     "rootDir": "."
   },
   "include": [
-    "src"
+    "src", "spec"
   ],
   "exclude": [
     "bin", "node_modules", "dist"
