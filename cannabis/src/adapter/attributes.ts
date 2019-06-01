@@ -1,4 +1,4 @@
-import { tryTo, objectKeys } from 'misc-utils-of-mine-generic'
+import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
 
@@ -37,7 +37,12 @@ export function getAttribute(node: ASTNode, attr: string) {
     else if (attr === 'body') {
       return isNode(node) && tsMorph.TypeGuards.isBodyableNode(node) && node.getBody() || null
     }
-
+    else if (attr === 'leadingComments') {
+      return isNode(node) &&   node.getLeadingCommentRanges().map(c=>c.getText()) || []
+    }
+    else if (attr === 'trailingComments') {
+      return isNode(node) &&   node.getTrailingCommentRanges().map(c=>c.getText()) || []
+    }
   } catch (error) {
     console.error('ERROR on getAttribute for attr==', attr, error)
   }
@@ -45,10 +50,10 @@ export function getAttribute(node: ASTNode, attr: string) {
   //body,  symbol,
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText'|'start'|'end'|'width'|'body'
+export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body'|'leadingComments'|'trailingComments'
 
-const attributeNamesMap : {[a in AttributeNames]:1} = {
-  'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1,'start': 1, 'end': 1, 'width': 1, 'body'
-  : 1
+const attributeNamesMap: { [a in AttributeNames]: 1 } = {
+  'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1, 'start': 1, 'end': 1, 'width': 1, 'body'
+    : 1, 'leadingComments': 1, 'trailingComments': 1
 }
 export const attributeNames = objectKeys(attributeNamesMap)

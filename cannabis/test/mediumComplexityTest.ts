@@ -1,7 +1,8 @@
 import test from 'ava'
 import { queryAst } from '../src'
-import { getASTNodeKindName, getASTNodeName } from '../src/astNode'
+import { getASTNodeKindName, getASTNodeName, getASTNodeText } from '../src/astNode'
 import { code3 } from './assets/code'
+import { Kind } from '../src/nodeKinds';
 
 test('functions that contains variables, classes or parameters', t => {
   const f = queryAst(`// *  [isFunctionLike() == true && ( // VariableDeclaration || // ClassDeclaration ||// Parameter [@name=='id'] ) ]`, code3)
@@ -36,3 +37,26 @@ test.skip('debug types', t => {
   t.deepEqual(f.result!.map(getASTNodeName), [])
 })
 
+test('comments without TODO or HEADS UP words', t => {
+  const q = `
+// *  [(type()=='${Kind.SingleLineCommentTrivia}' || type()=='${Kind.MultiLineCommentTrivia}') &&  lc(@text)!~'todo' && lc(@text)!~'heads up']
+  `
+  const f = queryAst(q, `
+var a = 1
+// TODO: fff
+function f(){
+  // cccmmm
+  var b
+  /* sad */
+  // TODO: foo
+  var c
+}
+/* TODO: */
+/* bar */
+var g
+// heads up!: jaskkajs
+// foooo
+  `, {getChildrenMode: true})
+  t.falsy(f.error)
+  t.deepEqual(f.result!.map(getASTNodeText), ['// cccmmm','/* sad */' ,'/* bar */', '// foooo', ])
+})

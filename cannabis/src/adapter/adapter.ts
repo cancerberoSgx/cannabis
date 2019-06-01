@@ -1,18 +1,18 @@
 import ASTQ from 'astq'
+import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, isASTNode } from "../astNode"
+import { getConfig } from '../config'
 import { ExecutionContext } from '../queryAst'
 import { AttributeNames, attributeNames, getAttribute } from './attributes'
 import { installFunctions } from './functions'
-import { getConfig } from '../config';
-import { GeneralNode, isDirectory, isNode, isSourceFile, ts, tsMorph } from 'ts-simple-ast-extra'
 let astq: ASTQ<ASTNode> | undefined
 
 export function getTypeScriptAstq(context: ExecutionContext) {
-// function getChildrenMode(){
-//   console.log(context._getChildren);
-  
-//   return context._getChildren
-// }
+  // function getChildrenMode(){
+  //   console.log(context._getChildren);
+
+  //   return context._getChildren
+  // }
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({
@@ -33,14 +33,14 @@ export function getTypeScriptAstq(context: ExecutionContext) {
         return parent || null
       },
       getChildNodes(node: ASTNode) {
-        if(node){
+        if (node) {
           var r = getASTNodeChildren(node, getConfig('getChildren')) || []
-          if(getConfig('includeJSDocTagNodes') && isNode(node) && tsMorph.TypeGuards.isJSDocableNode(node)) {
+          if (getConfig('includeJSDocTagNodes') && isNode(node) && tsMorph.TypeGuards.isJSDocableNode(node)) {
             r.push(...node.getJsDocs())
           }
           return r
         }
-        else{
+        else {
           return []
         }
       },

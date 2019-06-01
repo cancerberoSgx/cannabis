@@ -149,8 +149,8 @@ Gets the literal text of a literal-like node , example
 
 ## @width
 ## @body
-
-
+## @leadingComments
+## @trailingComments
 
 
 

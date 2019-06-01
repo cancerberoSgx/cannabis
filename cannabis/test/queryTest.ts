@@ -1,6 +1,6 @@
 import test from 'ava'
 import { removeWhites } from 'misc-utils-of-mine-generic'
-import { queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow, getASTNodeKindName, getASTNodeName } from '../src'
+import { getASTNodeName, queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow } from '../src'
 import { code1 } from './assets/code'
 
 test('query', t => {
@@ -93,7 +93,7 @@ test('includeJSDocTagNodes without', t => {
   const result = queryAst(`//JSDocParameterTag`, `
 /** @param a {boolean[]|Foo} some text */
   function f(a){}
-  `, {includeJSDocTagNodes: false, getChildrenMode: false})
+  `, { includeJSDocTagNodes: false, getChildrenMode: false })
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), [])
 })
@@ -102,7 +102,7 @@ test('includeJSDocTagNodes with', t => {
   const result = queryAst(`//JSDocParameterTag`, `
 /** @param a {boolean[]|Foo} some text */
   function f(a){}
-  `, {includeJSDocTagNodes: true, getChildrenMode: false})
+  `, { includeJSDocTagNodes: true, getChildrenMode: false })
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['a'])
 })

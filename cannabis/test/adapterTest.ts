@@ -5,7 +5,7 @@ import { notFalsy } from 'misc-utils-of-mine-typescript'
 import { isSourceFile } from 'ts-simple-ast-extra'
 import { ASTNode, queryAst } from '../src'
 import { getTypeScriptAstq } from '../src/adapter/adapter'
-import { getASTNodeDescendants, getASTNodeKindName, getNodeProperty, isASTNode, setNodeProperty, getASTNodeText } from '../src/astNode'
+import { getASTNodeDescendants, getASTNodeKindName, getASTNodeText, getNodeProperty, isASTNode, setNodeProperty } from '../src/astNode'
 import { getFile } from '../src/file'
 import { code2, code3 } from './assets/code'
 import { printNode } from './testUtil'
@@ -125,19 +125,19 @@ function a(p){
 }
 `
 test('getChildren mode JSDocReturnTag', async t => {
-  const r = queryAst('//JSDocReturnTag [//TypeReference [@text=="Foo"]]', code, {includeJSDocTagNodes: false, getChildrenMode: true})
+  const r = queryAst('//JSDocReturnTag [//TypeReference [@text=="Foo"]]', code, { includeJSDocTagNodes: false, getChildrenMode: true })
   t.falsy(r.error)
   t.deepEqual(r.result!.map(getASTNodeKindName), ['JSDocReturnTag'])
 })
 
 test('getChildren mode off JSDocReturnTag', async t => {
-  const r = queryAst('//JSDocReturnTag ', code, {includeJSDocTagNodes: false, getChildrenMode: false})
+  const r = queryAst('//JSDocReturnTag ', code, { includeJSDocTagNodes: false, getChildrenMode: false })
   t.falsy(r.error)
   t.deepEqual(r.result!.map(getASTNodeKindName), [])
 })
 
 test('getChildren mode  JSDocTypeExpression', async t => {
-  const r = queryAst('//Identifier [..//JSDocTypeExpression] ', code, {includeJSDocTagNodes: false, getChildrenMode: true})
-  t.falsy(r.error) 
+  const r = queryAst('//Identifier [..//JSDocTypeExpression] ', code, { includeJSDocTagNodes: false, getChildrenMode: true })
+  t.falsy(r.error)
   t.deepEqual(r.result!.map(getASTNodeText), ['Date', 'Foo'])
 })

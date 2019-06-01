@@ -2,8 +2,8 @@ import { ASTQQuery, TraceListener } from 'astq'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isASTNode } from "./astNode"
+import { setConfig } from './config'
 import { getFile } from './file'
-import { setConfig } from './config';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -84,9 +84,9 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
     const compileQueryT0 = now()
-    const context: ExecutionContext = {...options.context || { logs: [] }}
+    const context: ExecutionContext = { ...options.context || { logs: [] } }
     typeof options.getChildrenMode !== 'undefined' && setConfig('getChildren', !!options.getChildrenMode)
-    typeof options.includeJSDocTagNodes !== 'undefined'  && setConfig('includeJSDocTagNodes', !!options.includeJSDocTagNodes)
+    typeof options.includeJSDocTagNodes !== 'undefined' && setConfig('includeJSDocTagNodes', !!options.includeJSDocTagNodes)
     const astq = getTypeScriptAstq(context)
     const trace = options.trace || false
     const query = astq.compile(q, trace) as ASTQQuery<T>
