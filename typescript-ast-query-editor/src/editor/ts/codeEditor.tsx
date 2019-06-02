@@ -1,8 +1,10 @@
 import { tsMorph } from 'cannabis'
+import * as monaco from 'monaco-editor'
 import { IPosition, ISelection } from 'monaco-editor'
 import { codeExamples } from '../../app/examples'
+import { getStore } from '../../app/store'
 import { getSourceFile, setDirty } from '../../queryAst/astFiles'
-import { findDescendantContainingRangeLight, monacoPositionToTsPosition, monacoSelectionToTsRange, tsRangeToMonacoSelection } from './tsUtil'
+import { findDescendantContainingRangeLight, monacoPositionToTsPosition, tsRangeToMonacoSelection } from './tsUtil'
 
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = codeExamples[0].content
@@ -29,8 +31,6 @@ export function select(selections: monaco.ISelection[]) {
   window.scrollTo({ top: 0 })
 }
 
-import * as monaco from 'monaco-editor'
-import { getStore } from '../../app/store';
 
 export function getCodeEditorText() {
   return editor.getModel()!.getValue()

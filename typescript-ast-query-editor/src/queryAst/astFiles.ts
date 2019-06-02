@@ -1,7 +1,7 @@
 import { tsMorph } from 'cannabis'
 import { getFile } from 'cannabis/dist/src/file'
 import { getStore } from '../app/store'
-import { getCodeEditorText } from '../editor/ts/codeEditor';
+import { getCodeEditorText } from '../editor/ts/codeEditor'
 
 let sourceFile: tsMorph.SourceFile | undefined
 let text: string | undefined

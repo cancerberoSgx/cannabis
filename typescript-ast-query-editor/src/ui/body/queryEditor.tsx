@@ -1,15 +1,34 @@
+import * as monaco from 'monaco-editor'
 import * as React from 'react'
-import { Button, TextArea } from 'semantic-ui-react'
 import { debug } from '../../app/dispatchers'
 import { State } from '../../app/store'
-import { executeQuery } from "../../queryAst/executeQuery"
+import { getQueryEditorText, installQueryEditor, updateQueryEditorUI } from '../../editor/query/queryEditor'
 import { AbstractComponent, AbstractProps } from '../component'
-import { getQueryEditorText, updateQueryEditorUI, installQueryEditor } from '../../editor/query/queryEditor';
 
-let  el: HTMLDivElement | null = null
+let el: HTMLDivElement | null = null
 export class QueryEditor extends AbstractComponent {
   // el: HTMLDivElement | null = null
-  editorContainer: React.RefObject<HTMLDivElement>;
+  editorContainer: React.RefObject<HTMLDivElement> | undefined
+  onEditorCursorPositionChange(e: monaco.editor.ICursorPositionChangedEvent) {
+    // editor!.onDidChangeCursorPosition(e => {
+    this.setState({
+      queryNodeAtPosition: undefined
+    })
+    // })
+  }
+  onEditorContentChange(e: monaco.editor.IModelContentChangedEvent) {
+    // editor.getModel()!.onDidChangeContent(e => { 
+    if (this.state.selectedExample) {
+      this.setState({
+        selectedExample: {
+          ...this.state.selectedExample,
+          query: getQueryEditorText()
+        }
+      })
+    }
+    // })
+  }
+  // editor: IStandaloneCodeEditor;
   // editor: any;
   // shouldComponentUpdate() {
   //   return false
@@ -35,11 +54,16 @@ export class QueryEditor extends AbstractComponent {
   componentDidMount() {
     // const id2 = this.editorContainer.current && this.editorContainer.current.getAttribute('id')
     // debugger
-    if (!el && this.editorContainer.current) {
+    if (!el && this.editorContainer && this.editorContainer.current) {
       el = this.editorContainer.current!
-       installQueryEditor('// Identifier [@text ≠~ "Cool"]', el)
+      installQueryEditor({
+        code: '//  Identifier [@text ≠~ "Cool"]',
+        containerEl: el,
+        onContentChange: this.onEditorContentChange,
+        onCursorPositionChange: this.onEditorCursorPositionChange
+      })
     }
-    else if (el&& this.editorContainer.current!!==el) {
+    else if (el && this.editorContainer && this.editorContainer.current! !== el) {
       // this.editorContainer.current!.replaceWith(this.el)
       updateQueryEditorUI(this.editorContainer.current!)
     }
@@ -49,7 +73,7 @@ export class QueryEditor extends AbstractComponent {
 
   componentWillUnmount() {
     // debugger
-    if(el && this.editorContainer.current!==el){
+    if (el && this.editorContainer && this.editorContainer.current !== el) {
       el.remove()
     }
     // if(this.el){
@@ -59,13 +83,15 @@ export class QueryEditor extends AbstractComponent {
   constructor(p: AbstractProps, s: State) {
     super(p, s)
     this.editorContainer = React.createRef<HTMLDivElement>()
+    this.onEditorCursorPositionChange = this.onEditorCursorPositionChange.bind(this)
+    this.onEditorContentChange = this.onEditorContentChange.bind(this)
   }
   render() {
     debug('QueryEditor render')
     return (
       < >
         <div
-        id="editor-query-browser"
+          id="editor-query-browser"
           // id={'ii'+QueryEditor.counter++} 
           // ref={ref=>this.containerDidMount(ref)}
           ref={this.editorContainer}

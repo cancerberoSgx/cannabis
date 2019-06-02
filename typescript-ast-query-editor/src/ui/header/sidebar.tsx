@@ -1,9 +1,9 @@
 import { asArray } from 'misc-utils-of-mine-generic'
-import * as React from 'react' 
+import * as React from 'react'
 import { Container, Icon, Menu, Modal, Segment, Sidebar } from 'semantic-ui-react'
 import { Logs } from '../common/logs'
-import { AbstractComponent } from '../component'
 import { SearchInput } from '../common/searchInput'
+import { AbstractComponent } from '../component'
 
 export class SidebarExampleMultiple extends AbstractComponent {
 

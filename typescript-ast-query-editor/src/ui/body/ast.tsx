@@ -5,8 +5,8 @@ import { Button, Checkbox, Label, List } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { GetChildrenMode } from '../common/getChildrenMode'
-import { AbstractComponent, AbstractProps } from '../component'
 import { iconForNodeKind, Space } from '../common/uiUtil'
+import { AbstractComponent, AbstractProps } from '../component'
 
 interface P extends AbstractProps {
   node?: ASTNode

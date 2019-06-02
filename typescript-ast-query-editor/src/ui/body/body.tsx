@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react'
-import { State } from '../../app/store'
 import { AbstractComponent } from '../component'
 import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
@@ -18,48 +17,48 @@ export class Body extends AbstractComponent {
       <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
-            <Tab 
-            // renderActiveOnly={false} 
-            defaultActiveIndex={0}
-            // activeIndex={this.state.currentTabIndex}
-            // onTabChange={(e, props)=>this.setState({currentTabIndex: parseInt(props.activeIndex+'')||0})}
-            panes={
-              [
-                {
-                  // pane: {active: this.state.currentTabIndex===0},
-                  menuItem: <Menu.Item key='all'>All</Menu.Item>,
-                  render: () => <Tab.Pane active  >
-                    <Examples />
-                    <QuerySearch />
-                    <Results />
-                  </Tab.Pane>,
-                },
-                {
-                  menuItem: <Menu.Item key='ast'>TypeScript AST</Menu.Item>,
-                  render: () => <Tab.Pane>
-                    <Ast />
-                  </Tab.Pane>,
-                },
-                {
-                  menuItem: <Menu.Item key='ast'>Query AST</Menu.Item>,
-                  render: () => <Tab.Pane>
-                    <QueryAst />
-                  </Tab.Pane>,
-                },
-                {
-                  menuItem: <Menu.Item key='queryAnalysis'>Search Trace</Menu.Item>,
-                  render: () => <Tab.Pane>
-                    Trace of last Search
+            <Tab
+              // renderActiveOnly={false} 
+              defaultActiveIndex={0}
+              // activeIndex={this.state.currentTabIndex}
+              // onTabChange={(e, props)=>this.setState({currentTabIndex: parseInt(props.activeIndex+'')||0})}
+              panes={
+                [
+                  {
+                    // pane: {active: this.state.currentTabIndex===0},
+                    menuItem: <Menu.Item key='all'>All</Menu.Item>,
+                    render: () => <Tab.Pane active  >
+                      <Examples />
+                      <QuerySearch />
+                      <Results />
+                    </Tab.Pane>,
+                  },
+                  {
+                    menuItem: <Menu.Item key='ast'>TypeScript AST</Menu.Item>,
+                    render: () => <Tab.Pane>
+                      <Ast />
+                    </Tab.Pane>,
+                  },
+                  {
+                    menuItem: <Menu.Item key='ast'>Query AST</Menu.Item>,
+                    render: () => <Tab.Pane>
+                      <QueryAst />
+                    </Tab.Pane>,
+                  },
+                  {
+                    menuItem: <Menu.Item key='queryAnalysis'>Search Trace</Menu.Item>,
+                    render: () => <Tab.Pane>
+                      Trace of last Search
                 </Tab.Pane>,
-                },
-                {
-                  menuItem: <Menu.Item key='examples'>Examples</Menu.Item>,
-                  render: () => <Tab.Pane>
-                    <Header as="h3">Search Examples</Header>
-                  </Tab.Pane>,
-                },
-              ]
-            } />
+                  },
+                  {
+                    menuItem: <Menu.Item key='examples'>Examples</Menu.Item>,
+                    render: () => <Tab.Pane>
+                      <Header as="h3">Search Examples</Header>
+                    </Tab.Pane>,
+                  },
+                ]
+              } />
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
             <Segment>

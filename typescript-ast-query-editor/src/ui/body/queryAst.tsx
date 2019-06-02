@@ -3,8 +3,8 @@ import { ISelection } from 'monaco-editor'
 import * as React from 'react'
 import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'
 import { select, setCodeEditorText } from '../../editor/ts/codeEditor'
-import { AbstractComponent } from '../component'
 import { Space } from '../common/uiUtil'
+import { AbstractComponent } from '../component'
 
 export class QueryAst extends AbstractComponent {
   componentWillMount() {

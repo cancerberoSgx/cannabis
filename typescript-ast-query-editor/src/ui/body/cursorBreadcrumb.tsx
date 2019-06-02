@@ -3,8 +3,8 @@ import * as React from 'react'
 import { Breadcrumb, BreadcrumbDivider, Icon } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
-import { AbstractComponent } from '../component'
 import { getAscendants, iconForNodeKind } from '../common/uiUtil'
+import { AbstractComponent } from '../component'
 
 export class CursorBreadcrumb extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {

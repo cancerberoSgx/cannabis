@@ -1,10 +1,10 @@
 import { setConfig } from 'cannabis'
 import { inspect } from 'util'
+import { setQueryEditorText } from '../editor/query/queryEditor'
+import { setCodeEditorText } from '../editor/ts/codeEditor'
 import { executeQuery } from '../queryAst/executeQuery'
 import { codeExamples } from './examples'
 import { getStore } from './store'
-import { setQueryEditorText } from '../editor/query/queryEditor';
-import { setCodeEditorText } from '../editor/ts/codeEditor';
 
 export function debug(...args: any[]) {
   getStore().getState().logs.push(args.map(a => inspect(a)).join(' '))

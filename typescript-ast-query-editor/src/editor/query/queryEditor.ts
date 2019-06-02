@@ -1,41 +1,39 @@
 import * as monaco from 'monaco-editor'
-import { getStore } from '../../app/store';
+
+let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
 let _containerEl: HTMLElement | undefined
+
+interface Props {
+  code: string,
+  containerEl: HTMLElement,
+  onCursorPositionChange: (e: monaco.editor.ICursorPositionChangedEvent) => void,
+  onContentChange: (e: monaco.editor.IModelContentChangedEvent) => void
+}
+
+
 /**
  * @internal
  */
-export function installQueryEditor(code: string, containerEl: HTMLElement) {
+export function installQueryEditor(props: Props) {
   if (editor) {
-    // editor.set
     return editor
   }
-  monaco.languages.register({ id: 'cannabisTypeScriptQueries' });
+  monaco.languages.register({ id: 'cannabisTypeScriptQueries' })
   setMonarchTokensProvider()
   // defineTheme()
   registerCompletionItemProvider()
   registerHoverProvider()
 
-  editor = monaco.editor.create(containerEl, {
+  editor = monaco.editor.create(props.containerEl, {
     // theme: 'cannabisTypeScriptQueriesLightTheme',
-    value: code,
+    value: props.code,
     // model: monaco.editor.createModel(code, 'cannabisTypeScriptQueries', monaco.Uri.parse('file:///uniqueQuery.txt')),
     language: 'cannabisTypeScriptQueries'
   })
-  editor!.onDidChangeCursorPosition(e => {
-    getStore().setState({
-      queryNodeAtPosition: undefined
-    })
-  })
-
-  _containerEl = containerEl
-  editor.onDidDispose(() => {
-    debugger
-  })
-
-  // editor.updateOptions({
-
-  // })
+  _containerEl = props.containerEl
+  editor.onDidChangeCursorPosition(props.onCursorPositionChange)
+  editor.getModel()!.onDidChangeContent(props.onContentChange)
   return editor
 }
 
@@ -50,7 +48,7 @@ export function setQueryEditorText(s: string) {
 
 export function updateQueryEditorUI(containerEl: HTMLElement) {
   if (editor && _containerEl) {
-    containerEl.style.display='hidden'
+    containerEl.style.display = 'hidden'
     // document.body.inse
     containerEl.parentElement!.insertBefore(_containerEl, containerEl)
     //.parentElement!.
@@ -58,7 +56,6 @@ export function updateQueryEditorUI(containerEl: HTMLElement) {
     editor && editor!.layout()
   }
 }
-
 
 function setMonarchTokensProvider() {
   monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
@@ -164,11 +161,10 @@ function registerCompletionItemProvider() {
   `.trim(),
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
       }
-      ];
+      ]
       return { suggestions, them() { } }
     }
   })
-
 }
 
 function registerHoverProvider() {
@@ -219,10 +215,9 @@ function registerHoverProvider() {
         }
       }
     }
-  });
+  })
 }
 
-let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
 //  function getQueryEditor() {
 //   if (!editor) {

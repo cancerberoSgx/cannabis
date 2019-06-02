@@ -4,8 +4,8 @@ import * as React from 'react'
 import { Icon, Label, List, Segment } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
-import { AbstractComponent } from '../component'
 import { iconForNodeKind, Space } from '../common/uiUtil'
+import { AbstractComponent } from '../component'
 
 interface I { }
 export class Results extends AbstractComponent {
