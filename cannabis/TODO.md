@@ -6,7 +6,7 @@
 
 ## Road map
 
- - add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
+  - add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
 - [ ] async api to execute search/compile so we can clal from browser bit without blocking
 - [ ] function isDeclaration()
 - [ ] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
@@ -15,6 +15,7 @@
 - [x] define functions separately and document their signatures so we have documentation.
 - [ ] getASTNodePath() should cache/memoize (?)
 - [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
+ - [ ]TODO test that getConfig('visitChildrenFirst') really works by queryOne 
 `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
 meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
 - [x]`// ClassDeclaration [implements({IDNode})]`. Example: 
@@ -42,6 +43,14 @@ to implement and see how good is the language / syntax
 
 
 ## Ideas
+
+ * we could implement adapter for https://github.com/here-be/snapdragon-node  - seems good quality but I don't think it has a syntax implemented - only glob/regex - prhaps astq syntax plug those Node implementations is a good one.
+
+ * Performance: compile a project into a static AST. 
+   * currently we cannot, since we are accessing the ts nodes directly - not ghouth the adapter . (For example findReferences- ). But if we don't use those ops and identify them - we could dump the whole ast to an object and even use other implementations like asty or snapdragon-node  to query it offline.
+
+ * query on names and types present on the context of some nodes. context https://github.com/jonschlinkert/parse-code-context - 
+ we couls also use typescript compiler for this.
 
  <!-- * docs say "function parameters can be any expression, so I shulld be able to flat / map an expression. problem: // InterfaceDeclaration [@name=='Foo'] -->
  * idea  : git integration

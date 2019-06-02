@@ -1,6 +1,8 @@
 import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeIndexPath, getASTNodeKindPath, getASTNodeName, getASTNodeText } from '../astNode'
+import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
+import { getASTNodeIndexPath, getASTNodeKindPath } from "../path";
+import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript';
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {
@@ -57,13 +59,60 @@ export function getAttribute(node: ASTNode, attr: string) {
   //   symbol,
 }
 
-export type AttributeNames = 'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments' | 'kindPath' | 'indexPath'
+export type AttributeNames = ObjectStringKeyUnion<AttributeValues>
+//>'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments' | 'kindPath' | 'indexPath'| 'namePath'
+// enum a {
+  // ddd='sdsd'
+// }
+// type tt = {[ass in keyof a]:any}
+// type tt = {[a:  AttributeNames]: string|string[]|ASTNode|number}
+
+interface AttributeValues  {
+  text: string
+  name:string
+  type: string
+  modifiers:string
+  expression: ASTNode|null
+  literalText:string
+  start: number
+  end:number
+  width: number
+  body: ASTNode|null
+  leadingComments: string[]
+  trailingComments: string[]
+  kindPath: string
+  indexPath: string
+  namePath: string
+}
+
+type Attrs =
+  {[a in AttributeNames]: 1}
 
 const attributeNamesMap: { [a in AttributeNames]: 1 } = {
   'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1, 'start': 1, 'end': 1, 'width': 1, 'body'
-    : 1, 'leadingComments': 1, 'trailingComments': 1, 'kindPath': 1, 'indexPath': 1
+    : 1, 'leadingComments': 1, 'trailingComments': 1, 'kindPath': 1, 'indexPath': 1, 'namePath': 1
 }
 export const attributeNames = objectKeys(attributeNamesMap)
 
 
+
+
+// interface I extends Required<{[a in AttributeNames]: 1}> {}
+class  SupportedAttributesImpl implements AttributeValues{
+  text: string = ''
+  name: string = ''
+  type: string = ''
+  modifiers: string = ''
+  expression: ASTNode|null = null
+  literalText: string = ''
+  start: number= 0
+  end: number = 0
+  width: number = 0
+  body : ASTNode|null = null
+  leadingComments: string[] = []
+  trailingComments: string[] = []
+  kindPath: string = ''
+  indexPath: string = ''
+  namePath: string = ''
+}
 

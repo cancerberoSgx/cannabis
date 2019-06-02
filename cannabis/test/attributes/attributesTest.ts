@@ -1,7 +1,7 @@
 import test from 'ava'
 import { Project } from 'ts-morph'
 import { queryAst, queryOne, setProject } from '../../src'
-import { getASTNodeIndexPath, getASTNodeKindPath } from '../../src/astNode'
+import { getASTNodeIndexPath, getASTNodeKindPath } from "../../src/path";
 import { queryAstSimpleTest } from '../testUtil'
 
 test('@start', queryAstSimpleTest, queryAst(`// VariableDeclaration [@start<10]`, 'var a = 1; if(true){var b=1}'),

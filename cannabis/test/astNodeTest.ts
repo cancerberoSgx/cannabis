@@ -1,6 +1,7 @@
 import test from 'ava'
 import { loadProject, setConfig } from '../src'
-import { getASTNodeDescendants, getASTNodeIndexPath, getASTNodeKindPath, getASTNodeName, getASTNodePath, getASTNodeNamePath, getASTNodeText, getASTNodeParent, getASTSourceFile, getASTNodeKindName } from "../src/astNode"
+import { getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTNodeParent, getASTSourceFile, getASTNodeKindName } from "../src/astNode"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodePath, getASTNodeNamePath } from "../src/path";
 
 const p = loadProject('test/assets/project1/tsconfig.json')
 const root = p.getRootDirectory()

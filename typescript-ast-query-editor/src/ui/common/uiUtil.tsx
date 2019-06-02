@@ -15,14 +15,9 @@ export function isDesktop() {
   return width() >= 1023
 }
 
-export function getAscendants(n: ASTNode, andSelf = false) {
-  if (isNode(n)) {
-    return [n, ...n.getAncestors()]
-  }
-  else {
-    return []
-  }
-}
+export const Space = () => (
+  <span style={{ marginRight: '0.5em' }}></span>
+)
 
 export function printNode(n: ASTNode) {
   if (isSourceFile(n) || isDirectory(n)) {
@@ -32,11 +27,17 @@ export function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
-export const Space = () => (
-  <span style={{ marginRight: '0.5em' }}></span>
-)
-
-
+/**
+ * this is just for the UI!, not meant to be API
+ */
+export function getASTNodeAncestors(n: ASTNode, andSelf = false) {
+  if (isNode(n)) {
+    return [...andSelf?[n]:[], ...n.getAncestors()]
+  }
+  else {
+    return []
+  }
+}
 export function iconForNodeKind(kind = '') {
   kind = kind.toLowerCase()
   if (['method', 'member', 'property', 'constructor'].find(s => kind.includes(s))) {

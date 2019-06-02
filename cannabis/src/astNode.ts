@@ -1,7 +1,7 @@
-import { buildAstPath, getNodeProperty as getNodeProperty_, setNodeProperty as setNodeProperty_, GeneralNode, isDirectory, isNode, isSourceFile, printAstPath, ts, tsMorph, getName } from 'ts-simple-ast-extra'
+import { getNodeProperty as getNodeProperty_, setNodeProperty as setNodeProperty_, GeneralNode, isDirectory, isNode, isSourceFile, ts, getName } from 'ts-simple-ast-extra'
 import { getConfig } from './config'
-import { getASTRoot } from './file'
 import { Node } from './queryAst'
+import { asArray, shorter } from 'misc-utils-of-mine-generic';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -31,6 +31,38 @@ export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
         ? f.getDirectory()
         : f.getParent()
 }
+
+
+export function getASTNodeSiblings(n: ASTNode ) {
+  if (isSourceFile(n)) {
+    const p = n.getDirectory()
+    if(p && p!==n as any){
+      return p.getSourceFiles().filter(f=>f!==n)
+    }
+  }
+  else if(isDirectory(n)){
+    const p = n.getParent()
+    if(p && p!==n as any){
+      return p.getDirectories().filter(f=>f!==n)
+    }
+  }
+  else {
+    return [...n.getNextSiblings(), ...n.getPreviousSiblings()]
+  } 
+  return[]
+}
+
+export function getASTNodeAncestors(n: ASTNode ) {
+  const a : ASTNode[]= []
+  let b : ASTNode |undefined
+  while((b=getASTNodeParent(n))&& b!==n){
+    a.push(b)
+  }
+  return a
+}
+
+
+
 /**
  * Gets a ASTNode that represents the SourceFile of given node, or undefined if it doesn't apply (i.e, given node is a directory).
  */
@@ -60,11 +92,11 @@ export function getASTNodeName(node: ASTNode) {
 
 
 export function setNodeProperty(n: ASTNode, path: string | (string | number)[], value: any) {
-  setNodeProperty_(n as any, path, value)
+  setNodeProperty_(n as any,  ['cannabis', ...asArray(path)], value)
 }
 
 export function getNodeProperty<T = any>(n: ASTNode, path: string | (string | number)[]): T | undefined {
-  return getNodeProperty_(n as any, path)
+  return getNodeProperty_(n as any, ['cannabis', ...asArray(path)])
 }
 
 export function getASTNodeText(n: ASTNode) {
@@ -75,7 +107,7 @@ export function getASTNodeFilePath(n: ASTNode) {
   return isDirectory(n) ? n.getPath() : n ? n.getSourceFile().getFilePath() : ''
 }
 
-export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | undefined, level?: number | undefined) => boolean, childrenFirst = true, parent?: T, level = 0) {
+export function visit<T extends ASTNode = any>(n: T, v: (n: T, parent?: T | undefined, level?: number | undefined) => boolean, childrenFirst = getConfig('visitChildrenFirst'), parent?: T, level = 0) {
   if (!n) {
     return
   }
@@ -93,48 +125,4 @@ export function getASTNodeDescendants(node: ASTNode) {
     return false
   })
   return a
-}
-
-interface NodePathOptions {
-  onlyIndex?: boolean
-  onlyKindName?: boolean
-  onlyNameOrKind?: boolean
-}
-const defaultPathOptions: Required<NodePathOptions> = {
-  onlyIndex: false,
-  onlyKindName: false,
-  onlyNameOrKind: false
-}
-
-export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPathOptions): string {
-  if(!n){
-    return ''
-  }
-  const finalOptions = { ...defaultPathOptions, ...options, dontPrintSourceFilePrefix: false, levelSeparator: '/' }
-  if (isDirectory(n) || isSourceFile(n)) {
-    const root = getASTRoot().getRootDirectory() as tsMorph.Directory
-    const p = root.getRelativePathAsModuleSpecifierTo(n as any)
-    return (p.startsWith('./') ? p.substring(2) : p).replace(/\//g, finalOptions.levelSeparator)
-  }
-  else {
-    const p = buildAstPath(n, n.getSourceFile(), {
-       mode: getConfig('getChildren') ? 'getChildren' : 'forEachChildren', 
-       includeNodeKind: true,
-       includeNodeName: finalOptions.onlyNameOrKind
-      })
-    const nodePath = printAstPath(p, finalOptions)
-    return getASTNodePath(n.getSourceFile(), finalOptions) + finalOptions.levelSeparator + nodePath.substring(nodePath.indexOf('/') + 1)
-  }
-}
-
-export function getASTNodeIndexPath(n: ASTNode): string {
-  return getASTNodePath(n, { onlyIndex: true })
-}
-
-export function getASTNodeKindPath(n: ASTNode): string {
-  return getASTNodePath(n, { onlyKindName: true })
-}
-
-export function getASTNodeNamePath(n: ASTNode): string {
-  return getASTNodePath(n, { onlyNameOrKind: true })
 }
