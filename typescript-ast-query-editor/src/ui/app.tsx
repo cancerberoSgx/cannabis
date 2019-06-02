@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react'
 import { installCodeEditor } from '../editor/ts/codeEditor'
 import { Body } from './body/body'
 import { AbstractComponent } from './component'
-import { ForkRibbon } from './forkRibbon'
+import { ForkRibbon } from './common/forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
 import { installQueryEditor } from '../editor/query/queryEditor';
@@ -13,8 +13,8 @@ import { installQueryEditor } from '../editor/query/queryEditor';
 export class App extends AbstractComponent {
 
   componentDidMount() {
-    const queryEditorContainer = document.getElementById("query-editor-container")!
-    installQueryEditor('// Identifier [@text ≠~ "Cool"]', queryEditorContainer)
+    // const queryEditorContainer = document.getElementById("query-editor-container")!
+    // installQueryEditor('// Identifier [@text ≠~ "Cool"]', queryEditorContainer)
     const editorContainer = document.getElementById("editor-container")!
     installCodeEditor(editorContainer)
    

@@ -6,7 +6,7 @@ import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Examples } from './examples'
 import { QueryAst } from './queryAst'
-import { QueryEditor } from './queryEditor'
+import { QuerySearch } from './querySearch'
 import { Results } from './results'
 
 export class Body extends AbstractComponent {
@@ -18,13 +18,19 @@ export class Body extends AbstractComponent {
       <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
-            <Tab panes={
+            <Tab 
+            // renderActiveOnly={false} 
+            defaultActiveIndex={0}
+            // activeIndex={this.state.currentTabIndex}
+            // onTabChange={(e, props)=>this.setState({currentTabIndex: parseInt(props.activeIndex+'')||0})}
+            panes={
               [
                 {
+                  // pane: {active: this.state.currentTabIndex===0},
                   menuItem: <Menu.Item key='all'>All</Menu.Item>,
-                  render: () => <Tab.Pane>
+                  render: () => <Tab.Pane active  >
                     <Examples />
-                    <QueryEditor />
+                    <QuerySearch />
                     <Results />
                   </Tab.Pane>,
                 },

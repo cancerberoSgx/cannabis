@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dropdown, Input } from 'semantic-ui-react'
-import { AbstractComponent } from './component'
+import { AbstractComponent } from '../component'
 
 export class SearchInput extends AbstractComponent {
   render() {

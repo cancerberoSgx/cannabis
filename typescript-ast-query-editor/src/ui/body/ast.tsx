@@ -6,7 +6,7 @@ import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { GetChildrenMode } from '../common/getChildrenMode'
 import { AbstractComponent, AbstractProps } from '../component'
-import { iconForNodeKind, Space } from '../uiUtil'
+import { iconForNodeKind, Space } from '../common/uiUtil'
 
 interface P extends AbstractProps {
   node?: ASTNode

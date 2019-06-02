@@ -5,7 +5,7 @@ import { Icon, Label, List, Segment } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { AbstractComponent } from '../component'
-import { iconForNodeKind, Space } from '../uiUtil'
+import { iconForNodeKind, Space } from '../common/uiUtil'
 
 interface I { }
 export class Results extends AbstractComponent {

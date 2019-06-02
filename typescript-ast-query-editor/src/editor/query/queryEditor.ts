@@ -1,10 +1,13 @@
 import * as monaco from 'monaco-editor'
+import { getStore } from '../../app/store';
 
+let _containerEl: HTMLElement | undefined
 /**
  * @internal
  */
 export function installQueryEditor(code: string, containerEl: HTMLElement) {
   if (editor) {
+    // editor.set
     return editor
   }
   monaco.languages.register({ id: 'cannabisTypeScriptQueries' });
@@ -12,22 +15,27 @@ export function installQueryEditor(code: string, containerEl: HTMLElement) {
   // defineTheme()
   registerCompletionItemProvider()
   registerHoverProvider()
-  
+
   editor = monaco.editor.create(containerEl, {
     // theme: 'cannabisTypeScriptQueriesLightTheme',
     value: code,
     // model: monaco.editor.createModel(code, 'cannabisTypeScriptQueries', monaco.Uri.parse('file:///uniqueQuery.txt')),
     language: 'cannabisTypeScriptQueries'
   })
-      editor!.onDidChangeCursorPosition(e => {
-      // this.setState({
-      //   queryNodeAtPosition: undefined
-      // })
+  editor!.onDidChangeCursorPosition(e => {
+    getStore().setState({
+      queryNodeAtPosition: undefined
     })
+  })
 
-    // editor.updateOptions({
-      
-    // })
+  _containerEl = containerEl
+  editor.onDidDispose(() => {
+    debugger
+  })
+
+  // editor.updateOptions({
+
+  // })
   return editor
 }
 
@@ -40,8 +48,15 @@ export function setQueryEditorText(s: string) {
 }
 
 
-export function updateQueryEditorUI( ) {
-  return editor && editor!.layout()
+export function updateQueryEditorUI(containerEl: HTMLElement) {
+  if (editor && _containerEl) {
+    containerEl.style.display='hidden'
+    // document.body.inse
+    containerEl.parentElement!.insertBefore(_containerEl, containerEl)
+    //.parentElement!.
+    // containerEl.replaceWith(_containerEl)
+    editor && editor!.layout()
+  }
 }
 
 

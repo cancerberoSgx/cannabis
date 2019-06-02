@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'
 import { select, setCodeEditorText } from '../../editor/ts/codeEditor'
 import { AbstractComponent } from '../component'
-import { Space } from '../uiUtil'
+import { Space } from '../common/uiUtil'
 
 export class QueryAst extends AbstractComponent {
   componentWillMount() {

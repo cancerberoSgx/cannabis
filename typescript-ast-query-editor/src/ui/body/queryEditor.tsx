@@ -3,50 +3,74 @@ import { Button, TextArea } from 'semantic-ui-react'
 import { debug } from '../../app/dispatchers'
 import { State } from '../../app/store'
 import { executeQuery } from "../../queryAst/executeQuery"
-import { AbstractComponent } from '../component'
-import { getQueryEditorText, updateQueryEditorUI } from '../../editor/query/queryEditor';
+import { AbstractComponent, AbstractProps } from '../component'
+import { getQueryEditorText, updateQueryEditorUI, installQueryEditor } from '../../editor/query/queryEditor';
 
+let  el: HTMLDivElement | null = null
 export class QueryEditor extends AbstractComponent {
-  // shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-  //   return false// nextState.selectedExample.query !== this.state.selectedExample.query
+  // el: HTMLDivElement | null = null
+  editorContainer: React.RefObject<HTMLDivElement>;
+  // editor: any;
+  // shouldComponentUpdate() {
+  //   return false
   // }
-  // componentWillMount(){
-  //   // this.forceUpdate()
-  //   // updateQueryEditorUI()
-  //   console.log('componentWillMount');
-    
-  // }
-  
-  // componentWillUdate(){
-  //   console.log('componentWillUdate');
-  //   // setTimeout(() => {
-      
-  //   // }, 1000);
-  //   // updateQueryEditorUI()
-  // }
-  // componentDidUpdate(){
-  //   console.log('componentDidUpdate');
-  //   // setTimeout(() => {
-      
-  //   // }, 1000);
-  //   // updateQueryEditorUI()
-  // }
+  // w
+  // static counter = 0
+  // containerDidMount(el: HTMLDivElement|null){
+  //   this.el = el
+  //   // debugger
+  //   // if(this.el) {
+
+  //     const id = this.el && this.el.getAttribute('id')
+  //     const id2 = this.editorContainer.current && this.editorContainer.current.getAttribute('id')
+  //     console.log(id);
+
+  //     // const queryEditorContainer = document.getElementById("query-editor-container")!
+  //     // }else {
+
+  //       // }
+
+
+  //     }
+  componentDidMount() {
+    // const id2 = this.editorContainer.current && this.editorContainer.current.getAttribute('id')
+    // debugger
+    if (!el && this.editorContainer.current) {
+      el = this.editorContainer.current!
+       installQueryEditor('// Identifier [@text ≠~ "Cool"]', el)
+    }
+    else if (el&& this.editorContainer.current!!==el) {
+      // this.editorContainer.current!.replaceWith(this.el)
+      updateQueryEditorUI(this.editorContainer.current!)
+    }
+    // this.editorContainer.c
+    // document.body.a
+  }
+
+  componentWillUnmount() {
+    // debugger
+    if(el && this.editorContainer.current!==el){
+      el.remove()
+    }
+    // if(this.el){
+    // this.el.remove()
+    // }
+  }
+  constructor(p: AbstractProps, s: State) {
+    super(p, s)
+    this.editorContainer = React.createRef<HTMLDivElement>()
+  }
   render() {
-    debug('queryEditor render')
+    debug('QueryEditor render')
     return (
       < >
-        <TextArea rows={5} style={{ width: '100%' }} value={this.state.selectedExample.query} onChange={(e, props) => {
-          if (this.state.selectedExample) {
-            this.setState({ selectedExample: { ...this.state.selectedExample, query: (props.value + '') } })
-          }
-        }} />        
-                <br />
-                <div id="query-editor-container" style={{ height: '100vh', maxHeight: '180px', margin: 0, padding: 0 , width: '100%'}}></div>
-        <br />
-        <Button small primary onClick={e => executeQuery()}>Search!</Button>
-        <Button small onClick={e => executeQuery()}>Trace Execution</Button>
-        <Button small onClick={e => executeQuery()}>Inspect Query</Button>
-        <br />
+        <div
+        id="editor-query-browser"
+          // id={'ii'+QueryEditor.counter++} 
+          // ref={ref=>this.containerDidMount(ref)}
+          ref={this.editorContainer}
+
+          style={{ height: '100vh', maxHeight: '180px', margin: 0, padding: 0, width: '100%' }}></div>
       </>
     )
   }

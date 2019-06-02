@@ -3,6 +3,7 @@ import { getFile } from 'cannabis/dist/src/file'
 import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
 import { debug } from './dispatchers'
 import { codeExamples, Example, examples } from "./examples"
+import { number } from 'prop-types';
 
 class Store extends Emitter<void> {
   protected state: State
@@ -14,6 +15,7 @@ class Store extends Emitter<void> {
     this.state = {
       selectedExample,
       astAutoUpdate: false,
+      // currentTabIndex: 0,
       currentEditorAst: getFile(selectedExampleCode) as tsMorph.SourceFile,
       result: [], examples,
       logs: [],
@@ -59,6 +61,7 @@ export interface State {
   query: ASTQQuery
   queryAst: ASTYNode
   getChildren: boolean
+  // currentTabIndex: number
   astShowText: boolean
   queryNodeAtPosition: ASTYNode| undefined
 }

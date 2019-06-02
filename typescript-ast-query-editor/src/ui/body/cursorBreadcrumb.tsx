@@ -4,7 +4,7 @@ import { Breadcrumb, BreadcrumbDivider, Icon } from 'semantic-ui-react'
 import { State } from '../../app/store'
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { AbstractComponent } from '../component'
-import { getAscendants, iconForNodeKind } from '../uiUtil'
+import { getAscendants, iconForNodeKind } from '../common/uiUtil'
 
 export class CursorBreadcrumb extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
