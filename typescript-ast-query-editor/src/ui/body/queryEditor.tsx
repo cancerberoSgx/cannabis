@@ -7,17 +7,19 @@ import { AbstractComponent, AbstractProps } from '../component'
 
 let el: HTMLDivElement | null = null
 export class QueryEditor extends AbstractComponent {
-  // el: HTMLDivElement | null = null
-  editorContainer: React.RefObject<HTMLDivElement> | undefined
-  onEditorCursorPositionChange(e: monaco.editor.ICursorPositionChangedEvent) {
-    // editor!.onDidChangeCursorPosition(e => {
+  protected editorContainer: React.RefObject<HTMLDivElement> | undefined
+  constructor(p: AbstractProps, s: State) {
+    super(p, s)
+    this.editorContainer = React.createRef<HTMLDivElement>()
+    this.onEditorCursorPositionChange = this.onEditorCursorPositionChange.bind(this)
+    this.onEditorContentChange = this.onEditorContentChange.bind(this)
+  }
+  protected onEditorCursorPositionChange(e: monaco.editor.ICursorPositionChangedEvent) {
     this.setState({
       queryNodeAtPosition: undefined
     })
-    // })
   }
-  onEditorContentChange(e: monaco.editor.IModelContentChangedEvent) {
-    // editor.getModel()!.onDidChangeContent(e => { 
+  protected onEditorContentChange(e: monaco.editor.IModelContentChangedEvent) {
     if (this.state.selectedExample) {
       this.setState({
         selectedExample: {
@@ -26,34 +28,12 @@ export class QueryEditor extends AbstractComponent {
         }
       })
     }
-    // })
   }
-  // editor: IStandaloneCodeEditor;
-  // editor: any;
-  // shouldComponentUpdate() {
-  //   return false
-  // }
-  // w
-  // static counter = 0
-  // containerDidMount(el: HTMLDivElement|null){
-  //   this.el = el
-  //   // debugger
-  //   // if(this.el) {
-
-  //     const id = this.el && this.el.getAttribute('id')
-  //     const id2 = this.editorContainer.current && this.editorContainer.current.getAttribute('id')
-  //     console.log(id);
-
-  //     // const queryEditorContainer = document.getElementById("query-editor-container")!
-  //     // }else {
-
-  //       // }
-
-
-  //     }
   componentDidMount() {
-    // const id2 = this.editorContainer.current && this.editorContainer.current.getAttribute('id')
-    // debugger
+    // HACK: we store a reference to the original element and on the next umount/mount we call
+    // updateQueryEditorUI so it will hide react-created-empty container element and append the real one. Ugly
+    // anti-react-pattern hack - but I don't want to use a library for monaco-react anna need this working
+    // asap.
     if (!el && this.editorContainer && this.editorContainer.current) {
       el = this.editorContainer.current!
       installQueryEditor({
@@ -64,27 +44,15 @@ export class QueryEditor extends AbstractComponent {
       })
     }
     else if (el && this.editorContainer && this.editorContainer.current! !== el) {
-      // this.editorContainer.current!.replaceWith(this.el)
       updateQueryEditorUI(this.editorContainer.current!)
     }
-    // this.editorContainer.c
-    // document.body.a
   }
-
   componentWillUnmount() {
-    // debugger
+    // HEADS UP: related to mentioned hack, we need to remove the real element from parent, if not react will
+    // throw when it realizes we appended an extraneous child
     if (el && this.editorContainer && this.editorContainer.current !== el) {
       el.remove()
     }
-    // if(this.el){
-    // this.el.remove()
-    // }
-  }
-  constructor(p: AbstractProps, s: State) {
-    super(p, s)
-    this.editorContainer = React.createRef<HTMLDivElement>()
-    this.onEditorCursorPositionChange = this.onEditorCursorPositionChange.bind(this)
-    this.onEditorContentChange = this.onEditorContentChange.bind(this)
   }
   render() {
     debug('QueryEditor render')
@@ -92,11 +60,8 @@ export class QueryEditor extends AbstractComponent {
       < >
         <div
           id="editor-query-browser"
-          // id={'ii'+QueryEditor.counter++} 
-          // ref={ref=>this.containerDidMount(ref)}
           ref={this.editorContainer}
-
-          style={{ height: '100vh', maxHeight: '180px', margin: 0, padding: 0, width: '100%' }}></div>
+          style={{ height: '100vh', maxHeight: '140px', margin: 0, padding: 0, width: '100%' }}></div>
       </>
     )
   }

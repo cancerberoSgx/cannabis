@@ -3,14 +3,20 @@ import { ASTNode } from '../astNode'
 
 
 interface Functions extends BuiltInFunctions {
+  /**
+   * Returns true if current node kind is function like, this is, is a callable node like
+   * `FunctionDeceleration`, `MethodDeclaration`, `ArrowFunction`, etc. Example:  `//* [ isFunctionLike() &&
+   * type() != ConstructorDeclaration]`
+   */
   isFunctionLike(arg?: ASTNode): boolean
   getExtended(arg?: ASTNode): ASTNode[]
   getExtendedNames(arg?: ASTNode): string[]
-  text(arg?: ASTNode): string
   extendsAllNamed(name: string, arg?: ASTNode): boolean
+  
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
   getImplementations(arg?: ASTNode): ASTNode[]
   getImplementationNames(arg?: ASTNode): string[]
+  text(arg?: ASTNode): string
   implementsAnyNamed(name: string, arg?: ASTNode): boolean
   implementsAllNamed(name: string, arg?: ASTNode): boolean
   findReferences(arg?: ASTNode): ASTNode[]
@@ -32,7 +38,9 @@ interface BuiltInFunctions {
   type(): string
 
   /**
-   *  Return the `sep`-separated concatenation of all attribute names of current node. The `sep` string is alway also prepended and appended for easier comparison of the result string. Example: `attr(",") == ",foo,bar,"`
+   *  Return the `sep`-separated concatenation of all attribute names of current node. The `sep` string is
+   *  alway also prepended and appended for easier comparison of the result string. Example: `attr(",") ==
+   *  ",foo,bar,"`
    */
   attrs(sep: string): string
 
@@ -42,12 +50,15 @@ interface BuiltInFunctions {
   depth(): number
 
   /**
-   *  Return position of current node among sibling (counting from 1 for the first sibling). Example: `pos() == 2`
+   *  Return position of current node among sibling (counting from 1 for the first sibling). Example: `pos()
+   *  == 2`
    */
   pos(): number
 
   /**
-   *  Check whether position of current node among sibling is `pos` (counting from 1 for the first sibling). Negative values for `pos` count from the last sibling backward, i.e., `-1` is the last sibling. Example: `nth(3)`
+   *  Check whether position of current node among sibling is `pos` (counting from 1 for the first sibling).
+   *  Negative values for `pos` count from the last sibling backward, i.e., `-1` is the last sibling. Example:
+   *  `nth(3)`
    */
   nth(pos: number): boolean
 
@@ -62,32 +73,40 @@ interface BuiltInFunctions {
   last(): boolean
 
   /**
-   *  Return the number of elements in `array`. The `array` usually is either an externally passed-in parameter or a sub-query. Example: `count({nodes}) <= count(// *)`
+   *  Return the number of elements in `array`. The `array` usually is either an externally passed-in
+   *  parameter or a sub-query. Example: `count({nodes}) <= count(// *)`
    */
   count(array: Object[]): number
 
   /**
-   *  Checks whether current node is somewhere below `node`, i.e., whether current node is a child or descendant of `node`. Usually, this makes sense only if `node` is an externally passed-in parameter. Example: `below({node})`.
+   *  Checks whether current node is somewhere below `node`, i.e., whether current node is a child or
+   *  descendant of `node`. Usually, this makes sense only if `node` is an externally passed-in parameter.
+   *  Example: `below({node})`.
    */
   below(node: ASTNode): boolean
 
   /**
-   *  Checks whether current node is following `node`, i.e., whether current node comes after `node` in a standard depth-first tree visit (where parents are visited before childs). Usually, this makes sense only if `node` is an externally passed-in parameter. Example: `follows({node})`.
+   *  Checks whether current node is following `node`, i.e., whether current node comes after `node` in a
+   *  standard depth-first tree visit (where parents are visited before childs). Usually, this makes sense
+   *  only if `node` is an externally passed-in parameter. Example: `follows({node})`.
    */
   follows(node: ASTNode): boolean
 
   /**
-   *  Checks whether current node is in `nodes`. Usually, `nodes` is either an externally passed-in parameter or a sub-query. Example: `in({nodes})`.
+   *  Checks whether current node is in `nodes`. Usually, `nodes` is either an externally passed-in parameter
+   *  or a sub-query. Example: `in({nodes})`.
    */
   in(nodes: ASTNode[]): number
 
   /**
-   *  Returns the sub-string of `str`, starting at `pos` with length `len`. Negative values for `pos` count from the end of the string, i.e., `-1` is the last character. Example: `substr(@foo, 0, 1) == "A"`
+   *  Returns the sub-string of `str`, starting at `pos` with length `len`. Negative values for `pos` count
+   *  from the end of the string, i.e., `-1` is the last character. Example: `substr(@foo, 0, 1) == "A"`
    */
   substr(str: string, pos: number, len: number): string
 
   /**
-   *  Returns the index position of sub-string `sub` in string `str`, starting at `pos`. Example: `indexof(@foo, "bar", 0) >= 0`
+   *  Returns the index position of sub-string `sub` in string `str`, starting at `pos`. Example:
+   *  `indexof(@foo, "bar", 0) >= 0`
    */
   index(str: string, sub: string, pos: number): number
 
@@ -140,6 +159,11 @@ var o: { [a in keyof Functions]: 1 } = {
 
 }
 
+/**
+ * This enum contains the function names supported by cannabis, plus also the ASTQ library built in functions.
+ * User's can reference function names from  their queries using this instead of hard coding their names as
+ * strings. Also could help when needing to list all supported functions. 
+ */
 export enum FunctionNames {
   below = 'below',
   follows = 'follows',
@@ -179,5 +203,5 @@ export enum FunctionNames {
   children = 'children',
 }
 
-export const functionNames = enumKeys(FunctionNames)
+// export const functionNames = enumKeys(FunctionNames)
 

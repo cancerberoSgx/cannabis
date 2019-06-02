@@ -6,6 +6,7 @@
 
 ## Road map
 
+ - add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
 - [ ] async api to execute search/compile so we can clal from browser bit without blocking
 - [ ] function isDeclaration()
 - [ ] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
@@ -29,7 +30,12 @@ meaning get all variable declaration in files matching`src/**/area45/**/*Model.t
 - [ ] `hasParameterList()` : `//MethodDeclaration [ hasParameterList('number[],boolean,Foo<Apple>[]') ]`. The type is compared as string.
 
 
-## query examples:
+## query ideas / examples / 
+
+to implement and see how good is the language / syntax
+
+- [ ] given an interface declaration, get all methods and properties, recursively, from types it extends. In other words, imagine I have an interface with methods which signatures I want to document in a TXT and I need to extract not only its, but its super interfaces too, recursively.  Could be something like:
+     // * [(type()=='PropertySignature'||type()=='MethodSignature') && [..// InterfaceDeclaration [@name=='Foo']]]
 
 - [ ]  real us files matching src/**/*Test.ts that doesn't contain a class implementing (recursively) an the interface import('src/service/login/loginService.ts').LoginService
 - [ ] // files in src/** referencing type import('old-library').Obsolete
@@ -37,6 +43,7 @@ meaning get all variable declaration in files matching`src/**/area45/**/*Model.t
 
 ## Ideas
 
+ <!-- * docs say "function parameters can be any expression, so I shulld be able to flat / map an expression. problem: // InterfaceDeclaration [@name=='Foo'] -->
  * idea  : git integration
 
 ```ts

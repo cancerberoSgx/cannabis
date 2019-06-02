@@ -16,9 +16,6 @@ export class SidebarExampleMultiple extends AbstractComponent {
             animation='overlay'
             direction='top'
             icon='labeled'
-
-            inverted
-            // onHide={()=>this.setState({ sidebarVisibility: false })}
             visible={this.state.sidebarVisibility}
             width='thin'
           >
@@ -43,14 +40,11 @@ export class SidebarExampleMultiple extends AbstractComponent {
             as={Menu}
             animation='overlay'
             direction='right'
-            inverted
             vertical
             t
             onHide={() => this.setState({ sidebarVisibility: false })}
             visible={this.state.sidebarVisibility}
           >
-
-
             <Modal trigger={<Menu.Item as='a'>Logs</Menu.Item>}>
               <Modal.Header>Logs</Modal.Header>
               <Modal.Content>
@@ -61,7 +55,6 @@ export class SidebarExampleMultiple extends AbstractComponent {
             <Menu.Item as='a'>Edit Permissions</Menu.Item>
             <Menu.Item as='a'>Delete Permanently</Menu.Item>
           </Sidebar>
-
           <Sidebar.Pusher>
             {...asArray(this.props.children)}
           </Sidebar.Pusher>

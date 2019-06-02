@@ -9,23 +9,16 @@ import { QuerySearch } from './querySearch'
 import { Results } from './results'
 
 export class Body extends AbstractComponent {
-  // shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-  //   return false//nextState.getChildren !== this.state.getChildren
-  // }
   render() {
     return (
       <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab
-              // renderActiveOnly={false} 
-              defaultActiveIndex={0}
-              // activeIndex={this.state.currentTabIndex}
-              // onTabChange={(e, props)=>this.setState({currentTabIndex: parseInt(props.activeIndex+'')||0})}
+              // defaultActiveIndex={0}
               panes={
                 [
                   {
-                    // pane: {active: this.state.currentTabIndex===0},
                     menuItem: <Menu.Item key='all'>All</Menu.Item>,
                     render: () => <Tab.Pane active  >
                       <Examples />

@@ -11,7 +11,6 @@ interface Props {
   onContentChange: (e: monaco.editor.IModelContentChangedEvent) => void
 }
 
-
 /**
  * @internal
  */
@@ -21,14 +20,11 @@ export function installQueryEditor(props: Props) {
   }
   monaco.languages.register({ id: 'cannabisTypeScriptQueries' })
   setMonarchTokensProvider()
-  // defineTheme()
   registerCompletionItemProvider()
   registerHoverProvider()
 
   editor = monaco.editor.create(props.containerEl, {
-    // theme: 'cannabisTypeScriptQueriesLightTheme',
     value: props.code,
-    // model: monaco.editor.createModel(code, 'cannabisTypeScriptQueries', monaco.Uri.parse('file:///uniqueQuery.txt')),
     language: 'cannabisTypeScriptQueries'
   })
   _containerEl = props.containerEl
@@ -45,19 +41,22 @@ export function setQueryEditorText(s: string) {
   return editor!.getModel()!.setValue(s)
 }
 
-
+/** @internal */
 export function updateQueryEditorUI(containerEl: HTMLElement) {
+  // HEADS UP! HACK: we store a reference to the original element and on the next umount/mount we call
+  // updateQueryEditorUI so it will hide react-created-empty container element and append the real one. Ugly
+  // anti-react-pattern hack - but I don't want to use a library for monaco-react anna need this working asap.
   if (editor && _containerEl) {
     containerEl.style.display = 'hidden'
-    // document.body.inse
     containerEl.parentElement!.insertBefore(_containerEl, containerEl)
-    //.parentElement!.
-    // containerEl.replaceWith(_containerEl)
     editor && editor!.layout()
   }
 }
 
 function setMonarchTokensProvider() {
+  // HEADS UP! names like 'identifier', 'string', 'number' etc are defined by the typescript editor / plugin.
+  // Since monaco doesn't support two editors with different themes in the same DOM, we cannot define our own
+  // theme so this is the only way of having some colors. 
   monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
     tokenizer: {
       root: [
@@ -83,22 +82,6 @@ function setMonarchTokensProvider() {
     }
   })
 }
-
-// function defineTheme() {
-//   monaco.editor.defineTheme('cannabisTypeScriptQueriesLightTheme', {
-//     base: 'vs',
-//     inherit: false,
-//     rules: [
-//       { token: 'literal', foreground: '808080' },
-//       { token: 'square-brackets', foreground: 'ff0000' },
-//       { token: 'attribute', foreground: 'FFA500' },
-//       { token: 'function', foreground: '008800' },
-//       { token: 'operator', foreground: '0055aa' },
-//       { token: 'axis', foreground: '992288', fontStyle: 'bold' },
-//     ],
-//     colors: {}
-//   })
-// }
 
 function registerCompletionItemProvider() {
   function typesCompletion(n: number) {
@@ -210,21 +193,12 @@ function registerHoverProvider() {
       }
       if (contents.length) {
         return {
-          //range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
           contents
         }
       }
     }
   })
 }
-
-
-//  function getQueryEditor() {
-//   if (!editor) {
-//     throw new Error('Editor not initialized, installEditor needs to be called first.')
-//   }
-//   return editor
-// }
 
 var axis = ['//', '/', './', './/', '-/', '-//', '+/', '+//', '~/', '~//', '../', '..//', '<//', '>//']
 

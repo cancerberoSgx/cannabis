@@ -182,7 +182,6 @@ The following are custom function that can be used in the queries directly, adde
 
 `extendsAnyNamed(name?: string, all?: boolean)` - `boolean`
  
-
  * `extendsAnyNamed('A,B')`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' OR type named 'B' 
 
  * `extendsAnyNamed('A,B', true)`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' AND type named 'B' 

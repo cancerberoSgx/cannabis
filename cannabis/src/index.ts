@@ -4,6 +4,7 @@ export { ASTNode, getASTNodeChildren, getASTNodeFilePath, getASTNodeKindName, ge
 export { getConfig, setConfig } from './config'
 export { loadProject, setProject } from './file'
 export { Kind } from './nodeKinds'
+export { FunctionNames } from './adapter/functionTypes'
 export { queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow, QueryResult } from './queryAst'
 export { tsMorph }
 import * as tsMorph from 'ts-morph'
