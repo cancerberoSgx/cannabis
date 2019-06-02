@@ -10,9 +10,9 @@ import { QueryEditor } from './queryEditor'
 import { Results } from './results'
 
 export class Body extends AbstractComponent {
-  shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.getChildren !== this.state.getChildren
-  }
+  // shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
+  //   return false//nextState.getChildren !== this.state.getChildren
+  // }
   render() {
     return (
       <Segment basic className="appBody">
@@ -24,7 +24,6 @@ export class Body extends AbstractComponent {
                   menuItem: <Menu.Item key='all'>All</Menu.Item>,
                   render: () => <Tab.Pane>
                     <Examples />
-                    {/* <GetChildrenMode/> */}
                     <QueryEditor />
                     <Results />
                   </Tab.Pane>,

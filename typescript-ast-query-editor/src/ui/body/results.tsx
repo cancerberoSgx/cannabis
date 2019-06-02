@@ -3,7 +3,7 @@ import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Icon, Label, List, Segment } from 'semantic-ui-react'
 import { State } from '../../app/store'
-import { highlightNodesInEditor } from '../../editor/codeEditor'
+import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { AbstractComponent } from '../component'
 import { iconForNodeKind, Space } from '../uiUtil'
 

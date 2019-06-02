@@ -1,6 +1,5 @@
 import { asArray } from 'misc-utils-of-mine-generic'
-import * as React from 'react'
-import 'semantic-ui-css/semantic.css'
+import * as React from 'react' 
 import { Container, Icon, Menu, Modal, Segment, Sidebar } from 'semantic-ui-react'
 import { Logs } from '../body/logs'
 import { AbstractComponent } from '../component'

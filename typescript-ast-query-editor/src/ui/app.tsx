@@ -1,33 +1,24 @@
-import "babel-polyfill"
 import * as React from 'react'
 import 'semantic-ui-css/semantic.css'
+import './styles.css'
 import { Container } from 'semantic-ui-react'
-import { getNodeAtPosition, installCodeEditor } from '../editor/codeEditor'
-import { getMonacoInstance } from '../editor/monaco'
+import { installCodeEditor } from '../editor/ts/codeEditor'
 import { Body } from './body/body'
 import { AbstractComponent } from './component'
 import { ForkRibbon } from './forkRibbon'
 import { Header } from './header/header'
 import { SidebarExampleMultiple } from './header/sidebar'
-import { installQueryEditor, getQueryEditor } from '../editor/monacoQuery';
+import { installQueryEditor } from '../editor/query/queryEditor';
 
 export class App extends AbstractComponent {
 
   componentDidMount() {
-    const editorContainer = document.getElementById("editor-container")!
-    installCodeEditor(editorContainer)
-    getMonacoInstance()!.onDidChangeCursorPosition(e => {
-      this.setState({
-        nodeAtPosition: getNodeAtPosition(e.position)
-      })
-    })
     const queryEditorContainer = document.getElementById("query-editor-container")!
     installQueryEditor('// Identifier [@text ≠~ "Cool"]', queryEditorContainer)
-    getQueryEditor()!.onDidChangeCursorPosition(e => {
-      this.setState({
-        queryNodeAtPosition: undefined
-      })
-    })
+    const editorContainer = document.getElementById("editor-container")!
+    installCodeEditor(editorContainer)
+   
+
   }
 
   render() {

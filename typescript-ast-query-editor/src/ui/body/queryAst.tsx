@@ -2,14 +2,13 @@ import { ASTYNode, QueryExpressions } from 'cannabis'
 import { ISelection } from 'monaco-editor'
 import * as React from 'react'
 import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'
-import { select } from '../../editor/codeEditor'
-import { setEditorText } from '../../editor/monaco'
+import { select, setCodeEditorText } from '../../editor/ts/codeEditor'
 import { AbstractComponent } from '../component'
 import { Space } from '../uiUtil'
 
 export class QueryAst extends AbstractComponent {
   componentWillMount() {
-    setEditorText(this.state.selectedExample.query)
+    setCodeEditorText(this.state.selectedExample.query)
     this.forceUpdate()
   }
   render() {

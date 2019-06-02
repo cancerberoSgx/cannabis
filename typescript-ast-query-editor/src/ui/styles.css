@@ -42,10 +42,7 @@ ul.ui.list ul li, ol.ui.list ol li, .ui.list .list > .item,
   padding: 0!important;
   margin: 0!important;
 }
-/* .appBody */
-/* body {
-  padding: 0.7em;
-} */
-/* .astTree ul.list .list > .item > i.icon, .ui.list > .item > i.icon {
-} */
-/* .astTree ui.list .list > .item > i.icon, .ui.list > .item > i.icon */
+.headerContainer.ui.segment, .headerContainer * {
+  margin: 0; 
+  padding: 0
+}

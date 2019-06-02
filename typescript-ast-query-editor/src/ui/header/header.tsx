@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Grid, Header as H, Segment } from 'semantic-ui-react'
 import { Space } from '../uiUtil'
-import './header.css'
 import MenuExampleMenus from './menu'
 
 export const Header = () => (

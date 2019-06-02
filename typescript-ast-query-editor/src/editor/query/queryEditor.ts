@@ -1,47 +1,92 @@
 import * as monaco from 'monaco-editor'
 
+/**
+ * @internal
+ */
+export function installQueryEditor(code: string, containerEl: HTMLElement) {
+  if (editor) {
+    return editor
+  }
+  monaco.languages.register({ id: 'cannabisTypeScriptQueries' });
+  setMonarchTokensProvider()
+  // defineTheme()
+  registerCompletionItemProvider()
+  registerHoverProvider()
+  
+  editor = monaco.editor.create(containerEl, {
+    // theme: 'cannabisTypeScriptQueriesLightTheme',
+    value: code,
+    // model: monaco.editor.createModel(code, 'cannabisTypeScriptQueries', monaco.Uri.parse('file:///uniqueQuery.txt')),
+    language: 'cannabisTypeScriptQueries'
+  })
+      editor!.onDidChangeCursorPosition(e => {
+      // this.setState({
+      //   queryNodeAtPosition: undefined
+      // })
+    })
+
+    // editor.updateOptions({
+      
+    // })
+  return editor
+}
+
+export function getQueryEditorText() {
+  return editor!.getModel()!.getValue()
+}
+
+export function setQueryEditorText(s: string) {
+  return editor!.getModel()!.setValue(s)
+}
+
+
+export function updateQueryEditorUI( ) {
+  return editor && editor!.layout()
+}
+
+
 function setMonarchTokensProvider() {
   monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
     tokenizer: {
       root: [
-        [/[\[\]]{1}/igm, "square-brackets"],
+        [/[\[\]]{1}/igm, "@brackets"],
 
-        [/@[a-zA-Z0-9]+/, "attribute"],
+        [/@[a-zA-Z0-9]+/, "identifier"],
 
-        [/\'[^\'']+\'/, "literal"],
-        [/\"[^\]]+\"/, "literal"],
-        [/[0-9\.]+/, "literal"],
+        [/\'[^\'']+\'/, "string"],
+        [/\"[^\]]+\"/, "string"],
+        [/[0-9\.]+/, "number"],
 
-        [/\s*[\a-zA-Z0-9_]+\s*\(/, "function"],
-        [/[\(\)]/, "function"],
-        [/\[[a-zA-Z 0-9:]+\]/, "function"],
+        [/\s*[\a-zA-Z0-9_]+\s*\(/, "delimiter"],
+        [/[\(\)]/, "delimiter"],
+        [/\[[a-zA-Z 0-9:]+\]/, "delimiter"],
 
-        [/&/, "operator"], [/=/, "operator"],
-        [/>/, "operator"], [/</, "operator"],
-        [/!/, "operator"], // TODO: the rest 
+        [/&/, "comment.doc"], [/=/, "comment.doc"],
+        [/>/, "comment.doc"], [/</, "comment.doc"],
+        [/!/, "comment.doc"], // TODO: the rest 
 
-        [/[\/\.]+\s*[A-Z-a-z0-9]+/, "axis"],
-        [/[\/\.\*]+/, "axis"] // TODO: the rest   
+        [/[\/\.]+\s*[A-Z-a-z0-9]+/, "string.escape"],
+        [/[\/\.\*]+/, "string.escape"] // TODO: the rest   
       ]
     }
   })
 }
 
-function defineTheme() {
-  monaco.editor.defineTheme('cannabisTypeScriptQueriesLightTheme', {
-    base: 'vs',
-    inherit: false,
-    rules: [
-      { token: 'literal', foreground: '808080' },
-      { token: 'square-brackets', foreground: 'ff0000' },
-      { token: 'attribute', foreground: 'FFA500' },
-      { token: 'function', foreground: '008800' },
-      { token: 'operator', foreground: '0055aa' },
-      { token: 'axis', foreground: '992288', fontStyle: 'bold' },
-    ],
-    colors: {}
-  })
-}
+// function defineTheme() {
+//   monaco.editor.defineTheme('cannabisTypeScriptQueriesLightTheme', {
+//     base: 'vs',
+//     inherit: false,
+//     rules: [
+//       { token: 'literal', foreground: '808080' },
+//       { token: 'square-brackets', foreground: 'ff0000' },
+//       { token: 'attribute', foreground: 'FFA500' },
+//       { token: 'function', foreground: '008800' },
+//       { token: 'operator', foreground: '0055aa' },
+//       { token: 'axis', foreground: '992288', fontStyle: 'bold' },
+//     ],
+//     colors: {}
+//   })
+// }
 
 function registerCompletionItemProvider() {
   function typesCompletion(n: number) {
@@ -164,44 +209,12 @@ function registerHoverProvider() {
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
-export function getQueryEditor() {
-  if (!editor) {
-    throw new Error('Editor not initialized, installEditor needs to be called first.')
-  }
-  return editor
-}
-
-/**
- * @internal
- */
-export function installQueryEditor(code: string, containerEl: HTMLElement) {
-  if (editor) {
-    return editor
-  }
-  monaco.languages.register({ id: 'cannabisTypeScriptQueries' });
-  setMonarchTokensProvider()
-  defineTheme()
-  registerCompletionItemProvider()
-  registerHoverProvider()
-  editor = monaco.editor.create(containerEl, {
-    theme: 'cannabisTypeScriptQueriesLightTheme',
-    value: code,
-    language: 'cannabisTypeScriptQueries'
-  })
-  return editor
-}
-
-export function getQueryEditorText() {
-  return editor!.getModel()!.getValue()
-}
-
-export function setQueryEditorText(s: string) {
-  return editor!.getModel()!.setValue(s)
-}
-
-
-
-
+//  function getQueryEditor() {
+//   if (!editor) {
+//     throw new Error('Editor not initialized, installEditor needs to be called first.')
+//   }
+//   return editor
+// }
 
 var axis = ['//', '/', './', './/', '-/', '-//', '+/', '+//', '~/', '~//', '../', '..//', '<//', '>//']
 

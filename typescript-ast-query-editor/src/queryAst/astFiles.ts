@@ -1,7 +1,7 @@
 import { tsMorph } from 'cannabis'
 import { getFile } from 'cannabis/dist/src/file'
 import { getStore } from '../app/store'
-import { getEditorText } from '../editor/monaco'
+import { getCodeEditorText } from '../editor/ts/codeEditor';
 
 let sourceFile: tsMorph.SourceFile | undefined
 let text: string | undefined
@@ -19,7 +19,7 @@ export function getSourceFile() {
   }
   if (!sourceFile || dirty) {
     dirty = false
-    const newText = getEditorText()
+    const newText = getCodeEditorText()
     if (newText !== text) {
       text = newText
       sourceFile = getFile(text) as tsMorph.SourceFile
@@ -30,14 +30,5 @@ export function getSourceFile() {
 }
 
 function createProject() {
-  // const project = new tsMorph.Project({
-  //   useVirtualFileSystem: true,
-  //   compilerOptions: {
-  //     target: ts.ScriptTarget.ES2016,
-  //     moduleResolution: ts.ModuleResolutionKind.NodeJs,
-  //     jsx: ts.JsxEmit.React,
-  //     libs: ['es2015', 'dom'],
-  //   },
-  // })
-  // const fs: tsMorph.FileSystemHost = project.getFileSystem()
+
 }

@@ -1,5 +1,4 @@
-import * as React from 'react'
-import 'semantic-ui-css/semantic.css'
+import * as React from 'react' 
 import { Menu } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
 export default class MenuExampleMenus extends AbstractComponent {
