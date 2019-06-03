@@ -4,7 +4,12 @@ import { ok } from 'assert';
 import { getExtendsRecursively, getDefinitionsOf } from 'ts-simple-ast-extra';
 import { Options } from './cli';
 
-export function extractMemberSignatures(o: Options) {
+interface Result {
+  methods: {signature: string, name: string, jsDocsText: string}[], 
+  properties: {signature: string,name: string, jsDocsText: string}[]
+}
+
+export function extractMemberSignatures(o: Options): Result {
   const p = new Project({ tsConfigFilePath: o.project, addFilesFromTsConfig: true });
   const root = setProject(p).getRootDirectory();
   const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root);
@@ -35,5 +40,9 @@ export function extractMemberSignatures(o: Options) {
 }
 function extractDoc(m: MethodSignature | PropertySignature) {
   m.formatText();
-  return m.getText(true);
+  return {
+    name:m.getName(),
+    signature: m.getText(), 
+    jsDocsText: m.getJsDocs().map(j=>j.getInnerText()).join('\n')
+  }
 }
