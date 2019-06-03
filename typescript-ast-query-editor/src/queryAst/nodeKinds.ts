@@ -1,3 +1,5 @@
+import { enumKeys } from 'misc-utils-of-mine-generic';
+
 /**
  * All TypeScript Node Syntax Kind names
  */
@@ -324,5 +326,4 @@ export enum Kind {
   "Count" = "Count"
 }
 
-
-
+export const nodeKinds = enumKeys(Kind)

@@ -96,9 +96,7 @@ returns current node's text as in `ts.Node#getText()`. Example:
 
 `@name`  - `string`
 
-Returns current node's name if any. If it doesn't have a name, it returns an empty string. Nodes that have name are for example, Identifiers, class declarations in general, interface declarations, member declarations, variable declarations, object literal properties, etc, Examples: 
-
-`// * [ @name=='f' && @modifiers=~'export' ]`
+There are node kinds that have name, like InterfaceDeclaration, and others that don't, like IfStatement. Example: `// * [ @name=='f' && @modifiers=~'export' ]`
 
 ## @modifiers
 
@@ -145,15 +143,27 @@ Gets the literal text of a literal-like node , example
 
 ## @start
 
+Returns the position of current node in its source file.
+
 ## @end
+
+Returns the position of current node's end, in its source file.
 
 ## @width
 
+Returns the amount of characters of current node.
+
 ## @body
+
+Return current node's body node, or null if it doesn't have a body.
 
 ## @leadingComments
 
+Returns the text of comments before this node.
+
 ## @trailingComments
+
+Returns the text of comments after this node.
 
 ## @indexPath
 
@@ -162,6 +172,11 @@ Returns a child-index based path for the node, similar to `src/services/login/lo
 ## @kindPath
 
 Returns a node kind based path for the node, like `src/services/login/loginService/InterfaceDeclaration/Identifier`. Notice that unlike @indexPath, this doesn't necessarily points to the node.
+
+## @namePath
+
+Returns a node-name based path for current node, like `src/services/login/loginService/LoginService/method1/param1`. Notice that unlike @indexPath, this doesn't necessarily points to the node. If a node doesn't have a name, its kind name will be printed in the path instead.
+
 
 
 # Functions 
@@ -180,25 +195,19 @@ The following are custom function that can be used in the queries directly, adde
 
 ## extendsAnyNamed 
 
-`extendsAnyNamed(name?: string, all?: boolean)` - `boolean`
+Supports two signatures:
+
+`extendsAnyNamed(name: string)` - `boolean`
+`extendsAnyNamed(node: ASTNode, name: string|string[])` - `boolean`
  
- * `extendsAnyNamed('A,B')`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' OR type named 'B' 
-
- * `extendsAnyNamed('A,B', true)`: Returns true if current node (class declaration or interface declaration) extends recursively type named 'A' AND type named 'B' 
- * extendsAnyNamed(): returns comma-separated names of all types that current node extends, recursively.
-
-Take into account that it will search across all `extends` HeritageClauses, recursively.
-
-Also notice that it applies  both to classes and interfaces and remember that an interface can extend both interfaces and classes. 
-
-Examples: 
-
-`//ClassDeclaration [extendsAnyNamed('BaseClass')]`
-
-`//InterfaceDeclaration [extendsAnyNamed('Touchable,Base', true)]`
+ Returns true if current node (or given node given as parameter) extends any class or interface (directly or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split using ','. 
  
-`//* [ compareText(extendsAnyNamed(), 'A,I')]`
+ Example: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. 
 
+Example: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends (directly or indirectly) a type with name included in names parameter.
+
+Take into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes. Examples:
+ 
 ## extendsAllNamed 
 
 ## implementsAnyNamed 
@@ -260,7 +269,9 @@ Examples:
 
 `children(arg?:ASTNode): ASTNode[]`
 
-
+## sourceFile
+  Gets given node's SourceFile or current node's if no node is given. 
+  
 # Query Syntax
 
  * [ASTQ Query syntax](astq-query-syntax.md)

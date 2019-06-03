@@ -1,4 +1,7 @@
 import * as monaco from 'monaco-editor'
+import { nodeKinds } from '../../queryAst/nodeKinds';
+import { attributeSignatures } from '../../queryAst/attributeSignatures';
+import { functionSignatures } from '../../queryAst/functionSignatures';
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
@@ -89,7 +92,7 @@ function setMonarchTokensProvider() {
 
 function registerCompletionItemProvider() {
   function typesCompletion(n: number) {
-    return `\${${n}|${types.join(',')}|}`
+    return `\${${n}|${nodeKinds.join(',')}|}`
   }
   function attributesCompletion(n: number) {
     return `@\${${n}|${attributes.join(',')}|}`
@@ -178,21 +181,23 @@ function registerHoverProvider() {
         )
       }
       let type
-      if ((type = types.find(t => t.includes(w) || w.includes(t)))) {
+      if ((type = nodeKinds.find(t => w.includes(t)))) {
         contents.push({
           value: `**${type}** : TypeScript / JavaScript node\'s syntax kind. TODO document, reference.`
         })
       }
-      let aFunction
+      let aFunction:string|undefined
       if ((aFunction = functions.find(t => t.includes(w) || w.includes(t)))) {
+        const a = functionSignatures.find(a=>a.name===aFunction)
         contents.push({
-          value: `**${aFunction}** : a Cannabis AST Querty function. Its signature is : TODO. reference, document.`
+          value: `**${aFunction}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`
         })
       }
-      let anAttr
+      let anAttr:string|undefined
       if ((anAttr = attributes.find(t => t.includes(w) || w.includes(t)))) {
+        const a = attributeSignatures.find(a=>a.name===anAttr)
         contents.push({
-          value: `**${anAttr}** : a Cannabis AST Query attribute. Its signature is : TODO. reference, document.`
+          value: `**@${anAttr}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`
         })
       }
       if (contents.length) {
@@ -212,9 +217,6 @@ var logicalOperators = ["&&", "\\|\\|"]
 
 var operators = [...logicalOperators, ...compareOperators]
 
-var attributes = ['type', 'text', 'name', 'modifiers', 'expression', 'literalText', 'start', 'end', 'width', 'body', 'leadingComments', 'trailingComments', 'kindPath', 'indexPath']
+var attributes = attributeSignatures.map(a=>a.name)//['type', 'text', 'name', 'modifiers', 'expression', 'literalText', 'start', 'end', 'width', 'body', 'leadingComments', 'trailingComments', 'kindPath', 'indexPath']
 
-var functions = ["isFunctionLike", "below", "follows", "in", "debug", "join", "includes", "compareText", "contains", "attrs", "depth", "pos", "nth", "first", "last", "count", "substr", "index", "trim", "lc", "uc", "type", "getExtended", "getExtendedNames", "text", "extendsAllNamed", "extendsAnyNamed", "getImplementations", "getImplementationNames", "implementsAnyNamed", "implementsAllNamed", "findReferences", "sourceFile", "kindName", "parent", "children"]
-
-var types = ["VariableDeclaration",
-  "TypeParameter", "Parameter", "Decorator", "PropertySignature", "PropertyDeclaration", "MethodSignature", "MethodDeclaration", "Constructor", "GetAccessor", "SetAccessor", "CallSignature", "ConstructSignature", "IndexSignature", "FirstTypeNode", "TypeReference", "FunctionType", "ConstructorType", "TypeQuery", "TypeLiteral", "ArrayType", "TupleType", "OptionalType", "RestType", "UnionType", "IntersectionType", "ConditionalType", "InferType", "ParenthesizedType", "ThisType", "TypeOperator", "IndexedAccessType", "MappedType", "LiteralType", "LastTypeNode", "ObjectBindingPattern", "ArrayBindingPattern", "BindingElement", "ArrayLiteralExpression", "ObjectLiteralExpression", "PropertyAccessExpression", "ElementAccessExpression", "CallExpression", "NewExpression", "TaggedTemplateExpression", "TypeAssertionExpression", "ParenthesizedExpression", "FunctionExpression", "ArrowFunction", "DeleteExpression", "TypeOfExpression", "VoidExpression", "AwaitExpression", "PrefixUnaryExpression", "PostfixUnaryExpression", "BinaryExpression", "ConditionalExpression", "TemplateExpression", "YieldExpression", "SpreadElement", "ClassExpression", "OmittedExpression", "ExpressionWithTypeArguments", "AsExpression", "NonNullExpression", "MetaProperty", "SyntheticExpression", "TemplateSpan", "SemicolonClassElement", "Block", "VariableStatement", "EmptyStatement", "ExpressionStatement", "IfStatement", "DoStatement", "WhileStatement", "ForStatement", "ForInStatement", "ForOfStatement", "ContinueStatement", "BreakStatement", "ReturnStatement", "WithStatement", "SwitchStatement", "LabeledStatement", "ThrowStatement", "TryStatement", "DebuggerStatement", "VariableDeclarationList", "FunctionDeclaration", "ClassDeclaration", "InterfaceDeclaration", "TypeAliasDeclaration", "EnumDeclaration", "ModuleDeclaration", "ModuleBlock", "CaseBlock", "NamespaceExportDeclaration", "ImportEqualsDeclaration", "ImportDeclaration", "ImportClause", "NamespaceImport", "NamedImports", "ImportSpecifier", "ExportAssignment", "ExportDeclaration", "NamedExports", "ExportSpecifier", "MissingDeclaration", "ExternalModuleReference", "JsxElement", "JsxSelfClosingElement", "JsxOpeningElement", "JsxClosingElement", "JsxFragment", "JsxOpeningFragment", "JsxClosingFragment", "JsxAttribute", "JsxAttributes", "JsxSpreadAttribute", "JsxExpression", "CaseClause", "DefaultClause", "HeritageClause", "CatchClause", "PropertyAssignment", "ShorthandPropertyAssignment", "SpreadAssignment", "EnumMember", "UnparsedPrologue", "UnparsedPrepend", "UnparsedText", "UnparsedInternalText", "UnparsedSyntheticReference", "SourceFile", "Bundle", "UnparsedSource", "InputFiles", "FirstJSDocNode", "JSDocAllType", "JSDocUnknownType", "JSDocNullableType", "JSDocNonNullableType", "JSDocOptionalType", "JSDocFunctionType", "JSDocVariadicType", "JSDocComment", "JSDocTypeLiteral", "JSDocSignature", "FirstJSDocTagNode", "JSDocAugmentsTag", "JSDocClassTag", "JSDocCallbackTag", "JSDocEnumTag", "JSDocParameterTag", "JSDocReturnTag", "JSDocThisTag", "JSDocTypeTag", "JSDocTemplateTag", "JSDocTypedefTag", "LastJSDocTagNode", "SyntaxList", "NotEmittedStatement", "PartiallyEmittedExpression", "CommaListExpression", "MergeDeclarationMarker", "EndOfDeclarationMarker", "Count", "FirstToken", "EndOfFileToken", "FirstTriviaToken", "SingleLineCommentTrivia", "MultiLineCommentTrivia", "NewLineTrivia", "WhitespaceTrivia", "ShebangTrivia", "LastTriviaToken", "FirstLiteralToken", "BigIntLiteral", "StringLiteral", "JsxText", "JsxTextAllWhiteSpaces", "RegularExpressionLiteral", "FirstTemplateToken", "TemplateHead", "TemplateMiddle", "LastTemplateToken", "FirstPunctuation", "CloseBraceToken", "OpenParenToken", "CloseParenToken", "OpenBracketToken", "CloseBracketToken", "DotToken", "DotDotDotToken", "SemicolonToken", "CommaToken", "FirstBinaryOperator", "LessThanSlashToken", "GreaterThanToken", "LessThanEqualsToken", "GreaterThanEqualsToken", "EqualsEqualsToken", "ExclamationEqualsToken", "EqualsEqualsEqualsToken", "ExclamationEqualsEqualsToken", "EqualsGreaterThanToken", "PlusToken", "MinusToken", "AsteriskToken", "AsteriskAsteriskToken", "SlashToken", "PercentToken", "PlusPlusToken", "MinusMinusToken", "LessThanLessThanToken", "GreaterThanGreaterThanToken", "GreaterThanGreaterThanGreaterThanToken", "AmpersandToken", "BarToken", "CaretToken", "ExclamationToken", "TildeToken", "AmpersandAmpersandToken", "BarBarToken", "QuestionToken", "ColonToken", "AtToken", "BacktickToken", "FirstAssignment", "FirstCompoundAssignment", "MinusEqualsToken", "AsteriskEqualsToken", "AsteriskAsteriskEqualsToken", "SlashEqualsToken", "PercentEqualsToken", "LessThanLessThanEqualsToken", "GreaterThanGreaterThanEqualsToken", "GreaterThanGreaterThanGreaterThanEqualsToken", "AmpersandEqualsToken", "BarEqualsToken", "LastBinaryOperator", "Identifier", "FirstKeyword", "CaseKeyword", "CatchKeyword", "ClassKeyword", "ConstKeyword", "ContinueKeyword", "DebuggerKeyword", "DefaultKeyword", "DeleteKeyword", "DoKeyword", "ElseKeyword", "EnumKeyword", "ExportKeyword", "ExtendsKeyword", "FalseKeyword", "FinallyKeyword", "ForKeyword", "FunctionKeyword", "IfKeyword", "ImportKeyword", "InKeyword", "InstanceOfKeyword", "NewKeyword", "NullKeyword", "ReturnKeyword", "SuperKeyword", "SwitchKeyword", "ThisKeyword", "ThrowKeyword", "TrueKeyword", "TryKeyword", "TypeOfKeyword", "VarKeyword", "VoidKeyword", "WhileKeyword", "LastReservedWord", "FirstFutureReservedWord", "InterfaceKeyword", "LetKeyword", "PackageKeyword", "PrivateKeyword", "ProtectedKeyword", "PublicKeyword", "StaticKeyword", "LastFutureReservedWord", "FirstContextualKeyword", "AsKeyword", "AnyKeyword", "AsyncKeyword", "AwaitKeyword", "BooleanKeyword", "ConstructorKeyword", "DeclareKeyword", "GetKeyword", "InferKeyword", "IsKeyword", "KeyOfKeyword", "ModuleKeyword", "NamespaceKeyword", "NeverKeyword", "ReadonlyKeyword", "RequireKeyword", "NumberKeyword", "ObjectKeyword", "SetKeyword", "StringKeyword", "SymbolKeyword", "TypeKeyword", "UndefinedKeyword", "UniqueKeyword", "UnknownKeyword", "FromKeyword", "GlobalKeyword", "BigIntKeyword", "LastContextualKeyword", "FirstNode", "ComputedPropertyName",]
+var functions = functionSignatures.map(f=>f.name)//["isFunctionLike", "below", "follows", "in", "debug", "join", "includes", "compareText", "contains", "attrs", "depth", "pos", "nth", "first", "last", "count", "substr", "index", "trim", "lc", "uc", "type", "getExtended", "getExtendedNames", "text", "extendsAllNamed", "extendsAnyNamed", "getImplementations", "getImplementationNames", "implementsAnyNamed", "implementsAllNamed", "findReferences", "sourceFile", "kindName", "parent", "children"]

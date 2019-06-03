@@ -3,24 +3,47 @@ import { ASTNode } from '../astNode'
 interface Functions extends BuiltInFunctions {
   /**
    * Returns true if current node kind is function like, this is, is a callable node like
-   * `FunctionDeceleration`, `MethodDeclaration`, `ArrowFunction`, etc. Example:  `//* [ isFunctionLike() &&
-   * type() != ConstructorDeclaration]`
+   * `FunctionDeceleration`, `MethodDeclaration`, `ArrowFunction`, etc. Example:  
+   * `//* [ isFunctionLike() && type() != ConstructorDeclaration]`
    */
   isFunctionLike(arg?: ASTNode): boolean
 
-  getExtended(arg?: ASTNode): ASTNode[]
-  
-  getExtendedNames(arg?: ASTNode): string[]
-  
-  extendsAllNamed(name: string, arg?: ASTNode): boolean
-  
+  /**
+   * Gets all extended types by given node or current node if node was not given. 
+   */
+  getExtended(node?: ASTNode): ASTNode[]
+
+  /**
+   * Gets the names of all extended types by given node or current node if node was not given. 
+   */
+  getExtendedNames(node?: ASTNode): string[]
+
+  /**
+   * Same as extendsAllNamed but returns true only if the node extends (directly or indirectly) types including ALL names.
+   */
+  extendsAllNamed(nameOrNode: ASTNode|string|string[], name?: string|string[]): boolean
+
+  /**
+   * Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node: ASTNode, name: string|string[]): boolean`. 
+   * 
+   * Returns true if current node (or given node given as parameter) extends any class or interface (directly or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split using ','. 
+   * 
+   * Example: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. 
+   * 
+   * Example: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends (directly or indirectly) a type with name included in names parameter.
+   * 
+   * Take into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes
+   */
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
   
   getImplementations(arg?: ASTNode): ASTNode[]
   
   getImplementationNames(arg?: ASTNode): string[]
-  
-  text(arg?: ASTNode): string
+
+  /**
+   * Return the text of given node or of current node if no node is given. 
+   */
+  text(node?: ASTNode): string
   
   implementsAnyNamed(name: string, arg?: ASTNode): boolean
   
@@ -28,18 +51,36 @@ interface Functions extends BuiltInFunctions {
   
   findReferences(arg?: ASTNode): ASTNode[]
   
+  /**
+   * Gets given node's SourceFile or current node's if no node is given. 
+   */
   sourceFile(arg?: ASTNode): ASTNode
   
+  /**
+   * Returns kind name of given node, or current node if no node was given.
+   */
   kindName(arg?: ASTNode): string
   
+
   debug(...args: any[]): true
-  
-  parent(arg?: ASTNode): ASTNode
-  
+
+  /**
+   * Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. 
+   */
+  parent(arg?: ASTNode): ASTNode|null 
+      /**
+   * Returns children nodes of given node, or of current node if no node was given.
+   */
   children(arg?: ASTNode): ASTNode[]
   
+  /**
+   * Returns the `join()` on given array of strings using given joinChar or ',' by default.
+   */
   join(arr: string[], joinChar?: string): string
   
+  /**
+   * Returns true if given array contains given item. If arr is a string it will be split using ',', character. 
+   */
   includes(arr: string|any[], item: any): boolean
   
   compareText(actual: string, expected: string, options?: string): boolean
@@ -54,9 +95,15 @@ interface Functions extends BuiltInFunctions {
    */
   matchAll(input: string | string[], patterns: string | string[]): boolean
 
+  /**
+   * returns an array consisting on given arguments: 
+   */
   array(...args: any[]): any[]
 
-  map(propertyName: string, ...arr: any[]): string[]
+  /**
+   * Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If the value of the property is a function, then the result will be the return value of the method call without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`
+   */
+  map(arr: any[], propertyName: string): string[]
 }
 
 interface BuiltInFunctions {
