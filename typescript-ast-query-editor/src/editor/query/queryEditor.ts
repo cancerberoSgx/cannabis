@@ -1,8 +1,8 @@
 import * as monaco from 'monaco-editor'
-import { nodeKinds } from '../../queryAst/nodeKinds';
-import { attributeSignatures } from '../../queryAst/attributeSignatures';
-import { functionSignatures } from '../../queryAst/functionSignatures';
-import { nodeKindSignature } from '../../queryAst/nodeKindSignatures';
+import { attributeSignatures } from '../../queryAst/attributeSignatures'
+import { functionSignatures } from '../../queryAst/functionSignatures'
+import { nodeKinds } from '../../queryAst/nodeKinds'
+import { nodeKindSignature } from '../../queryAst/nodeKindSignatures'
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
@@ -15,7 +15,15 @@ interface Props {
   onContentChange: (e: monaco.editor.IModelContentChangedEvent) => void
 }
 
-export function getQueryEditorContainerEl(){
+
+
+export function select(selections: monaco.ISelection[]) {
+  editor!.setSelections(selections)
+  editor!.revealLines(selections[0].selectionStartLineNumber, selections[selections.length - 1].selectionStartLineNumber, monaco.editor.ScrollType.Smooth)
+  window.scrollTo({ top: 0 })
+}
+
+export function getQueryEditorContainerEl() {
   return _containerEl
 }
 
@@ -87,7 +95,7 @@ function setMonarchTokensProvider() {
         // [/!/, "comment.doc"], // TODO: the rest 
 
         // [/[\/\.]+\s*[A-Z-a-z0-9]+/, "string.escape"],
-        [/[\/\.\*\s\>\<\-\+\~]+/, "keyword"] ,// TODO: the rest   
+        [/[\/\.\*\s\>\<\-\+\~]+/, "keyword"],// TODO: the rest   
         // [/\/\/\s*[a-z-A-Z]+/, "string.escape"],
         // [/[\/\.\*\s\>\<\-\+\~]+[a-z-A-Z]+/, "string.escape"] // TODO: the rest   
       ]
@@ -185,25 +193,25 @@ function registerHoverProvider() {
         }
         )
       }
-      let type:string|undefined
+      let type: string | undefined
       if ((type = nodeKinds.find(t => w.includes(t)))) {
-        const signature = nodeKindSignature.find(s=>s.name===type) || {signature: ''}
+        const signature = nodeKindSignature.find(s => s.name === type) || { signature: '' }
         contents.push({
-          value: `**${type}**: TypeScript/JavaScript AST Syntax Kind.\n${'```ts\n'+signature.signature+'\n```'}`
+          value: `**${type}**: TypeScript/JavaScript AST Syntax Kind.\n${'```ts\n' + signature.signature + '\n```'}`
         })
       }
-      let aFunction:string|undefined
-      if ((aFunction = functions.find(t =>  w.includes(t)))) {
-        const a = functionSignatures.find(a=>a.name===aFunction)
+      let aFunction: string | undefined
+      if ((aFunction = functions.find(t => w.includes(t)))) {
+        const a = functionSignatures.find(a => a.name === aFunction)
         contents.push({
-          value: `**${aFunction}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`
+          value: `**${aFunction}**\n\`${a && a.signature}\`\n${a && a.jsDocsText}`
         })
       }
-      let anAttr:string|undefined
-      if ((anAttr = attributes.find(t =>w.includes(t)))) {
-        const a = attributeSignatures.find(a=>a.name===anAttr)
+      let anAttr: string | undefined
+      if ((anAttr = attributes.find(t => w.includes(t)))) {
+        const a = attributeSignatures.find(a => a.name === anAttr)
         contents.push({
-          value: `**@${anAttr}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`
+          value: `**@${anAttr}**\n\`${a && a.signature}\`\n${a && a.jsDocsText}`
         })
       }
       if (contents.length) {
@@ -216,20 +224,20 @@ function registerHoverProvider() {
 }
 
 const axisDescriptions: any = {
-  '/':    'direct child nodes',
-  '//':   'any descendant nodes',
-  './':   'current node plus direct child nodes',
-  './/':  'current node plus any descendant nodes',
-  '-/':   'direct left sibling node',
-  '-//':  'any left sibling nodes',
-  '+/':   'direct right sibling node',
-  '+//':  'any right sibling nodes',
-  '~/':   'direct left and right sibling nodes',
-  '~//':  'all left and right sibling nodes',
-  '../':  'direct parent node',
+  '/': 'direct child nodes',
+  '//': 'any descendant nodes',
+  './': 'current node plus direct child nodes',
+  './/': 'current node plus any descendant nodes',
+  '-/': 'direct left sibling node',
+  '-//': 'any left sibling nodes',
+  '+/': 'direct right sibling node',
+  '+//': 'any right sibling nodes',
+  '~/': 'direct left and right sibling nodes',
+  '~//': 'all left and right sibling nodes',
+  '../': 'direct parent node',
   '..//': 'any parent nodes',
-  '<//':  'any preceding nodes',
-  '>//':  'any following no',
+  '<//': 'any preceding nodes',
+  '>//': 'any following no',
 }
 
 var axis = ['//', '/', './', './/', '-/', '-//', '+/', '+//', '~/', '~//', '../', '..//', '<//', '>//']
@@ -241,6 +249,6 @@ var operatorDescriptions: any = {
 
 }
 
-var attributes = attributeSignatures.map(a=>a.name)
+var attributes = attributeSignatures.map(a => a.name)
 
-var functions = functionSignatures.map(f=>f.name)
+var functions = functionSignatures.map(f => f.name)

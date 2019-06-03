@@ -2,15 +2,11 @@ import { ASTYNode, QueryExpressions } from 'cannabis'
 import { ISelection } from 'monaco-editor'
 import * as React from 'react'
 import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'
-import { select, setCodeEditorText } from '../../editor/ts/codeEditor'
+import { select } from '../../editor/query/queryEditor'
 import { Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
 
 export class QueryAst extends AbstractComponent {
-  // componentWillMount() {
-    // setCodeEditorText(this.state.selectedExample.query)
-    // this.forceUpdate()
-  // }
   render() {
     return <Segment basic>
       <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {
@@ -32,10 +28,14 @@ export class QueryAst extends AbstractComponent {
   renderNode(node: ASTYNode) {
     return (<List.Item onClick={e => {
       e.stopPropagation()
-      const selection: ISelection = { selectionStartColumn: node.pos().column, selectionStartLineNumber: node.pos().line, positionColumn: node.pos().column + (node.pos().offset || 1), positionLineNumber: node.pos().line }
+      const selection: ISelection = {
+        selectionStartColumn: node.pos().column,
+        selectionStartLineNumber: node.pos().line,
+        positionColumn: node.pos().column + (node.pos().offset || 1),
+        positionLineNumber: node.pos().line
+      }
       select([selection])
     }}>
-      {/* <List.Icon icon="leaf" /> */}
       <List.Icon name={iconForQueryNodeKind(node.type())} />
       <List.Content>
         <List.Header as="a" >
@@ -80,9 +80,7 @@ export function iconForQueryNodeKind(k: QueryExpressions) {
   else if (['Query'].includes(k)) {
     return 'search'
   }
-
   else {
     return 'arrow alternate circle up outline'
   }
-
 }

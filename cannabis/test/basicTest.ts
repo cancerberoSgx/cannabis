@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAst } from '../src'
+import { queryAst } from './'
 import { queryAstSimpleTest } from './testUtil'
 
 test('one kind descendant ava macro', queryAstSimpleTest, queryAst(`// Identifier`, 'class C {}'), { result: { text: ['C'] }, error: undefined })

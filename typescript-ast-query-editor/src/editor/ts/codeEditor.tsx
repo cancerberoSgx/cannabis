@@ -6,7 +6,7 @@ import { getStore } from '../../app/store'
 import { getSourceFile, setDirty } from '../../queryAst/astFiles'
 import { findDescendantContainingRangeLight, monacoPositionToTsPosition, tsRangeToMonacoSelection } from './tsUtil'
 
-let el: HTMLElement|undefined
+let el: HTMLElement | undefined
 export function installCodeEditor(editorContainer: HTMLElement) {
   const code = codeExamples[0].content
   const editor = installEditor(code, editorContainer)
@@ -19,9 +19,10 @@ export function installCodeEditor(editorContainer: HTMLElement) {
   el = editorContainer
 }
 
-export function getCodeEditorContainerEl(){
+export function getCodeEditorContainerEl() {
   return el
 }
+
 export function highlightNodesInEditor(result: tsMorph.Node[]): any {
   const selections: ISelection[] = result.map(node => {
     return tsRangeToMonacoSelection(node.getSourceFile(), node.getFullStart(), node.getEnd())
@@ -35,7 +36,6 @@ export function select(selections: monaco.ISelection[]) {
   ed.revealLines(selections[0].selectionStartLineNumber, selections[selections.length - 1].selectionStartLineNumber, monaco.editor.ScrollType.Smooth)
   window.scrollTo({ top: 0 })
 }
-
 
 export function getCodeEditorText() {
   return editor.getModel()!.getValue()

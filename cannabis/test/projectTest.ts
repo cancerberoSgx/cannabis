@@ -1,7 +1,7 @@
 import test from 'ava'
 import { Project } from 'ts-morph'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
-import { loadProject, queryAll, queryAst, queryOne, setProject } from '../src'
+import { loadProject, queryAll, queryAst, queryOne, setProject } from '.'
 import { getASTNodeDescendants, getASTNodeFilePath, getASTNodeName } from "../src/astNode"
 import { code1, code2 } from './assets/code'
 

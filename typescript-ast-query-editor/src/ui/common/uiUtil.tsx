@@ -27,17 +27,19 @@ export function printNode(n: ASTNode) {
     return `${n.getKindName()} (${shorter(n.getText())})`
   }
 }
+
 /**
  * this is just for the UI!, not meant to be API
  */
 export function getASTNodeAncestors(n: ASTNode, andSelf = false) {
   if (isNode(n)) {
-    return [...andSelf?[n]:[], ...n.getAncestors()]
+    return [...andSelf ? [n] : [], ...n.getAncestors()]
   }
   else {
     return []
   }
 }
+
 export function iconForNodeKind(kind = '') {
   kind = kind.toLowerCase()
   if (['method', 'member', 'property', 'constructor'].find(s => kind.includes(s))) {

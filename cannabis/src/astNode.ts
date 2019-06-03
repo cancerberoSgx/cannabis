@@ -1,6 +1,7 @@
 import { asArray } from 'misc-utils-of-mine-generic'
-import { GeneralNode, getName, getNodeProperty as getNodeProperty_, isDirectory, isNode, isSourceFile, setNodeProperty as setNodeProperty_ } from 'ts-simple-ast-extra'
+import { GeneralNode, getName, getNodeProperty as getNodeProperty_, isDirectory, isNode, isSourceFile, setNodeProperty as setNodeProperty_, tsMorph } from 'ts-simple-ast-extra'
 import { getConfig } from './config'
+import { getASTRoot } from './file'
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -25,7 +26,7 @@ export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
   return !f
     ? undefined
     : isDirectory(f)
-      ? (f.getParent() as ASTNode)
+      ? (f.getParent() && f.getParent()!.isDescendantOf((getASTRoot().getRootDirectory() as tsMorph.Directory)) ? f.getParent() as ASTNode : undefined)
       : isSourceFile(f)
         ? f.getDirectory()
         : f.getParent()
@@ -53,14 +54,12 @@ export function getASTNodeSiblings(n: ASTNode) {
 
 export function getASTNodeAncestors(n: ASTNode) {
   const a: ASTNode[] = []
-  let b: ASTNode | undefined
-  while ((b = getASTNodeParent(n)) && b !== n) {
+  let b: ASTNode | undefined = n
+  while ((b = getASTNodeParent(b)) && b !== n) {
     a.push(b)
   }
   return a
 }
-
-
 
 /**
  * Gets a ASTNode that represents the SourceFile of given node, or undefined if it doesn't apply (i.e, given node is a directory).
@@ -88,7 +87,6 @@ export function getASTNodeName(node: ASTNode) {
     return getName(node)
   }
 }
-
 
 export function setNodeProperty(n: ASTNode, path: string | (string | number)[], value: any) {
   setNodeProperty_(n as any, ['cannabis', ...asArray(path)], value)

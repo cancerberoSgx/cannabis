@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAst } from '../../src'
+import { queryAst } from '../'
 
 test('findReferences', t => {
   const context = { logs: [] }

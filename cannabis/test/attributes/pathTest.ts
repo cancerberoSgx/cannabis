@@ -1,7 +1,7 @@
 import test from 'ava'
 import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { Project } from 'ts-morph'
-import { queryAst, queryOne, setProject } from '../../src'
+import { queryAst, queryOne, setProject } from '../'
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../../src/path"
 
 test('@indexPath', t => {

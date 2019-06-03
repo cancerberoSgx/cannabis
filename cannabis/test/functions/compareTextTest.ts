@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAll } from '../../src'
+import { queryAll } from '../'
 
 const code = `var a = 'hello'; var b = 'world'; var c = 'hello world'; `
 

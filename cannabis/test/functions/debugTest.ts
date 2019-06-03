@@ -1,6 +1,6 @@
 import test from 'ava'
 import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
-import { getASTNodeName, queryAst } from '../../src'
+import { getASTNodeName, queryAst } from '../'
 import { getFile } from '../../src/file'
 import { code3 } from '../assets/code'
 

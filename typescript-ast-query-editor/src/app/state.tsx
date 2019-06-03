@@ -1,6 +1,6 @@
-import { ASTQQuery, ASTYNode, queryAst, tsMorph } from 'cannabis';
-import { getFile } from 'cannabis/dist/src/file';
-import { codeExamples, Example, examples } from "./examples";
+import { ASTQQuery, ASTYNode, queryAst, tsMorph } from 'cannabis'
+import { getFile } from 'cannabis/dist/src/file'
+import { codeExamples, Example, examples } from "./examples"
 
 export interface State {
   selectedExample: Example;
@@ -22,9 +22,9 @@ export interface State {
 }
 
 export function getInitialState() {
-  const selectedExample = examples[0];
-  const selectedExampleCode = codeExamples.find(c => c.name === selectedExample.code) && codeExamples.find(c => c.name === selectedExample.code)!.content || codeExamples[0].content;
-  const r = queryAst(selectedExample.query, selectedExampleCode);
+  const selectedExample = examples[0]
+  const selectedExampleCode = codeExamples.find(c => c.name === selectedExample.code) && codeExamples.find(c => c.name === selectedExample.code)!.content || codeExamples[0].content
+  const r = queryAst(selectedExample.query, selectedExampleCode)
   return {
     selectedExample,
     astAutoUpdate: false,
@@ -40,5 +40,5 @@ export function getInitialState() {
     getChildren: false,
     astShowText: true,
     queryNodeAtPosition: undefined
-  };
+  }
 }

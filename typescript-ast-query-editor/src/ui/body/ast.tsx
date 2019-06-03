@@ -1,18 +1,14 @@
-import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis'
+import { getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Button, Checkbox, Label, List } from 'semantic-ui-react'
-import { State } from "../../app/state";
+import { State } from "../../app/state"
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { GetChildrenMode } from '../common/getChildrenMode'
 import { iconForNodeKind, Space } from '../common/uiUtil'
-import { AbstractComponent, AbstractProps } from '../component'
+import { AbstractComponent } from '../component'
 
-interface P extends AbstractProps {
-  node?: ASTNode
-}
-
-export class Ast extends AbstractComponent<P> {
+export class Ast extends AbstractComponent {
   componentWillMount() {
     this.forceUpdate()
   }
@@ -22,10 +18,7 @@ export class Ast extends AbstractComponent<P> {
   }
 
   render() {
-    let node: tsMorph.Node = this.props.node as tsMorph.Node
-    if (!node) {
-      node = this.state.currentEditorAst
-    }
+    let node = this.state.currentEditorAst
     return <>
       <GetChildrenMode />
       <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {

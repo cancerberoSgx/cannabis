@@ -21,7 +21,7 @@ interface Functions extends BuiltInFunctions {
   /**
    * Same as extendsAllNamed but returns true only if the node extends (directly or indirectly) types including ALL names.
    */
-  extendsAllNamed(nameOrNode: ASTNode|string|string[], name?: string|string[]): boolean
+  extendsAllNamed(nameOrNode: ASTNode | string | string[], name?: string | string[]): boolean
 
   /**
    * Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node: ASTNode, name: string|string[]): boolean`. 
@@ -35,54 +35,54 @@ interface Functions extends BuiltInFunctions {
    * Take into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes
    */
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
-  
+
   getImplementations(arg?: ASTNode): ASTNode[]
-  
+
   getImplementationNames(arg?: ASTNode): string[]
 
   /**
    * Return the text of given node or of current node if no node is given. 
    */
   text(node?: ASTNode): string
-  
+
   implementsAnyNamed(name: string, arg?: ASTNode): boolean
-  
+
   implementsAllNamed(name: string, arg?: ASTNode): boolean
-  
+
   findReferences(arg?: ASTNode): ASTNode[]
-  
+
   /**
    * Gets given node's SourceFile or current node's if no node is given. 
    */
   sourceFile(arg?: ASTNode): ASTNode
-  
+
   /**
    * Returns kind name of given node, or current node if no node was given.
    */
   kindName(arg?: ASTNode): string
-  
+
 
   debug(...args: any[]): true
 
   /**
    * Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. 
    */
-  parent(arg?: ASTNode): ASTNode|null 
-      /**
-   * Returns children nodes of given node, or of current node if no node was given.
-   */
+  parent(arg?: ASTNode): ASTNode | null
+  /**
+* Returns children nodes of given node, or of current node if no node was given.
+*/
   children(arg?: ASTNode): ASTNode[]
-  
+
   /**
    * Returns the `join()` on given array of strings using given joinChar or ',' by default.
    */
   join(arr: string[], joinChar?: string): string
-  
+
   /**
    * Returns true if given array contains given item. If arr is a string it will be split using ',', character. 
    */
-  includes(arr: string|any[], item: any): boolean
-  
+  includes(arr: string | any[], item: any): boolean
+
   compareText(actual: string, expected: string, options?: string): boolean
 
   /**
@@ -253,19 +253,19 @@ var o: { [a in FunctionNames]: 1 } = {
   below: 1,
   follows: 1,
   in: 1,
-  debug: 1, 
+  debug: 1,
   join: 1,
-  includes: 1, 
+  includes: 1,
   compareText: 1,
-  attrs: 1, 
+  attrs: 1,
   depth: 1,
-  pos: 1, 
+  pos: 1,
   nth: 1,
-  first: 1, 
+  first: 1,
   last: 1,
-  count: 1, 
+  count: 1,
   substr: 1,
-  index: 1, 
+  index: 1,
   trim: 1,
   lc: 1, uc: 1,
   type: 1,

@@ -1,4 +1,4 @@
-import { enumKeys } from 'misc-utils-of-mine-generic';
+import { enumKeys } from 'misc-utils-of-mine-generic'
 
 /**
  * All TypeScript Node Syntax Kind names

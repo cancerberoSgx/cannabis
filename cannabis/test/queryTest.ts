@@ -1,6 +1,6 @@
 import test from 'ava'
 import { removeWhites } from 'misc-utils-of-mine-generic'
-import { getASTNodeName, queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow } from '../src'
+import { getASTNodeName, queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow } from '.'
 import { code1 } from './assets/code'
 
 test('query', t => {

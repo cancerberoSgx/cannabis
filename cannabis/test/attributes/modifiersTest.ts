@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAst } from '../../src'
+import { queryAst } from '../'
 import { queryAstSimpleTest } from '../testUtil'
 
 test('@modifiers protected static async', queryAstSimpleTest, queryAst(`// * [ @modifiers=~'protected' && @modifiers=~'static' && @modifiers=~'async' ]`,

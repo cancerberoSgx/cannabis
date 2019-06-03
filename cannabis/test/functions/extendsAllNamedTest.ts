@@ -1,5 +1,5 @@
 import test from 'ava'
-import { getASTNodeName, queryAst } from '../../src'
+import { getASTNodeName, queryAst } from '../'
 import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 

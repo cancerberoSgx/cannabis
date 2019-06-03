@@ -1,7 +1,7 @@
 import test from 'ava'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
-import { queryAst, queryOne } from '../src'
 import { getFile } from "../src/file"
+import { queryAst, queryOne } from './'
 import { queryAstSimpleTest } from './testUtil'
 
 test('multiple queries in same changing node ', t => {

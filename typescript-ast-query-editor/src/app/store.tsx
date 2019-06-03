@@ -1,6 +1,6 @@
 import { Emitter, objectKeys } from 'misc-utils-of-mine-generic'
 import { debug } from './dispatchers'
-import { State, getInitialState } from './state';
+import { getInitialState, State } from './state'
 
 class Store extends Emitter<void> {
   protected state: State

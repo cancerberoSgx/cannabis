@@ -1,9 +1,9 @@
-import { getASTNodeKindName, getASTNodeDescendants } from 'cannabis'
+import { getASTNodeKindName } from 'cannabis'
 import * as React from 'react'
 import { Breadcrumb, BreadcrumbDivider, Icon } from 'semantic-ui-react'
-import { State } from "../../app/state";
+import { State } from "../../app/state"
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
-import { iconForNodeKind } from '../common/uiUtil'
+import { getASTNodeAncestors, iconForNodeKind } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
 
 export class CursorBreadcrumb extends AbstractComponent {
@@ -19,7 +19,7 @@ export class CursorBreadcrumb extends AbstractComponent {
     else {
       return (
         <Breadcrumb size="small" className="CursorBreadcrumb">
-          {getASTNodeDescendants(this.state.nodeAtPosition).reverse().map(a => <>
+          {getASTNodeAncestors(this.state.nodeAtPosition).reverse().map(a => <>
             <BreadcrumbDivider />
             <Breadcrumb.Section link onClick={e => highlightNodesInEditor([a as any])}>
               <Icon name={iconForNodeKind(getASTNodeKindName(a))} />{getASTNodeKindName(a)}

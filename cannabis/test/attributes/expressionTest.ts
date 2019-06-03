@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryAst } from '../../src'
+import { queryAst } from '../'
 import { queryAstSimpleTest } from '../testUtil'
 
 test('@expression 1', queryAstSimpleTest, queryAst(`// * [ @expression != null]`, 'if(true){}'),

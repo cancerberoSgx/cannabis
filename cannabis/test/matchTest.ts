@@ -1,5 +1,5 @@
 import test from 'ava'
-import { queryByPath } from '../src'
+import { queryByPath } from '.'
 import { getFile } from '../src/file'
 import { code1, code2 } from './assets/code'
 

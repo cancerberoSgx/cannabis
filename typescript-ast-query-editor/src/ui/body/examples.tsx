@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Dropdown, Header } from 'semantic-ui-react'
 import { selectExample } from '../../app/dispatchers'
 import { examples } from "../../app/examples"
-import { State } from "../../app/state";
+import { State } from "../../app/state"
 import { GetChildrenMode } from '../common/getChildrenMode'
 import { AbstractComponent } from "../component"
 

@@ -1,7 +1,7 @@
 import { setConfig } from 'cannabis'
 import { inspect } from 'util'
-import { setQueryEditorText, getQueryEditorContainerEl } from '../editor/query/queryEditor'
-import { setCodeEditorText, getCodeEditorContainerEl } from '../editor/ts/codeEditor'
+import { getQueryEditorContainerEl, setQueryEditorText } from '../editor/query/queryEditor'
+import { getCodeEditorContainerEl, setCodeEditorText } from '../editor/ts/codeEditor'
 import { executeQuery } from '../queryAst/executeQuery'
 import { codeExamples } from './examples'
 import { getStore } from './store'
@@ -24,19 +24,19 @@ export function selectExample(query: string) {
   executeQuery(selectedExample)
 }
 
-export function showQueryEditorAtTheRight(b: boolean){
-  const  codeEl = getCodeEditorContainerEl()
+export function showQueryEditorAtTheRight(b: boolean) {
+  const codeEl = getCodeEditorContainerEl()
   const queryEl = getQueryEditorContainerEl()
-  if(codeEl&& queryEl){
-    if(b){
-      Array.from(codeEl.parentElement!.children).forEach(e=>{
+  if (codeEl && queryEl) {
+    if (b) {
+      Array.from(codeEl.parentElement!.children).forEach(e => {
         codeEl.style.display = 'none'
       })
       document.querySelector<HTMLDivElement>('.CursorBreadcrumb') && (document.querySelector<HTMLDivElement>('.CursorBreadcrumb')!.style.display = 'none')
-      codeEl.parentElement!.appendChild( queryEl)
+      codeEl.parentElement!.appendChild(queryEl)
     }
     else {
-      Array.from(codeEl.parentElement!.children).forEach(e=>{
+      Array.from(codeEl.parentElement!.children).forEach(e => {
         codeEl.style.display = 'block'
       })
       document.querySelector<HTMLDivElement>('.CursorBreadcrumb') && (document.querySelector<HTMLDivElement>('.CursorBreadcrumb')!.style.display = 'block')

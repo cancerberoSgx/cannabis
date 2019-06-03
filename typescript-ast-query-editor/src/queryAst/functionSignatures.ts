@@ -1,4 +1,4 @@
-export const functionSignatures =[
+export const functionSignatures = [
   {
     "name": "isFunctionLike",
     "signature": "isFunctionLike(arg?: ASTNode): boolean",

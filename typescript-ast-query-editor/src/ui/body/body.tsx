@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react'
+import { showQueryEditorAtTheRight as setQueryEditorAtTheRight } from '../../app/dispatchers'
 import { AbstractComponent } from '../component'
 import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
@@ -7,7 +8,6 @@ import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QuerySearch } from './querySearch'
 import { Results } from './results'
-import { showQueryEditorAtTheRight as setQueryEditorAtTheRight } from '../../app/dispatchers';
 
 export class Body extends AbstractComponent {
   render() {
@@ -16,10 +16,10 @@ export class Body extends AbstractComponent {
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab
-              onTabChange={(e, props)=>{
-                  setTimeout(() => {
-                    setQueryEditorAtTheRight(props.activeIndex===2)
-                  }, 200);
+              onTabChange={(e, props) => {
+                setTimeout(() => {
+                  setQueryEditorAtTheRight(props.activeIndex === 2)
+                }, 200)
               }}
               panes={
                 [

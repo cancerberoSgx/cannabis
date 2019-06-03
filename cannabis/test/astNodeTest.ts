@@ -1,14 +1,33 @@
 import test from 'ava'
-import { loadProject, setConfig } from '../src'
-import { getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTSourceFile } from "../src/astNode"
+import { loadProject, setConfig } from '.'
+import { getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTSourceFile } from "../src/astNode"
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/path"
+import { queryAst } from '../src/queryAst'
 
 const p = loadProject('test/assets/project1/tsconfig.json')
 const root = p.getRootDirectory()
 const i = getASTNodeDescendants(root).find(d => getASTNodeName(d) === 'LoginService')!
 
-test('getASTNodePath(n)', t => {
-  t.deepEqual(getASTNodePath(i), 'src/services/login/loginService/InterfaceDeclaration:nth-child(2)/Identifier:nth-child(1)')
+test('getASTNodeAncestors', t => {
+  const r = queryAst(`.// Identifier [matchEvery(@namePath, '**/ui/**/onFinish/**/finishSearch')]`, root)
+  t.falsy(r.error)
+  t.deepEqual(r.result!.map(getASTNodeNamePath), ['src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction/Block/VariableStatement/VariableDeclarationList/finishSearch/finishSearch'])
+  t.deepEqual(getASTNodeAncestors(r.result![0]).map(getASTNodeNamePath), [
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction/Block/VariableStatement/VariableDeclarationList/finishSearch',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction/Block/VariableStatement/VariableDeclarationList',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction/Block/VariableStatement',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction/Block',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish/ArrowFunction',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression/onFinish',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer/ObjectLiteralExpression',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer/Tracer',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList/tracer',
+    'src/ui/components/leftPanel/VariableStatement/VariableDeclarationList',
+    'src/ui/components/leftPanel/VariableStatement',
+    'src/ui/components/leftPanel',
+    'src/ui/components',
+    'src/ui',
+    'src',])
 })
 
 test('getASTNodePath(n, { onlyKindName: true })', t => {

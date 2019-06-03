@@ -1,4 +1,4 @@
-import { queryAst } from '../../../src'
+import { queryAst } from '../..'
 
 const code = `
 function f(o: any){

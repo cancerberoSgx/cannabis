@@ -2,7 +2,7 @@ import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
 import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { getASTNodeDescendants, getASTNodeParent, getASTNodeText, getNodeProperty, ASTNode } from '../astNode'
+import { ASTNode, getASTNodeDescendants, getASTNodeParent, getASTNodeText, getNodeProperty } from '../astNode'
 import { ExecutionContext } from '../queryAst'
 const stringify = require('string.ify')
 
@@ -31,13 +31,13 @@ export function installFunctions(astq: ASTQ) {
     return getASTNodeText(arg || node) || ''
   })
 
-  astq.func('extendsAllNamed', (adapter, node, nameOrNode: ASTNode|string|string[], name?: string|string[]) => {
+  astq.func('extendsAllNamed', (adapter, node, nameOrNode: ASTNode | string | string[], name?: string | string[]) => {
     if (typeof name === 'string') {
       node = nameOrNode
       nameOrNode = name
     }
     return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
-      compareTexts(splitString(nameOrNode as string|string[]), getExtendsRecursivelyNames(node), { verb: 'equals', multiplicity: 'allOf' }) || false
+      compareTexts(splitString(nameOrNode as string | string[]), getExtendsRecursivelyNames(node), { verb: 'equals', multiplicity: 'allOf' }) || false
   })
 
   astq.func('extendsAnyNamed', (adapter, node, name, arg3?) => {
@@ -146,7 +146,7 @@ export function installFunctions(astq: ASTQ) {
     else {
       false
     }
-  })  
+  })
 
 }
 
