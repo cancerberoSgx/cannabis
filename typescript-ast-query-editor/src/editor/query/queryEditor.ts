@@ -68,24 +68,28 @@ function setMonarchTokensProvider() {
   monaco.languages.setMonarchTokensProvider('cannabisTypeScriptQueries', {
     tokenizer: {
       root: [
-        [/[\[\]]{1}/igm, "@brackets"],
+        [/[\[\]]{1}/igm, "keyword"],
 
-        [/@[a-zA-Z0-9]+/, "identifier"],
+        [/@[a-zA-Z0-9]+/, "number"],
 
         [/\'[^\'']+\'/, "string"],
         [/\"[^\]]+\"/, "string"],
-        [/[0-9\.]+/, "number"],
+        [/[0-9\.]+/, "string"],
 
-        [/\s*[\a-zA-Z0-9_]+\s*\(/, "delimiter"],
-        [/[\(\)]/, "delimiter"],
-        [/\[[a-zA-Z 0-9:]+\]/, "delimiter"],
+        [/\s*[a-zA-Z0-9_]+\s*\(/, "number"],
+        [/[\(\)]/, "number"],
+        [/\[\s*[a-zA-Z 0-9:]+\s*\]/, "number"],
 
-        [/&/, "comment.doc"], [/=/, "comment.doc"],
-        [/>/, "comment.doc"], [/</, "comment.doc"],
-        [/!/, "comment.doc"], // TODO: the rest 
+        [/[\&\>\<\=\~\|\!]+/, "keyword"],
 
-        [/[\/\.]+\s*[A-Z-a-z0-9]+/, "string.escape"],
-        [/[\/\.\*]+/, "string.escape"] // TODO: the rest   
+        // [/&/, "comment.doc"], [/=/, "comment.doc"],
+        // [/>/, "comment.doc"], [/</, "comment.doc"],
+        // [/!/, "comment.doc"], // TODO: the rest 
+
+        // [/[\/\.]+\s*[A-Z-a-z0-9]+/, "string.escape"],
+        [/[\/\.\*\s\>\<\-\+\~]+/, "keyword"] ,// TODO: the rest   
+        // [/\/\/\s*[a-z-A-Z]+/, "string.escape"],
+        // [/[\/\.\*\s\>\<\-\+\~]+[a-z-A-Z]+/, "string.escape"] // TODO: the rest   
       ]
     }
   })
@@ -170,14 +174,14 @@ function registerHoverProvider() {
       let operator
       if ((operator = operators.find(o => w.includes(o)))) {
         contents.push({
-          value: `**${operator}** : ASTQ query operator. TODO DOCUMENT; REFerence.`
+          value: `**${operator}**: Query operator:\n${operatorDescriptions[operator]}`
         }
         )
       }
       let anAxis
       if ((anAxis = axis.find(o => w.includes(o)))) {
         contents.push({
-          value: `**${anAxis}** : ASTQ query axis. TODO DOCUMENT; REFerence.`
+          value: `**${anAxis}**: Query axis:\n${axisDescriptions[anAxis]}`
         }
         )
       }
@@ -185,7 +189,7 @@ function registerHoverProvider() {
       if ((type = nodeKinds.find(t => w.includes(t)))) {
         const signature = nodeKindSignature.find(s=>s.name===type) || {signature: ''}
         contents.push({
-          value: `**${type}**: TypeScript/JavaScript AST node kind\'s syntax kind.\n${'```ts\n'+signature.signature+'\n```'}`
+          value: `**${type}**: TypeScript/JavaScript AST Syntax Kind.\n${'```ts\n'+signature.signature+'\n```'}`
         })
       }
       let aFunction:string|undefined
@@ -211,14 +215,32 @@ function registerHoverProvider() {
   })
 }
 
+const axisDescriptions: any = {
+  '/':    'direct child nodes',
+  '//':   'any descendant nodes',
+  './':   'current node plus direct child nodes',
+  './/':  'current node plus any descendant nodes',
+  '-/':   'direct left sibling node',
+  '-//':  'any left sibling nodes',
+  '+/':   'direct right sibling node',
+  '+//':  'any right sibling nodes',
+  '~/':   'direct left and right sibling nodes',
+  '~//':  'all left and right sibling nodes',
+  '../':  'direct parent node',
+  '..//': 'any parent nodes',
+  '<//':  'any preceding nodes',
+  '>//':  'any following no',
+}
+
 var axis = ['//', '/', './', './/', '-/', '-//', '+/', '+//', '~/', '~//', '../', '..//', '<//', '>//']
 
-var compareOperators = ["==", "!=", "<=", ">=", "<", ">", "=~", "!~"]
+var operators = ["&&", "\\|\\|", "==", "!=", "<=", ">=", "<", ">", "=~", "!~"]
 
-var logicalOperators = ["&&", "\\|\\|"]
+var operatorDescriptions: any = {
+  "&&": 'logical AND', "\\|\\|": 'logical OR', "==": 'Relational EQUALS', "!=": 'Relational NOT EQUALS', "<=": 'Relational LOWER OR EQUALS THAN', ">=": 'Relational GREATER OR EQUAL THAN', "<": 'Relational LOWER THAN', ">": 'Relational GREATER THAN', "=~": 'Relational TEXT INCLUDES', "!~": 'Relational TEXT DOESN\'T INCLUDE'
 
-var operators = [...logicalOperators, ...compareOperators]
+}
 
-var attributes = attributeSignatures.map(a=>a.name)//['type', 'text', 'name', 'modifiers', 'expression', 'literalText', 'start', 'end', 'width', 'body', 'leadingComments', 'trailingComments', 'kindPath', 'indexPath']
+var attributes = attributeSignatures.map(a=>a.name)
 
-var functions = functionSignatures.map(f=>f.name)//["isFunctionLike", "below", "follows", "in", "debug", "join", "includes", "compareText", "contains", "attrs", "depth", "pos", "nth", "first", "last", "count", "substr", "index", "trim", "lc", "uc", "type", "getExtended", "getExtendedNames", "text", "extendsAllNamed", "extendsAnyNamed", "getImplementations", "getImplementationNames", "implementsAnyNamed", "implementsAllNamed", "findReferences", "sourceFile", "kindName", "parent", "children"]
+var functions = functionSignatures.map(f=>f.name)
