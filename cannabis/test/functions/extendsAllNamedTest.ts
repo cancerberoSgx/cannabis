@@ -3,13 +3,14 @@ import { getASTNodeName, queryAst } from '../../src'
 import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 
-test('extendsAllNamed', t => {
-  const f = getFile(code2)
-  let result = queryAst(`//* [ extendsAllNamed('A,B') ]`, f)
+test('extendsAllNamed 1', t => {
+  let result = queryAst(`//* [ extendsAllNamed('A,B') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['C', 'D'])
+})
 
-  result = queryAst(`//* [ extendsAllNamed('A,B,C') ]`, f)
+test('extendsAllNamed 2', t => {
+  let result = queryAst(`//* [ extendsAllNamed('A,B,C') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['D'])
 })

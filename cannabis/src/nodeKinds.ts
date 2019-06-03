@@ -1,3 +1,6 @@
+/**
+ * All TypeScript Node Syntax Kind names
+ */
 export enum Kind {
   "FirstToken" = "FirstToken",
   "EndOfFileToken" = "EndOfFileToken",

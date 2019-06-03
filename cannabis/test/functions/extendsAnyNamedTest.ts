@@ -3,20 +3,27 @@ import { getASTNodeName, queryAst } from '../../src'
 import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 
-test('extendsAnyNamed', t => {
+test('extendsAnyNamed1', t => {
   const f = getFile(code2)
-  let result = queryAst(`//* [ extendsAnyNamed('C') ]`, f)
+  let result = queryAst(`//* [ extendsAnyNamed('C') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['D'])
-  result = queryAst(`//* [ extendsAnyNamed(\'A\') ]`, f)
+})
+
+test('extendsAnyNamed 2', t => {
+  var result = queryAst(`//* [ extendsAnyNamed(\'A\') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['B', 'C', 'D'])
+})
 
-  result = queryAst(`//* [ extendsAnyNamed(\'I2\') ]`, f)
+test('extendsAnyNamed 3', t => {
+  var result = queryAst(`//* [ extendsAnyNamed(\'I2\') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['I3'])
+})
 
-  result = queryAst(`//* [ extendsAnyNamed('I') ]`, f)
+test('extendsAnyNamed 4', t => {
+  var result = queryAst(`//* [ extendsAnyNamed('I') ]`, getFile(code2))
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['I1', 'I2', 'I3'])
 })

@@ -33,18 +33,3 @@ test('initial research test name', t => {
     'cannabis_test_file_0/A/method1/Block/ForInStatement/ExpressionStatement/CallExpression/push',
   ])
 })
-
-
-
-
-
-
-// match Blocks containing ForInStatement direct children
-// const query = '//Block [ /ForInStatement ]'
-// const { result, error } = queryAst(query, code)
-// debugger
-// if (error) {
-//   // there was a query syntax error 
-// } else {
-//   result!.map(node => console.log(node.getStart(), node.getEnd()))
-// }

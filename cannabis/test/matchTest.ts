@@ -35,8 +35,6 @@ test('matchEvery', t => {
     root: getFile(code2),
     include: ['(*a*A)|(A*a)*', '**/*A*/**']
   })
-  console.log(result.map(r => r.path))
-
   result.map(r => r.path).forEach(r => t.true((r.includes('a') && r.includes('A'))))
 })
 

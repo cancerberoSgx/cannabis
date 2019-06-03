@@ -1,6 +1,8 @@
 import test from 'ava'
-import { queryAst } from '../../src'
-import { code1 } from '../assets/code'
+import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
+import { getASTNodeName, queryAst } from '../../src'
+import { getFile } from '../../src/file'
+import { code1, code3 } from '../assets/code'
 import { queryAstSimpleTest } from '../testUtil'
 
 test('incorrect functions should throw error', queryAstSimpleTest, queryAst(`// VariableDeclaration [ nonExistent() ]`, `const a = 1`), { error: 'invalid function "nonExistent"' })
@@ -12,4 +14,17 @@ test('isFunctionLike', t => {
   const result = queryAst(query, code1)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(c => c.getKindName()), ['FunctionDeclaration', 'FunctionDeclaration', 'Constructor', 'MethodDeclaration', 'MethodDeclaration', 'ArrowFunction'])
+})
+
+test('map and children', t => {
+  const context = { logs: [] }
+  let result = queryAst(`//VariableDeclaration  [ debug( map(children(), 'getKindName') )  ]`, getFile(code3), { context })
+  t.falsy(result.error)
+  t.deepEqual(context.logs, [
+    '[ "Identifier",\n  ' +
+    '"ArrayLiteralExpression",\n  ' +
+    '"VariableDeclaration"     ]',
+    '["Identifier", "VariableDeclaration"]'
+  ])
+  t.deepEqual(result.result!.map(getASTNodeName).filter(notSameNotFalsy), ['a', 'i'])
 })

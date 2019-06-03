@@ -8,10 +8,10 @@ import { code1, code2 } from './assets/code'
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
   const src = p.createDirectory('src')
-  const f1 = src.createSourceFile('code1.ts', code1)
+  src.createSourceFile('code1.ts', code1)
   const srcCode2 = src.createDirectory('code2')
-  const f2 = srcCode2.createSourceFile('code2.ts', code2)
-  const f3 = src.createDirectory('foo').createSourceFile('foo.ts', 'export const f = 1')
+  srcCode2.createSourceFile('code2.ts', code2)
+  src.createDirectory('foo').createSourceFile('foo.ts', 'export const f = 1')
 
   let r = queryAst('//InterfaceDeclaration', src)
 

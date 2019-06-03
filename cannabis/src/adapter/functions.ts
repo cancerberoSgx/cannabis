@@ -129,7 +129,7 @@ export function installFunctions(astq: ASTQ) {
     return (args && isArray(args) ? args : []).map(e => e + '')
   })
 
-  astq.func('map', (adapter, node, propertyName: string, ...arr: any[]) => {
+  astq.func('map', (adapter, node, arr: any[], propertyName: string) => {
     return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => typeof e[propertyName] === 'function' ? e[propertyName].apply(e, []) : e[propertyName]).filter(notUndefined) : []
   })
 
