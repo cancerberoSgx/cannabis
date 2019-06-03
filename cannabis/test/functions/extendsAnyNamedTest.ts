@@ -27,12 +27,14 @@ test(`extendsAnyNamed('A,B')`, t => {
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['B', 'C', 'D'])
 })
+
 test(`extendsAnyNamed('B,C,D)`, t => {
   const f = getFile(code2)
   const result = queryAst(`//* [ extendsAnyNamed('B,C,D') ]`, f)
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['C', 'D'])
 })
+
 // test(`extendsAnyNamed('A,B', true)`, t => {
 //   const f = getFile(code2)
 //   const result = queryAst(`//* [ extendsAnyNamed('A,B', true) ]`, f)

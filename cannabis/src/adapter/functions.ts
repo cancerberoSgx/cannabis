@@ -1,6 +1,6 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
-import { compareTexts, isArray, isString, stringToObject, notUndefined, getObjectProperty, asArray } from 'misc-utils-of-mine-generic'
+import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
 import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { getASTNodeDescendants, getASTNodeParent, getASTNodeText, getNodeProperty } from '../astNode'
 import { ExecutionContext } from '../queryAst'
@@ -86,20 +86,20 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('debug', (adapter, node, ...args: any[]) => {
-    const context = getNodeProperty<ExecutionContext>(astq as any, 'context' )
-    if(!context||!context.logs){
+    const context = getNodeProperty<ExecutionContext>(astq as any, 'context')
+    if (!context || !context.logs) {
       return true
     }
-    if(!args|| args.length===0){
+    if (!args || args.length === 0) {
       args = [node]
     }
-    if(args){
+    if (args) {
       args = asArray(args)
     }
-    if( typeof context.logs==='function'){
-      context.logs(...args) 
-    } 
-    else if( isArray(context.logs)){
+    if (typeof context.logs === 'function') {
+      context.logs(...args)
+    }
+    else if (isArray(context.logs)) {
       context.logs.push(args.length ? args.map(a => stringify(a)).join(', ') : node)
     }
     return true // return tue so users can write AND expressions and keep the query.
@@ -126,11 +126,11 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('stringArray', (adapter, node, ...args: any[]) => {
-    return (args && isArray(args) ? args : []).map(e=>e+'')
+    return (args && isArray(args) ? args : []).map(e => e + '')
   })
 
-  astq.func('map', (adapter, node, propertyName: string, ...arr: any[] ) => {
-    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e=>typeof e[propertyName]==='function' ? e[propertyName].apply(e, []) : e[propertyName]).filter(notUndefined) : []
+  astq.func('map', (adapter, node, propertyName: string, ...arr: any[]) => {
+    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => typeof e[propertyName] === 'function' ? e[propertyName].apply(e, []) : e[propertyName]).filter(notUndefined) : []
   })
 
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
@@ -144,7 +144,7 @@ export function installFunctions(astq: ASTQ) {
     if (isString(a)) {
       return a.includes(b)
     }
-    else if(a && a.find){
+    else if (a && a.find) {
       return !!a.find(a => a === b)
     }
     else {
@@ -156,6 +156,6 @@ export function installFunctions(astq: ASTQ) {
   function splitString(s: string | string[], splitChar = ',') {
     return isArray(s) ? s : isString(s) ? s.split(splitChar) : []
   }
-  
+
 }
 

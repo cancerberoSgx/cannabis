@@ -1,6 +1,5 @@
 import { ASTNode } from '../astNode'
 
-
 interface Functions extends BuiltInFunctions {
   /**
    * Returns true if current node kind is function like, this is, is a callable node like
@@ -232,11 +231,8 @@ export enum FunctionNames {
   'matchEvery' = 'matchEvery',
   "matchAll" = 'matchAll',
   "array" = "array",
-  'map'='map',
+  'map' = 'map',
 }
-
-// export const functionNames = enumKeys(FunctionNames)
-
 
 var o: { [a in FunctionNames]: 1 } = {
   below: 1,

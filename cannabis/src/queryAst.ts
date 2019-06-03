@@ -4,7 +4,6 @@ import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isASTNode, setNodeProperty } from "./astNode"
 import { setConfig } from './config'
 import { getFile } from './file'
-import { setObjectProperty } from 'misc-utils-of-mine-generic';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -18,7 +17,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
 }
 
 export interface ExecutionContext {
-  logs: ((...args: any)=> void)|string[]
+  logs: ((...args: any) => void) | string[]
 }
 
 interface QueryAstOptions<T extends ASTNode = ASTNode> {
