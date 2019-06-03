@@ -2,7 +2,7 @@
 
 - [ ] issue trailingComments not working
 - [ ] issue: debug() I think it won't work debugging more than once. check!
-- [ ] there are two functions, includes() and contains() - decide with one and drop the other
+- [x] there are two functions, includes() and contains() - decide with one and drop the other
 
 ## Road map
 

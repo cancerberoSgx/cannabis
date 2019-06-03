@@ -117,10 +117,6 @@ export function installFunctions(astq: ASTQ) {
     return isArray(arr) && arr.join(joinChar || ' ') || ''
   })
 
-  astq.func('includes', (adapter, node, arr: any[], item: any) => {
-    return isArray(arr) && arr.includes(item) || false
-  })
-
   astq.func('array', (adapter, node, ...args: any[]) => {
     return args && isArray(args) ? args : []
   })
@@ -140,22 +136,24 @@ export function installFunctions(astq: ASTQ) {
     return compareTexts(splitString(actual), splitString(expected), stringToObject(options))
   })
 
-  astq.func('contains', (adapter, node, a: string | any[], b: any) => {
+  astq.func('includes', (adapter, node, a: string | any[], b: any) => {
     if (isString(a)) {
       return a.includes(b)
     }
-    else if (a && a.find) {
-      return !!a.find(a => a === b)
+    else if (isArray(a)) {
+      return a.includes(b)
     }
     else {
       false
     }
-  })
-
-
-  function splitString(s: string | string[], splitChar = ',') {
-    return isArray(s) ? s : isString(s) ? s.split(splitChar) : []
-  }
+  })  
+  // astq.func('includes', (adapter, node, arr: any[], item: any) => {
+  //   return isArray(arr) && arr.includes(item) || false
+  // })
 
 }
 
+
+function splitString(s: string | string[], splitChar = ',') {
+  return isArray(s) ? s : isString(s) ? s.split(splitChar) : []
+}

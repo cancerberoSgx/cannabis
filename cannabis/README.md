@@ -246,9 +246,9 @@ Examples:
 
 `// Identifier [..//* && debug(count(findReferences()), kindName(), @name) && count(findReferences())==2]`
 
-## contains
+## includes
 
-`contains(a: string, b: any)`
+`includes(a: string | any[], b: any): boolean`
 
 
 ## parent 

@@ -1,9 +1,9 @@
 {
-  "name": "ts-ast",
+  "name": "extractMemberSignatures",
   "version": "0.0.3",
-  "description": "Command line interface for cannabis, the TypeScript advanced AST Query library",
+  "description": "Command line tool to extract given interface member signatures as JSON strings, recursively in the extends chain with the purpose of documentation",
   "main": "dist/src/index.js",
-  "bin": "bin/ts-ast.js",
+  "bin": "bin/extractMemberSignatures.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "npx ts-node -T node_modules/jasmine/bin/jasmine.js",
@@ -30,7 +30,9 @@
   },
   "dependencies": {
     "cannabis": "file:../cannabis",
-    "ts-morph": "^2.3.0"
+    "ts-morph": "^2.3.0",
+    "yargs-parser": "^13.1.0",
+    "ts-simple-ast-extra": "^0.1.14"
   },
   "repository": {
     "type": "git",
