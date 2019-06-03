@@ -2,7 +2,7 @@ import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
 import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
-import { getASTNodeIndexPath, getASTNodeKindPath } from "../path"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../path"
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {
@@ -20,6 +20,9 @@ export function getAttribute(node: ASTNode, attr: string) {
     }
     else if (attr === 'kindPath') {
       return isNode(node) && getASTNodeKindPath(node) || ''
+    }
+    else if (attr === 'namePath') {
+      return isNode(node) && getASTNodeNamePath(node) || ''
     }
     else if (attr === 'modifiers') {
       return isNode(node) && tsMorph.TypeGuards.isModifierableNode(node) && node.getModifiers().map(n => n.getText()).join(' ') || ''
@@ -56,12 +59,6 @@ export function getAttribute(node: ASTNode, attr: string) {
 }
 
 export type AttributeNames = ObjectStringKeyUnion<AttributeValues>
-//>'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments' | 'kindPath' | 'indexPath'| 'namePath'
-// enum a {
-// ddd='sdsd'
-// }
-// type tt = {[ass in keyof a]:any}
-// type tt = {[a:  AttributeNames]: string|string[]|ASTNode|number}
 
 interface AttributeValues {
   text: string

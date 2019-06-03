@@ -29,6 +29,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "cannabis": "file:../cannabis",
     "ts-morph": "^2.3.0"
   },
   "repository": {

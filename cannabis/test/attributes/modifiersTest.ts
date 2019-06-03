@@ -19,3 +19,10 @@ test('@modifiers export default abstract', queryAstSimpleTest, queryAst(`// * [ 
     private readonly bar=1 
   }
 `), { result: { kind: ['ClassDeclaration'] } })
+
+test('@name && @modifiers', queryAstSimpleTest, queryAst(`// * [ @name=='f' && @modifiers=~'export' ]`,
+  `export function f(){
+    function f(){}
+  }
+`), { result: { kind: ['FunctionDeclaration'] } })
+
