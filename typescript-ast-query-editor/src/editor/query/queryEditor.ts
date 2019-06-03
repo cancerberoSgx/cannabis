@@ -11,6 +11,10 @@ interface Props {
   onContentChange: (e: monaco.editor.IModelContentChangedEvent) => void
 }
 
+export function getQueryEditorContainerEl(){
+  return _containerEl
+}
+
 /**
  * @internal
  */

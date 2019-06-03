@@ -2,13 +2,16 @@ const config = {
   includeFilesInNodeModules: false,
   getChildren: false,
   includeJSDocTagNodes: false,
-  visitChildrenFirst: false,
+  visitChildrenFirst: true,
   cacheNodePaths: false
 }
 
 interface Config {
   includeFilesInNodeModules: boolean
   getChildren: boolean
+  /**
+   * if getChildren==false (default), then JSDoc kind of nodes won't be availabel in the AST, setting this to true will enable then and only them , the rest remains the same (getChildren mode is still off)
+   */
   includeJSDocTagNodes: boolean
   /**
    * Changes the node visiting implementation, just to compare between the two: if false it will visit first

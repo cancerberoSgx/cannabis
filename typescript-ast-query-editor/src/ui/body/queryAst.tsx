@@ -7,10 +7,10 @@ import { Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
 
 export class QueryAst extends AbstractComponent {
-  componentWillMount() {
-    setCodeEditorText(this.state.selectedExample.query)
-    this.forceUpdate()
-  }
+  // componentWillMount() {
+    // setCodeEditorText(this.state.selectedExample.query)
+    // this.forceUpdate()
+  // }
   render() {
     return <Segment basic>
       <Checkbox defaultChecked={this.state.astAutoUpdate} label="Auto Update" onChange={(e, props) => {

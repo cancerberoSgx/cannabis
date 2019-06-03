@@ -7,6 +7,7 @@ import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QuerySearch } from './querySearch'
 import { Results } from './results'
+import { showQueryEditorAtTheRight as setQueryEditorAtTheRight } from '../../app/dispatchers';
 
 export class Body extends AbstractComponent {
   render() {
@@ -15,7 +16,11 @@ export class Body extends AbstractComponent {
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab
-              // defaultActiveIndex={0}
+              onTabChange={(e, props)=>{
+                  setTimeout(() => {
+                    setQueryEditorAtTheRight(props.activeIndex===2)
+                  }, 200);
+              }}
               panes={
                 [
                   {

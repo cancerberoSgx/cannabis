@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button, List, Segment } from 'semantic-ui-react'
-import { State } from '../../app/store'
+import { State } from "../../app/state";
 import { AbstractComponent } from '../component'
 
 export class Logs extends AbstractComponent {

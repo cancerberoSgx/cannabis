@@ -1,4 +1,3 @@
-import { enumKeys } from 'misc-utils-of-mine-typescript'
 import { ASTNode } from '../astNode'
 
 
@@ -12,7 +11,6 @@ interface Functions extends BuiltInFunctions {
   getExtended(arg?: ASTNode): ASTNode[]
   getExtendedNames(arg?: ASTNode): string[]
   extendsAllNamed(name: string, arg?: ASTNode): boolean
-  
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
   getImplementations(arg?: ASTNode): ASTNode[]
   getImplementationNames(arg?: ASTNode): string[]
@@ -29,6 +27,68 @@ interface Functions extends BuiltInFunctions {
   includes(arr: any[], item: any): boolean
   compareText(actual: string, expected: string, options?: string): boolean
   contains(a: string | any[], b: any): boolean
+  /**
+Returns true if every string in the given `list` matches any of the given glob `patterns`.
+
+**Params**
+
+* `list` **{String|Array}**: The string or array of strings to test.
+* `patterns` **{String|Array}**: One or more glob patterns to use for matching.
+* `options` **{Object}**: See available [options](#options) for changing how matches are performed
+* `returns` **{Boolean}**: Returns true if any patterns match `str`
+
+**Example**
+
+```js
+const mm = require('micromatch');
+// mm.every(list, patterns[, options]);
+
+console.log(mm.every('foo.js', ['foo.js']));
+// true
+console.log(mm.every(['foo.js', 'bar.js'], ['*.js']));
+// true
+console.log(mm.every(['foo.js', 'bar.js'], ['*.js', '!foo.js']));
+// false
+console.log(mm.every(['foo.js'], ['*.js', '!foo.js']));
+// false
+```
+   */
+  matchEvery(input: string | string[], patterns: string | string[]): boolean
+
+  /**
+   * Returns true if all of the given patterns match the specified string.
+
+Params
+
+str {String|Array}: The string to test.
+patterns {String|Array}: One or more glob patterns to use for matching.
+options {Object}: See available options for changing how matches are performed
+returns {Boolean}: Returns true if any patterns match str
+Example
+```
+const mm = require('micromatch');
+// mm.all(string, patterns[, options]);
+
+console.log(mm.all('foo.js', ['foo.js']));
+// true
+
+console.log(mm.all('foo.js', ['*.js', '!foo.js']));
+// false
+
+console.log(mm.all('foo.js', ['*.js', 'foo.js']));
+// true
+
+console.log(mm.all('foo.js', ['*.js', 'f*', '*o*', '*o.js']));
+// true
+```
+   */
+  matchAll(input: string | string[], patterns: string | string[]): boolean
+
+  array(...args: any[]): any[]
+
+  map(propertyName: string, ...arr: any[]): string[]
+
+
 }
 
 interface BuiltInFunctions {
@@ -127,38 +187,6 @@ interface BuiltInFunctions {
 
 }
 
-var o: { [a in keyof Functions]: 1 } = {
-  below: 1,
-  follows: 1,
-  in: 1,
-  debug: 1, join: 1,
-  includes: 1, compareText: 1,
-  contains: 1,
-  attrs: 1, depth: 1,
-  pos: 1, nth: 1,
-  first: 1, last: 1,
-  count: 1, substr: 1,
-  index: 1, trim: 1,
-  lc: 1, uc: 1,
-  type: 1,
-  isFunctionLike: 1,
-  getExtended: 1,
-  getExtendedNames: 1,
-  text: 1,
-  extendsAllNamed: 1,
-  extendsAnyNamed: 1,
-  getImplementations: 1,
-  getImplementationNames: 1,
-  implementsAnyNamed: 1,
-  implementsAllNamed: 1,
-  findReferences: 1,
-  sourceFile: 1,
-  kindName: 1,
-  parent: 1,
-  children: 1,
-
-}
-
 /**
  * This enum contains the function names supported by cannabis, plus also the ASTQ library built in functions.
  * User's can reference function names from  their queries using this instead of hard coding their names as
@@ -201,7 +229,46 @@ export enum FunctionNames {
   kindName = 'kindName',
   parent = 'parent',
   children = 'children',
+  'matchEvery' = 'matchEvery',
+  "matchAll" = 'matchAll',
+  "array" = "array",
+  'map'='map',
 }
 
 // export const functionNames = enumKeys(FunctionNames)
 
+
+var o: { [a in FunctionNames]: 1 } = {
+  below: 1,
+  follows: 1,
+  in: 1,
+  debug: 1, join: 1,
+  includes: 1, compareText: 1,
+  contains: 1,
+  attrs: 1, depth: 1,
+  pos: 1, nth: 1,
+  first: 1, last: 1,
+  count: 1, substr: 1,
+  index: 1, trim: 1,
+  lc: 1, uc: 1,
+  type: 1,
+  isFunctionLike: 1,
+  getExtended: 1,
+  getExtendedNames: 1,
+  text: 1,
+  extendsAllNamed: 1,
+  extendsAnyNamed: 1,
+  getImplementations: 1,
+  getImplementationNames: 1,
+  implementsAnyNamed: 1,
+  implementsAllNamed: 1,
+  findReferences: 1,
+  sourceFile: 1,
+  kindName: 1,
+  parent: 1,
+  children: 1,
+  matchEvery: 1,
+  matchAll: 1,
+  array: 1,
+  map: 1,
+}

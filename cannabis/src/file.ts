@@ -9,9 +9,10 @@ let reuseProject = true
 
 /**
  * Creates a new file with given code. If there is a project loaded, the new file won't be associated with any directory. 
+ * If fileName is passed, make sure is unique, if not it will throw.
  */
-export function getFile(code: string): ASTNode {
-  file = getProject().createSourceFile(getNewFileName(), code)
+export function getFile(code: string, fileName?: string): ASTNode {
+  file = getProject().createSourceFile(fileName || getNewFileName(), code)
   return file!
 }
 

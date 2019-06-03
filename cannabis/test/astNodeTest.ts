@@ -1,7 +1,7 @@
 import test from 'ava'
 import { loadProject, setConfig } from '../src'
-import { getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTNodeParent, getASTSourceFile, getASTNodeKindName } from "../src/astNode"
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodePath, getASTNodeNamePath } from "../src/path";
+import { getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTSourceFile } from "../src/astNode"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/path"
 
 const p = loadProject('test/assets/project1/tsconfig.json')
 const root = p.getRootDirectory()
@@ -31,20 +31,20 @@ test('getASTNodePath(n) - mode getChildren', t => {
   setConfig('getChildren', true)
   t.deepEqual(getASTNodePath(i), 'src/services/login/loginService/InterfaceDeclaration:nth-child(2)/Identifier:nth-child(2)')
   setConfig('getChildren', false)
-})  
+})
 
 test('getASTNodeNamePath', t => {
   t.deepEqual(getASTNodeNamePath(i), 'src/services/login/loginService/LoginService/LoginService')
-  const nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d=>getASTNodeText(d)==='Model')
+  const nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'Model')
   t.deepEqual(getASTNodeNamePath(nn!), 'src/services/login/loginService/ImportDeclaration/ImportClause/NamedImports/Model/Model')
-})  
+})
 
 test('getASTNodeNamePath - mode getChildren', t => {
   setConfig('getChildren', true)
   t.deepEqual(getASTNodeNamePath(i), 'src/services/login/loginService/LoginService/LoginService')
-  let nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d=>getASTNodeText(d)==='Model')  
+  let nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'Model')
   t.deepEqual(getASTNodeNamePath(nn!), 'src/services/login/loginService/ImportDeclaration/ImportClause/NamedImports/Model/Model')
-  nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d=>getASTNodeText(d)==='extends')
+  nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'extends')
   t.deepEqual(getASTNodeNamePath(nn!), 'src/services/login/loginService/LoginService/T/ExtendsKeyword')
   setConfig('getChildren', false)
 })  

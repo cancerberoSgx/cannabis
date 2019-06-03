@@ -1,9 +1,10 @@
 import { ASTQQuery, TraceListener } from 'astq'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
-import { ASTNode, isASTNode } from "./astNode"
+import { ASTNode, isASTNode, setNodeProperty } from "./astNode"
 import { setConfig } from './config'
 import { getFile } from './file'
+import { setObjectProperty } from 'misc-utils-of-mine-generic';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -17,7 +18,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
 }
 
 export interface ExecutionContext {
-  logs: string[]
+  logs: ((...args: any)=> void)|string[]
 }
 
 interface QueryAstOptions<T extends ASTNode = ASTNode> {
@@ -75,6 +76,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     typeof options.getChildrenMode !== 'undefined' && setConfig('getChildren', !!options.getChildrenMode)
     typeof options.includeJSDocTagNodes !== 'undefined' && setConfig('includeJSDocTagNodes', !!options.includeJSDocTagNodes)
     const astq = getTypeScriptAstq(context)
+    setNodeProperty(astq as any, 'context', context)
     const trace = options.trace || false
     const query = astq.compile(q, trace) as ASTQQuery<T>
     timings.compileQuery = now() - compileQueryT0

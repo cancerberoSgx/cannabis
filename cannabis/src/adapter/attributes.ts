@@ -1,20 +1,16 @@
 import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
+import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
-import { getASTNodeIndexPath, getASTNodeKindPath } from "../path";
-import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript';
+import { getASTNodeIndexPath, getASTNodeKindPath } from "../path"
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {
-    // if (!node) {
-    //   return null
-    // }
-    // else 
     if (attr === 'text') {
       return getASTNodeText(node)
     }
     else if (attr === 'name') {
-      return getASTNodeName(node) || ''
+      return (getASTNodeName(node) + '') || ''
     }
     else if (attr === 'type') {
       return isNode(node) && tryTo(() => node.getType().getText()) || ''
@@ -62,22 +58,22 @@ export function getAttribute(node: ASTNode, attr: string) {
 export type AttributeNames = ObjectStringKeyUnion<AttributeValues>
 //>'text' | 'name' | 'type' | 'modifiers' | 'expression' | 'literalText' | 'start' | 'end' | 'width' | 'body' | 'leadingComments' | 'trailingComments' | 'kindPath' | 'indexPath'| 'namePath'
 // enum a {
-  // ddd='sdsd'
+// ddd='sdsd'
 // }
 // type tt = {[ass in keyof a]:any}
 // type tt = {[a:  AttributeNames]: string|string[]|ASTNode|number}
 
-interface AttributeValues  {
+interface AttributeValues {
   text: string
-  name:string
+  name: string
   type: string
-  modifiers:string
-  expression: ASTNode|null
-  literalText:string
+  modifiers: string
+  expression: ASTNode | null
+  literalText: string
   start: number
-  end:number
+  end: number
   width: number
-  body: ASTNode|null
+  body: ASTNode | null
   leadingComments: string[]
   trailingComments: string[]
   kindPath: string
@@ -86,7 +82,7 @@ interface AttributeValues  {
 }
 
 type Attrs =
-  {[a in AttributeNames]: 1}
+  { [a in AttributeNames]: 1 }
 
 const attributeNamesMap: { [a in AttributeNames]: 1 } = {
   'text': 1, 'name': 1, 'type': 1, 'modifiers': 1, 'expression': 1, 'literalText': 1, 'start': 1, 'end': 1, 'width': 1, 'body'
@@ -98,17 +94,17 @@ export const attributeNames = objectKeys(attributeNamesMap)
 
 
 // interface I extends Required<{[a in AttributeNames]: 1}> {}
-class  SupportedAttributesImpl implements AttributeValues{
+class SupportedAttributesImpl implements AttributeValues {
   text: string = ''
   name: string = ''
   type: string = ''
   modifiers: string = ''
-  expression: ASTNode|null = null
+  expression: ASTNode | null = null
   literalText: string = ''
-  start: number= 0
+  start: number = 0
   end: number = 0
   width: number = 0
-  body : ASTNode|null = null
+  body: ASTNode | null = null
   leadingComments: string[] = []
   trailingComments: string[] = []
   kindPath: string = ''

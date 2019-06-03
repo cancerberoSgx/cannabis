@@ -2,7 +2,7 @@ import { getASTNodeKindName, getASTNodeName, getASTNodeText } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Icon, Label, List, Segment } from 'semantic-ui-react'
-import { State } from '../../app/store'
+import { State } from "../../app/state";
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { iconForNodeKind, Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'

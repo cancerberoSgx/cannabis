@@ -1,7 +1,6 @@
-import { getNodeProperty as getNodeProperty_, setNodeProperty as setNodeProperty_, GeneralNode, isDirectory, isNode, isSourceFile, ts, getName } from 'ts-simple-ast-extra'
+import { asArray } from 'misc-utils-of-mine-generic'
+import { GeneralNode, getName, getNodeProperty as getNodeProperty_, isDirectory, isNode, isSourceFile, setNodeProperty as setNodeProperty_ } from 'ts-simple-ast-extra'
 import { getConfig } from './config'
-import { Node } from './queryAst'
-import { asArray, shorter } from 'misc-utils-of-mine-generic';
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API
@@ -33,29 +32,29 @@ export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
 }
 
 
-export function getASTNodeSiblings(n: ASTNode ) {
+export function getASTNodeSiblings(n: ASTNode) {
   if (isSourceFile(n)) {
     const p = n.getDirectory()
-    if(p && p!==n as any){
-      return p.getSourceFiles().filter(f=>f!==n)
+    if (p && p !== n as any) {
+      return p.getSourceFiles().filter(f => f !== n)
     }
   }
-  else if(isDirectory(n)){
+  else if (isDirectory(n)) {
     const p = n.getParent()
-    if(p && p!==n as any){
-      return p.getDirectories().filter(f=>f!==n)
+    if (p && p !== n as any) {
+      return p.getDirectories().filter(f => f !== n)
     }
   }
   else {
     return [...n.getNextSiblings(), ...n.getPreviousSiblings()]
-  } 
-  return[]
+  }
+  return []
 }
 
-export function getASTNodeAncestors(n: ASTNode ) {
-  const a : ASTNode[]= []
-  let b : ASTNode |undefined
-  while((b=getASTNodeParent(n))&& b!==n){
+export function getASTNodeAncestors(n: ASTNode) {
+  const a: ASTNode[] = []
+  let b: ASTNode | undefined
+  while ((b = getASTNodeParent(n)) && b !== n) {
     a.push(b)
   }
   return a
@@ -70,7 +69,7 @@ export function getASTSourceFile(f: ASTNode): ASTNode | undefined {
   return !f
     ? undefined
     : isDirectory(f)
-      ? undefined       : isSourceFile(f) ? f :  f.getSourceFile()
+      ? undefined : isSourceFile(f) ? f : f.getSourceFile()
 }
 
 export function isASTNode(f: any): f is ASTNode {
@@ -92,7 +91,7 @@ export function getASTNodeName(node: ASTNode) {
 
 
 export function setNodeProperty(n: ASTNode, path: string | (string | number)[], value: any) {
-  setNodeProperty_(n as any,  ['cannabis', ...asArray(path)], value)
+  setNodeProperty_(n as any, ['cannabis', ...asArray(path)], value)
 }
 
 export function getNodeProperty<T = any>(n: ASTNode, path: string | (string | number)[]): T | undefined {

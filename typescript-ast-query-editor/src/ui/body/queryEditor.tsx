@@ -1,11 +1,12 @@
 import * as monaco from 'monaco-editor'
 import * as React from 'react'
 import { debug } from '../../app/dispatchers'
-import { State } from '../../app/store'
+import { State } from "../../app/state";
 import { getQueryEditorText, installQueryEditor, updateQueryEditorUI } from '../../editor/query/queryEditor'
 import { AbstractComponent, AbstractProps } from '../component'
 
 let el: HTMLDivElement | null = null
+
 export class QueryEditor extends AbstractComponent {
   protected editorContainer: React.RefObject<HTMLDivElement> | undefined
   constructor(p: AbstractProps, s: State) {
@@ -37,7 +38,7 @@ export class QueryEditor extends AbstractComponent {
     if (!el && this.editorContainer && this.editorContainer.current) {
       el = this.editorContainer.current!
       installQueryEditor({
-        code: '//  Identifier [@text ≠~ "Cool"]',
+        code: '//  Identifier [@text =~ "Cool"]',
         containerEl: el,
         onContentChange: this.onEditorContentChange,
         onCursorPositionChange: this.onEditorCursorPositionChange

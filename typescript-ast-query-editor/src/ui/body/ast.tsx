@@ -2,7 +2,7 @@ import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getAST
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { Button, Checkbox, Label, List } from 'semantic-ui-react'
-import { State } from '../../app/store'
+import { State } from "../../app/state";
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { GetChildrenMode } from '../common/getChildrenMode'
 import { iconForNodeKind, Space } from '../common/uiUtil'

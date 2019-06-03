@@ -1,11 +1,12 @@
 import ASTQ from 'astq'
-import { compareTexts, isArray, isString, stringToObject } from 'misc-utils-of-mine-generic'
+import { all, every } from 'micromatch'
+import { compareTexts, isArray, isString, stringToObject, notUndefined, getObjectProperty, asArray } from 'misc-utils-of-mine-generic'
 import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { getASTNodeDescendants, getASTNodeParent, getASTNodeText } from '../astNode'
+import { getASTNodeDescendants, getASTNodeParent, getASTNodeText, getNodeProperty } from '../astNode'
 import { ExecutionContext } from '../queryAst'
 const stringify = require('string.ify')
 
-export function installFunctions(astq: ASTQ, context: ExecutionContext) {
+export function installFunctions(astq: ASTQ) {
 
   astq.func('isFunctionLike', (adapter, node, arg?) => {
     return isNode((node || arg)) && ts.isFunctionLike((node || arg).compilerNode)
@@ -15,6 +16,13 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
     return getExtendsRecursively(arg || node) || []
   })
 
+  astq.func('matchEvery', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
+    return every(splitString(input), splitString(patterns))
+  })
+
+  astq.func('matchAll', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
+    return all(splitString(input), splitString(patterns))
+  })
   astq.func('getExtendedNames', (adapter, node, arg?) => {
     return getExtendsRecursivelyNames(arg || node) || []
   })
@@ -78,7 +86,22 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
   })
 
   astq.func('debug', (adapter, node, ...args: any[]) => {
-    context.logs.push(args.length ? args.map(a => stringify(a)).join(', ') : node)
+    const context = getNodeProperty<ExecutionContext>(astq as any, 'context' )
+    if(!context||!context.logs){
+      return true
+    }
+    if(!args|| args.length===0){
+      args = [node]
+    }
+    if(args){
+      args = asArray(args)
+    }
+    if( typeof context.logs==='function'){
+      context.logs(...args) 
+    } 
+    else if( isArray(context.logs)){
+      context.logs.push(args.length ? args.map(a => stringify(a)).join(', ') : node)
+    }
     return true // return tue so users can write AND expressions and keep the query.
   })
 
@@ -98,6 +121,18 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
     return isArray(arr) && arr.includes(item) || false
   })
 
+  astq.func('array', (adapter, node, ...args: any[]) => {
+    return args && isArray(args) ? args : []
+  })
+
+  astq.func('stringArray', (adapter, node, ...args: any[]) => {
+    return (args && isArray(args) ? args : []).map(e=>e+'')
+  })
+
+  astq.func('map', (adapter, node, propertyName: string, ...arr: any[] ) => {
+    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e=>typeof e[propertyName]==='function' ? e[propertyName].apply(e, []) : e[propertyName]).filter(notUndefined) : []
+  })
+
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
     if (!actual || !expected) {
       return false
@@ -109,28 +144,18 @@ export function installFunctions(astq: ASTQ, context: ExecutionContext) {
     if (isString(a)) {
       return a.includes(b)
     }
-    else {
+    else if(a && a.find){
       return !!a.find(a => a === b)
+    }
+    else {
+      false
     }
   })
 
 
   function splitString(s: string | string[], splitChar = ',') {
-    return isString(s) ? s.split(splitChar) : s
+    return isArray(s) ? s : isString(s) ? s.split(splitChar) : []
   }
-  // astq.func('get', (adapter, node, name: string, ...args: any[]) => {
-  //   const getter = name.substring(0,1).toUpperCase()+name.substring(1, name.length)
-  //   let value:any|null = null
-  //   if(typeof node[getter]==='function'){
-  //     value = tryTo(()=>node[getter].apply(node, args))||null
-  //   }
-  //   else if(typeof node[name]==='function') {
-  //     value = tryTo(()=>node[name].apply(node, args))||null
-  //   }
-  //   else  if(typeof node[name]!=='undefined'){
-  //     value = node[name]
-  //   }
-  //   return value
-  // })
+  
 }
 

@@ -92,7 +92,7 @@ function getCode() {
  -->
 
    
-   
+<!--    
     <!-- /**
      * Gets the line and column number at the provided position (1-indexed).
      * @param pos - Position in the source file.
@@ -169,7 +169,7 @@ function getCode() {
 
     /** -->
 
-
+<!-- 
     Today these are the methods (I found) the library has to perform queries like "most specific descendant contained or containing a position "
 ```
    getChildAtPos(pos: number): Node | undefined
@@ -184,4 +184,4 @@ My scenario are text editors, ranges, selections, markers, etc.
 Questions:
 
 Has the library  similar methods, or utilities i can reuse to build them?
-Would you accept A PR with no more than 2 methods (I guess in Node) that tackle mentioned problems?
+Would you accept A PR with no more than 2 methods (I guess in Node) that tackle mentioned problems? --> 

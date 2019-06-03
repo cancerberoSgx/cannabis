@@ -1,7 +1,7 @@
-import { ASTNode, getASTNodeDescendants, getASTNodeParent, getASTNodeAncestors, getASTNodeChildren, getASTNodeSiblings } from './astNode';
-import micromatch, {Options as MicroMatchOptions} from 'micromatch';
-import { RemoveProperties, PropertyOptional, notUndefined, objectFilter } from 'misc-utils-of-mine-generic';
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from './path';
+import micromatch, { Options as MicroMatchOptions } from 'micromatch'
+import { notUndefined } from 'misc-utils-of-mine-generic'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeDescendants, getASTNodeSiblings } from './astNode'
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from './path'
 
 
 interface MatchStringOptions {
@@ -33,7 +33,7 @@ interface MatchStringOptions {
   //  * Break search when this number of results matched.
   //  */
   // resultLimit?: number;
-  
+
 }
 
 interface Source<T> {
@@ -41,12 +41,12 @@ interface Source<T> {
   data: T
 }
 
-export function searchSource<T>(p: Source<T>[],  options:  MatchStringOptions= {include: [] }): Source<T>[] {
-  let m = micromatch(p.map(p=>p.path), options.include, options.micromatch)
-  if(options.exclude){
-    m=micromatch(p.map(p=>p.path), options.exclude, options.micromatch)
+export function searchSource<T>(p: Source<T>[], options: MatchStringOptions = { include: [] }): Source<T>[] {
+  let m = micromatch(p.map(p => p.path), options.include, options.micromatch)
+  if (options.exclude) {
+    m = micromatch(p.map(p => p.path), options.exclude, options.micromatch)
   }
-  return p.map(p=>m.includes(p.path) ? p : undefined).filter(notUndefined)
+  return p.map(p => m.includes(p.path) ? p : undefined).filter(notUndefined)
 }
 
 
@@ -57,7 +57,7 @@ interface MatchNodeOptions extends MatchStringOptions {
    * By default `/`
    */
   levelSeparator?: string;
-  
+
   // * If omitted and [[[inputPaths]]] is given then it will filter those paths and return the result as array of paths.
   /**
    * The node from which search in the AST.By default it search on its ascendants including it. 
@@ -82,7 +82,7 @@ interface MatchNodeOptions extends MatchStringOptions {
   /**
    * Defines from given root node, which nodes take as input of the query. By default will be its decendants.
    */
-  selectNodeDirection?:SelectNodeDirection
+  selectNodeDirection?: SelectNodeDirection
 
 
 }
@@ -105,7 +105,7 @@ interface Result {
     total: number;
   };
 
-  results: Source<ASTNode>[];
+  result: Source<ASTNode>[];
 
   // /**
   //  * in case no root node was given but an arrays of inputPaths.
@@ -114,33 +114,33 @@ interface Result {
 
 }
 
-function selectNodes(root: ASTNode, d: SelectNodeDirection){
-  let a : ASTNode[] = []
-  if(d.ancestors){
+function selectNodes(root: ASTNode, d: SelectNodeDirection) {
+  let a: ASTNode[] = []
+  if (d.ancestors) {
     a.push(...getASTNodeAncestors(root))
   }
-  if(d.descendants){
+  if (d.descendants) {
     a.push(...getASTNodeDescendants(root))
   }
-  else if (d.children){
+  else if (d.children) {
     a.push(...getASTNodeChildren(root))
   }
-  if(d.siblings){
+  if (d.siblings) {
     a.push(...getASTNodeSiblings(root))
   }
   return a
 }
 
-export function matchNodesv(o: MatchNodeOptions): Result{
- const input = selectNodes(o.root, o.selectNodeDirection||{descendants: true})
- const source : Source<ASTNode>[] = input.map(n=>({
-  data: n, 
-  path: o.path==='index'?getASTNodeIndexPath(n): o.path==='kind' ? getASTNodeKindPath(n) : getASTNodeNamePath(n)
- }))
- const results = searchSource(source, o)
- return {
-   results
- }
+export function queryByPath(o: MatchNodeOptions): Result {
+  const input = selectNodes(o.root, o.selectNodeDirection || { descendants: true })
+  const source: Source<ASTNode>[] = input.map(n => ({
+    data: n,
+    path: o.path === 'index' ? getASTNodeIndexPath(n) : o.path === 'kind' ? getASTNodeKindPath(n) : getASTNodeNamePath(n)
+  }))
+  const results = searchSource(source, o)
+  return {
+    result: results
+  }
 }
 
 

@@ -49,7 +49,7 @@ export function getTypeScriptAstq(context: ExecutionContext) {
         return getAttribute(node, attr) || null
       }
     })
-    installFunctions(astq, context)
+    installFunctions(astq)
   }
   return astq
 }
