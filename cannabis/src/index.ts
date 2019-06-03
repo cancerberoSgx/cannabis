@@ -5,7 +5,6 @@ export * from './astNode'
 export { getConfig, setConfig } from './config'
 export { loadProject, setProject } from './file'
 export * from './match'
-export { Kind } from './nodeKinds'
 export * from './path'
 export { queryAll, queryAllOrThrow, queryAst, queryOne, queryOneOrThrow, QueryResult } from './queryAst'
 export { tsMorph }

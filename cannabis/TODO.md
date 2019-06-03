@@ -6,30 +6,30 @@
 
 ## Road map
 
-  - add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
 - [ ] async api to execute search/compile so we can clal from browser bit without blocking
+- [ ] add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
+- [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
 - [ ] function isDeclaration()
-- [ ] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
 - [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
 - [x] search text in comments : //LineComment [@text =~ ]
 - [x] define functions separately and document their signatures so we have documentation.
 - [ ] getASTNodePath() should cache/memoize (?)
 - [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
- - [ ]TODO test that getConfig('visitChildrenFirst') really works by queryOne 
-`//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
-meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
-- [x]`// ClassDeclaration [implements({IDNode})]`. Example: 
-    ```ts
-    var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
-    var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/implements({touchable})])', {params: {touchable}})
-    ```
-
-- [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
+- [ ] TODO test that getConfig('visitChildrenFirst') really works by queryOne 
 
 - [ ] `hasParameter(type: string, index?: number)`: If no index is given, returns true if any parameter of current (function-like) node as given type ( compared as string). If index is given the parameter's type in that index must match the string . Example: `//MethodDeclaration [ hasParameter('number[]', 1) ]` will match `function f(a: string, b: number[])`.
 
 - [ ] `hasParameterList()` : `//MethodDeclaration [ hasParameterList('number[],boolean,Foo<Apple>[]') ]`. The type is compared as string.
 
+- [x] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
+    `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
+    meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
+
+      `// ClassDeclaration [implements({IDNode})]`. Example: 
+        ```ts
+        var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
+        var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/ implements({touchable})])', {params: {touchable}})
+        ```
 
 ## query ideas / examples / 
 

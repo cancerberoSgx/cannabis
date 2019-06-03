@@ -41,7 +41,7 @@ test('loadProject', t => {
   const p = loadProject('test/assets/project1/tsconfig.json')
   const root = p.getRootDirectory()
   t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
-  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx', 'component.tsx'])
 })
 
 test('source files should not be in node modules', t => {
@@ -55,7 +55,6 @@ test('source files should not be in node modules', t => {
 
 })
 
-
 test('setProject', t => {
   const project = new Project({ tsConfigFilePath: 'test/assets/project1/tsconfig.json', addFilesFromTsConfig: true })
   // HEADS UP: in order to be a node child the file must be associated with a directory - 
@@ -65,7 +64,7 @@ test('setProject', t => {
   const root = p.getRootDirectory()
   t.deepEqual(p.getSourceFiles().map(getASTNodeName).filter(r => r!.includes('foo12312322.ts')), ['foo12312322.ts'])
   t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
-  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx'])
+  t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx', 'component.tsx'])
   t.is(queryOne<tsMorph.SourceFile>(`//SourceFile [@name=~'foo12312322']`, root)!.getBaseName(), 'foo12312322.ts')
 })
 

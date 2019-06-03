@@ -2,6 +2,7 @@ import * as monaco from 'monaco-editor'
 import { nodeKinds } from '../../queryAst/nodeKinds';
 import { attributeSignatures } from '../../queryAst/attributeSignatures';
 import { functionSignatures } from '../../queryAst/functionSignatures';
+import { nodeKindSignature } from '../../queryAst/nodeKindSignatures';
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
@@ -180,21 +181,22 @@ function registerHoverProvider() {
         }
         )
       }
-      let type
+      let type:string|undefined
       if ((type = nodeKinds.find(t => w.includes(t)))) {
+        const signature = nodeKindSignature.find(s=>s.name===type) || {signature: ''}
         contents.push({
-          value: `**${type}** : TypeScript / JavaScript node\'s syntax kind. TODO document, reference.`
+          value: `**${type}**: TypeScript/JavaScript AST node kind\'s syntax kind.\n${'```ts\n'+signature.signature+'\n```'}`
         })
       }
       let aFunction:string|undefined
-      if ((aFunction = functions.find(t => t.includes(w) || w.includes(t)))) {
+      if ((aFunction = functions.find(t =>  w.includes(t)))) {
         const a = functionSignatures.find(a=>a.name===aFunction)
         contents.push({
           value: `**${aFunction}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`
         })
       }
       let anAttr:string|undefined
-      if ((anAttr = attributes.find(t => t.includes(w) || w.includes(t)))) {
+      if ((anAttr = attributes.find(t =>w.includes(t)))) {
         const a = attributeSignatures.find(a=>a.name===anAttr)
         contents.push({
           value: `**@${anAttr}**\n\`${a&&a.signature}\`\n${a&&a.jsDocsText}`

@@ -1,28 +1,28 @@
-export const functionSignatures = [
+export const functionSignatures =[
   {
     "name": "isFunctionLike",
     "signature": "isFunctionLike(arg?: ASTNode): boolean",
-    "jsDocsText": "Returns true if current node kind is function like, this is, is a callable node like\n`FunctionDeceleration`, `MethodDeclaration`, `ArrowFunction`, etc. Example:  `//* [ isFunctionLike() &&\ntype() != ConstructorDeclaration]`"
+    "jsDocsText": "Returns true if current node kind is function like, this is, is a callable node like\n`FunctionDeceleration`, `MethodDeclaration`, `ArrowFunction`, etc. Example:  \n`//* [ isFunctionLike() && type() != ConstructorDeclaration]`"
   },
   {
     "name": "getExtended",
-    "signature": "getExtended(arg?: ASTNode): ASTNode[]",
-    "jsDocsText": ""
+    "signature": "getExtended(node?: ASTNode): ASTNode[]",
+    "jsDocsText": "Gets all extended types by given node or current node if node was not given. "
   },
   {
     "name": "getExtendedNames",
-    "signature": "getExtendedNames(arg?: ASTNode): string[]",
-    "jsDocsText": ""
+    "signature": "getExtendedNames(node?: ASTNode): string[]",
+    "jsDocsText": "Gets the names of all extended types by given node or current node if node was not given. "
   },
   {
     "name": "extendsAllNamed",
-    "signature": "extendsAllNamed(name: string, arg?: ASTNode): boolean",
-    "jsDocsText": ""
+    "signature": "extendsAllNamed(nameOrNode: ASTNode | string | string[], name?: string | string[]): boolean",
+    "jsDocsText": "Same as extendsAllNamed but returns true only if the node extends (directly or indirectly) types including ALL names."
   },
   {
     "name": "extendsAnyNamed",
     "signature": "extendsAnyNamed(name: string, arg?: ASTNode): boolean",
-    "jsDocsText": ""
+    "jsDocsText": "Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node: ASTNode, name: string|string[]): boolean`. \n\nReturns true if current node (or given node given as parameter) extends any class or interface (directly or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split using ','. \n\nExample: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. \n\nExample: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends (directly or indirectly) a type with name included in names parameter.\n\nTake into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes"
   },
   {
     "name": "getImplementations",
@@ -36,8 +36,8 @@ export const functionSignatures = [
   },
   {
     "name": "text",
-    "signature": "text(arg?: ASTNode): string",
-    "jsDocsText": ""
+    "signature": "text(node?: ASTNode): string",
+    "jsDocsText": "Return the text of given node or of current node if no node is given. "
   },
   {
     "name": "implementsAnyNamed",
@@ -57,12 +57,12 @@ export const functionSignatures = [
   {
     "name": "sourceFile",
     "signature": "sourceFile(arg?: ASTNode): ASTNode",
-    "jsDocsText": ""
+    "jsDocsText": "Gets given node's SourceFile or current node's if no node is given. "
   },
   {
     "name": "kindName",
     "signature": "kindName(arg?: ASTNode): string",
-    "jsDocsText": ""
+    "jsDocsText": "Returns kind name of given node, or current node if no node was given."
   },
   {
     "name": "debug",
@@ -71,23 +71,23 @@ export const functionSignatures = [
   },
   {
     "name": "parent",
-    "signature": "parent(arg?: ASTNode): ASTNode",
-    "jsDocsText": ""
+    "signature": "parent(arg?: ASTNode): ASTNode | null",
+    "jsDocsText": "Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. "
   },
   {
     "name": "children",
     "signature": "children(arg?: ASTNode): ASTNode[]",
-    "jsDocsText": ""
+    "jsDocsText": "Returns children nodes of given node, or of current node if no node was given."
   },
   {
     "name": "join",
     "signature": "join(arr: string[], joinChar?: string): string",
-    "jsDocsText": ""
+    "jsDocsText": "Returns the `join()` on given array of strings using given joinChar or ',' by default."
   },
   {
     "name": "includes",
     "signature": "includes(arr: string | any[], item: any): boolean",
-    "jsDocsText": ""
+    "jsDocsText": "Returns true if given array contains given item. If arr is a string it will be split using ',', character. "
   },
   {
     "name": "compareText",
@@ -107,12 +107,12 @@ export const functionSignatures = [
   {
     "name": "array",
     "signature": "array(...args: any[]): any[]",
-    "jsDocsText": ""
+    "jsDocsText": "returns an array consisting on given arguments: "
   },
   {
     "name": "map",
-    "signature": "map(propertyName: string, ...arr: any[]): string[]",
-    "jsDocsText": ""
+    "signature": "map(arr: any[], propertyName: string): string[]",
+    "jsDocsText": "Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If the value of the property is a function, then the result will be the return value of the method call without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`"
   },
   {
     "name": "type",
@@ -194,4 +194,4 @@ export const functionSignatures = [
     "signature": "uc(str: string): string",
     "jsDocsText": "Returns the upper-case variant of `str`. Example: `uc(@foo) == \"BAR\"`"
   }
-],
+]

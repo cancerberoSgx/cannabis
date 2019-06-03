@@ -25,15 +25,18 @@
   "author": "Sebastián Gurin",
   "license": "MIT",
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/node": "^12.0.4",
     "ts-node": "^8.2.0",
     "typescript": "^3.5.1"
   },
   "dependencies": {
     "cannabis": "file:../cannabis",
+    "glob": "^7.1.4",
+    "misc-utils-of-mine-generic": "^0.2.7",
     "ts-morph": "^2.3.0",
-    "yargs-parser": "^13.1.0",
-    "ts-simple-ast-extra": "^0.1.14"
+    "ts-simple-ast-extra": "^0.1.14",
+    "yargs-parser": "^13.1.0"
   },
   "repository": {
     "type": "git",

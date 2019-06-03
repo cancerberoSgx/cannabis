@@ -1,24 +1,5 @@
-import {MethodSignatureStructure} from 'ts-morph'
-import { getASTNodeKindName } from 'cannabis';
-import { AssertionError } from 'assert';
 import { fstat, writeFileSync } from 'fs';
-import { extractMemberSignatures } from './extractMemberSignatures';
-
-export interface Options {
-  /**
-   * TypeScript project in which to search the target interface, must point to a tsconfig.json file.
-   */
-  project: string
-  /**
-   * Glob pattern pointing to the target interface. Example: "** /area44/** /services/** /LoginService".
-   */
-  target: string
-  /**
-   * If given the result will be written to this file, if not to stdout.
-   */
-  output?: string
-  help?: boolean
-}
+import { extractMemberSignatures, Options } from './extractMemberSignatures';
 
 export function main(){
   const options = require('yargs-parser')(process.argv.slice(2)) as Options
@@ -37,7 +18,7 @@ function preconditions(options: Options) {
     printHelp();
     process.exit(0);
   }
-  if (!options.project||!options .target) {
+  if (!options.project&& !options.files||!options .target) {
     fail(`--project and --target arguments are mandatory but one was missing. Aborting.`);
   }
 }
