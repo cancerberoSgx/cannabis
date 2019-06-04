@@ -1,6 +1,6 @@
 import test from 'ava'
 import { queryAst } from '../'
-import { withConfig } from '../../src/config'
+import { withConfig } from '../../src/query/config'
 import { queryAstSimpleTest } from '../testUtil'
 
 test('@type explicit', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @type=='Date[]']`, `export const a: Date[] = []`), { result: { text: ['a: Date[] = []'] } })

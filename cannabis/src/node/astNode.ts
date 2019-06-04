@@ -1,7 +1,7 @@
 import { asArray } from 'misc-utils-of-mine-generic'
 import { GeneralNode, getName, getNodeProperty as getNodeProperty_, isDirectory, isNode, isSourceFile, setNodeProperty as setNodeProperty_, tsMorph } from 'ts-simple-ast-extra'
-import { getConfig } from './config'
-import { getASTRoot } from './file'
+import { getConfig } from '../query/config'
+import { getASTRoot } from '../query/file'
 
 /**
  * General definition of nodes that contemplate everything, directories, sourceFiles, and nodes, with a common minimal API

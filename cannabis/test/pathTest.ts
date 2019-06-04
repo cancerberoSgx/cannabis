@@ -1,8 +1,8 @@
 import test from 'ava'
 import micromatch from 'micromatch'
-import { getASTNodeDescendants } from '../src/astNode'
-import { getFile } from '../src/file'
-import { getASTNodeKindPath, getASTNodeNamePath } from "../src/path"
+import { getASTNodeDescendants } from '../src/node/astNode'
+import { getASTNodeKindPath, getASTNodeNamePath } from "../src/node/path"
+import { getFile } from '../src/query/file'
 
 const code = `
 function f(o: any){

@@ -2,10 +2,10 @@ import test from 'ava'
 import { Project } from 'ts-morph'
 import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { loadProject, queryAll, queryAst, queryOne, setProject } from '.'
-import { getASTNodeDescendants, getASTNodeFilePath, getASTNodeName } from "../src/astNode"
+import { getASTNodeNamePath } from '../src'
+import { getASTNodeDescendants, getASTNodeFilePath, getASTNodeName } from "../src/node/astNode"
+import { withConfig } from '../src/query/config'
 import { code1, code2 } from './assets/code'
-import { getASTNodeNamePath } from '../src';
-import { withConfig } from '../src/config';
 const p = new tsMorph.Project()
 const src = p.createDirectory('src')
 src.createSourceFile('code1.ts', code1)
@@ -18,7 +18,6 @@ test('calling operations on node of non registered projects setProject or load p
     t.throws(() => queryAst('//* [namePath()=~"code"]', src))
     // we need to call setProject with our project to prevent these errors.
   })
-
 })
 
 test('we need to call setProject with our project to prevent these errors.', t => {
@@ -39,7 +38,6 @@ test('should be able to query at a project level, selecting directories and sour
 
   t.deepEqual(r.result && r.result.map(getName), ['I', 'I1',
     'I2', 'J', 'I3'])
-
 
   t.deepEqual(queryAst<tsMorph.SourceFile>(`//SourceFile`, src).result!.map(r => r.getBaseName()), [`code2.ts`, `foo.ts`, `code1.ts`])
 

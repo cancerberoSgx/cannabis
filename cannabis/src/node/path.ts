@@ -1,8 +1,7 @@
 import { buildAstPath, isDirectory, isSourceFile, printAstPath, tsMorph } from 'ts-simple-ast-extra'
+import { getConfig } from '../query/config'
+import { getASTRoot } from '../query/file'
 import { ASTNode, getNodeProperty, isASTNode, setNodeProperty } from './astNode'
-import { getConfig } from './config'
-import { getASTRoot } from './file'
-
 
 interface NodePathOptions {
   onlyIndex?: boolean

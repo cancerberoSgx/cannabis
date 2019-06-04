@@ -1,11 +1,11 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
-import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject, tryTo } from 'misc-utils-of-mine-generic'
-import { isNode, ts, tsMorph, getNodeLocalNames } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../astNode'
-import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames, localNames, getASTNodeTypeAsString } from '../astNodeType'
-import { getConfig } from '../config'
-import { getASTNodeNamePath } from '../path'
+import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
+import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../node/astNode'
+import { findReferences, getASTNodeTypeAsString, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames, localNames } from '../node/astNodeType'
+import { getASTNodeNamePath } from '../node/path'
+import { getConfig } from '../query/config'
 // import { ExecutionContext } from '../queryAst'
 import { getSourceFile, print, splitString } from './util'
 
@@ -161,10 +161,10 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
-    const a = splitString(actual||[]).filter(notUndefined)
-    const e = splitString(expected||[]).filter(notUndefined)
-    const o = stringToObject(options||'')||{}
-    if (!a || !e.length||!a.length||!e.length) {
+    const a = splitString(actual || []).filter(notUndefined)
+    const e = splitString(expected || []).filter(notUndefined)
+    const o = stringToObject(options || '') || {}
+    if (!a || !e.length || !a.length || !e.length) {
       return false
     }
     return compareTexts(a, e, o)
@@ -218,8 +218,8 @@ export function installFunctions(astq: ASTQ) {
   astq.func('includes', (adapter, node, a: string | any[], b?: any) => {
     const n = b || node
     if (isArray(a) || isString(a)) {
-      if(a && a.length && isString(a[0])){
-        
+      if (a && a.length && isString(a[0])) {
+
       }
       return a.includes(n)
     }

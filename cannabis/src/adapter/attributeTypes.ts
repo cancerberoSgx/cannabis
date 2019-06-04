@@ -1,6 +1,6 @@
 import { objectKeys } from 'misc-utils-of-mine-generic'
 import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript'
-import { ASTNode } from '../astNode'
+import { ASTNode } from '../node/astNode'
 
 export type AttributeNames = ObjectStringKeyUnion<AttributeValues>
 

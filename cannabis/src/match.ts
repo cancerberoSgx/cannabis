@@ -1,7 +1,7 @@
 import micromatch, { Options as MicroMatchOptions } from 'micromatch'
 import { notUndefined } from 'misc-utils-of-mine-generic'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeDescendants, getASTNodeSiblings } from './astNode'
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from './path'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeDescendants, getASTNodeSiblings } from './node/astNode'
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from './node/path'
 
 
 interface MatchStringOptions {

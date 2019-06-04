@@ -1,6 +1,6 @@
 import test from 'ava'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
-import { getFile } from "../src/file"
+import { getFile } from "../src/query/file"
 import { queryAst, queryOne } from './'
 import { queryAstSimpleTest } from './testUtil'
 

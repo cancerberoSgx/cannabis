@@ -1,8 +1,8 @@
 import test from 'ava'
 import { loadProject, setConfig } from '.'
-import { ASTNode, getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeSiblings, getASTNodeText, getASTSourceFile } from "../src/astNode"
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/path"
-import { queryAst } from '../src/queryAst'
+import { ASTNode, getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeSiblings, getASTNodeText, getASTSourceFile } from "../src/node/astNode"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/node/path"
+import { queryAst } from '../src/query/queryAst'
 
 let root: ASTNode
 let i: ASTNode

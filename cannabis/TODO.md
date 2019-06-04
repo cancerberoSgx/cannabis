@@ -6,7 +6,8 @@
 
 ## Road map
 
-- [ ] async api to execute search/compile so we can clal from browser bit without blocking
+- [x] async api to execute search/compile so we can clal from browser bit without blocking
+- [ ] async api for queryAstShortcuts
 - [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as
   string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`.
   Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.

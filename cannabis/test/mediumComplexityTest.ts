@@ -1,6 +1,6 @@
 import test from 'ava'
 import { queryAst } from '.'
-import { getASTNodeKindName, getASTNodeName, getASTNodeText } from '../src/astNode'
+import { getASTNodeKindName, getASTNodeName, getASTNodeText } from '../src/node/astNode'
 import { code3 } from './assets/code'
 
 test('functions that contains variables, classes or parameters', t => {

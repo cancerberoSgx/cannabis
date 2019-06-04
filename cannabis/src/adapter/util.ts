@@ -1,8 +1,8 @@
 import { isString } from 'misc-utils-of-mine-generic'
 import { isNode } from 'ts-simple-ast-extra'
 import { isArray } from 'util'
-import { ASTNode, isASTNode } from '../astNode'
-import { getASTNodeNamePath } from '../path'
+import { ASTNode, isASTNode } from '../node/astNode'
+import { getASTNodeNamePath } from '../node/path'
 const stringify = require('string.ify')
 
 export function print(a: any): string {
@@ -16,5 +16,9 @@ export function splitString(s: string | string[], splitChar = ',') {
 
 export function getSourceFile(n: ASTNode) {
   return isNode(n) ? n.getSourceFile() : null
+}
+
+export function now() {
+  return Date.now()
 }
 

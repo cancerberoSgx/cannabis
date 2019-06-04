@@ -1,7 +1,7 @@
 import test from 'ava'
 import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { getASTNodeName, queryAst } from '../'
-import { getFile } from '../../src/file'
+import { getFile } from '../../src/query/file'
 import { code3 } from '../assets/code'
 
 test('debug', t => {

@@ -1,6 +1,6 @@
 import { TraceListener } from 'astq'
 import { unique } from 'misc-utils-of-mine-generic'
-import { ASTNode } from '../test'
+import { ASTNode } from '../../test'
 
 const config: Config = {
   includeFilesInNodeModules: false,

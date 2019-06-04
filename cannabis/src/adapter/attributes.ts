@@ -1,7 +1,7 @@
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
-import { getASTNodeTypeAsString } from "../astNodeType"
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../path"
+import { ASTNode, getASTNodeName, getASTNodeText } from '../node/astNode'
+import { getASTNodeTypeAsString } from "../node/astNodeType"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../node/path"
 
 export function getAttribute(node: ASTNode, attr: string) {
   try {

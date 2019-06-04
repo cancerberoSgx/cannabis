@@ -1,6 +1,6 @@
 import test from 'ava'
 import { queryByPath } from '.'
-import { getFile } from '../src/file'
+import { getFile } from '../src/query/file'
 import { code1, code2 } from './assets/code'
 
 test('queryByPath1', t => {

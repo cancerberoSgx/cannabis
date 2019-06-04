@@ -1,11 +1,9 @@
 import { unique } from 'misc-utils-of-mine-generic'
-import { ts, tsMorph, isNode } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeFilePath, isASTNode } from './astNode'
+import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { displayPartsToString } from 'typescript'
+import { ASTNode, getASTNodeFilePath, isASTNode } from '../node/astNode'
 import { getConfig } from './config'
-import { Node } from 'ts-morph';
-import { displayPartsToString } from 'typescript';
 
-let file: tsMorph.SourceFile | undefined
 let _project: tsMorph.Project | undefined
 let reuseProject = true
 
@@ -19,19 +17,19 @@ export function getFile(codeOrNode: string | ts.Node | ASTNode, fileName?: strin
     node = getProject().createSourceFile(fileName || getNewFileName(), codeOrNode)
   }
   else if (isASTNode(codeOrNode)) {
-    if(getConfig('verifyProjectRegistered')){
-      if(isNode(codeOrNode)){
-        if(!getProject().getSourceFiles().find(f=>f===codeOrNode.getSourceFile())){
-          throw new Error('Strange node detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+    if (getConfig('verifyProjectRegistered')) {
+      if (isNode(codeOrNode)) {
+        if (!getProject().getSourceFiles().find(f => f === codeOrNode.getSourceFile())) {
+          throw new Error('Strange node detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!')
           // node = getProject().createSourceFile(codeOrNode.getSourceFile().getFilePath(), codeOrNode)
         }
       } else {
-        if(!getProject().getDirectories().find(d=>d===codeOrNode)) {
-          throw new Error('Strange Directory detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+        if (!getProject().getDirectories().find(d => d === codeOrNode)) {
+          throw new Error('Strange Directory detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!')
         }
       }
     }
-    node = codeOrNode    
+    node = codeOrNode
   }
   else {
     node = getFile(codeOrNode.getText())
@@ -115,14 +113,14 @@ class ASTRootImpl implements ASTRoot {
    * [[getRootDirectory]] .
    */
   getRootDirectories(): ASTNode[] {
-    const d= this._project.getRootDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
-    if(!d.length){
+    const d = this._project.getRootDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
+    if (!d.length) {
       const dirs = this._project.getDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
-      if(displayPartsToString.length){
+      if (displayPartsToString.length) {
         return dirs
       }
       else {
-        const dir=      this._project.createDirectory('src')
+        const dir = this._project.createDirectory('src')
         return [dir]
       }
     }

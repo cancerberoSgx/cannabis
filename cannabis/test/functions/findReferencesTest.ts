@@ -2,7 +2,7 @@ import test, { ExecutionContext } from 'ava'
 import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { queryAst } from '../'
 import { getASTNodeName } from '../../src'
-import { withConfig } from '../../src/config'
+import { withConfig } from '../../src/query/config'
 import { code3 } from '../assets/code'
 
 

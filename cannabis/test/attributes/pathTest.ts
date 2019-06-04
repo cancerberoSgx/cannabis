@@ -3,8 +3,8 @@ import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { Project } from 'ts-morph'
 import { queryAst, queryOne, setProject } from '../'
 import { getASTNodeText } from '../../src'
-import { withConfig } from '../../src/config'
-import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../../src/path"
+import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../../src/node/path"
+import { withConfig } from '../../src/query/config'
 
 test('@indexPath', t => {
   const p = new Project()

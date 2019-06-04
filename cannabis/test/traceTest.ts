@@ -1,7 +1,7 @@
 import { StepTraceEvent } from 'astq'
 import test from 'ava'
 import { ASTNode, queryAst } from '.'
-import { getASTNodeKindName, isASTNode } from '../src/astNode'
+import { getASTNodeKindName, isASTNode } from '../src/node/astNode'
 import { code3 } from './assets/code'
 
 test.cb('queryAst should let us register a trace event listener', t => {

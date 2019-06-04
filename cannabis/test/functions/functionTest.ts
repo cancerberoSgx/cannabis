@@ -1,12 +1,10 @@
 import test from 'ava'
-import { notSameNotFalsy, notFalsy } from 'misc-utils-of-mine-generic'
+import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { getASTNodeName, queryAst } from '../'
-import { getASTNodeNamePath, getASTNodeText, getASTNodeKindPath } from '../../src'
-import { getFile } from '../../src/file'
+import { getASTNodeNamePath, getASTNodeText } from '../../src'
+import { getFile } from '../../src/query/file'
 import { code1, code3 } from '../assets/code'
-import { queryAstSimpleTest, expectNoErrors } from '../testUtil'
-import { Project, Diagnostic, DiagnosticMessageChain } from 'ts-morph';
-import { getLocals } from 'ts-simple-ast-extra';
+import { queryAstSimpleTest } from '../testUtil'
 
 test('incorrect functions should throw error', queryAstSimpleTest, queryAst(`// VariableDeclaration [ nonExistent() ]`, `const a = 1`), { error: 'invalid function "nonExistent"' })
 
@@ -96,7 +94,7 @@ test('getImplementations', t => {
 //   // console.log(getLocals(I), fff);
 //   // t.true(getLocals(f).length==0)
 // }) 
-  
+
 // test('localNames(list) and compareText()', t => {
 //   const r = queryAst(`//VariableDeclaration [ compareText(  localNames(ancestors())  , 'j')  ]`, f, { logs: console.log.bind(console) })
 //   t.falsy(r.error&& r.error.stack)
@@ -105,7 +103,7 @@ test('getImplementations', t => {
 //       'cannabis/name/g/Block/VariableStatement/VariableDeclarationList/j', 
 //       'cannabis/name/VariableStatement/VariableDeclarationList/c/ObjectLiteralExpression/m/Block/VariableStatement/VariableDeclarationList/y', 
 //       'cannabis/name/VariableStatement/VariableDeclarationList/c/ObjectLiteralExpression/m/Block/VariableStatement/VariableDeclarationList/j'
-      
+
 //     ])
 // })
 

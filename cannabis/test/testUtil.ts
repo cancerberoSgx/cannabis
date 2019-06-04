@@ -1,11 +1,11 @@
 import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
+import { Diagnostic, DiagnosticMessageChain, Project } from 'ts-morph'
 import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
 import { getAttribute } from '../src/adapter/attributes'
 import { attributeNames } from "../src/adapter/attributeTypes"
-import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/astNode'
-import { QueryResult } from '../src/queryAst'
-import { Project, Diagnostic, DiagnosticMessageChain } from 'ts-morph';
+import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/node/astNode'
+import { QueryResult } from '../src/query/queryAst'
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
   t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)
@@ -58,9 +58,9 @@ export function expectNoErrors(t: ExecutionContext, project: Project) {
       .getPreEmitDiagnostics()
       .map(d => getDiagnosticMessage(d))
       .join(', ')
-  , '')
+    , '')
 }
-function getDiagnosticMessage(d: Diagnostic ) {
+function getDiagnosticMessage(d: Diagnostic) {
   const s = d.getMessageText()
   return `${d.getSourceFile() && d.getSourceFile()!.getBaseName()}: ${typeof s === 'string' ? s : print(s.getNext())}`
 }

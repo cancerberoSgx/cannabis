@@ -1,4 +1,4 @@
-import { ASTNode } from '../astNode'
+import { ASTNode } from '../node/astNode'
 
 interface Functions extends BuiltInFunctions {
   /**
@@ -165,8 +165,8 @@ interface Functions extends BuiltInFunctions {
   /**
    * Returns given nodes or local node type as string. The same implementation as attribute 'type', if not
    * declared the type is inferred form usage. 
-   */ 
-  typeText(arg?: ASTNode | ASTNode[]): string|string[] 
+   */
+  typeText(arg?: ASTNode | ASTNode[]): string | string[]
 
 }
 
@@ -319,8 +319,8 @@ export enum FunctionNames {
   name = 'name',
   derivedClasses = 'derivedClasses',
   getImplementations = 'getImplementations',
-  localNames='localNames',
-  typeText='typeText'
+  localNames = 'localNames',
+  typeText = 'typeText'
 }
 
 var o: { [a in FunctionNames]: 1 } = {
@@ -370,6 +370,6 @@ var o: { [a in FunctionNames]: 1 } = {
   name: 1,
   derivedClasses: 1,
   getImplementations: 1,
-  localNames: 1, 
+  localNames: 1,
   typeText: 1
 }

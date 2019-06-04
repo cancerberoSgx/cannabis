@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs'
 import { printMs } from 'misc-utils-of-mine-generic'
 import { ASTNode, getASTNodeName, getFile, queryAll, queryAst } from '../../src'
-import { withConfig } from '../../src/config'
+import { withConfig } from '../../src/query/config'
 import { code1 } from './code1'
 import { getPerformanceFileName } from './perfUtil'
 

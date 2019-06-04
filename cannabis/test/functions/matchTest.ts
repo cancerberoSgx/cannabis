@@ -1,7 +1,7 @@
 import test from 'ava'
 import { getASTNodeName, queryAst } from '../'
 import { getASTNodeKindName } from '../../src'
-import { getFile } from '../../src/file'
+import { getFile } from '../../src/query/file'
 import { code2 } from '../assets/code'
 
 test('matchEvery', t => {

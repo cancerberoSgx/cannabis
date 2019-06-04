@@ -1,6 +1,6 @@
 import test from 'ava'
 import { getASTNodeName, queryAst } from '..'
-import { getFile } from "../../src/file"
+import { getFile } from "../../src/query/file"
 import { code2 } from '../assets/code'
 
 test('extendsAnyNamed1', t => {
