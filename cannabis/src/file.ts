@@ -19,16 +19,18 @@ export function getFile(codeOrNode: string | ts.Node | ASTNode, fileName?: strin
     node = getProject().createSourceFile(fileName || getNewFileName(), codeOrNode)
   }
   else if (isASTNode(codeOrNode)) {
-    // if(isNode(codeOrNode)){
-    //   if(!getProject().getSourceFiles().find(f=>f===codeOrNode.getSourceFile())){
-    //     throw new Error('Strange node detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
-    //     // node = getProject().createSourceFile(codeOrNode.getSourceFile().getFilePath(), codeOrNode)
-    //   }
-    // } else {
-    //   if(!getProject().getDirectories().find(d=>d===codeOrNode)) {
-    //     throw new Error('Strange Directory detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
-    //   }
-    // }
+    if(getConfig('verifyProjectRegistered')){
+      if(isNode(codeOrNode)){
+        if(!getProject().getSourceFiles().find(f=>f===codeOrNode.getSourceFile())){
+          throw new Error('Strange node detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+          // node = getProject().createSourceFile(codeOrNode.getSourceFile().getFilePath(), codeOrNode)
+        }
+      } else {
+        if(!getProject().getDirectories().find(d=>d===codeOrNode)) {
+          throw new Error('Strange Directory detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+        }
+      }
+    }
     node = codeOrNode    
   }
   else {

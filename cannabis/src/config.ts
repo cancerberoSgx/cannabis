@@ -8,6 +8,7 @@ const config: Config = {
   includeJSDocTagNodes: false,
   visitChildrenFirst: true,
   params: {},
+  verifyProjectRegistered: true,
   trace: false,
   // logs: false,
   cacheNodePaths: false,
@@ -80,6 +81,11 @@ export interface Config {
 
   cacheAncestors: boolean
 
+  /**
+   * Will throw if a non registered project's node is detected. force to use setProject or loadProject before 
+   * passing nodes of external ts-morph projects.
+   */
+  verifyProjectRegistered: boolean
 }
 
 export function getConfig<P extends C>(p: P) {
