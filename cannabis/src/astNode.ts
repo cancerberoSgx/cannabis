@@ -76,15 +76,15 @@ export function isASTNode(f: any): f is ASTNode {
 }
 
 export function getASTNodeKindName(n: ASTNode) {
-  return !n ? undefined : isNode(n) ? n.getKindName() : 'Directory'
+  return !n ? '' : isNode(n) ? n.getKindName() : 'Directory'
 }
 
 export function getASTNodeName(node: ASTNode) {
   if (isDirectory(node) || isSourceFile(node)) {
-    return node.getBaseName()
+    return node.getBaseName()|| ''
   }
   else {
-    return getName(node)
+    return getName(node) || ''
   }
 }
 
@@ -97,7 +97,7 @@ export function getNodeProperty<T = any>(n: ASTNode, path: string | (string | nu
 }
 
 export function getASTNodeText(n: ASTNode) {
-  return isDirectory(n) ? n.getPath() : n ? n.getText() : ''
+  return !n ? '' :  isDirectory(n) ? n.getPath() : isNode(n) ? n.getText() : ''
 }
 
 export function getASTNodeFilePath(n: ASTNode) {

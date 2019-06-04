@@ -23,5 +23,5 @@ test('debug context can be passed a function', t => {
   const reg = [] as any
   let result = queryAst(`//Identifier [ @text =~ 'oo' && debug( @name ) ]`, getFile(code3), { context: { logs: (...args) => reg.push(...args) } })
   t.falsy(result.error && result.error + ' - ' + result.error!.stack)
-  t.deepEqual(reg, ['Foo', 'Foo'])
+  t.deepEqual(reg, ['"Foo"', '"Foo"'])
 })

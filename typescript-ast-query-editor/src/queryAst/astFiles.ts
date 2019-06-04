@@ -16,7 +16,7 @@ export function getSourceFile() {
   if (firstTime) {
     const project = createProject()
     firstTime = false
-  }
+  } 
   if (!sourceFile || dirty) {
     dirty = false
     const newText = getCodeEditorText()

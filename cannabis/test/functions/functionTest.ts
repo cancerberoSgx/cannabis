@@ -21,10 +21,8 @@ test('map and children', t => {
   let result = queryAst(`//VariableDeclaration  [ debug( map(children(), 'getKindName') )  ]`, getFile(code3), { context })
   t.falsy(result.error)
   t.deepEqual(context.logs, [
-    '[ "Identifier",\n  ' +
-    '"ArrayLiteralExpression",\n  ' +
-    '"VariableDeclaration"     ]',
-    '["Identifier", "VariableDeclaration"]'
+    '"Identifier", "ArrayLiteralExpression"',
+    '"Identifier"'
   ])
   t.deepEqual(result.result!.map(getASTNodeName).filter(notSameNotFalsy), ['a', 'i'])
 })

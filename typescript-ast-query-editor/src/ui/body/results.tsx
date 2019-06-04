@@ -19,6 +19,7 @@ export class Results extends AbstractComponent {
         <strong>Error! </strong><br />
         <pre>
           {this.state.error + ''}
+          {this.state.error.stack|| + ''}
         </pre>
       </Segment>
     }

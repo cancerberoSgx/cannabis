@@ -18,6 +18,7 @@ export interface State {
   getChildren: boolean;
   // currentTabIndex: number
   astShowText: boolean;
+  queryLogs: string[]
   queryNodeAtPosition: ASTYNode | undefined;
 }
 
@@ -36,6 +37,7 @@ export function getInitialState() {
     queryDump: r.query && r.query.dump() || '',
     sidebarVisibility: false,
     query: r.query!,
+    queryLogs: [],
     queryAst: r.query!.ast,
     getChildren: false,
     astShowText: true,

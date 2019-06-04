@@ -1,5 +1,5 @@
 import { buildAstPath, isDirectory, isSourceFile, printAstPath, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getNodeProperty, setNodeProperty } from './astNode'
+import { ASTNode, getNodeProperty, setNodeProperty, isASTNode } from './astNode'
 import { getConfig } from './config'
 import { getASTRoot } from './file'
 
@@ -17,7 +17,7 @@ const defaultPathOptions: Required<NodePathOptions> = {
 }
 
 export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPathOptions): string {
-  if (!n) {
+  if (!isASTNode(n)) {
     return ''
   }
   let result: string = ''

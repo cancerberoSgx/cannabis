@@ -13,10 +13,10 @@ export const examples: Example[] = [
     name: 'Functions that contains variables, classes or parameters',
     query: `
 // * [ 
-  isFunctionLike() == true && 
-  ( // VariableDeclaration || 
+  isFunctionLike() == true && ( 
+    // VariableDeclaration || 
     // ClassDeclaration ||
-    // Parameter [@name=='id'] 
+    // Parameter [ @name == 'id' ] 
   ) 
 ]
 `.trim(),
@@ -29,9 +29,9 @@ export const examples: Example[] = [
     name: 'Filtering by @modifiers and @type',
     query: `
 // * [ 
-  @modifiers=~'private' && 
-  @modifiers=~'static' || 
-  @type=='number[]' 
+  @modifiers =~ 'private' && 
+  @modifiers =~ 'static' || 
+  @type == 'number[]' 
 ]`.trim(),
     description: 'Matches those nodes with private and static modifiers or type number[]. Note about @type: the string representation of node\'s type is what is matched, if the node declare explicitly a type then that type is used, otherwise the type is inferred from usage.',
     difficulty: 'easy',
@@ -42,7 +42,7 @@ export const examples: Example[] = [
     name: 'Implements and extends',
     query: `
 // ClassDeclaration [ 
-  @modifiers=~'export' && 
+  @modifiers =~ 'export' && 
   extendsAnyNamed('B') && 
   !implementsAnyNamed('I2') 
 ]`.trim(),
@@ -76,11 +76,11 @@ export const examples: Example[] = [
     name: 'Comments without certain words',
     query: `
 // * [
-  ( type()=='SingleLineCommentTrivia' || 
-    type()=='MultiLineCommentTrivia' 
+  ( type() == 'SingleLineCommentTrivia' || 
+    type() == 'MultiLineCommentTrivia' 
   ) && 
-  lc(@text)!~'todo' && 
-  lc(@text)!~'heads up'
+  lc(@text) !~ 'todo' && 
+  lc(@text) !~ 'heads up'
 ]
 `.trim(),
     description: 'Select non jsdoc comments that doesn\'t contains "TODO" nor "HEADS UP", case insensitive, because we generally remove those to clean up the code.',
@@ -93,7 +93,7 @@ export const examples: Example[] = [
     name: 'Class identifier',
     query: `
 // Identifier [
-  ../ClassDeclaration
+  ../ ClassDeclaration
 ] `.trim(),
     description: 'Returns identifiers that are direct children of a class declaration.',
     difficulty: 'easy'
@@ -103,8 +103,8 @@ export const examples: Example[] = [
     name: 'Methods and properties identifiers',
     query: `
 // Identifier [ 
-  ../MethodDeclaration || 
-  ../PropertyDeclaration 
+  ../ MethodDeclaration || 
+  ../ PropertyDeclaration 
 ] `.trim(),
     description: 'Returns identifiers that are direct children of method or properties declarations (their names).',
     difficulty: 'easy'
@@ -114,10 +114,48 @@ export const examples: Example[] = [
     name: 'Functions with for-in statements',
     query: `
 // * [ 
-  //ForInStatement && 
+  // ForInStatement && 
   isFunctionLike() 
 ] `.trim(),
     description: 'Returns functions, methods or constructors that contain a ForInStatement (for(var i in obj)...)',
+    difficulty: 'easy',
+    code: 'code1'
+  },
+
+  {
+    name: 'Not referenced and not exported class declarations',
+    query: `
+// ClassDeclaration [ 
+  count(findReferences()) == 0 && 
+  @modifiers !~ 'export'
+]`.trim(),
+    description: 'Returns class declarations that are not referenced anywhere and not exported. ',
+    difficulty: 'easy',
+    code: 'code1'
+  },
+
+  {
+    name: 'References of imported declarations',
+    query: `
+// * [
+  !includes(
+    map(ancestors(), 'getKindName')
+    , 'ImportDeclaration'
+  )
+  &&
+  includes(
+    map(
+      flat(
+        ancestors(
+          findReferences()
+        )
+      )
+    , 'getKindName')
+  , 'ImportDeclaration')
+  
+]
+`.trim(),
+    description: 'Returns class declarations that are not referenced anywhere and not exported. ',
     difficulty: 'easy',
     code: 'code1'
   },
