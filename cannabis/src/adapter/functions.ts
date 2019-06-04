@@ -1,12 +1,12 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
-import {  isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, getASTNodeText, getNodeProperty, getASTNodeName } from '../astNode'
+import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, getASTNodeSiblings, getASTNodeText, getNodeProperty } from '../astNode'
+import { findReferences, getExtended, getExtendedNames, getImplemented, getImplementedNames } from '../astNodeType'
 import { getASTNodeNamePath } from '../path'
 import { ExecutionContext } from '../queryAst'
-import {   getSourceFile, print, splitString } from './util'
-import { getExtended, findReferences, getImplemented, getImplementedNames, getExtendedNames } from '../astNodeType';
+import { getSourceFile, print, splitString } from './util'
 
 export function installFunctions(astq: ASTQ) {
 
@@ -15,7 +15,7 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('getExtended', (adapter, node, arg?) => {
-    return getExtended(arg||node)
+    return getExtended(arg || node)
   })
 
   astq.func('matchEvery', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
@@ -47,7 +47,8 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('text', (adapter, node, arg?) => {
-    return getASTNodeText(arg || node) || ''
+    const n = (arg || node)
+    return isArray(n) ? n.map(getASTNodeText) : getASTNodeText(n)
   })
 
   astq.func('extendsAllNamed', (adapter, node, nameOrNode: ASTNode | string | string[], name?: string | string[]) => {
@@ -64,8 +65,8 @@ export function installFunctions(astq: ASTQ) {
       node = name
       name = arg3
     }
-   return  isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
-    compareTexts(splitString(name), getExtendedNames(node), { verb: 'equals' }) || false;
+    return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
+      compareTexts(splitString(name), getExtendedNames(node), { verb: 'equals' }) || false
 
     // return getExtendsAnyNamed(node, splitString(name))
   })
@@ -75,7 +76,7 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('getImplementationNames', (adapter, node, arg?) => {
-    return getImplementedNames(arg||node)
+    return getImplementedNames(arg || node)
   })
 
   astq.func('implementsAnyNamed', (adapter, node, name, arg3?) => {
@@ -130,11 +131,6 @@ export function installFunctions(astq: ASTQ) {
     return (args && isArray(args) ? args : []).map(e => e + '')
   })
 
-  astq.func('children', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
-    const n = (arg || node)
-    return isArray(n) ? n.map(n => getASTNodeChildren(n)) : getASTNodeChildren(n)
-  })
-
   astq.func('join', (adapter, node, arr: string[], joinChar?: string) => {
     return isArray(arr) && arr.join(joinChar || ' ') || ''
   })
@@ -180,19 +176,29 @@ export function installFunctions(astq: ASTQ) {
     return isArray(n) ? n.map(getASTNodeAncestors) : getASTNodeAncestors(n)
   })
 
+  astq.func('siblings', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(getASTNodeSiblings) : getASTNodeSiblings(n)
+  })
+
+  astq.func('children', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(n => getASTNodeChildren(n)) : getASTNodeChildren(n)
+  })
+
   astq.func('parent', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
     return isArray(n) ? n.map(getASTNodeParent) : getASTNodeParent(n)
   })
 
   astq.func('kindName', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
-    const n = arg || node 
+    const n = arg || node
     return isArray(n) ? n.map(getASTNodeKindName) : getASTNodeKindName(n)
   })
 
   astq.func('includes', (adapter, node, a: string | any[], b?: any) => {
-    const n = b || node 
-    if (isArray(a)||isString(a)) {
+    const n = b || node
+    if (isArray(a) || isString(a)) {
       return a.includes(n)
     }
   })

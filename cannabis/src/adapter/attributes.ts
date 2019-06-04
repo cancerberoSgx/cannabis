@@ -1,8 +1,8 @@
-import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
+import { objectKeys } from 'misc-utils-of-mine-generic'
 import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
-import { getASTNodeTypeAsString } from "../astNodeType";
+import { getASTNodeTypeAsString } from "../astNodeType"
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../path"
 
 export function getAttribute(node: ASTNode, attr: string) {

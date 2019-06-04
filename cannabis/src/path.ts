@@ -20,7 +20,7 @@ export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPat
   if (!isASTNode(n)) {
     return ''
   }
-  const pathName = options.onlyNameOrKind ?'pathName' : options.onlyKindName ? 'pathKind' :  'pathIndex'
+  const pathName = options.onlyNameOrKind ? 'pathName' : options.onlyKindName ? 'pathKind' : 'pathIndex'
   let result: string = ''
   if (getConfig('cacheNodePaths')) {
     const cached = getNodeProperty(n, pathName)

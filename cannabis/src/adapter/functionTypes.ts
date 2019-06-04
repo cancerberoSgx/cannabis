@@ -74,6 +74,11 @@ interface Functions extends BuiltInFunctions {
   children(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
+  * Returns siblings nodes of given node, or of current node if no node was given.
+  */
+  siblings(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
+
+  /**
   * Returns ancestor nodes of given nodes, or of current node if nodes was given.
   */
   ancestors(nodes?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]

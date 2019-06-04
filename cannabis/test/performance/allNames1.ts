@@ -1,33 +1,26 @@
 import { writeFileSync } from 'fs'
 import { printMs } from 'misc-utils-of-mine-generic'
-import { ASTNode, getASTNodeName, getFile, queryAll, queryAst, setConfig } from '../../src'
+import { ASTNode, getASTNodeName, getFile, queryAll, queryAst } from '../../src'
+import { withConfig } from '../../src/config'
 import { code1 } from './code1'
 import { getPerformanceFileName } from './perfUtil'
-import { saveConfig, restoreConfig, withConfig } from '../../src/config';
-
 
 function start() {
+
   const root = getFile(code1, 'f1.ts')
   const allNames = queryAll(`// *`, root).map(getASTNodeName).filter((e, i, a) => e && a.indexOf(e) === i)
   const reports = []
 
   reports.push(buildReport({ result: test((a, b) => `// * [ (@name =~ '${a}' && (..// * [@name =~ '${b}'])) || (@name =~ '${b}' && (..// * [@name =~ '${a}'])) ]`), name: 'ascendant_descendant' }))
 
-  // saveConfig()
-  // setConfig('cacheNodePaths', false)
-  withConfig({cacheNodePaths: false}, ()=>
+  withConfig({ cacheNodePaths: false }, () =>
     reports.push(buildReport({ result: test((a, b) => `// * [ matchEvery(@namePath, '**/${a}/**/${b}/**') ]`), name: 'matchEvery' }))
   )
-    // restoreConfig()
 
-  // saveConfig()
-  // setConfig('cacheNodePaths', true)
-  withConfig({cacheNodePaths: true}, ()=>
-  reports.push(buildReport({ result: test((a, b) => `// * [ matchEvery(@namePath, '**/${a}/**/${b}/**') ]`), name: 'matchEvery_cachedPaths' }))
+  withConfig({ cacheNodePaths: true }, () =>
+    reports.push(buildReport({ result: test((a, b) => `// * [ matchEvery(@namePath, '**/${a}/**/${b}/**') ]`), name: 'matchEvery_cachedPaths' }))
   )
-  // restoreConfig()
 
-  
   reports.push(buildReport({ result: test((a, b) => `// * [ (@modifiers=~'export' && @modifiers=~'default' && @modifiers=~'abstract' ) || (//Identifier && @text=='${a}') || (..//FunctionDeclaration && @name=='${b}') ]`), name: 'attributes1' }))
 
   writeFileSync('test/performance/reports/' + getPerformanceFileName('allNames1'), JSON.stringify(reports, null, 2))
@@ -76,8 +69,6 @@ function start() {
     return r.result!
   }
 }
-
-
 
 start()
 

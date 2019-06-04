@@ -10,10 +10,10 @@
 - [ ] add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
 - [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
 - [ ] function isDeclaration()
-- [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
+- [   ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
 - [x] search text in comments : //LineComment [@text =~ ]
 - [x] define functions separately and document their signatures so we have documentation.
-- [ ] getASTNodePath() should cache/memoize (?)
+- [x] getASTNodePath() should cache/memoize (?)
 - [ ] `hasTypeParameter(type: string, index?: number)` : `//InterfaceDeclaration [ hasTypeParameter('T[]', 1) ]` . The type is compared as string.
 - [ ] TODO test that getConfig('visitChildrenFirst') really works by queryOne 
 

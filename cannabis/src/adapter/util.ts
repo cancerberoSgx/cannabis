@@ -1,6 +1,5 @@
-import { isString, notUndefined } from 'misc-utils-of-mine-generic'
-import { ClassDeclaration, InterfaceDeclaration, SyntaxKind, TypeGuards } from 'ts-morph'
-import { getDefinitionsOf, getExtendsRecursively, isNode, tsMorph } from 'ts-simple-ast-extra'
+import { isString } from 'misc-utils-of-mine-generic'
+import { isNode } from 'ts-simple-ast-extra'
 import { isArray } from 'util'
 import { ASTNode, isASTNode } from '../astNode'
 import { getASTNodeNamePath } from '../path'

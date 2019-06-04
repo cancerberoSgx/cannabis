@@ -1,6 +1,6 @@
 import test from 'ava'
 import { loadProject, setConfig } from '.'
-import { getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeText, getASTSourceFile } from "../src/astNode"
+import { getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeSiblings, getASTNodeText, getASTSourceFile } from "../src/astNode"
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/path"
 import { queryAst } from '../src/queryAst'
 
@@ -29,6 +29,9 @@ test('getASTNodeAncestors', t => {
     'src/ui',
     'src',])
 })
+
+
+
 
 test('getASTNodePath(n, { onlyKindName: true })', t => {
   t.deepEqual(getASTNodePath(i, { onlyKindName: true }), 'src/services/login/loginService/InterfaceDeclaration/Identifier')
@@ -66,4 +69,11 @@ test('getASTNodeNamePath - mode getChildren', t => {
   nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'extends')
   t.deepEqual(getASTNodeNamePath(nn!), 'src/services/login/loginService/LoginService/T/ExtendsKeyword')
   setConfig('getChildren', false)
-})  
+})
+
+test('getASTNodeSiblings', t => {
+  const r = queryAst(`//VariableStatement [@text=~'a = 1']`, `var a = 1; var b = 2; var c = '9'`)
+  t.falsy(r.error)
+  t.deepEqual(r.result!.map(getASTNodeSiblings).flat().map(getASTNodeText), ['var b = 2;', 'var c = \'9\'',])
+})
+

@@ -2,9 +2,9 @@ import test from 'ava'
 import { notSameNotFalsy } from 'misc-utils-of-mine-generic'
 import { Project } from 'ts-morph'
 import { queryAst, queryOne, setProject } from '../'
+import { getASTNodeText } from '../../src'
+import { withConfig } from '../../src/config'
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../../src/path"
-import { getASTNodeText } from '../../src';
-import { withConfig } from '../../src/config';
 
 test('@indexPath', t => {
   const p = new Project()
@@ -33,11 +33,11 @@ test('@namePath and matchEvery', t => {
 })
 
 test('paths with and without cache', t => {
-  let e = withConfig({cacheNodePaths: false},()=> queryAst(`//Identifier [@kindPath=~'InterfaceDeclaration' && @kindPath=~'PropertySignature']`,  `import 'ss'; interface I {i:number,m(m:{f:Array<Foo<XXX>>}):void}`))
+  let e = withConfig({ cacheNodePaths: false }, () => queryAst(`//Identifier [@kindPath=~'InterfaceDeclaration' && @kindPath=~'PropertySignature']`, `import 'ss'; interface I {i:number,m(m:{f:Array<Foo<XXX>>}):void}`))
   t.falsy(e.error)
-  t.deepEqual(e.result!.map(getASTNodeText),[ 'i',  'f',  'Array',  'Foo',  'XXX',])
-  e = withConfig({cacheNodePaths: true},()=> queryAst(`//Identifier [@kindPath=~'InterfaceDeclaration' && @kindPath=~'PropertySignature']`,  `import 'ss'; interface I {i:number,m(m:{f:Array<Foo<XXX>>}):void}`))
+  t.deepEqual(e.result!.map(getASTNodeText), ['i', 'f', 'Array', 'Foo', 'XXX',])
+  e = withConfig({ cacheNodePaths: true }, () => queryAst(`//Identifier [@kindPath=~'InterfaceDeclaration' && @kindPath=~'PropertySignature']`, `import 'ss'; interface I {i:number,m(m:{f:Array<Foo<XXX>>}):void}`))
   t.falsy(e.error)
-  t.deepEqual(e.result!.map(getASTNodeText),[ 'i',  'f',  'Array',  'Foo',  'XXX',])
+  t.deepEqual(e.result!.map(getASTNodeText), ['i', 'f', 'Array', 'Foo', 'XXX',])
 })
 

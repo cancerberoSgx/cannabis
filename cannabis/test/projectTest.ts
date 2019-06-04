@@ -52,7 +52,6 @@ test('source files should not be in node modules', t => {
     t.falsy(getASTNodeFilePath(d).includes('node_modules'))
     t.deepEqual(getASTNodeDescendants(d).map(getASTNodeFilePath).filter(p => p.includes('node_modules')).concat(getASTNodeFilePath(d)), [getASTNodeFilePath(d)])
   })
-
 })
 
 test('setProject', t => {

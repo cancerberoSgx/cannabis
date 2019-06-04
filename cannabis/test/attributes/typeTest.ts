@@ -1,7 +1,7 @@
 import test from 'ava'
 import { queryAst } from '../'
-import { queryAstSimpleTest } from '../testUtil'
 import { withConfig } from '../../src/config'
+import { queryAstSimpleTest } from '../testUtil'
 
 test('@type explicit', queryAstSimpleTest, queryAst(`// VariableDeclaration [ @type=='Date[]']`, `export const a: Date[] = []`), { result: { text: ['a: Date[] = []'] } })
 
@@ -19,10 +19,10 @@ test('@type infer from usage several parameters', queryAstSimpleTest, queryAst(`
 function f(a=1, b='s', c=false, d={})
 `), { result: { text: ['a=1', 'c=false'] } })
 
-test('@type with cache', queryAstSimpleTest, withConfig({cacheTypeText: true}, ()=> queryAst(`// Parameter [ @type=='boolean' || @type=='number']`, `
+test('@type with cache', queryAstSimpleTest, withConfig({ cacheTypeText: true }, () => queryAst(`// Parameter [ @type=='boolean' || @type=='number']`, `
 function f(a=1, b='s', c=false, d={})
 `)), { result: { text: ['a=1', 'c=false'] } })
 
-test('@type without cache', queryAstSimpleTest, withConfig({cacheTypeText: false}, ()=> queryAst(`// Parameter [ @type=='boolean' || @type=='number']`, `
+test('@type without cache', queryAstSimpleTest, withConfig({ cacheTypeText: false }, () => queryAst(`// Parameter [ @type=='boolean' || @type=='number']`, `
 function f(a=1, b='s', c=false, d={})
 `)), { result: { text: ['a=1', 'c=false'] } })

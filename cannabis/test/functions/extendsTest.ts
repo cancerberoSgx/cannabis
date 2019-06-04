@@ -1,5 +1,5 @@
 import test from 'ava'
-import { getASTNodeName, queryAst } from '../'
+import { getASTNodeName, queryAst } from '..'
 import { getFile } from "../../src/file"
 import { code2 } from '../assets/code'
 
@@ -55,3 +55,15 @@ test(`extendsAnyNamed('B,C,D)`, t => {
 //   t.falsy(result.error)
 //   t.deepEqual(result.result!.map(getASTNodeName), ['B', 'C', 'D', 'I1', 'I2', 'I3'])
 // })
+
+test('extendsAllNamed 1', t => {
+  let result = queryAst(`//* [ extendsAllNamed('A,B') ]`, getFile(code2))
+  t.falsy(result.error)
+  t.deepEqual(result.result!.map(getASTNodeName), ['C', 'D'])
+})
+
+test('extendsAllNamed 2', t => {
+  let result = queryAst(`//* [ extendsAllNamed('A,B,C') ]`, getFile(code2))
+  t.falsy(result.error)
+  t.deepEqual(result.result!.map(getASTNodeName), ['D'])
+})
