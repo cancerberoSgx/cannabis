@@ -49,8 +49,6 @@ export function searchSource<T>(p: Source<T>[], options: MatchStringOptions = { 
   return p.map(p => m.includes(p.path) ? p : undefined).filter(notUndefined)
 }
 
-
-
 interface MatchNodeOptions extends MatchStringOptions {
 
   /**

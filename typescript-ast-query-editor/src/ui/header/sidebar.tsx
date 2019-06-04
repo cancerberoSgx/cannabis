@@ -1,8 +1,9 @@
 import { asArray } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
-import { Container, Icon, Menu, Modal, Segment, Sidebar } from 'semantic-ui-react'
+import { Container, Icon, Menu, Modal, Popup, Segment, Sidebar } from 'semantic-ui-react'
 import { Logs } from '../common/logs'
 import { SearchInput } from '../common/searchInput'
+import { createUrl } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
 
 export class SidebarExampleMultiple extends AbstractComponent {
@@ -51,7 +52,18 @@ export class SidebarExampleMultiple extends AbstractComponent {
                 <Logs />
               </Modal.Content>
             </Modal>
-            <Menu.Item as='a'>Create Shareable URL</Menu.Item>
+            <Popup
+              trigger={
+                <Menu.Item as='a' icon='flask' onClick={createUrl}>Create Shareable URL</Menu.Item>
+
+                // <Button color='red' content='Activate doomsday device' />
+              }
+              content={<>Done! the URL was changed to reflect the current state.</>}
+              on='click'
+            // position='top right'
+            />
+
+
             <Menu.Item as='a'>Help</Menu.Item>
             <Menu.Item as='a'>Github</Menu.Item>
           </Sidebar>

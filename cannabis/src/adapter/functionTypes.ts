@@ -19,20 +19,27 @@ interface Functions extends BuiltInFunctions {
   getExtendedNames(node?: ASTNode): string[]
 
   /**
-   * Same as extendsAllNamed but returns true only if the node extends (directly or indirectly) types including ALL names.
+   * Same as extendsAllNamed but returns true only if the node extends (directly or indirectly) types
+   * including ALL names.
    */
   extendsAllNamed(nameOrNode: ASTNode | string | string[], name?: string | string[]): boolean
 
   /**
-   * Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node: ASTNode, name: string|string[]): boolean`. 
-   * 
-   * Returns true if current node (or given node given as parameter) extends any class or interface (directly or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split using ','. 
-   * 
-   * Example: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. 
-   * 
-   * Example: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends (directly or indirectly) a type with name included in names parameter.
-   * 
-   * Take into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes
+   * Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node:
+   * ASTNode, name: string|string[]): boolean`. 
+   *
+   * Returns true if current node (or given node given as parameter) extends any class or interface (directly
+   * or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split
+   * using ','. 
+   *
+   * Example: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node
+   * ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. 
+   *
+   * Example: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends
+   * (directly or indirectly) a type with name included in names parameter.
+   *
+   * Take into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so
+   * it's an expensive operation. Also remember that an interface can extend both interfaces and classes
    */
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
 
@@ -68,7 +75,8 @@ interface Functions extends BuiltInFunctions {
   debug<T extends any[]>(...args: T): T
 
   /**
-   * Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. 
+   * Returns parent node of given node, or of current node if no node was  given. Returns null if there is no
+   * parent. 
    */
   parent(arg?: ASTNode | ASTNode[]): ASTNode | null | (ASTNode | null)[]
 
@@ -98,12 +106,14 @@ interface Functions extends BuiltInFunctions {
   flat<T extends any>(arr: T[][]): T[]
 
   /**
-   * Returns declaration nodes of given expressions or references. It can be used together with findReferences to obtain the declarations.
+   * Returns declaration nodes of given expressions or references. It can be used together with findReferences
+   * to obtain the declarations.
    */
   declarations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
-   * Returns true if given array contains given item. If arr is a string it will be split using ',', character. 
+   * Returns true if given array contains given item. If arr is a string it will be split using ',',
+   * character. 
    */
   includes(arr: string | any[], item: any): boolean
 
@@ -127,7 +137,9 @@ interface Functions extends BuiltInFunctions {
   array(...args: any[]): any[]
 
   /**
-   * Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If the value of the property is a function, then the result will be the return value of the method call without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`
+   * Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If
+   * the value of the property is a function, then the result will be the return value of the method call
+   * without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`
    */
   map(arr: any[], propertyName: string): string[]
 
@@ -137,7 +149,8 @@ interface Functions extends BuiltInFunctions {
   derivedClasses(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
-   * Gets the implementations of the identifier. This is similar to "go to implementation" functionality that exists with TypeScript in most IDEs.
+   * Gets the implementations of the identifier. This is similar to "go to implementation" functionality that
+   * exists with TypeScript in most IDEs.
    */
   getImplementations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
@@ -162,8 +175,8 @@ interface BuiltInFunctions {
   depth(): number
 
   /**
-   * Return position of current node among sibling (counting from 1 for the first sibling). Example: `pos()
-   *  == 2`
+   * Return position of current node among sibling (counting from 1 for the first sibling). Example: `pos() ==
+   *  2`
    */
   pos(): number
 
@@ -185,8 +198,8 @@ interface BuiltInFunctions {
   last(): boolean
 
   /**
-   * Return the number of elements in `array`. The `array` usually is either an externally passed-in
-   *  parameter or a sub-query. Example: `count({nodes}) <= count(// *)`
+   * Return the number of elements in `array`. The `array` usually is either an externally passed-in parameter
+   *  or a sub-query. Example: `count({nodes}) <= count(// *)`
    */
   count(array: Object[]): number
 

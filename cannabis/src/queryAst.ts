@@ -2,8 +2,9 @@ import { ASTQQuery, TraceListener } from 'astq'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
 import { ASTNode, isASTNode, setNodeProperty } from "./astNode"
-import { setConfig } from './config'
+import { setConfig, Config, getConfig } from './config'
 import { getFile } from './file'
+import { isArray } from 'misc-utils-of-mine-generic';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -16,34 +17,10 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   timings: { parseAst: number, compileQuery: number, executeQuery: number }
 }
 
-export interface ExecutionContext {
-  logs: ((...args: any) => void) | string[]
-}
+// export interface ExecutionContext {
+//   logs: ((...args: any) => void) | string[]
+// }
 
-interface QueryAstOptions<T extends ASTNode = ASTNode> {
-  /**
-   * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
-   */
-  trace?: boolean | TraceListener<T>
-
-  /**
-   * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default value is `{}.`
-   */
-  params?: { [name: string]: any }
-
-  context?: ExecutionContext
-
-  /**
-   * TypeScript Children node mode. Default: 'forEachChild' that return only nodes with high level semantics.
-   * 'getChildren' on the other hand, will return all kind of nodes, including tokens, jsdocs comments,
-   * keywords, etc. In gneral is better to build queries with 'forEachChild' mode, but in some cases, is
-   * necessary to use 'getChildren'. Take into account that queries in one mode could not work in the other
-   * mode. 
-   */
-  getChildrenMode?: boolean
-
-  includeJSDocTagNodes?: boolean
-}
 
 /**
  * It will create and execute a new query defined by [[q]] on nodes defined by [[codeOrNode]] as follows. If
@@ -51,7 +28,7 @@ interface QueryAstOptions<T extends ASTNode = ASTNode> {
  * will be used (internally creating a ts-morph node). If it's a ASTNode, it could be a Directory, a file or a
  * node and that will be used to issue the query.
  */
-export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options: QueryAstOptions = { params: {} }): QueryResult<T> {
+export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options?: Partial<Config> ): QueryResult<T> {
   const timings = {
     parseAst: -1, compileQuery: -1, executeQuery: -1
   }
@@ -71,16 +48,23 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
     const compileQueryT0 = now()
-    const context: ExecutionContext = { ...options.context || { logs: [] } }
-    typeof options.getChildrenMode !== 'undefined' && setConfig('getChildren', !!options.getChildrenMode)
-    typeof options.includeJSDocTagNodes !== 'undefined' && setConfig('includeJSDocTagNodes', !!options.includeJSDocTagNodes)
-    const astq = getTypeScriptAstq(context)
-    setNodeProperty(astq as any, 'context', context)
-    const trace = options.trace || false
-    const query = astq.compile(q, trace) as ASTQQuery<T>
+    if(options){
+      setConfig(options)
+    }
+    // const context = options.logs ? {logs: options.logs} : {}//{ ...options.context || { logs: [] } }
+    // typeof options.getChildren !== 'undefined' && setConfig('getChildren', !!options.getChildren)
+    // typeof options.includeJSDocTagNodes !== 'undefined' && setConfig('includeJSDocTagNodes', !!options.includeJSDocTagNodes)
+    const astq = getTypeScriptAstq()
+    // setNodeProperty(astq as any, 'context', context)
+    const trace = getConfig('trace')
+    // let realTrace = trace
+    // if(isArray(trace)){
+    //   realTrace = (...args: any[]) 
+    // }
+    const query = astq.compile(q,  trace) as ASTQQuery<T>
     timings.compileQuery = now() - compileQueryT0
     executeQueryT0 = now()
-    const result = astq.execute(node, query, options.params || {}, trace) as T[]
+    const result = astq.execute(node, query, getConfig('params'), trace) as T[]
     timings.executeQuery = now() - executeQueryT0
     return {
       result,

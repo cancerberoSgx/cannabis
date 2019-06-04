@@ -93,7 +93,7 @@ test('includeJSDocTagNodes without', t => {
   const result = queryAst(`//JSDocParameterTag`, `
 /** @param a {boolean[]|Foo} some text */
   function f(a){}
-  `, { includeJSDocTagNodes: false, getChildrenMode: false })
+  `, { includeJSDocTagNodes: false, getChildren: false })
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), [])
 })
@@ -102,7 +102,7 @@ test('includeJSDocTagNodes with', t => {
   const result = queryAst(`//JSDocParameterTag`, `
 /** @param a {boolean[]|Foo} some text */
   function f(a){}
-  `, { includeJSDocTagNodes: true, getChildrenMode: false })
+  `, { includeJSDocTagNodes: true, getChildren: false })
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['a'])
 })

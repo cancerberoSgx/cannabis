@@ -1,7 +1,7 @@
 import { ASTYNode, QueryExpressions } from 'cannabis'
 import { ISelection } from 'monaco-editor'
 import * as React from 'react'
-import { Button, Checkbox, Header, Label, List, Segment } from 'semantic-ui-react'
+import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
 import { select } from '../../editor/query/queryEditor'
 import { Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
@@ -17,12 +17,7 @@ export class QueryAst extends AbstractComponent {
       <List>
         {this.renderNode(this.state.queryAst)}
       </List>
-      <Segment className="queryDump" basic>
-        <Header as="h3">Textual Representation</Header>
-        <pre>
-          {this.state.queryDump}
-        </pre>
-      </Segment>
+
     </Segment>
   }
   renderNode(node: ASTYNode) {

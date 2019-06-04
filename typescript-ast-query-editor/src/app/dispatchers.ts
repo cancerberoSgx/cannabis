@@ -33,7 +33,7 @@ export function showQueryEditorAtTheRight(b: boolean) {
         codeEl.style.display = 'none'
       })
       document.querySelector<HTMLDivElement>('.CursorBreadcrumb') && (document.querySelector<HTMLDivElement>('.CursorBreadcrumb')!.style.display = 'none')
-      codeEl.parentElement!.appendChild(queryEl)
+      codeEl.parentElement!.insertAdjacentElement('afterbegin', queryEl)
     }
     else {
       Array.from(codeEl.parentElement!.children).forEach(e => {

@@ -17,6 +17,7 @@ export class Body extends AbstractComponent {
           <Grid.Column floated='left' width={8}>
             <Tab
               onTabChange={(e, props) => {
+                this.setState({ currentTab: parseInt(props.activeIndex + '' || '0') || 0 })
                 setTimeout(() => {
                   setQueryEditorAtTheRight(props.activeIndex === 2)
                 }, 200)
@@ -65,6 +66,12 @@ export class Body extends AbstractComponent {
                 <br />
                 <CursorBreadcrumb />
                 <br />
+                {this.state.currentTab === 2 ? <Segment className="queryDump" basic>
+                  <Header as="h3">Textual Representation</Header>
+                  <pre>
+                    {this.state.queryDump}
+                  </pre>
+                </Segment> : ''}
               </>
             </Segment>
           </Grid.Column>

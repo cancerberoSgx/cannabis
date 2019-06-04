@@ -1,7 +1,8 @@
 import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
 import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
-import { attributeNames, getAttribute } from '../src/adapter/attributes'
+import { getAttribute } from '../src/adapter/attributes'
+import { attributeNames } from "../src/adapter/attributeTypes"
 import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/astNode'
 import { QueryResult } from '../src/queryAst'
 

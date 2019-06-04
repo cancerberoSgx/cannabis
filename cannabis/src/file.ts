@@ -38,17 +38,6 @@ function getNewFileName(): string {
   return `${unique('cannabis_test_file_')}.tsx`
 }
 
-// /**
-//  * Creates a new SourceFile kind of node from given code with given name.
-//  */
-// export function createSourceFile(code = '', name = getNewFileName(), parent?: ASTDirectory): ASTNode {
-//   if (parent) {
-//     return parent.createSourceFile(name, code)
-//   } else {
-//     return getFile(code)
-//   }
-// }
-
 /**
  * Returns an object representing the project that gives access to the root directories using
  * [[getRootDirectories]] which are queriable nodes. 
@@ -74,25 +63,6 @@ export function setProject(project: tsMorph.Project): ASTRoot {
   return _astRoot = new ASTRootImpl(_project)
 }
 
-// /**
-//  * Creates a new directory kind ASTNode with given name and cihldren of given parent directory or at the root
-//  * if no parent is given.
-//  */
-// export function createDirectory(name: string, parent?: ASTDirectory): ASTNode {
-//   if (parent) {
-//     return parent.createDirectory(name)
-//   } else {
-//     return getProject().createDirectory(name)
-//   }
-// }
-
-// /**
-//  * @internal
-//  */
-// export function getTsMorphFile(code: string = '') : tsMorph.SourceFile {
-//   return getFile(code)
-// }
-
 /**
  * This represents the project and is not a valid Node. Query on the root directories using
  * [[getRootDirectory]].
@@ -112,7 +82,9 @@ export function getASTRoot() {
 
 class ASTRootImpl implements ASTRoot {
 
-  constructor(private _project: tsMorph.Project) { }
+  constructor(private _project: tsMorph.Project) { 
+    
+  }
 
   /**
    * Returns all project's root directories, including those in node_modules project dependencies. The first

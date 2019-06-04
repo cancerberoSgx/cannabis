@@ -67,3 +67,12 @@ test('extendsAllNamed 2', t => {
   t.falsy(result.error)
   t.deepEqual(result.result!.map(getASTNodeName), ['D'])
 })
+
+test('extendsAnyNamed and implementsAnyNamed', t => {
+  let result = queryAst(`
+// Identifier [ ../*
+  [ extendsAnyNamed('A') || implementsAnyNamed('I') ||  extendsAnyNamed('I') ]
+]`, getFile(code2))
+  t.falsy(result.error)
+  t.deepEqual(result.result!.map(getASTNodeName), ['A', 'B', 'C', 'D', 'I1', 'I2', 'I3',])
+})

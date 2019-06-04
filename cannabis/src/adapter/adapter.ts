@@ -2,12 +2,12 @@ import ASTQ from 'astq'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, isASTNode } from "../astNode"
 import { getConfig } from '../config'
-import { ExecutionContext } from '../queryAst'
-import { AttributeNames, attributeNames, getAttribute } from './attributes'
+import { getAttribute } from './attributes'
+import { AttributeNames, attributeNames } from "./attributeTypes"
 import { installFunctions } from './functions'
 let astq: ASTQ<ASTNode> | undefined
 
-export function getTypeScriptAstq(context: ExecutionContext) {
+export function getTypeScriptAstq( ) {
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({

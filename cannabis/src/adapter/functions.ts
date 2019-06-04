@@ -5,8 +5,9 @@ import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText, getNodeProperty } from '../astNode'
 import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames } from '../astNodeType'
 import { getASTNodeNamePath } from '../path'
-import { ExecutionContext } from '../queryAst'
+// import { ExecutionContext } from '../queryAst'
 import { getSourceFile, print, splitString } from './util'
+import { getConfig } from '../config';
 
 export function installFunctions(astq: ASTQ) {
 
@@ -117,19 +118,23 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('debug', (adapter, node, ...args: any[]) => {
-    const context = getNodeProperty<ExecutionContext>(astq as any, 'context')
-    if (!context || !context.logs) {
+    // const context = getNodeProperty<ExecutionContext>(astq as any, 'context')
+    // if (!context || !context.logs) {
+    //   return true
+    // }
+    const logs = getConfig('logs')
+    if(!logs){
       return true
     }
     if (!args || args.length === 0) {
       args = [node]
     }
     args = asArray(args)
-    if (typeof context.logs === 'function') {
-      context.logs(...args.map(print))
+    if (typeof logs === 'function') {
+      logs(...args.map(print))
     }
-    else if (isArray(context.logs)) {
-      context.logs.push(args.map(print).join(', '))
+    else if (isArray(logs)) {
+      logs.push(args.map(print).join(', '))
     }
     return args[args.length - 1] // return tue so users can write AND expressions and keep the query.
   })

@@ -1,12 +1,16 @@
 import test from 'ava'
 import { loadProject, setConfig } from '.'
-import { getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeSiblings, getASTNodeText, getASTSourceFile } from "../src/astNode"
+import { getASTNodeAncestors, getASTNodeDescendants, getASTNodeName, getASTNodeSiblings, getASTNodeText, getASTSourceFile, ASTNode } from "../src/astNode"
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath, getASTNodePath } from "../src/path"
 import { queryAst } from '../src/queryAst'
 
-const p = loadProject('test/assets/project1/tsconfig.json')
-const root = p.getRootDirectory()
-const i = getASTNodeDescendants(root).find(d => getASTNodeName(d) === 'LoginService')!
+let root : ASTNode
+let i : ASTNode
+test.beforeEach(()=>{
+  const p = loadProject('test/assets/project1/tsconfig.json')
+  root = p.getRootDirectory()
+  i = getASTNodeDescendants(root).find(d => getASTNodeName(d) === 'LoginService')!
+})
 
 test('getASTNodeAncestors', t => {
   const r = queryAst(`.// Identifier [matchEvery(@namePath, '**/ui/**/onFinish/**/finishSearch')]`, root)
@@ -30,9 +34,6 @@ test('getASTNodeAncestors', t => {
     'src',])
 })
 
-
-
-
 test('getASTNodePath(n, { onlyKindName: true })', t => {
   t.deepEqual(getASTNodePath(i, { onlyKindName: true }), 'src/services/login/loginService/InterfaceDeclaration/Identifier')
 })
@@ -51,6 +52,8 @@ test('getASTNodeIndexPath(n)', t => {
 
 test('getASTNodePath(n) - mode getChildren', t => {
   setConfig('getChildren', true)
+  root =  loadProject('test/assets/project1/tsconfig.json').getRootDirectory()
+  i=getASTNodeDescendants(root).find(d => getASTNodeName(d) === 'LoginService')!
   t.deepEqual(getASTNodePath(i), 'src/services/login/loginService/InterfaceDeclaration:nth-child(2)/Identifier:nth-child(2)')
   setConfig('getChildren', false)
 })
@@ -64,6 +67,8 @@ test('getASTNodeNamePath', t => {
 test('getASTNodeNamePath - mode getChildren', t => {
   setConfig('getChildren', true)
   t.deepEqual(getASTNodeNamePath(i), 'src/services/login/loginService/LoginService/LoginService')
+  root =  loadProject('test/assets/project1/tsconfig.json').getRootDirectory()
+  i=getASTNodeDescendants(root).find(d => getASTNodeName(d) === 'LoginService')!
   let nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'Model')
   t.deepEqual(getASTNodeNamePath(nn!), 'src/services/login/loginService/ImportDeclaration/ImportClause/NamedImports/Model/Model')
   nn = getASTNodeDescendants(getASTSourceFile(i!)!).find(d => getASTNodeText(d) === 'extends')

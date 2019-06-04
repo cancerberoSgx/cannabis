@@ -177,9 +177,17 @@ export const examples: Example[] = [
     code: 'inheritance1'
   },
 
-
-
-
+  {
+    name: 'Identifiers of classes or interfaces extending or implementing things',
+    query: `
+// Identifier [ ../*
+  [ extendsAnyNamed('A') || implementsAnyNamed('I') ||  extendsAnyNamed('I') ]
+]
+`.trim(),
+    description: 'Returns identifiers of classes or interfaces  which extends or implements A or I ',
+    difficulty: 'easy',
+    code: 'inheritance1'
+  },
 
 ]
 

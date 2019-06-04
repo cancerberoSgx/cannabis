@@ -50,12 +50,22 @@ export function getASTNodeSiblings(n: ASTNode) {
 }
 
 export function getASTNodeAncestors(n: ASTNode) {
-  const a: ASTNode[] = []
+  const propName = 'ancestors'
+  if (getConfig('cacheAncestors')) {
+    const cached = getNodeProperty(n, propName)
+    if (typeof cached !== 'undefined') {
+      return cached
+    }
+  }
+  const value: ASTNode[] = []
   let b: ASTNode | undefined = n
   while ((b = getASTNodeParent(b)) && b !== n) {
-    a.push(b)
+    value.push(b)
   }
-  return a
+  if (getConfig('cacheAncestors')) {
+    setNodeProperty(n, propName, value)
+  }
+  return value
 }
 
 /**

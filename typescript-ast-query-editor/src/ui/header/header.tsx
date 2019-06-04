@@ -10,7 +10,7 @@ export const Header = () => (
           Cannabis:
         </H>
         <Space /> */}
-        <H.Subheader as="h3" style={{ display: 'inline', margin: 0, padding: 0 }} >
+        <H.Subheader as="h3"  >
           TypeScript AST viewer and Advanced Query editor
        </H.Subheader>
       </Grid.Column>

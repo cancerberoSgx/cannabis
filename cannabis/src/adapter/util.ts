@@ -6,6 +6,7 @@ import { getASTNodeNamePath } from '../path'
 const stringify = require('string.ify')
 
 export function print(a: any): string {
+  // return !a ? 'undefined' : isArray(a) ? a.map(print).join(', ') : isASTNode(a) ? getASTNodeNamePath(a) : tsMorph.TypeGuards.isTypeNode(a) ? (tryTo(() => a.getText()) || 'TypeNode') : stringify(a)
   return isASTNode(a) ? getASTNodeNamePath(a) : isArray(a) ? a.map(print).join(', ') : stringify(a)
 }
 

@@ -55,7 +55,7 @@ function f(){
 var g
 // heads up!: jaskkajs
 // foooo
-  `, { getChildrenMode: true })
+  `, { getChildren: true })
   t.falsy(f.error)
   t.deepEqual(f.result!.map(getASTNodeText), ['// cccmmm', '/* sad */', '/* bar */', '// foooo',])
 })

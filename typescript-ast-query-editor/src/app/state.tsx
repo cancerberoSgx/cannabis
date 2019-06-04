@@ -24,6 +24,7 @@ export interface State {
   astShowText: boolean;
   queryLogs: string[]
   queryNodeAtPosition: ASTYNode | undefined;
+  currentTab: number
 }
 
 export function getInitialState(): State {
@@ -47,6 +48,7 @@ export function getInitialState(): State {
     queryAstCollapsedNodes: [],
     getChildren: false,
     astShowText: false,
-    queryNodeAtPosition: undefined
+    queryNodeAtPosition: undefined,
+    currentTab: 0
   }
 }

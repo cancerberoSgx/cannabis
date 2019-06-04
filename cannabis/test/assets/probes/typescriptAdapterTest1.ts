@@ -91,11 +91,11 @@
 //     return getDistanceToAncestor(n.parent, ancestor) + 1
 //   }
 // }
-// function getChildren(node: ts.Node | undefined, getChildrenMode: boolean = false): ts.Node[] {
+// function getChildren(node: ts.Node | undefined, getChildren: boolean = false): ts.Node[] {
 //   if (!node) {
 //     return []
 //   }
-//   if (getChildrenMode) {
+//   if (getChildren) {
 //     return node.getChildren()
 //   }
 //   const result: ts.Node[] = []

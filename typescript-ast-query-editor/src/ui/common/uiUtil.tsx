@@ -1,6 +1,8 @@
 import { ASTNode } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
+import { getQueryEditorText, setQueryEditorText } from '../../editor/query/queryEditor'
+import { getCodeEditorText, setCodeEditorText } from '../../editor/ts/codeEditor'
 import { isDirectory, isNode, isSourceFile } from '../../editor/ts/tsUtil'
 
 export function width() {
@@ -59,5 +61,27 @@ export function iconForNodeKind(kind = '') {
   }
   else {
     return 'leaf'
+  }
+}
+
+export function createUrl() {
+  const s = {
+    query: getQueryEditorText(),
+    code: getCodeEditorText(),
+    // selectedExample : getStore().getState().selectedExample
+  }
+  const b = btoa(JSON.stringify(s))// Buffer.from(new TextEncoder().encode(JSON.stringify(s))).toString('base64')
+  window.location.hash = '#state=' + b
+}
+
+export function loadUrl() {
+  if (window.location.hash.includes('state=')) {
+    const d = window.location.hash.split('state=')[1]
+    const state = JSON.parse(atob(d))
+    // getStore().setState({
+    //   selectedExample: {...getStore().getState().selectedExample, query:state.query}
+    // })
+    setCodeEditorText(state.code)
+    setQueryEditorText(state.query)
   }
 }
