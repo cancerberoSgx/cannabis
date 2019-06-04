@@ -1,5 +1,5 @@
 import { buildAstPath, isDirectory, isSourceFile, printAstPath, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getNodeProperty, setNodeProperty, isASTNode } from './astNode'
+import { ASTNode, getNodeProperty, isASTNode, setNodeProperty } from './astNode'
 import { getConfig } from './config'
 import { getASTRoot } from './file'
 

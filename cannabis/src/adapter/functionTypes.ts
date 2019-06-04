@@ -49,34 +49,34 @@ interface Functions extends BuiltInFunctions {
 
   implementsAllNamed(name: string, arg?: ASTNode): boolean
 
-  findReferences(arg?: ASTNode|ASTNode[]): ASTNode[]|ASTNode[][]
+  findReferences(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
    * Gets given node's SourceFile or current node's if no node is given. 
    */
-  sourceFile(arg?: ASTNode|ASTNode[]): ASTNode|ASTNode[]
+  sourceFile(arg?: ASTNode | ASTNode[]): ASTNode | ASTNode[]
 
   /**
    * Returns kind name of given node, or current node if no node was given.
    */
-  kindName(arg?: ASTNode|ASTNode[]): string|string[]
+  kindName(arg?: ASTNode | ASTNode[]): string | string[]
 
   debug<T extends any[]>(...args: T): T
 
   /**
    * Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. 
    */
-  parent(arg?: ASTNode|ASTNode[]): ASTNode | null | (ASTNode | null)[]
+  parent(arg?: ASTNode | ASTNode[]): ASTNode | null | (ASTNode | null)[]
 
   /**
   * Returns children nodes of given node, or of current node if no node was given.
   */
-  children(arg?: ASTNode|ASTNode[]): ASTNode[]|ASTNode[][]
+  children(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
   * Returns ancestor nodes of given nodes, or of current node if nodes was given.
   */
- ancestors(nodes?: ASTNode|ASTNode[]): ASTNode[]|ASTNode[][]
+  ancestors(nodes?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
    * Returns the `join()` on given array of strings using given joinChar or ',' by default.
@@ -86,12 +86,12 @@ interface Functions extends BuiltInFunctions {
   /**
    * Returns the `flat()` on given array of arrays.
    */
-  flat<T extends any>(arr: T[][] ): T[]
-  
+  flat<T extends any>(arr: T[][]): T[]
+
   /**
    * Returns declaration nodes of given expressions or references. It can be used together with findReferences to obtain the declarations.
    */
-  declarations(arg?: ASTNode|ASTNode[]): ASTNode[]|ASTNode[][]  
+  declarations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
   /**
    * Returns true if given array contains given item. If arr is a string it will be split using ',', character. 
@@ -100,7 +100,7 @@ interface Functions extends BuiltInFunctions {
 
   compareText(actual: string, expected: string, options?: string): boolean
 
-  namePath (arg?: ASTNode|ASTNode[]): string|string[]
+  namePath(arg?: ASTNode | ASTNode[]): string | string[]
 
   /**
    * Returns true if every string in the given `list` matches any of the given glob `patterns`.
@@ -264,10 +264,10 @@ export enum FunctionNames {
   matchAll = 'matchAll',
   array = "array",
   map = 'map',
-  declarations='declarations',
-  ancestors= 'ancestors',
-  flat='flat',
-  namePath='namePath',
+  declarations = 'declarations',
+  ancestors = 'ancestors',
+  flat = 'flat',
+  namePath = 'namePath',
 }
 
 var o: { [a in FunctionNames]: 1 } = {

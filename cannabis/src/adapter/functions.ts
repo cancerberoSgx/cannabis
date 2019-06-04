@@ -1,12 +1,11 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
-import { getExtendsRecursively, getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph, getDefinitionsOf } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeDescendants, getASTNodeParent, getASTNodeText, getNodeProperty, getASTNodeKindName, isASTNode, getASTNodeAncestors, getASTNodeChildren } from '../astNode'
+import { getExtendsRecursivelyNames, getImplementsAll, getImplementsAllNames, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, getASTNodeText, getNodeProperty } from '../astNode'
+import { getASTNodeNamePath } from '../path'
 import { ExecutionContext } from '../queryAst'
-import { getExtendsDefinitionsRecursively, splitString, print, getSourceFile, findReferences } from './util';
-import { ThisTypeNode } from 'ts-morph';
-import { getASTNodeNamePath } from '../path';
+import { findReferences, getExtendsDefinitionsRecursively, getSourceFile, print, splitString } from './util'
 
 
 
@@ -17,19 +16,19 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('getExtended', (adapter, node, arg?) => {
-    return (tsMorph.TypeGuards.isClassDeclaration(arg||node) || tsMorph.TypeGuards.isInterfaceDeclaration(arg||node)) ? getExtendsDefinitionsRecursively(arg || node) : []
+    return (tsMorph.TypeGuards.isClassDeclaration(arg || node) || tsMorph.TypeGuards.isInterfaceDeclaration(arg || node)) ? getExtendsDefinitionsRecursively(arg || node) : []
   })
 
   astq.func('matchEvery', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
     const s = splitString(input)
-    if(s.find(s=>typeof s!=='string')!==undefined){
+    if (s.find(s => typeof s !== 'string') !== undefined) {
       return false
     }
-    const p =  splitString(patterns)
-    if(p.find(s=>typeof s!=='string')!==undefined){
+    const p = splitString(patterns)
+    if (p.find(s => typeof s !== 'string') !== undefined) {
       return false
     }
-    return every(s,p)
+    return every(s, p)
   })
 
   astq.func('matchAll', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
@@ -85,14 +84,14 @@ export function installFunctions(astq: ASTQ) {
     return isNode(node) && tsMorph.TypeGuards.isClassDeclaration(node) && compareTexts(name.split(','), getImplementsAllNames(node), { verb: 'equals', multiplicity: 'allOf' }) || false
   })
 
-  astq.func('findReferences', (adapter, node, arg?: ASTNode|ASTNode[]) => {
+  astq.func('findReferences', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     const n = arg || node
-    return isArray(n) ? n.map(findReferences ) :findReferences(n)    
+    return isArray(n) ? n.map(findReferences) : findReferences(n)
   })
 
-  astq.func('sourceFile', (adapter, node: ASTNode, arg?: ASTNode|ASTNode[]) => {
+  astq.func('sourceFile', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
-    return isArray(n) ? n.map(getSourceFile) :getSourceFile(n)    
+    return isArray(n) ? n.map(getSourceFile) : getSourceFile(n)
   })
 
   astq.func('debug', (adapter, node, ...args: any[]) => {
@@ -103,28 +102,28 @@ export function installFunctions(astq: ASTQ) {
     if (!args || args.length === 0) {
       args = [node]
     }
-      args = asArray(args)
+    args = asArray(args)
     if (typeof context.logs === 'function') {
-      context.logs(...args.map(print)  )
+      context.logs(...args.map(print))
     }
     else if (isArray(context.logs)) {
-      context.logs.push( args.map(print).join(', ') )
+      context.logs.push(args.map(print).join(', '))
     }
-    return args[args.length-1] // return tue so users can write AND expressions and keep the query.
+    return args[args.length - 1] // return tue so users can write AND expressions and keep the query.
   })
 
   astq.func('array', (adapter, node, ...args: any[]) => {
     return args && isArray(args) ? args : []
   })
-  
-    astq.func('stringArray', (adapter, node, ...args: any[]) => {
-      return (args && isArray(args) ? args : []).map(e => e + '')
-    })
 
-    astq.func('children', (adapter, node: ASTNode, arg?: ASTNode|ASTNode[]) => {
+  astq.func('stringArray', (adapter, node, ...args: any[]) => {
+    return (args && isArray(args) ? args : []).map(e => e + '')
+  })
+
+  astq.func('children', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
-    return isArray(n) ? n.map(n=>getASTNodeChildren(n)) :getASTNodeChildren(n) 
-      // getASTNodeDescendants(arg || node) || []
+    return isArray(n) ? n.map(n => getASTNodeChildren(n)) : getASTNodeChildren(n)
+    // getASTNodeDescendants(arg || node) || []
   })
 
   astq.func('join', (adapter, node, arr: string[], joinChar?: string) => {
@@ -135,9 +134,9 @@ export function installFunctions(astq: ASTQ) {
     // function getFunctions(){
     //   return (astq as any)._funcs._funcs
     // }
-    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => typeof e[propertyName] === 'function' ? e[propertyName].apply(e, []) : 
-    // (typeof e[propertyName]==='undefined' && typeof getFunctions()[propertyName]==='function') ? getFunctions()[propertyName](e) :
-    e[propertyName]).filter(notUndefined) : []
+    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => typeof e[propertyName] === 'function' ? e[propertyName].apply(e, []) :
+      // (typeof e[propertyName]==='undefined' && typeof getFunctions()[propertyName]==='function') ? getFunctions()[propertyName](e) :
+      e[propertyName]).filter(notUndefined) : []
   })
 
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
@@ -151,46 +150,46 @@ export function installFunctions(astq: ASTQ) {
     return arr && isArray(arr) && arr.length ? isArray(arr[0]) ? arr.flat() : arr : []
   })
 
-  astq.func('declarations', (adapter, node, arg?: ASTNode|ASTNode[]) => {
+  astq.func('declarations', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     // console.log(astq);
     const n = asArray((arg || node) as tsMorph.Node)
-    return n.map(n=>{
-      if(isNode(n)){
+    return n.map(n => {
+      if (isNode(n)) {
         const s = n.getSymbol()
-          return s && s.getDeclarations()||[]
-      }else {
+        return s && s.getDeclarations() || []
+      } else {
         return []
       }
     }).flat()
   })
 
-  astq.func('namePath', (adapter, node, arg?: ASTNode|ASTNode[]) => {
-    return getASTNodeNamePath(arg||node)
+  astq.func('namePath', (adapter, node, arg?: ASTNode | ASTNode[]) => {
+    return getASTNodeNamePath(arg || node)
   })
 
-  astq.func('ancestors', (adapter, node, arg?: ASTNode|ASTNode[]) => {
+  astq.func('ancestors', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
-      return  isArray(n) ? n.map(getASTNodeAncestors) : getASTNodeAncestors(n) 
+    return isArray(n) ? n.map(getASTNodeAncestors) : getASTNodeAncestors(n)
   })
 
-  astq.func('parent', (adapter, node, arg?: ASTNode|ASTNode[]) => {
+  astq.func('parent', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
-      return  isArray(n) ? n.map(getASTNodeParent) : getASTNodeParent(n) 
+    return isArray(n) ? n.map(getASTNodeParent) : getASTNodeParent(n)
   })
 
-  astq.func('kindName', (adapter, node: ASTNode, arg?: ASTNode|ASTNode[]) => {
+  astq.func('kindName', (adapter, node: ASTNode, arg?: ASTNode | ASTNode[]) => {
     const n = arg || node//) as tsMorph.Node|tsMorph.Node[]
     return isArray(n) ? n.map(getASTNodeKindName) : getASTNodeKindName(n)
     // return isNode(arg || node) && (arg || node).getKindName()
   })
-  
+
   astq.func('includes', (adapter, node, a: string | any[], b?: any) => {
     // if (isString(a)&&b) {
     //   return a.includes(b)
     // }
     // else if (isArray(a)) {
-      // console.log(asArray(a).map(getASTNodeText), b||node);      
-      return asArray(a).includes(b||node)
+    // console.log(asArray(a).map(getASTNodeText), b||node);      
+    return asArray(a).includes(b || node)
     // }
     // else {
     //   false
