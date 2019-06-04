@@ -1,3 +1,4 @@
+export const code1 =   `
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
@@ -193,7 +194,6 @@ export function installFunctions(astq: ASTQ) {
     //   false
     // }
   })
-
-
 }
 
+`;

@@ -10,6 +10,7 @@
     "coverage": "npx nyc --nycrc-path nyc.config.js npm test",
     "test-watch": "ava -w",
     "test-debug": "node --inspect-brk node_modules/ava/cli.js --serial",
+    "test-performance": "ts-node -T test/performance/allNames1.ts",
     "clean": "rm -rf dist docs",
     "build": "npm run clean && npx tsc",
     "prepare": "npm run build",
