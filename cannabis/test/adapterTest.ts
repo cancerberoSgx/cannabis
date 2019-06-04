@@ -11,7 +11,7 @@ import { code2 } from './assets/code'
 import { printNode } from './testUtil'
 
 test('compile and execute should be invocable manually', async t => {
-  const astq = getTypeScriptAstq( )
+  const astq = getTypeScriptAstq()
   const b: (string | number)[][] = []
   const events: StepTraceEvent<ASTNode>[] = []
   function trace(e: StepTraceEvent<ASTNode>) {
@@ -68,7 +68,7 @@ test('compile and execute should be invocable manually', async t => {
 })
 
 test('query.ast.serialize() && query.dump()', async t => {
-  const astq = getTypeScriptAstq( )
+  const astq = getTypeScriptAstq()
   const query = astq.compile("//Identifier", true)
   t.is(query.ast.serialize(), `{"ASTy":{"T":"Query","L":{"L":1,"C":1,"O":0},"C":[{"T":"Path","L":{"L":1,"C":1,"O":0},"C":[{"T":"Step","L":{"L":1,"C":1,"O":0},"C":[{"T":"Axis","L":{"L":1,"C":1,"O":0},"A":{"op":"//","type":"*"}},{"T":"Match","L":{"L":1,"C":3,"O":2},"A":{"id":"Identifier"}}]}]}]}}`)
   t.is(removeWhites(query.dump()), removeWhites(`

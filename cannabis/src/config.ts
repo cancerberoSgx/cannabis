@@ -1,13 +1,13 @@
+import { TraceListener } from 'astq'
 import { unique } from 'misc-utils-of-mine-generic'
-import { TraceListener } from 'astq';
-import { ASTNode } from '../test';
+import { ASTNode } from '../test'
 
 const config: Config = {
   includeFilesInNodeModules: false,
   getChildren: false,
   includeJSDocTagNodes: false,
   visitChildrenFirst: true,
-  params: {}, 
+  params: {},
   trace: false,
   // logs: false,
   cacheNodePaths: false,
@@ -20,7 +20,7 @@ const config: Config = {
   cacheAncestors: false
 }
 
-export interface Config  {
+export interface Config {
 
   includeFilesInNodeModules: boolean
 
@@ -46,12 +46,12 @@ export interface Config  {
    * also to test that..
    */
   visitChildrenFirst: boolean
-  
-    /**
-   * If true the query execution will be traced, step by step, probably affecting performance but useful to
-   * debug and understand the internal process. Default value is false.
-   */
-  trace: boolean | TraceListener<ASTNode> 
+
+  /**
+ * If true the query execution will be traced, step by step, probably affecting performance but useful to
+ * debug and understand the internal process. Default value is false.
+ */
+  trace: boolean | TraceListener<ASTNode>
 
   /**
    * Query execution parameters to be consumable using `{param1}` syntax (similar to attributes). Default
@@ -62,24 +62,24 @@ export interface Config  {
   logs?: ((...args: any) => void) | string[]
 
   cacheNodePaths: boolean
-  
+
   cacheTypeText: boolean
-  
+
   cacheExtended: boolean
-  
+
   cacheImplemented: boolean
-  
+
   cacheReferences: boolean
-  
+
   cacheDerivedClasses: boolean
-  
+
   cacheImplementations: boolean
-  
+
   cacheAncestors: boolean
-  
+
 }
 
-export function getConfig<P extends C>(p: P)  {
+export function getConfig<P extends C>(p: P) {
   return config[p] as Config[P]
 }
 

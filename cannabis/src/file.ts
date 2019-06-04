@@ -82,8 +82,8 @@ export function getASTRoot() {
 
 class ASTRootImpl implements ASTRoot {
 
-  constructor(private _project: tsMorph.Project) { 
-    
+  constructor(private _project: tsMorph.Project) {
+
   }
 
   /**

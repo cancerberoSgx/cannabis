@@ -14,7 +14,7 @@ function f(b: number){
   return a + b
 }
 export const r = 1 + 2 + 3 + a
-`,  context )
+`, context)
   t.falsy(result.error)
   t.is(result.result && result.result.length, 3)
   t.deepEqual(context.logs, [

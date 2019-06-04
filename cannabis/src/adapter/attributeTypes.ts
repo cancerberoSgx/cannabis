@@ -38,7 +38,7 @@ export interface AttributeValues {
    * Returns a AST Node if the node has an expression, or null other wise.
    */
   expression: ASTNode | null;
-  
+
   /**
    * Gets the literal text of a literal-like node. Example: `// LiteralString [compareText({forbidden},
    * @literalText, 'verb:equals,caseSensitive:true']`

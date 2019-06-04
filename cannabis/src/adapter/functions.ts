@@ -1,13 +1,13 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
-import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText, getNodeProperty } from '../astNode'
+import { isNode, ts, tsMorph, getNodeLocalNames } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../astNode'
 import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames } from '../astNodeType'
+import { getConfig } from '../config'
 import { getASTNodeNamePath } from '../path'
 // import { ExecutionContext } from '../queryAst'
 import { getSourceFile, print, splitString } from './util'
-import { getConfig } from '../config';
 
 export function installFunctions(astq: ASTQ) {
 
@@ -123,7 +123,7 @@ export function installFunctions(astq: ASTQ) {
     //   return true
     // }
     const logs = getConfig('logs')
-    if(!logs){
+    if (!logs) {
       return true
     }
     if (!args || args.length === 0) {
@@ -218,5 +218,15 @@ export function installFunctions(astq: ASTQ) {
       return a.includes(n)
     }
   })
+
+  // astq.func('localScopeNames', (adapter, node, arg?: ASTNode | ASTNode[]) => {
+  //   const n = (arg || node)
+  //   return isArray(n) ? n.map(localScopeNames) : localScopeNames(n)
+  // })
+
 }
 
+
+// function localScopeNames(n: ASTNode ) {
+
+// }

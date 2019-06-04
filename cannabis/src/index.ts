@@ -1,7 +1,7 @@
 export * from 'astq'
 export { ts } from 'ts-morph'
-export { FunctionNames } from './adapter/functionTypes'
 export { AttributeNames } from './adapter/attributeTypes'
+export { FunctionNames } from './adapter/functionTypes'
 export * from './astNode'
 export { getConfig, setConfig } from './config'
 export { getFile, loadProject, setProject } from './file'

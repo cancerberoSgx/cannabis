@@ -1,10 +1,9 @@
-import { ASTQQuery, TraceListener } from 'astq'
+import { ASTQQuery } from 'astq'
 import { ts, tsMorph } from 'ts-simple-ast-extra'
 import { getTypeScriptAstq } from './adapter/adapter'
-import { ASTNode, isASTNode, setNodeProperty } from "./astNode"
-import { setConfig, Config, getConfig } from './config'
+import { ASTNode, isASTNode } from "./astNode"
+import { Config, getConfig, setConfig } from './config'
 import { getFile } from './file'
-import { isArray } from 'misc-utils-of-mine-generic';
 
 export type Node = tsMorph.Node
 export const TypeGuards = tsMorph.TypeGuards
@@ -28,7 +27,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
  * will be used (internally creating a ts-morph node). If it's a ASTNode, it could be a Directory, a file or a
  * node and that will be used to issue the query.
  */
-export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options?: Partial<Config> ): QueryResult<T> {
+export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string | ts.Node | ASTNode, options?: Partial<Config>): QueryResult<T> {
   const timings = {
     parseAst: -1, compileQuery: -1, executeQuery: -1
   }
@@ -48,7 +47,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
   // TODO: query cache so we dont compile each time or astq does already have it ?
   try {
     const compileQueryT0 = now()
-    if(options){
+    if (options) {
       setConfig(options)
     }
     // const context = options.logs ? {logs: options.logs} : {}//{ ...options.context || { logs: [] } }
@@ -61,7 +60,7 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     // if(isArray(trace)){
     //   realTrace = (...args: any[]) 
     // }
-    const query = astq.compile(q,  trace) as ASTQQuery<T>
+    const query = astq.compile(q, trace) as ASTQQuery<T>
     timings.compileQuery = now() - compileQueryT0
     executeQueryT0 = now()
     const result = astq.execute(node, query, getConfig('params'), trace) as T[]

@@ -7,7 +7,7 @@ import { AttributeNames, attributeNames } from "./attributeTypes"
 import { installFunctions } from './functions'
 let astq: ASTQ<ASTNode> | undefined
 
-export function getTypeScriptAstq( ) {
+export function getTypeScriptAstq() {
   if (!astq) {
     astq = new ASTQ<ASTNode>()
     astq.adapter({
