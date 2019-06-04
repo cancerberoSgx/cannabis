@@ -1,0 +1,30 @@
+[
+  {
+    "name": "allNames1_ascendant_descendant",
+    "time": 652,
+    "timeFormatted": "652 milliseconds ",
+    "results": 388,
+    "queries": 76
+  },
+  {
+    "name": "allNames1_matchEvery",
+    "time": 7128,
+    "timeFormatted": "7 seconds 128 milliseconds ",
+    "results": 34,
+    "queries": 76
+  },
+  {
+    "name": "allNames1_matchEvery_cachedPaths",
+    "time": 1709,
+    "timeFormatted": "1 seconds 709 milliseconds ",
+    "results": 34,
+    "queries": 76
+  },
+  {
+    "name": "allNames1_attributes1",
+    "time": 2111,
+    "timeFormatted": "2 seconds 111 milliseconds ",
+    "results": 939,
+    "queries": 76
+  }
+]

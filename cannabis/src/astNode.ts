@@ -9,7 +9,8 @@ import { getASTRoot } from './file'
 export type ASTNode = GeneralNode
 
 /**
- * Returns immediate children. In case of Nodes, children are obtained using forEachChild instead of getChildren method
+ * Returns immediate children. In case of Nodes, children are obtained using forEachChild or getChildren according to 
+ * given getChildren parameter or to global config
  */
 export function getASTNodeChildren(f: ASTNode, getChildren: boolean = getConfig('getChildren')): ASTNode[] {
   return !f
@@ -19,9 +20,6 @@ export function getASTNodeChildren(f: ASTNode, getChildren: boolean = getConfig(
       : f ? getChildren ? f.getChildren() : f.forEachChildAsArray() : []
 }
 
-/**
- * get general node's parent
- */
 export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
   return !f
     ? undefined
@@ -31,7 +29,6 @@ export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
         ? f.getDirectory()
         : f.getParent()
 }
-
 
 export function getASTNodeSiblings(n: ASTNode) {
   if (isSourceFile(n)) {
@@ -123,3 +120,5 @@ export function getASTNodeDescendants(node: ASTNode) {
   })
   return a
 }
+
+

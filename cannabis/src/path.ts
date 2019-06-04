@@ -20,9 +20,10 @@ export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPat
   if (!isASTNode(n)) {
     return ''
   }
+  const pathName = options.onlyNameOrKind ?'pathName' : options.onlyKindName ? 'pathKind' :  'pathIndex'
   let result: string = ''
   if (getConfig('cacheNodePaths')) {
-    const cached = getNodeProperty(n, options.onlyIndex ? 'path.index' : options.onlyKindName ? 'path.kind' : 'name')
+    const cached = getNodeProperty(n, pathName)
     if (cached) {
       return cached
     }
@@ -43,7 +44,7 @@ export function getASTNodePath(n: ASTNode, options: NodePathOptions = defaultPat
     result = getASTNodePath(n.getSourceFile(), finalOptions) + finalOptions.levelSeparator + nodePath.substring(nodePath.indexOf('/') + 1)
   }
   if (getConfig('cacheNodePaths')) {
-    setNodeProperty(n, options.onlyIndex ? 'path.index' : options.onlyKindName ? 'path.kind' : 'name', result)
+    setNodeProperty(n, pathName, result)
   }
   return result
 }

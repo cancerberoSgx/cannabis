@@ -1,9 +1,15 @@
+import { unique } from 'misc-utils-of-mine-generic';
+
 const config = {
   includeFilesInNodeModules: false,
   getChildren: false,
   includeJSDocTagNodes: false,
   visitChildrenFirst: true,
-  cacheNodePaths: false
+  cacheNodePaths: false,
+  cacheTypeText: false,
+  cacheExtended: false,
+  cacheImplemented: false,
+  cacheReferences: false,
 }
 
 interface Config {
@@ -21,12 +27,39 @@ interface Config {
    */
   visitChildrenFirst: boolean
   cacheNodePaths: boolean
+  cacheTypeText: boolean
+  cacheExtended: boolean
+  cachedImplemented: boolean
+  cacheReferences: boolean
 }
 
-export function getConfig(p: keyof Config) {
+export function getConfig(p: C) {
   return config[p]
 }
+type C = keyof Config
+export function setConfig(p: C|Partial<Config>, v?: Config[C]) {
+  if(typeof p === 'object'){
+    Object.assign(config, p)
+  }
+  else if(typeof v !== 'undefined'){
+    config[p] = v
+  }
+}
 
-export function setConfig(p: keyof Config, v: Config[typeof p]) {
-  config[p] = v
+export function saveConfig(name='default'){
+saved[name] = {...config}
+}
+
+export function restoreConfig(name='default'){
+Object.assign(config, saved[name]||{})
+}
+const saved:any = {}
+
+export function withConfig<T=any>(c: Partial<Config>, f: ()=>T):T{
+  const id = unique('config')
+  saveConfig(id)
+  setConfig(c)
+  const r = f()
+  restoreConfig(id)
+  return r
 }

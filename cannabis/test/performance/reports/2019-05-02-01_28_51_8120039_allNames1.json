@@ -1,0 +1,23 @@
+[
+  {
+    "name": "allNames1_ascendant_descendant",
+    "time": 676,
+    "timeFormatted": "676 milliseconds ",
+    "results": 388,
+    "queries": 76
+  },
+  {
+    "name": "allNames1_matchEvery",
+    "time": 6903,
+    "timeFormatted": "6 seconds 903 milliseconds ",
+    "results": 34,
+    "queries": 76
+  },
+  {
+    "name": "allNames1_attributes1",
+    "time": 2212,
+    "timeFormatted": "2 seconds 212 milliseconds ",
+    "results": 939,
+    "queries": 76
+  }
+]

@@ -2,6 +2,7 @@ import { objectKeys, tryTo } from 'misc-utils-of-mine-generic'
 import { ObjectStringKeyUnion } from 'misc-utils-of-mine-typescript'
 import { isNode, tsMorph } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeName, getASTNodeText } from '../astNode'
+import { getASTNodeTypeAsString } from "../astNodeType";
 import { getASTNodeIndexPath, getASTNodeKindPath, getASTNodeNamePath } from "../path"
 
 export function getAttribute(node: ASTNode, attr: string) {
@@ -13,7 +14,7 @@ export function getAttribute(node: ASTNode, attr: string) {
       return (getASTNodeName(node) + '') || ''
     }
     else if (attr === 'type') {
-      return isNode(node) && tryTo(() => node.getType().getText()) || ''
+      return getASTNodeTypeAsString(node)
     }
     else if (attr === 'indexPath') {
       return isNode(node) && getASTNodeIndexPath(node) || ''
