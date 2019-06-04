@@ -34,7 +34,7 @@ export function findReferences(n: ASTNode): any {
       return cached
     }
   }
-  const value = isNode(n) && tsMorph.TypeGuards.isReferenceFindableNode(n) ? n.findReferencesAsNodes() : []
+  const value = isNode(n) && tsMorph.TypeGuards.isReferenceFindableNode(n) ?tryTo(()=> n.findReferencesAsNodes()) : []
   if (getConfig('cacheReferences')) {
     setNodeProperty(n, propName, value)
   }

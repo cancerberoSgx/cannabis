@@ -11,8 +11,8 @@ export class QuerySearch extends AbstractComponent {
         <QueryEditor />
         <Button small primary onClick={e => executeQuery()}>Search!</Button>
         <Button small onClick={e => executeQuery()}>Trace Execution</Button>
-        <Button small onClick={e => executeQuery()}>Inspect Query</Button>
-        <textarea value={this.state.queryLogs.join(', ')} style={{width: '100%', height: '30px'}}></textarea>
+        {/* <Button small onClick={e => executeQuery()}>Inspect Query</Button> */}
+        <textarea value={this.state.queryLogs.join(', ')} style={{ width: '100%', height: '30px' }}></textarea>
       </>
     )
   }

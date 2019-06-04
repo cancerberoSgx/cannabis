@@ -171,7 +171,7 @@ export const examples: Example[] = [
     @text=='I2'
   ]
 ]`
-.trim(),
+      .trim(),
     description: 'Returns class or interface declarations that directly extend or implement a type named "I2"',
     difficulty: 'easy',
     code: 'inheritance1'

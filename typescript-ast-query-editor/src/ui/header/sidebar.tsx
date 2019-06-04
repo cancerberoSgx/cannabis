@@ -51,9 +51,9 @@ export class SidebarExampleMultiple extends AbstractComponent {
                 <Logs />
               </Modal.Content>
             </Modal>
-            <Menu.Item as='a'>Share by E-mail</Menu.Item>
-            <Menu.Item as='a'>Edit Permissions</Menu.Item>
-            <Menu.Item as='a'>Delete Permanently</Menu.Item>
+            <Menu.Item as='a'>Create Shareable URL</Menu.Item>
+            <Menu.Item as='a'>Help</Menu.Item>
+            <Menu.Item as='a'>Github</Menu.Item>
           </Sidebar>
           <Sidebar.Pusher>
             {...asArray(this.props.children)}

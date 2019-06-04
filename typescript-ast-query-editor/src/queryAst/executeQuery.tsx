@@ -3,7 +3,6 @@ import { Example } from '../app/examples'
 import { getStore } from '../app/store'
 import { highlightNodesInEditor } from '../editor/ts/codeEditor'
 import { getSourceFile } from './astFiles'
-import { Logs } from '../ui/common/logs';
 
 // interface Options {
 //   query: string
@@ -15,8 +14,8 @@ export function executeQuery(selectedExample?: Example) {
   if (!query) {
     return
   }
-  const context = {logs: []}
-  const r = queryAst(query, getSourceFile(), {context})
+  const context = { logs: [] }
+  const r = queryAst(query, getSourceFile(), { context })
   if (r.error) {
     console.error(r.error)
   }

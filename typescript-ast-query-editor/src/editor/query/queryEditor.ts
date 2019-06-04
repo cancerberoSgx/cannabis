@@ -41,7 +41,9 @@ export function installQueryEditor(props: Props) {
 
   editor = monaco.editor.create(props.containerEl, {
     value: props.code,
-    language: 'cannabisTypeScriptQueries'
+    language: 'cannabisTypeScriptQueries',
+    wordWrap: 'on',
+    minimap: { enabled: false, }
   })
   _containerEl = props.containerEl
   editor.onDidChangeCursorPosition(props.onCursorPositionChange)

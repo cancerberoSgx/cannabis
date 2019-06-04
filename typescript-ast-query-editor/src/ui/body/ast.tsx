@@ -14,7 +14,11 @@ export class Ast extends AbstractComponent {
   }
 
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
-    return nextState.currentEditorAst !== this.state.currentEditorAst && this.state.astAutoUpdate || nextState.astAutoUpdate !== this.state.astAutoUpdate || nextState.getChildren !== this.state.getChildren || nextState.astShowText !== this.state.astShowText
+    return nextState.currentEditorAst !== this.state.currentEditorAst && this.state.astAutoUpdate ||
+      nextState.astAutoUpdate !== this.state.astAutoUpdate ||
+      nextState.getChildren !== this.state.getChildren ||
+      nextState.astShowText !== this.state.astShowText ||
+      nextState.currentEditorAstCollapsedNodes.length !== this.state.currentEditorAstCollapsedNodes.length
   }
 
   render() {
@@ -37,19 +41,45 @@ export class Ast extends AbstractComponent {
 
   renderNode(node: tsMorph.Node) {
     const children = getASTNodeChildren(node, this.state.getChildren)
+    const expanded = children.length === 0 || !this.state.currentEditorAstCollapsedNodes.includes(node)
     return (<List.Item onClick={e => {
+      // debugger;
       e.stopPropagation()
       highlightNodesInEditor([node])
     }}>
-      <List.Icon name={iconForNodeKind(node.getKindName())} />
+
       <List.Content>
-        <List.Header as="a">{getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
+        <List.Header as="a">
+          <span onClick={e => {
+            e.stopPropagation()
+            if (expanded) {
+              // this.state.queryAstCollapsedNodes.push(node)
+              this.setState({ currentEditorAstCollapsedNodes: [...this.state.currentEditorAstCollapsedNodes, node] })
+
+            } else {
+              this.setState({ currentEditorAstCollapsedNodes: this.state.currentEditorAstCollapsedNodes.filter(n => n !== node) })
+              // this.state.queryAstCollapsedNodes.splice( this.state.queryAstCollapsedNodes.indexOf(node), 1)
+            }
+
+            // if(expanded){
+            //   this.state.currentEditorAstCollapsedNodes.push(node)
+            // }else {
+            //   this.state.currentEditorAstCollapsedNodes.splice( this.state.currentEditorAstCollapsedNodes.indexOf(node), 1)
+            // }
+            // debugger;
+            // setObjectProperty(node, 'treeNodeExpanded', !expanded)
+            // this.setState({currentEditorAstCollapsedNodes:this.state.currentEditorAstCollapsedNodes}) 
+          }}><List.Icon name={expanded ? 'minus' : 'plus'} />
+            <List.Icon name={iconForNodeKind(node.getKindName())} />
+
+          </span>
+          {getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
         </List.Header>
         <List.Description>
           {this.state.astShowText ?
             (<> <code>{shorter(getASTNodeText(node), 100)}</code>}</>) : ''}
         </List.Description>
-        {children.length ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
+        {expanded ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>
     </List.Item>)
   }

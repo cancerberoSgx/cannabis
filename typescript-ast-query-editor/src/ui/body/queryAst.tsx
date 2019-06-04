@@ -26,6 +26,7 @@ export class QueryAst extends AbstractComponent {
     </Segment>
   }
   renderNode(node: ASTYNode) {
+    const expanded = node.childs().length === 0 || !this.state.queryAstCollapsedNodes.includes(node)
     return (<List.Item onClick={e => {
       e.stopPropagation()
       const selection: ISelection = {
@@ -36,15 +37,32 @@ export class QueryAst extends AbstractComponent {
       }
       select([selection])
     }}>
-      <List.Icon name={iconForQueryNodeKind(node.type())} />
+
       <List.Content>
         <List.Header as="a" >
+          <span onClick={e => {
+            e.stopPropagation()
+            if (expanded) {
+              // this.state.queryAstCollapsedNodes.push(node)
+              this.setState({ queryAstCollapsedNodes: [...this.state.queryAstCollapsedNodes, node] })
+
+            } else {
+              this.setState({ queryAstCollapsedNodes: this.state.queryAstCollapsedNodes.filter(n => n !== node) })
+              // this.state.queryAstCollapsedNodes.splice( this.state.queryAstCollapsedNodes.indexOf(node), 1)
+            }
+            // debugger;
+            // setObjectProperty(node, 'treeNodeExpanded', !expanded)
+
+          }}><List.Icon name={expanded ? 'minus' : 'plus'} />
+            <List.Icon name={iconForQueryNodeKind(node.type())} />
+          </span>
           {node.type()}
         </List.Header>
+
         {node.attrs().length ? <List.Description>
           {node.attrs().map(a => <><Label>{a}</Label>: <code>{node.get(a)}</code></>)}
         </List.Description> : <></>}
-        {node.childs().length ? <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
+        {expanded ? <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>
     </List.Item>)
   }

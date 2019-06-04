@@ -31,7 +31,7 @@ ul.ui.list ul li, ol.ui.list ol li, .ui.list .list > .item,
 
   margin: 0;
   padding: 0;
-  padding: 0;
+  padding-left: 0.8em;
 }
 .astTree {
   padding: 0!important;
@@ -46,3 +46,11 @@ ul.ui.list ul li, ol.ui.list ol li, .ui.list .list > .item,
   margin: 0; 
   padding: 0
 }
+
+.ui.grid > .column:not(.row) {
+  padding: 0; 
+  margin: 0;
+}
+        h3.sub.header {
+         padding: 1em;
+        }
