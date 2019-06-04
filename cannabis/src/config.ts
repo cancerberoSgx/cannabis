@@ -10,6 +10,8 @@ const config = {
   cacheExtended: false,
   cacheImplemented: false,
   cacheReferences: false,
+  cacheDerivedClasses: false,
+  cacheImplementations: false,
 }
 
 interface Config {
@@ -31,6 +33,8 @@ interface Config {
   cacheExtended: boolean
   cacheImplemented: boolean
   cacheReferences: boolean
+  cacheDerivedClasses: boolean
+  cacheImplementations: boolean
 }
 
 export function getConfig(p: C) {

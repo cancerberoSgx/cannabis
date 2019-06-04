@@ -41,3 +41,9 @@ test('siblings', t => {
   t.falsy(r.error)
   t.deepEqual(r.result!.map(getASTNodeText), ['var a = 1;', 'var c = \'9\'',])
 })
+
+test('getImplementations', t => {
+  const r = queryAst(`//CallExpression/Identifier [ kindName(parent(parent(parent(getImplementations()))))=~'VariableStatement']`, `var a = 1; function f(k:any){}; f(a)`, { context: { logs: console.log.bind(console) } })
+  t.falsy(r.error)
+  t.deepEqual(r.result!.map(getASTNodeNamePath), ['cannabis/cannabis_test_file_5/ExpressionStatement/f/a'])
+})

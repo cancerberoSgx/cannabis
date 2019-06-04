@@ -39,10 +39,18 @@ interface Functions extends BuiltInFunctions {
    */
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
   
+  /**
+   * Returns all interfaces that are implemented (directly or indirectly) by given node or if none, by current node.
+   */
+  getImplemented(arg?: ASTNode): ASTNode[]
+  
+  getImplementedNames(arg?: ASTNode): string[]
+
+  /**
+   * Gets the implementations of the identifier. This is similar to "go to implementation" functionality that exists with TypeScript in most IDEs.
+   */
   getImplementations(arg?: ASTNode): ASTNode[]
   
-  getImplementationNames(arg?: ASTNode): string[]
-
   /**
    * Return the text of given node or of current node if no node is given. 
    */
@@ -237,8 +245,8 @@ export enum FunctionNames {
   text = 'text',
   extendsAllNamed = 'extendsAllNamed',
   extendsAnyNamed = 'extendsAnyNamed',
-  getImplementations = 'getImplementations',
-  getImplementationNames = 'getImplementationNames',
+  getImplemented = 'getImplemented',
+  getImplementedNames = 'getImplementedNames',
   implementsAnyNamed = 'implementsAnyNamed',
   implementsAllNamed = 'implementsAllNamed',
   findReferences = 'findReferences',
@@ -278,8 +286,8 @@ var o: { [a in FunctionNames]: 1 } = {
   text: 1,
   extendsAllNamed: 1,
   extendsAnyNamed: 1,
-  getImplementations: 1,
-  getImplementationNames: 1,
+  getImplemented: 1,
+  getImplementedNames: 1,
   implementsAnyNamed: 1,
   implementsAllNamed: 1,
   findReferences: 1,

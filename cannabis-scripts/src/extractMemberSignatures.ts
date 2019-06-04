@@ -3,7 +3,7 @@ import { setProject, queryAst } from 'cannabis';
 import { ok, fail } from 'assert';
 import { getExtendsRecursively, getDefinitionsOf } from 'ts-simple-ast-extra';
 import {sync} from 'glob'
-import {RemoveProperties} from 'misc-utils-of-mine-generic'
+import {RemoveProperties, notUndefined} from 'misc-utils-of-mine-generic'
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
@@ -49,13 +49,13 @@ export function extractMemberSignatures(o: Options): Result[] {
     })
     }  
   // const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root);
-  const r = queryAst(o.target, root);
+  const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root);
   if(r.error){
     fail(r.error)
   }
   // ok(r.error === undefined && r.result);
   // const i = r.result![0] as InterfaceDeclaration;
-  return (r.result! as InterfaceDeclaration[]).map((i)=>{
+  return (r.result! as InterfaceDeclaration[]).filter(notUndefined) .map((i)=>{
     // console.log(i.getName(), i.getBaseDeclarations().map(d=>d.getName()))
     // const all = 
     //   [i, ... i.getBaseDeclarations()]

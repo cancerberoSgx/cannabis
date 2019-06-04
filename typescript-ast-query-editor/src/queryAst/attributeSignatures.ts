@@ -1,4 +1,4 @@
-export const attributeSignatures = [
+export const attributeSignatures =[
   {
     "name": "text",
     "signature": "text: string",

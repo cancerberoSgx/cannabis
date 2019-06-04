@@ -2,8 +2,8 @@ import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
 import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeParent, getASTNodeSiblings, getASTNodeText, getNodeProperty } from '../astNode'
-import { findReferences, getExtended, getExtendedNames, getImplemented, getImplementedNames } from '../astNodeType'
+import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText, getNodeProperty } from '../astNode'
+import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames } from '../astNodeType'
 import { getASTNodeNamePath } from '../path'
 import { ExecutionContext } from '../queryAst'
 import { getSourceFile, print, splitString } from './util'
@@ -16,6 +16,10 @@ export function installFunctions(astq: ASTQ) {
 
   astq.func('getExtended', (adapter, node, arg?) => {
     return getExtended(arg || node)
+  })
+
+  astq.func('derivedClasses', (adapter, node, arg?) => {
+    return getDerivedClasses(arg || node)
   })
 
   astq.func('matchEvery', (adapter, node, input: string | string[], patterns: string | string[]): boolean => {
@@ -51,6 +55,11 @@ export function installFunctions(astq: ASTQ) {
     return isArray(n) ? n.map(getASTNodeText) : getASTNodeText(n)
   })
 
+  astq.func('name', (adapter, node, arg?) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(getASTNodeName) : getASTNodeName(n)
+  })
+
   astq.func('extendsAllNamed', (adapter, node, nameOrNode: ASTNode | string | string[], name?: string | string[]) => {
     if (typeof name === 'string') {
       node = nameOrNode
@@ -67,15 +76,17 @@ export function installFunctions(astq: ASTQ) {
     }
     return isNode(node) && (tsMorph.TypeGuards.isClassDeclaration(node) || tsMorph.TypeGuards.isInterfaceDeclaration(node)) &&
       compareTexts(splitString(name), getExtendedNames(node), { verb: 'equals' }) || false
-
-    // return getExtendsAnyNamed(node, splitString(name))
   })
 
-  astq.func('getImplementations', (adapter, node, arg?) => {
+  astq.func('getImplemented', (adapter, node, arg?) => {
     return getImplemented(arg || node)
   })
 
-  astq.func('getImplementationNames', (adapter, node, arg?) => {
+  astq.func('getImplementations', (adapter, node, arg?) => {
+    return getImplementations(arg || node)
+  })
+
+  astq.func('getImplementedNames', (adapter, node, arg?) => {
     return getImplementedNames(arg || node)
   })
 

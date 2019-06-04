@@ -139,26 +139,47 @@ export const examples: Example[] = [
     query: `
 // * [
   !includes(
-    map(ancestors(), 'getKindName')
+    kindName(
+      ancestors()
+    )
     , 'ImportDeclaration'
   )
   &&
   includes(
-    map(
+    kindName(
       flat(
         ancestors(
           findReferences()
         )
       )
-    , 'getKindName')
-  , 'ImportDeclaration')
-  
+    )
+  , 'ImportDeclaration'
+  )
 ]
 `.trim(),
     description: 'Returns class declarations that are not referenced anywhere and not exported. ',
     difficulty: 'easy',
     code: 'code1'
   },
+
+
+  {
+    name: 'Directly extending or implementing',
+    query: `
+// * [ 
+  /HeritageClause/ExpressionWithTypeArguments/Identifier [
+    @text=='I2'
+  ]
+]`
+.trim(),
+    description: 'Returns class or interface declarations that directly extend or implement a type named "I2"',
+    difficulty: 'easy',
+    code: 'inheritance1'
+  },
+
+
+
+
 
 ]
 

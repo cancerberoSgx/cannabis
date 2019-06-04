@@ -36,14 +36,18 @@ interface Functions extends BuiltInFunctions {
    */
   extendsAnyNamed(name: string, arg?: ASTNode): boolean
 
-  getImplementations(arg?: ASTNode): ASTNode[]
+  getImplemented(arg?: ASTNode): ASTNode[]
 
-  getImplementationNames(arg?: ASTNode): string[]
+  getImplementedNames(arg?: ASTNode): string[]
 
   /**
    * Return the text of given node or of current node if no node is given. 
    */
   text(node?: ASTNode): string
+  /**
+   * Return the name of given node or of current node if no node is given. 
+   */
+  name(node?: ASTNode): string
 
   implementsAnyNamed(name: string, arg?: ASTNode): boolean
 
@@ -126,6 +130,17 @@ interface Functions extends BuiltInFunctions {
    * Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If the value of the property is a function, then the result will be the return value of the method call without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`
    */
   map(arr: any[], propertyName: string): string[]
+
+  /**
+   * Returns subclasses declaration (direct or indirect) .
+   */
+  derivedClasses(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
+
+  /**
+   * Gets the implementations of the identifier. This is similar to "go to implementation" functionality that exists with TypeScript in most IDEs.
+   */
+  getImplementations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
+
 }
 
 interface BuiltInFunctions {
@@ -256,8 +271,8 @@ export enum FunctionNames {
   text = 'text',
   extendsAllNamed = 'extendsAllNamed',
   extendsAnyNamed = 'extendsAnyNamed',
-  getImplementations = 'getImplementations',
-  getImplementationNames = 'getImplementationNames',
+  getImplemented = 'getImplemented',
+  getImplementedNames = 'getImplementedNames',
   implementsAnyNamed = 'implementsAnyNamed',
   implementsAllNamed = 'implementsAllNamed',
   findReferences = 'findReferences',
@@ -273,6 +288,10 @@ export enum FunctionNames {
   ancestors = 'ancestors',
   flat = 'flat',
   namePath = 'namePath',
+  siblings = 'siblings',
+  name = 'name',
+  derivedClasses = 'derivedClasses',
+  getImplementations = 'getImplementations',
 }
 
 var o: { [a in FunctionNames]: 1 } = {
@@ -301,8 +320,8 @@ var o: { [a in FunctionNames]: 1 } = {
   text: 1,
   extendsAllNamed: 1,
   extendsAnyNamed: 1,
-  getImplementations: 1,
-  getImplementationNames: 1,
+  getImplemented: 1,
+  getImplementedNames: 1,
   implementsAnyNamed: 1,
   implementsAllNamed: 1,
   findReferences: 1,
@@ -318,4 +337,8 @@ var o: { [a in FunctionNames]: 1 } = {
   ancestors: 1,
   flat: 1,
   namePath: 1,
+  siblings: 1,
+  name: 1,
+  derivedClasses: 1,
+  getImplementations: 1,
 }

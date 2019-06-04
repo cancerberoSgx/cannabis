@@ -10,7 +10,7 @@
     "clean": "rm -rf dist docs",
     "build": "npm run clean && npx tsc",
     "prepare": "npm run build",
-    "generate-cannabis-functions-and-attributes": "npx tsc && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/functionTypes/Functions\" --output cannabisFunctions.json && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/attributes/AttributeValues\" --output cannabisAttributes.json",
+    "generate": "npx tsc && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/functionTypes/Functions\" --output dist/cannabisFunctions.json && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/attributes/AttributeValues\" --output dist/cannabisAttributes.json && echo 'generated dist/cannabisFunctions.json and dist/cannabisAttributes.json' ",
     "all": "npm run clean && npm run build && npm run test",
     "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish"
   },

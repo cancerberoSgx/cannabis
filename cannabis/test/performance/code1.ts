@@ -59,11 +59,11 @@ export function installFunctions(astq: ASTQ) {
       compareTexts(name.split(','), getExtendsRecursivelyNames(node), { verb: 'equals' }) || false
   })
 
-  astq.func('getImplementations', (adapter, node, arg?) => {
+  astq.func('getImplemented', (adapter, node, arg?) => {
     return getImplementsAll(arg || node) || []
   })
 
-  astq.func('getImplementationNames', (adapter, node, arg?) => {
+  astq.func('getImplementedNames', (adapter, node, arg?) => {
     return getImplementsAllNames(arg || node) || []
   })
 

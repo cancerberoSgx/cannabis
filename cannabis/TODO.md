@@ -1,16 +1,16 @@
 ## ISSUES
 
 - [ ] issue trailingComments not working
-- [ ] issue: debug() I think it won't work debugging more than once. check!
+- [x] issue: debug() I think it won't work debugging more than once. check!
 - [x] there are two functions, includes() and contains() - decide with one and drop the other
 
 ## Road map
 
 - [ ] async api to execute search/compile so we can clal from browser bit without blocking
-- [ ] add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
+- [x] add cache / memoize costly functoins and attrs, like: findReferences, extendsNamed, implementsNamed, @type since these could be ended up called lots of times in a query. In general we expect the Project / files to be read only, but just in case we should provide with a setDirty-like API for users makeing changes. 
 - [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as string, inferring it if not explicitly declared. `//FunctionDeclaration [ hasReturnType('number[]') ]`. Example: `//MethodDeclaration [ hasReturnType('boolean') ]` will match `method1(n:number){return n>.5  }`.
 - [ ] function isDeclaration()
-- [   ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
+- [ ] `implementedByNamed()` and `extendedByNamed()`: the opposite to extendsAnyNamed and implementsAnyNamed : 
 - [x] search text in comments : //LineComment [@text =~ ]
 - [x] define functions separately and document their signatures so we have documentation.
 - [x] getASTNodePath() should cache/memoize (?)
@@ -23,9 +23,7 @@
 
 - [x] function that filter w glob-like expressions, by default using the type. Could ba also node index, node name, etc. Example: 
     `//VariableDeclaration [matchAttributePatter('name', 'src/**/area45/**/*Model.ts*/**/MethodDeclaration/**/IfStatement/VariableDeclaration') == true]` 
-    meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`
-
-      `// ClassDeclaration [implements({IDNode})]`. Example: 
+    meaning get all variable declaration in files matching`src/**/area45/**/*Model.ts*/` and direct children of statement matching `**/MethodDeclaration/**/IfStatement/VariableDeclaration`,   `// ClassDeclaration [implements({IDNode})]`. Example: 
         ```ts
         var touchable = queryOne('//InterfaceDeclaration [@path ~= 'src/touch' && @name=='Touchable]'); 
         var classes = queryAll('//ClassDeclaration [@path~= src/**/*area48/ implements({touchable})])', {params: {touchable}})
@@ -66,15 +64,18 @@ research what else we can add as functions or attributes:
 
 possible functions
 ```ts
+Get Implementations
+
 isTypeParameteredNode, isAbstractableNode, isAmbientableNode, isArgumentedNode, isAsyncableNode,
 isAwaitableNode, isBodiedNode, isBodyableNode, DecoratableNode, ScopedNode, staticableNode,
 PropertyNamedNode, OverloadableNode, GeneratorableNode, ModifierableNode, JSDocableNode, ReadonlyableNode,
 ExclamationTokenableNode, QuestionTokenableNode, InitializerExpressionableNode, PropertyNamedNode
+ isAmbient():classDeclaration.isAmbient();classDeclaration.hasDeclareKeyword()
 ```
-
 
 possible attributes:
 ```ts
+initializer
  // TODO: body, expression, symbol, type, pos, start, fullStart, fuillText, width, fullWIdth,
  leadingtriviaWidth, trailingTriviaWidth, trailingTriviaEnd, getCombinedModifierFlags, getLastToken,
  childIndex, getIndentationLevel, getChildIndentationLevel, getIndentationText, getChildIndentationText,
@@ -95,3 +96,20 @@ possible attributes:
     getLastToken(): Node;
     getChildIndex(): number;
 ```
+
+
+<!-- // ClassDeclaration [ 
+  ./Identifier [
+
+    includes(debug(kindName(parent(parent(findReferences())))), 'HeritageClause')
+    
+  ]
+] -->
+<!-- 
+// * [ 
+  /HeritageClause/ExpressionWithTypeArguments/Identifier [
+    @text=='I2' ||   
+    includes(debug(text(../*/../*)), name(..//InterfaceDeclaration))
+    
+  ]
+] -->

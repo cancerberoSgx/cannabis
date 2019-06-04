@@ -1,4 +1,4 @@
-export const functionSignatures = [
+export const functionSignatures =  [
   {
     "name": "isFunctionLike",
     "signature": "isFunctionLike(arg?: ASTNode): boolean",
@@ -25,19 +25,24 @@ export const functionSignatures = [
     "jsDocsText": "Supports two signatures: `extendsAnyNamed(name: string|string[]): boolean` , `extendsAnyNamed(node: ASTNode, name: string|string[]): boolean`. \n\nReturns true if current node (or given node given as parameter) extends any class or interface (directly or indirectly) which name is included in `names` parameter. If `names` is a string then it will be split using ','. \n\nExample: `//ClassDeclaration [extendsAnyNamed('Base,ExternalBase')]`: Returns true if current node ClassDeclaration extends (directly or indirectly) a class named 'Base' OR 'ExternalBase'. \n\nExample: `Identifier [extendsAnyNamed(parent(), {names})`: Returns true if current node's parent extends (directly or indirectly) a type with name included in names parameter.\n\nTake into account that it will search across all `extends` HeritageClauses, (directly or indirectly) so it's an expensive operation. Also remember that an interface can extend both interfaces and classes"
   },
   {
-    "name": "getImplementations",
-    "signature": "getImplementations(arg?: ASTNode): ASTNode[]",
+    "name": "getImplemented",
+    "signature": "getImplemented(arg?: ASTNode): ASTNode[]",
     "jsDocsText": ""
   },
   {
-    "name": "getImplementationNames",
-    "signature": "getImplementationNames(arg?: ASTNode): string[]",
+    "name": "getImplementedNames",
+    "signature": "getImplementedNames(arg?: ASTNode): string[]",
     "jsDocsText": ""
   },
   {
     "name": "text",
     "signature": "text(node?: ASTNode): string",
     "jsDocsText": "Return the text of given node or of current node if no node is given. "
+  },
+  {
+    "name": "name",
+    "signature": "name(node?: ASTNode): string",
+    "jsDocsText": "Return the name of given node or of current node if no node is given. "
   },
   {
     "name": "implementsAnyNamed",
@@ -51,38 +56,58 @@ export const functionSignatures = [
   },
   {
     "name": "findReferences",
-    "signature": "findReferences(arg?: ASTNode): ASTNode[]",
+    "signature": "findReferences(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
     "jsDocsText": ""
   },
   {
     "name": "sourceFile",
-    "signature": "sourceFile(arg?: ASTNode): ASTNode",
+    "signature": "sourceFile(arg?: ASTNode | ASTNode[]): ASTNode | ASTNode[]",
     "jsDocsText": "Gets given node's SourceFile or current node's if no node is given. "
   },
   {
     "name": "kindName",
-    "signature": "kindName(arg?: ASTNode): string",
+    "signature": "kindName(arg?: ASTNode | ASTNode[]): string | string[]",
     "jsDocsText": "Returns kind name of given node, or current node if no node was given."
   },
   {
     "name": "debug",
-    "signature": "debug(...args: any[]): true",
+    "signature": "debug<T extends any[]>(...args: T): T",
     "jsDocsText": ""
   },
   {
     "name": "parent",
-    "signature": "parent(arg?: ASTNode): ASTNode | null",
+    "signature": "parent(arg?: ASTNode | ASTNode[]): ASTNode | null | (ASTNode | null)[]",
     "jsDocsText": "Returns parent node of given node, or of current node if no node was  given. Returns null if there is no parent. "
   },
   {
     "name": "children",
-    "signature": "children(arg?: ASTNode): ASTNode[]",
+    "signature": "children(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
     "jsDocsText": "Returns children nodes of given node, or of current node if no node was given."
+  },
+  {
+    "name": "siblings",
+    "signature": "siblings(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
+    "jsDocsText": "Returns siblings nodes of given node, or of current node if no node was given."
+  },
+  {
+    "name": "ancestors",
+    "signature": "ancestors(nodes?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
+    "jsDocsText": "Returns ancestor nodes of given nodes, or of current node if nodes was given."
   },
   {
     "name": "join",
     "signature": "join(arr: string[], joinChar?: string): string",
     "jsDocsText": "Returns the `join()` on given array of strings using given joinChar or ',' by default."
+  },
+  {
+    "name": "flat",
+    "signature": "flat<T extends any>(arr: T[][]): T[]",
+    "jsDocsText": "Returns the `flat()` on given array of arrays."
+  },
+  {
+    "name": "declarations",
+    "signature": "declarations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
+    "jsDocsText": "Returns declaration nodes of given expressions or references. It can be used together with findReferences to obtain the declarations."
   },
   {
     "name": "includes",
@@ -92,6 +117,11 @@ export const functionSignatures = [
   {
     "name": "compareText",
     "signature": "compareText(actual: string, expected: string, options?: string): boolean",
+    "jsDocsText": ""
+  },
+  {
+    "name": "namePath",
+    "signature": "namePath(arg?: ASTNode | ASTNode[]): string | string[]",
     "jsDocsText": ""
   },
   {
@@ -113,6 +143,16 @@ export const functionSignatures = [
     "name": "map",
     "signature": "map(arr: any[], propertyName: string): string[]",
     "jsDocsText": "Returns an array resulting on obtaining the property named 'propertyName' of each item of given array. If the value of the property is a function, then the result will be the return value of the method call without arguments. Example: `// * [includes(map(children(), 'getKindName'), 'Identifier')]`"
+  },
+  {
+    "name": "derivedClasses",
+    "signature": "derivedClasses(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
+    "jsDocsText": "Returns subclasses declaration (direct or indirect) ."
+  },
+  {
+    "name": "getImplementations",
+    "signature": "getImplementations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]",
+    "jsDocsText": "Gets the implementations of the identifier. This is similar to \"go to implementation\" functionality that exists with TypeScript in most IDEs."
   },
   {
     "name": "type",

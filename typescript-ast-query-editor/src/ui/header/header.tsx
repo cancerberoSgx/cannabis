@@ -7,12 +7,12 @@ export const Header = () => (
   <Segment raised className="headerContainer">
     <Grid>
       <Grid.Column floated='left' width={12}>
-        <H as='h1' style={{ display: 'inline', margin: 0, padding: 0 }}>
+        {/* <H as='h1' style={{ display: 'inline', margin: 0, padding: 0 }}>
           Cannabis:
         </H>
-        <Space />
+        <Space /> */}
         <H.Subheader as="h3" style={{ display: 'inline', margin: 0, padding: 0 }} >
-          TypeScript AST viewer and Advance Query editor
+          TypeScript AST viewer and Advanced Query editor
        </H.Subheader>
       </Grid.Column>
       <Grid.Column floated='right' width={4}>
