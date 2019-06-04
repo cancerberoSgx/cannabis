@@ -1,9 +1,9 @@
 import ASTQ from 'astq'
 import { all, every } from 'micromatch'
-import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
+import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject, tryTo } from 'misc-utils-of-mine-generic'
 import { isNode, ts, tsMorph, getNodeLocalNames } from 'ts-simple-ast-extra'
 import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../astNode'
-import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames } from '../astNodeType'
+import { findReferences, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames, localNames, getASTNodeTypeAsString } from '../astNodeType'
 import { getConfig } from '../config'
 import { getASTNodeNamePath } from '../path'
 // import { ExecutionContext } from '../queryAst'
@@ -161,10 +161,13 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
-    if (!actual || !expected) {
+    const a = splitString(actual||[]).filter(notUndefined)
+    const e = splitString(expected||[]).filter(notUndefined)
+    const o = stringToObject(options||'')||{}
+    if (!a || !e.length||!a.length||!e.length) {
       return false
     }
-    return compareTexts(splitString(actual), splitString(expected), stringToObject(options))
+    return compareTexts(a, e, o)
   })
 
   astq.func('flat', (adapter, node, arr: any[]) => {
@@ -215,18 +218,23 @@ export function installFunctions(astq: ASTQ) {
   astq.func('includes', (adapter, node, a: string | any[], b?: any) => {
     const n = b || node
     if (isArray(a) || isString(a)) {
+      if(a && a.length && isString(a[0])){
+        
+      }
       return a.includes(n)
     }
+    return false
   })
 
-  // astq.func('localScopeNames', (adapter, node, arg?: ASTNode | ASTNode[]) => {
-  //   const n = (arg || node)
-  //   return isArray(n) ? n.map(localScopeNames) : localScopeNames(n)
-  // })
+  astq.func('localNames', (adapter, node, arg?: ASTNode | ASTNode[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(localNames) : localNames(n)
+  })
 
+  astq.func('typeText', (adapter, node, arg?: ASTNode | ASTNode[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(getASTNodeTypeAsString) : getASTNodeTypeAsString(n)
+  })
 }
 
 
-// function localScopeNames(n: ASTNode ) {
-
-// }

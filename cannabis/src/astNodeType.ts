@@ -1,6 +1,6 @@
 import { notUndefined, tryTo } from 'misc-utils-of-mine-generic'
-import { getDefinitionsOf, getExtendsRecursively, getImplementsAll, isNode, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeName, getNodeProperty, setNodeProperty } from './astNode'
+import { getDefinitionsOf, getExtendsRecursively, getImplementsAll, isNode, tsMorph, getNodeLocalNames, getNodeLocalNamesNotReferencing, getLocals, getNodeLocalsDeclarations } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeName, getNodeProperty, setNodeProperty, getASTNodeKindName } from './astNode'
 import { getConfig } from './config'
 
 export function getASTNodeType(node: ASTNode) {
@@ -114,4 +114,32 @@ export function getImplementations(n: ASTNode): ASTNode[] {
 
 export function getImplementedNames(node: ASTNode): string[] {
   return getImplemented(node).map(getASTNodeName)
+}
+
+export function localNames(n: ASTNode ) {
+  // console.log('KIND_NAME:',getASTNodeKindName(n), getASTNodeName(n)
+  // , 'LOCALS:' ,getLocals(n as any))  
+  return tryTo(()=>getNodeLocalNames(n as any))
+}
+
+export function localNamesNotReferencing(n: ASTNode, target: string|ASTNode ) {
+  return tryTo(()=>getNodeLocalNamesNotReferencing(n as any, target as any))||[]
+}
+
+export function locals(n: ASTNode) {
+  return tryTo(()=>getLocals(n as any)) as Symbol|[]
+}
+
+interface Symbol {
+  flags: ts.SymbolFlags;
+  escapedName: ts.__String;
+  declarations: ts.Declaration[];
+  valueDeclaration: ts.Declaration;
+  members?: ts.SymbolTable;
+  exports?: ts.SymbolTable;
+  globalExports?: ts.SymbolTable;
+}
+
+export function localsDeclarations(n: ASTNode) {
+  return tryTo(()=>getNodeLocalsDeclarations(n as any))||[]
 }

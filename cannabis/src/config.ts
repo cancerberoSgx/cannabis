@@ -59,6 +59,9 @@ export interface Config {
    */
   params: { [name: string]: any }
 
+  /**
+   * Will be called with `debug()` function arguments.
+   */
   logs?: ((...args: any) => void) | string[]
 
   cacheNodePaths: boolean

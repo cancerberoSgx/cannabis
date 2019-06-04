@@ -1,7 +1,9 @@
 import { unique } from 'misc-utils-of-mine-generic'
-import { ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeFilePath } from './astNode'
+import { ts, tsMorph, isNode } from 'ts-simple-ast-extra'
+import { ASTNode, getASTNodeFilePath, isASTNode } from './astNode'
 import { getConfig } from './config'
+import { Node } from 'ts-morph';
+import { displayPartsToString } from 'typescript';
 
 let file: tsMorph.SourceFile | undefined
 let _project: tsMorph.Project | undefined
@@ -11,9 +13,28 @@ let reuseProject = true
  * Creates a new file with given code. If there is a project loaded, the new file won't be associated with any directory. 
  * If fileName is passed, make sure is unique, if not it will throw.
  */
-export function getFile(code: string, fileName?: string): ASTNode {
-  file = getProject().createSourceFile(fileName || getNewFileName(), code)
-  return file!
+export function getFile(codeOrNode: string | ts.Node | ASTNode, fileName?: string): ASTNode {
+  let node: tsMorph.Node | tsMorph.Directory
+  if (typeof codeOrNode === 'string') {
+    node = getProject().createSourceFile(fileName || getNewFileName(), codeOrNode)
+  }
+  else if (isASTNode(codeOrNode)) {
+    // if(isNode(codeOrNode)){
+    //   if(!getProject().getSourceFiles().find(f=>f===codeOrNode.getSourceFile())){
+    //     throw new Error('Strange node detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+    //     // node = getProject().createSourceFile(codeOrNode.getSourceFile().getFilePath(), codeOrNode)
+    //   }
+    // } else {
+    //   if(!getProject().getDirectories().find(d=>d===codeOrNode)) {
+    //     throw new Error('Strange Directory detected and not supported.\nSeems you have created this node in an independent ts-morph project. You must call loadProject() or setProject() before!' )
+    //   }
+    // }
+    node = codeOrNode    
+  }
+  else {
+    node = getFile(codeOrNode.getText())
+  }
+  return node!
 }
 
 function getProject() {
@@ -92,7 +113,20 @@ class ASTRootImpl implements ASTRoot {
    * [[getRootDirectory]] .
    */
   getRootDirectories(): ASTNode[] {
-    return this._project.getRootDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
+    const d= this._project.getRootDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
+    if(!d.length){
+      const dirs = this._project.getDirectories().filter(d => getConfig('includeFilesInNodeModules') || !d.getPath().includes('node_modules'))
+      if(displayPartsToString.length){
+        return dirs
+      }
+      else {
+        const dir=      this._project.createDirectory('src')
+        return [dir]
+      }
+    }
+    else {
+      return d
+    }
   }
 
   /**

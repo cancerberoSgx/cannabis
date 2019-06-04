@@ -4,10 +4,6 @@ import { getStore } from '../app/store'
 import { highlightNodesInEditor } from '../editor/ts/codeEditor'
 import { getSourceFile } from './astFiles'
 
-// interface Options {
-//   query: string
-//   trace?: boolean
-// }
 export function executeQuery(selectedExample?: Example) {
   const state = getStore().getState()
   const query = selectedExample && selectedExample.query || state.selectedExample.query
@@ -15,7 +11,7 @@ export function executeQuery(selectedExample?: Example) {
     return
   }
   const context = { logs: [] }
-  const r = queryAst(query, getSourceFile(), { context })
+  const r = queryAst(query, getSourceFile(), context)
   if (r.error) {
     console.error(r.error)
   }

@@ -32,16 +32,16 @@ export function queryAst<T extends ASTNode = Node>(q: string, codeOrNode: string
     parseAst: -1, compileQuery: -1, executeQuery: -1
   }
   const parseAstT0 = now()
-  let node: Node | tsMorph.Directory
-  if (typeof codeOrNode === 'string') {
-    node = getFile(codeOrNode)!
-  }
-  else if (isASTNode(codeOrNode)) {
-    node = codeOrNode
-  }
-  else {
-    node = getFile(codeOrNode.getText())
-  }
+  // let node: Node | tsMorph.Directory
+  // if (typeof codeOrNode === 'string') {
+    const node = getFile(codeOrNode)
+  // }
+  // else if (isASTNode(codeOrNode)) {
+  //   node = codeOrNode
+  // }
+  // else {
+  //   node = getFile(codeOrNode.getText())
+  // }
   timings.parseAst = now() - parseAstT0
   let executeQueryT0 = -1
   // TODO: query cache so we dont compile each time or astq does already have it ?

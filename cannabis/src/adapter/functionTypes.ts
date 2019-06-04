@@ -154,6 +154,20 @@ interface Functions extends BuiltInFunctions {
    */
   getImplementations(arg?: ASTNode | ASTNode[]): ASTNode[] | ASTNode[][]
 
+  /**
+   * Returns the local names found in given nodes or current node's local execution scope. RTarget nodes must
+   * be declaration like, for example, variables, parameters, etc: Example: 
+   *
+   * `// * [ (./VariableDeclaration || ./Parameter) && @name != 'b' && !includes(localNames(), 'b')]`
+   */
+  localNames(arg?: ASTNode | ASTNode[]): string[] | string[][]
+
+  /**
+   * Returns given nodes or local node type as string. The same implementation as attribute 'type', if not
+   * declared the type is inferred form usage. 
+   */ 
+  typeText(arg?: ASTNode | ASTNode[]): string|string[] 
+
 }
 
 interface BuiltInFunctions {
@@ -305,6 +319,8 @@ export enum FunctionNames {
   name = 'name',
   derivedClasses = 'derivedClasses',
   getImplementations = 'getImplementations',
+  localNames='localNames',
+  typeText='typeText'
 }
 
 var o: { [a in FunctionNames]: 1 } = {
@@ -354,4 +370,6 @@ var o: { [a in FunctionNames]: 1 } = {
   name: 1,
   derivedClasses: 1,
   getImplementations: 1,
+  localNames: 1, 
+  typeText: 1
 }

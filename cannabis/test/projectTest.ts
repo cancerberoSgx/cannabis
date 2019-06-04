@@ -4,6 +4,7 @@ import { getName, tsMorph } from 'ts-simple-ast-extra'
 import { loadProject, queryAll, queryAst, queryOne, setProject } from '.'
 import { getASTNodeDescendants, getASTNodeFilePath, getASTNodeName } from "../src/astNode"
 import { code1, code2 } from './assets/code'
+import { getASTNodeNamePath } from '../src';
 
 test('should be able to query at a project level, selecting directories and sourceFiles as if were nodes', t => {
   const p = new tsMorph.Project()
@@ -22,6 +23,14 @@ test('should be able to query at a project level, selecting directories and sour
   t.deepEqual(r.result && r.result.map(getName), ['I', 'I1',
     'I2', 'J', 'I3'])
 
+
+    //  t.throws( ()=>
+    //     queryAst('//* [namePath()=~"code"]', src)
+    //   )
+    
+ 
+
+
   t.deepEqual(queryAst<tsMorph.SourceFile>(`//SourceFile`, src).result!.map(r => r.getBaseName()), [`code2.ts`, `foo.ts`, `code1.ts`])
 
   t.deepEqual(queryAst<tsMorph.Directory>(`//Directory`, src).result!.map(r => r.getBaseName()), [`code2`, `foo`])
@@ -35,6 +44,17 @@ test('should be able to query at a project level, selecting directories and sour
   // and I can use the result source file as a query source
   t.deepEqual(queryAst(`//InterfaceDeclaration`, r2.result![0]).result!.map(getName), ['I', `I1`, 'I2', 'J', 'I3'])
 
+
+  // calling some operations overt not registered nodes with setProject or load project will throw
+  let r3 = queryAst('//* [namePath()=~"code"]', src)
+  t.truthy(r3.error)
+  // we need to call setProject with our project to prevent these errors.
+  setProject(p)
+  r3 = queryAst('//* [namePath()=~"push/n/ThisKeyword"]', src)
+  t.falsy(r3.error)
+  t.deepEqual(r3.result!.map(getASTNodeNamePath), ['code1/A/method1/Block/ForInStatement/ExpressionStatement/CallExpression/push/n/ThisKeyword'])
+ 
+     
 })
 
 test('loadProject', t => {
@@ -65,5 +85,12 @@ test('setProject', t => {
   t.is(queryOne<tsMorph.Directory>(`.//Directory [@name=='src']`, root)!.getBaseName(), 'src')
   t.deepEqual(queryAll<tsMorph.SourceFile>(`.//SourceFile [@name=~'.tsx']`, root)!.map(f => f.getBaseName()), ['app.tsx', 'forkRibbon.tsx', 'leftPanel.tsx', 'component.tsx'])
   t.is(queryOne<tsMorph.SourceFile>(`//SourceFile [@name=~'foo12312322']`, root)!.getBaseName(), 'foo12312322.ts')
+})
+
+
+test.skip('parsing non registered projects nodes should throw', t => {
+  const project = new Project( )
+  const f = project.createSourceFile('asd.ts', '')
+  t.throws(()=>queryOne (`//SourceFile [@name=~'foo12312322']`, f))
 })
 
