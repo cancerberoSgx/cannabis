@@ -24,15 +24,17 @@ export function selectExample(query: string) {
   executeQuery(selectedExample)
 }
 
-export function showQueryEditorAtTheRight(b: boolean) {
+export function showQueryEditorAtTheRight(b: boolean, dontHideCodeEditor?: boolean) {
   const codeEl = getCodeEditorContainerEl()
   const queryEl = getQueryEditorContainerEl()
   if (codeEl && queryEl) {
     if (b) {
-      Array.from(codeEl.parentElement!.children).forEach(e => {
-        codeEl.style.display = 'none'
-      })
-      document.querySelector<HTMLDivElement>('.CursorBreadcrumb') && (document.querySelector<HTMLDivElement>('.CursorBreadcrumb')!.style.display = 'none')
+      if(!dontHideCodeEditor) {
+        Array.from(codeEl.parentElement!.children).forEach(e => {
+          codeEl.style.display = 'none'
+        })
+        document.querySelector<HTMLDivElement>('.CursorBreadcrumb') && (document.querySelector<HTMLDivElement>('.CursorBreadcrumb')!.style.display = 'none')
+      }
       codeEl.parentElement!.insertAdjacentElement('afterbegin', queryEl)
     }
     else {

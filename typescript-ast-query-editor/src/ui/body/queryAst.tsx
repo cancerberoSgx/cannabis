@@ -38,26 +38,24 @@ export class QueryAst extends AbstractComponent {
           <span onClick={e => {
             e.stopPropagation()
             if (expanded) {
-              // this.state.queryAstCollapsedNodes.push(node)
               this.setState({ queryAstCollapsedNodes: [...this.state.queryAstCollapsedNodes, node] })
 
             } else {
               this.setState({ queryAstCollapsedNodes: this.state.queryAstCollapsedNodes.filter(n => n !== node) })
-              // this.state.queryAstCollapsedNodes.splice( this.state.queryAstCollapsedNodes.indexOf(node), 1)
             }
-            // debugger;
-            // setObjectProperty(node, 'treeNodeExpanded', !expanded)
-
-          }}><List.Icon name={expanded ? 'minus' : 'plus'} />
+          }}>
+          <List.Icon name={expanded ? 'minus' : 'plus'} />
             <List.Icon name={iconForQueryNodeKind(node.type())} />
           </span>
           {node.type()}
         </List.Header>
 
-        {node.attrs().length ? <List.Description>
-          {node.attrs().map(a => <><Label>{a}</Label>: <code>{node.get(a)}</code></>)}
+        {node.attrs().length ? 
+        <List.Description>
+          {node.attrs().map(a => <>  <code>{{a}=node.get(a)}</code></>)}
         </List.Description> : <></>}
-        {expanded ? <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
+        {expanded ? 
+        <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>
     </List.Item>)
   }

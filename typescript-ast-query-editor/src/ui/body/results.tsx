@@ -6,8 +6,7 @@ import { State } from "../../app/state"
 import { highlightNodesInEditor } from '../../editor/ts/codeEditor'
 import { iconForNodeKind, Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
-
-interface I { }
+ 
 export class Results extends AbstractComponent {
   shouldComponentUpdate(nextProps: any, nextState: Readonly<State>, nextContext: any) {
     return nextState.result !== this.state.result

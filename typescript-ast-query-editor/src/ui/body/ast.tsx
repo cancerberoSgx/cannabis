@@ -71,15 +71,21 @@ export class Ast extends AbstractComponent {
             // this.setState({currentEditorAstCollapsedNodes:this.state.currentEditorAstCollapsedNodes}) 
           }}><List.Icon name={expanded ? 'minus' : 'plus'} />
             <List.Icon name={iconForNodeKind(node.getKindName())} />
-
           </span>
-          {getASTNodeKindName(node)} {getASTNodeName(node) ? <Label size="small"><strong>{getASTNodeName(node)}</strong></Label> : ''}
+          {getASTNodeKindName(node)} {getASTNodeName(node) ?
+             <Label size="tiny">
+          <strong>{getASTNodeName(node)}</strong>
+          </Label> 
+          : ''}
         </List.Header>
         <List.Description>
           {this.state.astShowText ?
             (<> <code>{shorter(getASTNodeText(node), 100)}</code>}</>) : ''}
         </List.Description>
-        {expanded ? <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> : <></>}
+        {expanded ? 
+        <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> 
+        : <></>
+        }
       </List.Content>
     </List.Item>)
   }

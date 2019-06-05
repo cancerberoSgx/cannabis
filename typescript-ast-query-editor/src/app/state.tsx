@@ -1,5 +1,5 @@
 import { ASTQQuery, ASTYNode, queryAst, tsMorph } from 'cannabis'
-import { getFile } from 'cannabis/dist/src/file'
+import { getFile } from 'cannabis'
 import { codeExamples, Example, examples } from "./examples"
 
 export interface State {

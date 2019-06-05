@@ -51,6 +51,19 @@ ul.ui.list ul li, ol.ui.list ol li, .ui.list .list > .item,
   padding: 0; 
   margin: 0;
 }
-        h3.sub.header {
-         padding: 1em;
-        }
+h3.sub.header {
+  padding: 1em;
+}
+
+
+.editor-container {
+  border-bottom: 2px solid gray;
+  border-top: 2px solid gray;
+}
+
+.ui.list .list > .item .description, .ui.list > .item .description {
+  display: inline
+}
+.ui.list .list > .item a.header, .ui.list > .item a.header {
+  display: inline
+}

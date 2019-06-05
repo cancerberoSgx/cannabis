@@ -8,18 +8,20 @@ import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QuerySearch } from './querySearch'
 import { Results } from './results'
+import TraceSearchTable from '../trace/traceTable';
 
-export class Body extends AbstractComponent {
+export class Body extends AbstractComponent<{activeIndex: number}> {
   render() {
     return (
       <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab
+            activeIndex={this.state.currentTab}
               onTabChange={(e, props) => {
                 this.setState({ currentTab: parseInt(props.activeIndex + '' || '0') || 0 })
                 setTimeout(() => {
-                  setQueryEditorAtTheRight(props.activeIndex === 2)
+                  setQueryEditorAtTheRight(props.activeIndex === 2||props.activeIndex === 3, props.activeIndex === 3)
                 }, 200)
               }}
               panes={
@@ -45,24 +47,24 @@ export class Body extends AbstractComponent {
                     </Tab.Pane>,
                   },
                   {
-                    menuItem: <Menu.Item key='queryAnalysis'>Search Trace</Menu.Item>,
+                    menuItem: <Menu.Item key='queryAnalysis'>Trace Execution</Menu.Item>,
                     render: () => <Tab.Pane>
-                      Trace of last Search
+                      <TraceSearchTable/>
                 </Tab.Pane>,
                   },
-                  {
-                    menuItem: <Menu.Item key='examples'>Examples</Menu.Item>,
-                    render: () => <Tab.Pane>
-                      <Header as="h3">Search Examples</Header>
-                    </Tab.Pane>,
-                  },
+                  // {
+                  //   menuItem: <Menu.Item key='examples'>Examples</Menu.Item>,
+                  //   render: () => <Tab.Pane>
+                  //     <Header as="h3">Search Examples</Header>
+                  //   </Tab.Pane>,
+                  // },
                 ]
               } />
           </Grid.Column>
           <Grid.Column floated='right' width={8}>
             <Segment>
               <>
-                <div id="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
+                <div id="editor-container" className="editor-container" style={{ height: '100vh', maxHeight: '70vh', margin: 0, padding: 0 }}></div>
                 <br />
                 <CursorBreadcrumb />
                 <br />

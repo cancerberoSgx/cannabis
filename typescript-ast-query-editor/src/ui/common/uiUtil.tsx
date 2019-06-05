@@ -1,4 +1,4 @@
-import { ASTNode } from 'cannabis'
+import { ASTNode, tsMorph, getASTNodeKindName, getASTNodeName, getASTNodeText } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { getQueryEditorText, setQueryEditorText } from '../../editor/query/queryEditor'
@@ -84,4 +84,8 @@ export function loadUrl() {
     setCodeEditorText(state.code)
     setQueryEditorText(state.query)
   }
+}
+
+export function printNode2(n: ASTNode, { name = false, text = false, other = n => '' }: { name?: boolean, text?: boolean, other?: (n: tsMorph.Node) => string } = {}) {
+  return `${getASTNodeKindName(n)} ${name ? getASTNodeName(n) : ''}${text ? `("` + shorter(getASTNodeText(n)) + `")` : ''}${isNode(n) && other(n) ? `, (other: ${other(n)})` : ''}`
 }
