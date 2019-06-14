@@ -2,26 +2,26 @@ import * as React from 'react'
 import { Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react'
 import { showQueryEditorAtTheRight as setQueryEditorAtTheRight } from '../../app/dispatchers'
 import { AbstractComponent } from '../component'
+import TraceSearchTable from '../trace/traceTable'
 import { Ast } from './ast'
 import { CursorBreadcrumb } from './cursorBreadcrumb'
 import { Examples } from './examples'
 import { QueryAst } from './queryAst'
 import { QuerySearch } from './querySearch'
 import { Results } from './results'
-import TraceSearchTable from '../trace/traceTable';
 
-export class Body extends AbstractComponent<{activeIndex: number}> {
+export class Body extends AbstractComponent<{ activeIndex: number }> {
   render() {
     return (
       <Segment basic className="appBody">
         <Grid>
           <Grid.Column floated='left' width={8}>
             <Tab
-            activeIndex={this.state.currentTab}
+              activeIndex={this.state.currentTab}
               onTabChange={(e, props) => {
                 this.setState({ currentTab: parseInt(props.activeIndex + '' || '0') || 0 })
                 setTimeout(() => {
-                  setQueryEditorAtTheRight(props.activeIndex === 2||props.activeIndex === 3, props.activeIndex === 3)
+                  setQueryEditorAtTheRight(props.activeIndex === 2 || props.activeIndex === 3, props.activeIndex === 3)
                 }, 200)
               }}
               panes={
@@ -49,8 +49,8 @@ export class Body extends AbstractComponent<{activeIndex: number}> {
                   {
                     menuItem: <Menu.Item key='queryAnalysis'>Trace Execution</Menu.Item>,
                     render: () => <Tab.Pane>
-                      <TraceSearchTable/>
-                </Tab.Pane>,
+                      <TraceSearchTable />
+                    </Tab.Pane>,
                   },
                   // {
                   //   menuItem: <Menu.Item key='examples'>Examples</Menu.Item>,

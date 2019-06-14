@@ -1,6 +1,7 @@
 import { unique } from 'misc-utils-of-mine-generic'
 import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { displayPartsToString } from 'typescript'
+import { getDiagnosticMessages } from '../../test/testUtil'
 import { ASTNode, getASTNodeFilePath, isASTNode } from '../node/astNode'
 import { getConfig } from './config'
 
@@ -44,7 +45,7 @@ function getProject() {
         compilerOptions: {
           target: ts.ScriptTarget.ES2015,
           module: ts.ModuleKind.CommonJS,
-          lib: ['es2015'],
+          lib: ['lib.es2015.d.ts'],
           jsx: ts.JsxEmit.React,
           rootDir: ".",
         }
@@ -92,6 +93,7 @@ interface ASTRoot {
   getRootDirectory(): ASTNode
   getRootDirectories(): ASTNode[]
   getSourceFiles(): ASTNode[]
+  getDiagnostics(): string[]
 }
 
 export function getASTRoot() {
@@ -106,7 +108,9 @@ class ASTRootImpl implements ASTRoot {
   constructor(private _project: tsMorph.Project) {
 
   }
-
+  getDiagnostics() {
+    return getDiagnosticMessages(this._project)
+  }
   /**
    * Returns all project's root directories, including those in node_modules project dependencies. The first
    * one will be thir project's source directory alghouth you can force omitting node_modules ones with

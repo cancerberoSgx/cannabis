@@ -18,7 +18,8 @@ const config: Config = {
   cacheReferences: false,
   cacheDerivedClasses: false,
   cacheImplementations: false,
-  cacheAncestors: false
+  cacheAncestors: false,
+  cacheNodeType: false
 }
 
 export interface Config {
@@ -68,7 +69,7 @@ export interface Config {
   cacheNodePaths: boolean
 
   cacheTypeText: boolean
-
+  cacheNodeType: boolean
   cacheExtended: boolean
 
   cacheImplemented: boolean

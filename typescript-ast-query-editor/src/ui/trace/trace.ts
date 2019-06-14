@@ -1,7 +1,7 @@
 import { fail, ok } from 'assert'
-import { notSameNotFalsy, printMs } from 'misc-utils-of-mine-generic'
+import { ASTNode, getASTNodeKindName, queryAst, setConfig, StepTraceEvent } from 'cannabis'
+import { printMs } from 'misc-utils-of-mine-generic'
 import { isArray } from 'util'
-import { StepTraceEvent, ASTNode, loadProject, setConfig, queryAst, getASTNodeName, getASTNodeKindName } from 'cannabis'
 
 export interface TraceNode {
   event: StepTraceEvent<ASTNode>
@@ -35,9 +35,9 @@ class Tracer {
     if (e.event === 'endStep') {
       const fi = this.events.map(e => e.event).findIndex(ee => ee.event === 'beginStep' && e.nodeDepth === ee.nodeDepth && e.node == ee.node)
       if (fi !== -1) {
-        node.children.forEach(e=>{
-          if(e.parent){
-            e.parent.children =(e.parent.children||[]).filter(c=>c!==e)
+        node.children.forEach(e => {
+          if (e.parent) {
+            e.parent.children = (e.parent.children || []).filter(c => c !== e)
           }
           e.parent = node
         })
@@ -105,9 +105,10 @@ export function test() {
         nodeDepth: n.event.nodeDepth,
         node: getASTNodeKindName(n.event.node),
         // queryNode: n.event.queryAst!,
-        queryNode: n.event.queryNode && { 
-          type: n.event.queryNode.type(), 
-          attrs: n.event.queryNode.attrs().map(a => `${a}=${n.event.queryNode.get(a)}`) },
+        queryNode: n.event.queryNode && {
+          type: n.event.queryNode.type(),
+          attrs: n.event.queryNode.attrs().map(a => `${a}=${n.event.queryNode.get(a)}`)
+        },
         queryNodeDepth: n.event.queryNodeDepth,
         children: toJson(n.children)
       }

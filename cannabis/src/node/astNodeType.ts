@@ -1,29 +1,47 @@
 import { notUndefined, tryTo } from 'misc-utils-of-mine-generic'
-import { getDefinitionsOf, getExtendsRecursively, getImplementsAll, getLocals, getNodeLocalNames, getNodeLocalNamesNotReferencing, getNodeLocalsDeclarations, isNode, tsMorph } from 'ts-simple-ast-extra'
+import { getDefinitionsOf, getExtendsRecursively, getImplementsAll, getLocals, getNodeLocalNames, getNodeLocalNamesNotReferencing, getNodeLocalsDeclarations, isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { getConfig } from '../query/config'
 import { ASTNode, getASTNodeName, getNodeProperty, setNodeProperty } from './astNode'
 
-export function getASTNodeType(node: ASTNode) {
-  if (isNode(node)) {
-    return tryTo(() => node.getType()) || null
-  }
-  return null
-}
-
-export function getASTNodeTypeAsString(n: ASTNode) {
-  const propName = 'typeText'
-  if (getConfig('cacheTypeText')) {
-    const cached = getNodeProperty(n, propName)
+export function getASTNodeType(node: ASTNode): tsMorph.Type | null {
+  const propName = 'nodeType'
+  if (getConfig('cacheNodeType')) {
+    const cached = getNodeProperty(node, propName)
     if (typeof cached !== 'undefined') {
       return cached
     }
   }
-  const t = getASTNodeType(n)
-  const value = t ? t.getText() || '' : ''
-  if (getConfig('cacheTypeText')) {
-    setNodeProperty(n, propName, value)
+  const value = tryTo(() => isNode(node) && node.getType(), null) || null
+  if (getConfig('cacheNodeType')) {
+    setNodeProperty(node, propName, value)
   }
   return value
+}
+export function getASTNodeTypeAsString(n: ASTNode) {
+  //TODO: cache this one too?
+  const t = getASTNodeType(n)
+  const value = t ? (t as tsMorph.Type).getText() || '' : ''
+  return value
+}
+
+export function getReturnType(n: ASTNode) {
+  if (!isNode(n)) {
+    return null
+  }
+  let f: tsMorph.FunctionLikeDeclaration | undefined
+  if (tsMorph.TypeGuards.isIdentifier(n)) {
+    f = n.getDefinitionNodes().find(tsMorph.TypeGuards.isFunctionLikeDeclaration)
+  }
+  else if (tsMorph.TypeGuards.isFunctionLikeDeclaration(n)) {
+    f = n
+  }
+  else {
+    return null
+  }
+  if (!f) {
+    return null
+  }
+  return f.getReturnType() || null
 }
 
 export function findReferences(n: ASTNode): any {
@@ -117,8 +135,6 @@ export function getImplementedNames(node: ASTNode): string[] {
 }
 
 export function localNames(n: ASTNode) {
-  // console.log('KIND_NAME:',getASTNodeKindName(n), getASTNodeName(n)
-  // , 'LOCALS:' ,getLocals(n as any))  
   return tryTo(() => getNodeLocalNames(n as any))
 }
 

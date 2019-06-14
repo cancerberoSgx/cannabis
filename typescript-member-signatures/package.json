@@ -1,24 +1,24 @@
 {
-  "name": "extractMemberSignatures",
-  "version": "0.0.3",
+  "name": "typescript-member-signatures",
+  "version": "0.0.1",
   "description": "Command line tool to extract given interface member signatures as JSON strings, recursively in the extends chain with the purpose of documentation",
   "main": "dist/src/index.js",
-  "bin": "bin/extractMemberSignatures.js",
+  "bin": "bin/typescript-member-signatures.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "npx ts-node -T node_modules/jasmine/bin/jasmine.js",
+    "test": "exit =;npx ts-node -T node_modules/jasmine/bin/jasmine.js",
     "clean": "rm -rf dist docs",
     "build": "npm run clean && npx tsc",
     "prepare": "npm run build",
-    "generate": "npx tsc && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/functionTypes/Functions\" --output dist/cannabisFunctions.json && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/attributes/AttributeValues\" --output dist/cannabisAttributes.json && echo 'generated dist/cannabisFunctions.json and dist/cannabisAttributes.json' ",
+    "generate": "exit 0 ; npx tsc && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/functionTypes/Functions\" --output dist/cannabisFunctions.json && node bin/extractMemberSignatures.js --project ../cannabis/tsconfig.json --target \"**/attributes/AttributeValues\" --output dist/cannabisAttributes.json && echo 'generated dist/cannabisFunctions.json and dist/cannabisAttributes.json' ",
     "all": "npm run clean && npm run build && npm run test",
     "all-publish": "npm run all && git commit -a -m \"version patch\" && npm version patch && npm publish"
   },
   "keywords": [
     "typescript",
-    "ast",
-    "query",
-    "astq",
+    "documentation",
+    "jsdoc",
+    "data extraction",
     "cli",
     "cannabis"
   ],
@@ -26,17 +26,17 @@
   "license": "MIT",
   "devDependencies": {
     "@types/glob": "^7.1.1",
-    "@types/node": "^12.0.4",
+    "@types/node": "^12.0.8",
     "ts-node": "^8.2.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "cannabis": "file:../cannabis",
     "glob": "^7.1.4",
-    "misc-utils-of-mine-generic": "^0.2.7",
+    "misc-utils-of-mine-generic": "^0.2.10",
     "ts-morph": "^2.3.0",
-    "ts-simple-ast-extra": "^0.1.14",
-    "yargs-parser": "^13.1.0"
+    "ts-simple-ast-extra": "^0.1.15",
+    "yargs-parser": "^13.1.1"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Modal } from 'semantic-ui-react'
 import { AbstractComponent } from '../component'
+import { About } from './about';
 export default class MenuExampleMenus extends AbstractComponent {
 
   render() {
@@ -14,9 +15,12 @@ export default class MenuExampleMenus extends AbstractComponent {
                 this.setState({ sidebarVisibility: !this.state.sidebarVisibility })
               }}></input> Menu
           </Menu.Item>
-          <Menu.Item small name='help'>
-            Help
-          </Menu.Item>
+          <Modal trigger={<Menu.Item as='a'>About</Menu.Item>}>
+              <Modal.Header>About</Modal.Header>
+              <Modal.Content>
+                <About/>
+              </Modal.Content>
+            </Modal>
         </Menu.Menu>
       </Menu>
     )

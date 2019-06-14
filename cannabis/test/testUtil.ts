@@ -54,12 +54,16 @@ export function printTypeAndAttrs(n: ASTNode) {
 
 export function expectNoErrors(t: ExecutionContext, project: Project) {
   t.is(
-    project
-      .getPreEmitDiagnostics()
-      .map(d => getDiagnosticMessage(d))
-      .join(', ')
+    getDiagnosticMessages(project).join(', ')
     , '')
 }
+
+export function getDiagnosticMessages(project: Project) {
+  return project
+    .getPreEmitDiagnostics()
+    .map(d => getDiagnosticMessage(d))
+}
+
 function getDiagnosticMessage(d: Diagnostic) {
   const s = d.getMessageText()
   return `${d.getSourceFile() && d.getSourceFile()!.getBaseName()}: ${typeof s === 'string' ? s : print(s.getNext())}`

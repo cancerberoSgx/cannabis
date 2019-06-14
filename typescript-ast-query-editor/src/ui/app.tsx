@@ -24,7 +24,7 @@ export class App extends AbstractComponent {
     return <Container fluid textAlign="left">
       <Header />
       <SidebarExampleMultiple  >
-        <Body activeIndex={this.state.currentTab}/>
+        <Body activeIndex={this.state.currentTab} />
       </SidebarExampleMultiple>
       <ForkRibbon />
     </Container>

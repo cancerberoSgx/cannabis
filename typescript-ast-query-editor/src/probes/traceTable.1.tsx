@@ -45,7 +45,7 @@
 //   render() {
 //     const { column, data, direction } = this.state
 
-  
+
 //     return (
 //       <Segment>
 //         <Button onClick={e=>this.trace()}>Trace</Button>
@@ -86,10 +86,10 @@
 //   }
 
 //   trace(): void {
-    
+
 //     const result = test()
 //     console.log(result);
-    
+
 
 //   }
 // }

@@ -29,7 +29,7 @@ export function showQueryEditorAtTheRight(b: boolean, dontHideCodeEditor?: boole
   const queryEl = getQueryEditorContainerEl()
   if (codeEl && queryEl) {
     if (b) {
-      if(!dontHideCodeEditor) {
+      if (!dontHideCodeEditor) {
         Array.from(codeEl.parentElement!.children).forEach(e => {
           codeEl.style.display = 'none'
         })

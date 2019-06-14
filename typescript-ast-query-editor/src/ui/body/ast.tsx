@@ -73,18 +73,18 @@ export class Ast extends AbstractComponent {
             <List.Icon name={iconForNodeKind(node.getKindName())} />
           </span>
           {getASTNodeKindName(node)} {getASTNodeName(node) ?
-             <Label size="tiny">
-          <strong>{getASTNodeName(node)}</strong>
-          </Label> 
-          : ''}
+            <Label size="tiny">
+              <strong>{getASTNodeName(node)}</strong>
+            </Label>
+            : ''}
         </List.Header>
         <List.Description>
           {this.state.astShowText ?
             (<> <code>{shorter(getASTNodeText(node), 100)}</code>}</>) : ''}
         </List.Description>
-        {expanded ? 
-        <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List> 
-        : <></>
+        {expanded ?
+          <List.List>{children.filter(tsMorph.TypeGuards.isNode).map(c => this.renderNode(c))}</List.List>
+          : <></>
         }
       </List.Content>
     </List.Item>)

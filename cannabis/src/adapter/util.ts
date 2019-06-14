@@ -22,3 +22,7 @@ export function now() {
   return Date.now()
 }
 
+export function propertyValue(n: any, name: string | undefined): any {
+  return typeof n[name!] === 'function' ? n[name!]() : n[name!]
+}
+

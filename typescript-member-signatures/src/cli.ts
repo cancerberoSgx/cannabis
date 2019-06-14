@@ -1,5 +1,6 @@
 import { fstat, writeFileSync } from 'fs';
-import { extractMemberSignatures, Options } from './extractMemberSignatures';
+import { extractMemberSignatures } from './extractMemberSignatures';
+import { Options } from "./types";
 
 export function main(){
   const options = require('yargs-parser')(process.argv.slice(2)) as Options
@@ -30,11 +31,11 @@ function fail(s: string) {
 
 function printHelp() {
   console.log(`
-Usage: buildMemberSignatureDocs --project foo/bar/tsconfig.json --target "**/area44/**/services/**/LoginService"   
+Usage: typescript-member-signatures --project foo/bar/tsconfig.json --target "**/area44/**/services/**/LoginService"   
 
 Options:
 
-   * '--project': TypeScript project in which to search the target interface, must point to a tsconfig.json file.
+   * --project: TypeScript project in which to search the target interface, must point to a tsconfig.json file.
    * --target: a glob pattern pointing to the target interface. Example: "**/area44/**/services/**/LoginService".
   `)
 }

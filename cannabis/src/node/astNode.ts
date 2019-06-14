@@ -30,6 +30,15 @@ export function getASTNodeParent(f: ASTNode): ASTNode | undefined {
         : f.getParent()
 }
 
+/**
+ * ASTNodeType are not ASTNodes, they are not part of the AST. They can only be accessed using the function 'get':
+ * 
+ * 
+ */
+export interface ASTNodeType {
+
+}
+
 export function getASTNodeSiblings(n: ASTNode) {
   if (isSourceFile(n)) {
     const p = n.getDirectory()

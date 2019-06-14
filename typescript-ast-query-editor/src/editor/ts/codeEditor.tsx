@@ -85,8 +85,4 @@ function getNodeAtPosition(pos: IPosition, sourceFile?: tsMorph.SourceFile) {
   }
   return findDescendantContainingRangeLight(sourceFile || getSourceFile(), { pos: p, end: p + 1 })
 }
-
-// function getNodesInSelection(s: ISelection, sourceFile: tsMorph.SourceFile) {
-//   const r = monacoSelectionToTsRange(sourceFile || getSourceFile(), s)
-//   return findDescendantContainingRangeLight(sourceFile || getSourceFile(), r)
-// }
+ 

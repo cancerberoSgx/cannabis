@@ -6,32 +6,7 @@ import {sync} from 'glob'
 import {RemoveProperties, notUndefined} from 'misc-utils-of-mine-generic'
 import { basename } from 'path';
 import { readFileSync } from 'fs';
-
-export interface Options {
-  /**
-   * TypeScript project in which to search the target interface, must point to a tsconfig.json file.
-   */
-  project?: string
-  /**
-   * Glob pattern pointing to the target interface. Example: "** /area44/** /services/** /LoginService".
-   */
-  target: string
-  /**
-   * If given the result will be written to this file, if not to stdout.
-   */
-  output?: string
-  files?: string
-  ignoreMemberWithUnderscorePrefix?: boolean
-  onlySignature?: boolean
-  help?: boolean
-}
-
-interface Result {
-  name: string
-  signature: string
-  methods?: {signature: string, name?: string, jsDocsText?: string}[], 
-  properties?: {signature: string,name?: string, jsDocsText?: string}[]
-}
+import { Options, Result } from './types';
 
 export function extractMemberSignatures(o: Options): Result[] {
   let p : Project

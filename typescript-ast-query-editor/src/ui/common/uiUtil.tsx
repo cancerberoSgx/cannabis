@@ -1,4 +1,4 @@
-import { ASTNode, tsMorph, getASTNodeKindName, getASTNodeName, getASTNodeText } from 'cannabis'
+import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, tsMorph } from 'cannabis'
 import { shorter } from 'misc-utils-of-mine-generic'
 import * as React from 'react'
 import { getQueryEditorText, setQueryEditorText } from '../../editor/query/queryEditor'

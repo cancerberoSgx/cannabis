@@ -2,12 +2,12 @@ import ASTQ from 'astq'
 import { all, every } from 'micromatch'
 import { asArray, compareTexts, isArray, isString, notUndefined, stringToObject } from 'misc-utils-of-mine-generic'
 import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
-import { ASTNode, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../node/astNode'
-import { findReferences, getASTNodeTypeAsString, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames, localNames } from '../node/astNodeType'
+import { ASTNode, ASTNodeType, getASTNodeAncestors, getASTNodeChildren, getASTNodeKindName, getASTNodeName, getASTNodeParent, getASTNodeSiblings, getASTNodeText } from '../node/astNode'
+import { findReferences, getASTNodeType, getASTNodeTypeAsString, getDerivedClasses, getExtended, getExtendedNames, getImplementations, getImplemented, getImplementedNames, getReturnType, localNames } from '../node/astNodeType'
 import { getASTNodeNamePath } from '../node/path'
 import { getConfig } from '../query/config'
 // import { ExecutionContext } from '../queryAst'
-import { getSourceFile, print, splitString } from './util'
+import { getSourceFile, print, propertyValue, splitString } from './util'
 
 export function installFunctions(astq: ASTQ) {
 
@@ -152,12 +152,7 @@ export function installFunctions(astq: ASTQ) {
   })
 
   astq.func('map', (adapter, node, arr: any[], propertyName: string) => {
-    // function getFunctions(){
-    //   return (astq as any)._funcs._funcs
-    // }
-    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => typeof e[propertyName] === 'function' ? e[propertyName].apply(e, []) :
-      // (typeof e[propertyName]==='undefined' && typeof getFunctions()[propertyName]==='function') ? getFunctions()[propertyName](e) :
-      e[propertyName]).filter(notUndefined) : []
+    return propertyName && arr && isArray(arr) && isString(propertyName) ? arr.filter(notUndefined).map(e => propertyValue(e, propertyName)).filter(notUndefined) : []
   })
 
   astq.func('compareText', (adapter, node, actual: string, expected: string, options?: string) => {
@@ -218,9 +213,9 @@ export function installFunctions(astq: ASTQ) {
   astq.func('includes', (adapter, node, a: string | any[], b?: any) => {
     const n = b || node
     if (isArray(a) || isString(a)) {
-      if (a && a.length && isString(a[0])) {
-
-      }
+      // in case of includes([['a'], ['a']], 'a') we could do some magic but we we won't :
+      // if (a && a.length && isString(a[0])) {
+      // }
       return a.includes(n)
     }
     return false
@@ -234,6 +229,30 @@ export function installFunctions(astq: ASTQ) {
   astq.func('typeText', (adapter, node, arg?: ASTNode | ASTNode[]) => {
     const n = (arg || node)
     return isArray(n) ? n.map(getASTNodeTypeAsString) : getASTNodeTypeAsString(n)
+  })
+  astq.func('Type', (adapter, node, arg?: ASTNode | ASTNode[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(getASTNodeType) : getASTNodeType(n)
+  })
+
+  astq.func('returnType', (adapter, node, arg?: ASTNodeType | ASTNodeType[]) => {
+    const n = (arg || node)
+    return isArray(n) ? n.map(getReturnType) : getReturnType(n)
+  })
+
+  astq.func('get', (adapter, node, nodesOrName?: string | ASTNodeType | ASTNodeType[], name?: string) => {
+    let n: any
+    if (typeof nodesOrName === 'string') {
+      n = node
+      name = nodesOrName
+    }
+    else {
+      n = (nodesOrName || node)
+    }
+    if (!name) {
+      return null
+    }
+    return isArray(n) ? n.map(c => propertyValue(c, name)) : propertyValue(n, name)
   })
 }
 

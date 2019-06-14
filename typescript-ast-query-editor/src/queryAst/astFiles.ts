@@ -1,5 +1,4 @@
-import { tsMorph } from 'cannabis'
-import { getFile } from 'cannabis'
+import { getFile, tsMorph } from 'cannabis'
 import { getStore } from '../app/store'
 import { getCodeEditorText } from '../editor/ts/codeEditor'
 

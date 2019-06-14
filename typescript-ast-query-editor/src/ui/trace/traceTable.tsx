@@ -1,16 +1,16 @@
+import { ASTNode, getASTNodeKindName, getASTNodeNamePath, StepTraceEvent } from 'cannabis'
 import React, { Component } from 'react'
-import { Icon, Table, Segment, Button, Popup } from 'semantic-ui-react'
-import { render } from 'react-dom';
+import { render } from 'react-dom'
 import 'semantic-ui-css/semantic.css'
-import { test, TraceNode , } from './trace';
-import { getASTNodeKindName, ASTNode, StepTraceEvent, getASTNodeNamePath } from 'cannabis';
-import { printNode2 } from '../common/uiUtil';
+import { Button, Popup, Segment, Table } from 'semantic-ui-react'
+import { printNode2 } from '../common/uiUtil'
+import { test } from './trace'
 
-interface Row  {
-  time:number
+interface Row {
+  time: number
   queryNodeDepth: number
   nodeDepth: number
-  nodeKind:string
+  nodeKind: string
   queryNodeType: string
   event: StepTraceEvent<ASTNode>
 }
@@ -23,9 +23,9 @@ const tableData: Row[] = [
 ]
 
 export default class TraceSearchTable extends Component {
-  sortBy(data:Row[], col:string): any {
-    return data.sort((a,b)=>((a as any)[col]+'').localeCompare(((b as any)[col]+''))*-1)  
-    }
+  sortBy(data: Row[], col: string): any {
+    return data.sort((a, b) => ((a as any)[col] + '').localeCompare(((b as any)[col] + '')) * -1)
+  }
 
   state = {
     column: undefined,
@@ -52,90 +52,92 @@ export default class TraceSearchTable extends Component {
   }
 
   render() {
-    const { column, data, direction } = this.state    
+    const { column, data, direction } = this.state
     return (
       <Segment>
-        <Button onClick={e=>this.trace()}>Trace</Button>
+        <Button onClick={e => this.trace()}>Trace</Button>
         <Table sortable celled fixed>
-      <Table.Header>
-      <Table.Row>
-      <Table.HeaderCell
-      sorted={column === 'time' ? direction : undefined}
-      onClick={this.handleSort('time')}
-      >
-      Time (ms)
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell
+                sorted={column === 'time' ? direction : undefined}
+                onClick={this.handleSort('time')}
+              >
+                Time (ms)
       </Table.HeaderCell>
-      <Table.HeaderCell
-      sorted={column === 'nodeDepth' ? direction : undefined}
-      onClick={this.handleSort('nodeDepth')}
-      >
-      Node Depth
+              <Table.HeaderCell
+                sorted={column === 'nodeDepth' ? direction : undefined}
+                onClick={this.handleSort('nodeDepth')}
+              >
+                Node Depth
       </Table.HeaderCell>
-      <Table.HeaderCell
-      sorted={column === 'queryNodeDepth' ? direction : undefined}
-      onClick={this.handleSort('queryNodeDepth')}
-      >
-      Query Node Depth
-      </Table.HeaderCell> 
-      <Table.HeaderCell
-      sorted={column === 'nodeKind' ? direction : undefined}
-      onClick={this.handleSort('nodeKind')}
-      >
-      TS Node Kind
+              <Table.HeaderCell
+                sorted={column === 'queryNodeDepth' ? direction : undefined}
+                onClick={this.handleSort('queryNodeDepth')}
+              >
+                Query Node Depth
       </Table.HeaderCell>
-      
-            <Table.HeaderCell
-      sorted={column === 'queryNodeType' ? direction : undefined}
-      onClick={this.handleSort('queryNodeType')}
-      >
-      Query Node Type
+              <Table.HeaderCell
+                sorted={column === 'nodeKind' ? direction : undefined}
+                onClick={this.handleSort('nodeKind')}
+              >
+                TS Node Kind
       </Table.HeaderCell>
-      </Table.Row>      </Table.Header>
 
-      <Table.Body>
-      {data.map( (r, i) => (
-      <Table.Row key={i}>
-      <Table.Cell>{r.time}</Table.Cell>
-      <Table.Cell>{r.nodeDepth}</Table.Cell>
-      <Table.Cell>{r.queryNodeDepth}</Table.Cell>
-      <Table.Cell selectable>
-      <Popup
-        trigger={
-         <a>{r.nodeKind}</a>
-        }
-        content={<pre>{printNode2(r.event.node, {name: true, text: true, other:getASTNodeNamePath})}</pre>}
-        position='top right'
-      />
-      </Table.Cell>
-      <Table.Cell selectable>
-       <Popup
-        trigger={
-         <a>{r.queryNodeType}</a>
-        }
-        content={<pre>{r.event.queryNode.dump()}</pre>}
-        position='top right'
-      />
-      </Table.Cell>
-      </Table.Row>
-      ))}
-      </Table.Body>
-      </Table></Segment>
+              <Table.HeaderCell
+                sorted={column === 'queryNodeType' ? direction : undefined}
+                onClick={this.handleSort('queryNodeType')}
+              >
+                Query Node Type
+      </Table.HeaderCell>
+            </Table.Row>      </Table.Header>
+
+          <Table.Body>
+            {data.map((r, i) => (
+              <Table.Row key={i}>
+                <Table.Cell>{r.time}</Table.Cell>
+                <Table.Cell>{r.nodeDepth}</Table.Cell>
+                <Table.Cell>{r.queryNodeDepth}</Table.Cell>
+                <Table.Cell selectable>
+                  <Popup
+                    trigger={
+                      <a>{r.nodeKind}</a>
+                    }
+                    content={<pre>{printNode2(r.event.node, { name: true, text: true, other: getASTNodeNamePath })}</pre>}
+                    position='top right'
+                  />
+                </Table.Cell>
+                <Table.Cell selectable>
+                  <Popup
+                    trigger={
+                      <a>{r.queryNodeType}</a>
+                    }
+                    content={<pre>{r.event.queryNode.dump()}</pre>}
+                    position='top right'
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table></Segment>
     )
   }
 
-  trace(): void {    
+  trace(): void {
     const result = test()
-    console.log(result);
-    this.setState({data: result.tracer.getEvents()
-      .filter(e=>e.event.event==='endStep').map(r=>({
-      time: (r.time+'').padStart(4,'0'),
-      nodeDepth: r.event.nodeDepth,
-       queryNodeDepth: r.event.queryNodeDepth,
-nodeKind: getASTNodeKindName(r.event.node),
-queryNodeType: r.event.queryNode.type(),
-event: r.event
-    }))})
-      }
+    console.log(result)
+    this.setState({      
+data: result.tracer.getEvents()
+        .filter(e => e.event.event === 'endStep').map(r => ({
+          time: (r.time + '').padStart(4, '0'),
+          nodeDepth: r.event.nodeDepth,
+          queryNodeDepth: r.event.queryNodeDepth,
+          nodeKind: getASTNodeKindName(r.event.node),
+          queryNodeType: r.event.queryNode.type(),
+          event: r.event
+        }))    
+})
+  }
 }
 
 render(<TraceSearchTable />, document.getElementById('main'))

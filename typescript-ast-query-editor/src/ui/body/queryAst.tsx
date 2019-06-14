@@ -1,7 +1,7 @@
 import { ASTYNode, QueryExpressions } from 'cannabis'
 import { ISelection } from 'monaco-editor'
 import * as React from 'react'
-import { Button, Checkbox, Label, List, Segment } from 'semantic-ui-react'
+import { Button, Checkbox, List, Segment } from 'semantic-ui-react'
 import { select } from '../../editor/query/queryEditor'
 import { Space } from '../common/uiUtil'
 import { AbstractComponent } from '../component'
@@ -44,18 +44,18 @@ export class QueryAst extends AbstractComponent {
               this.setState({ queryAstCollapsedNodes: this.state.queryAstCollapsedNodes.filter(n => n !== node) })
             }
           }}>
-          <List.Icon name={expanded ? 'minus' : 'plus'} />
+            <List.Icon name={expanded ? 'minus' : 'plus'} />
             <List.Icon name={iconForQueryNodeKind(node.type())} />
           </span>
           {node.type()}
         </List.Header>
 
-        {node.attrs().length ? 
-        <List.Description>
-          {node.attrs().map(a => <>  <code>{{a}=node.get(a)}</code></>)}
-        </List.Description> : <></>}
-        {expanded ? 
-        <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
+        {node.attrs().length ?
+          <List.Description>
+            {node.attrs().map(a => <>  <code>{{ a } = node.get(a)}</code></>)}
+          </List.Description> : <></>}
+        {expanded ?
+          <List.List>{node.childs().map(c => this.renderNode(c))}</List.List> : <></>}
       </List.Content>
     </List.Item>)
   }
