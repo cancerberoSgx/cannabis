@@ -26,9 +26,14 @@ export interface Options {
   ignoreMemberWithUnderscorePrefix?: boolean
 
   /**
-   * Return only the signatures, don't generate names, jsdocs comment text, etc
+   * Return only the signatures, don't generate jsdocsText, etc. only name and signature.
    */
   onlySignature?: boolean
+
+  /**
+   * Will generate markdown text for the interface and its members suitable to include in README.md API section.
+   */
+  generateMarkdownDocs?: boolean
 
   help?: boolean
 }
@@ -38,10 +43,12 @@ export interface Result {
   signature: string
   methods?: Member[]
   properties?: Member[]
+  markdown?: string
 }
 
-interface Member {
+export interface Member {
   signature: string
   name?: string
   jsDocsText?: string
+  markdown?: string
 }

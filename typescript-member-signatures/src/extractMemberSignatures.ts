@@ -6,7 +6,7 @@ import { notUndefined } from 'misc-utils-of-mine-generic'
 import { basename } from 'path'
 import { Directory, InterfaceDeclaration, MethodSignature, Project, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
 import { getDefinitionsOf, getExtendsRecursively } from 'ts-simple-ast-extra'
-import { Options, Result } from './types'
+import { Member, Options, Result } from './types'
 
 export function extractMemberSignatures(o: Options): Result[] {
   let p: Project
@@ -55,18 +55,28 @@ export function extractMemberSignatures(o: Options): Result[] {
           methods.map(p => p.signature).join('\n  ')}\n}`,
 
         methods,
-        properties
+        properties,
+        ...o.generateMarkdownDocs ? {
+          markdown: `\`${i.getName()}\`\n\nProperties:\n * ${
+            properties.map(p => p.markdown).join('\n * ')}\n\nMethods: \n * ${
+            methods.map(p => p.markdown).join('\n * ')}`
+        } : {}
       }
   })
 }
 
-function extractDoc(m: MethodSignature | PropertySignature, o: Options) {
+function extractDoc(m: MethodSignature | PropertySignature, o: Options): Member {
   m.formatText()
   return o.onlySignature ? {
     signature: m.getText(),
   } : {
       name: m.getName(),
       signature: m.getText(),
-      jsDocsText: m.getJsDocs().map(j => j.getInnerText()).join('\n')
+      jsDocsText: m.getJsDocs().map(j => j.getInnerText()).join('\n'),
+      ...o.generateMarkdownDocs ? { markdown: markdownDocs(m, o) } : {}
     }
+}
+
+function markdownDocs(m: MethodSignature | PropertySignature, o: Options) {
+  return `\`${m.getText()}\`: ${m.getJsDocs().map(j => j.getInnerText()).join(' . ')}`
 }

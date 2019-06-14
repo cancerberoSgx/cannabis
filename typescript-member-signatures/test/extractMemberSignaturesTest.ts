@@ -16,4 +16,7 @@ test('signature', async t => {
   t.deepEqual(r[0].signature, 'interface G {\n  prop: Date[]\n  children(): I[]\n  m(a: Date): void\n}')
 })
 
-// test()
+test.todo('each property signature')
+test.todo('signatureOnly')
+test.todo('membersStartingWithUnderscore')
+
