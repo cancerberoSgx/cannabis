@@ -1,9 +1,9 @@
 import { unique } from 'misc-utils-of-mine-generic'
 import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { displayPartsToString } from 'typescript'
-import { getDiagnosticMessages } from '../../test/testUtil'
 import { ASTNode, getASTNodeFilePath, isASTNode } from '../node/astNode'
 import { getConfig } from './config'
+import { getDiagnosticMessages } from './getDiagnosticMessages';
 
 let _project: tsMorph.Project | undefined
 let reuseProject = true
@@ -146,3 +146,6 @@ class ASTRootImpl implements ASTRoot {
     return this._project.getSourceFiles()
   }
 }
+
+
+

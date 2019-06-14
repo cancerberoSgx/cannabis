@@ -6,6 +6,7 @@ import { getAttribute } from '../src/adapter/attributes'
 import { attributeNames } from "../src/adapter/attributeTypes"
 import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/node/astNode'
 import { QueryResult } from '../src/query/queryAst'
+import { getDiagnosticMessages } from '../src/query/getDiagnosticMessages';
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
   t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)
@@ -56,22 +57,4 @@ export function expectNoErrors(t: ExecutionContext, project: Project) {
   t.is(
     getDiagnosticMessages(project).join(', ')
     , '')
-}
-
-export function getDiagnosticMessages(project: Project) {
-  return project
-    .getPreEmitDiagnostics()
-    .map(d => getDiagnosticMessage(d))
-}
-
-function getDiagnosticMessage(d: Diagnostic) {
-  const s = d.getMessageText()
-  return `${d.getSourceFile() && d.getSourceFile()!.getBaseName()}: ${typeof s === 'string' ? s : print(s.getNext())}`
-}
-function print(s: DiagnosticMessageChain | undefined): string {
-  if (!s) {
-    return ''
-  } else {
-    return `${s.getMessageText()} - ${print(s.getNext())}`
-  }
 }

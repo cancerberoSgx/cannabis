@@ -8,10 +8,11 @@
     "sourceMap": true,
     "outDir": "./dist", 
     "declaration": true,
+    "skipLibCheck": true,
     "rootDir": "."
   },
   "include": [
-    "src", "spec"
+    "src", "test"
   ],
   "exclude": [
     "bin", "node_modules", "dist"

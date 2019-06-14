@@ -13,3 +13,5 @@
 test
 typescript-ast-query-editor
 formatCodeSettings.json
+ava.config.js
+tsconfig.json

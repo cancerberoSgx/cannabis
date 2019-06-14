@@ -1,32 +1,32 @@
-import { fstat, writeFileSync } from 'fs';
-import { extractMemberSignatures } from './extractMemberSignatures';
-import { Options } from "./types";
+import { writeFileSync } from 'fs'
+import { extractMemberSignatures } from '../extractMemberSignatures'
+import { Options } from "../types"
 
-export function main(){
+export function main() {
   const options = require('yargs-parser')(process.argv.slice(2)) as Options
   preconditions(options)
   const results = extractMemberSignatures(options)
   const output = JSON.stringify(results, null, 2)
-  if(options.output){
+  if (options.output) {
     writeFileSync(options.output, output)
-  }else {
-    process.stdout.write(output+'\n')
+  } else {
+    process.stdout.write(output + '\n')
   }
 }
 
 function preconditions(options: Options) {
   if (options.help) {
-    printHelp();
-    process.exit(0);
+    printHelp()
+    process.exit(0)
   }
-  if (!options.project&& !options.files||!options .target) {
-    fail(`--project and --target arguments are mandatory but one was missing. Aborting.`);
+  if (!options.project && !options.files || !options.target) {
+    fail(`--project and --target arguments are mandatory but one was missing. Aborting.`)
   }
 }
 
 function fail(s: string) {
-  console.error(s);
-  process.exit(1);
+  console.error(s)
+  process.exit(1)
 }
 
 function printHelp() {

@@ -3,13 +3,13 @@ Extract TypeScript interface members (recurse on its super interfaces)
 ## Install
 
 ```sh
-npm install extract-typescript-member-signatures
+npm install typescript-member-signatures
 ```
 
 ## Syntax
 
 ```sh
-extract-typescript-member-signatures TODO
+typescript-member-signatures TODO
 ```
 
 ## Options
@@ -20,7 +20,7 @@ TODO
 TODO
 
 ```sh
-extract-typescript-member-signatures TODO
+typescript-member-signatures TODO
 ```
 
 ## TODO: 

@@ -6,7 +6,7 @@
 
 ## Road map
 
-- [x] async api to execute search/compile so we can clal from browser bit without blocking
+- [ ] trace/tracer API
 - [ ] async api for queryAstShortcuts
 - [ ] Onmipresent debug() dont need to be installed - it alls debug(before and after all functions and attributes.)
 - [ ] `returnType(type: string)`: will compare current (function-like) node return type with given type , as
@@ -28,6 +28,7 @@
   @type since these could be ended up called lots of times in a query. In general we expect the Project /
   files to be read only, but just in case we should provide with a setDirty-like API for users makeing
   changes. 
+- [x] async api to execute search/compile so we can call from browser bit without blocking
 - [x] search text in comments : //LineComment [@text =~ ]
 - [x] define functions separately and document their signatures so we have documentation.
 - [x] getASTNodePath() should cache/memoize (?)
