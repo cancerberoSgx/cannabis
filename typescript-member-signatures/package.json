@@ -1,6 +1,6 @@
 {
   "name": "typescript-member-signatures",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Command line tool to extract given interface member signatures as JSON strings, recursively in the extends chain with the purpose of documentation",
   "main": "dist/src/index.js",
   "bin": "bin/typescript-member-signatures.js",
@@ -33,7 +33,7 @@
     "@types/glob": "^7.1.1",
     "@types/node": "^12.0.8",
     "ts-node": "^8.3.0",
-    "ts-refactor": "0.0.6",    
+    "ts-refactor": "0.0.6",
     "markdown-toc": "^1.2.0",
     "ava": "^2.1.0",
     "typescript": "^3.5.2"
