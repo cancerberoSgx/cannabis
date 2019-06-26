@@ -1,6 +1,6 @@
 import { fail } from 'assert'
 import { queryAst } from 'cannabis'
-import { notFalsy, notUndefined } from 'misc-utils-of-mine-generic'
+import { notUndefined } from 'misc-utils-of-mine-generic'
 import { InterfaceDeclaration, MethodSignature, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
 import { getDefinitionsOf, getExtendsRecursively } from 'ts-simple-ast-extra'
 import { getProject } from './getProject'
@@ -17,7 +17,7 @@ export function extractMemberSignatures(o: Options): Result[] {
       .map(m => m.getFirstChildByKind(SyntaxKind.Identifier)!)]
       .map(i => TypeGuards.isIdentifier(i) ? getDefinitionsOf(i) : [i])
       .flat()
-      .filter(notFalsy) as InterfaceDeclaration[]
+      .filter(i => !!i && TypeGuards.isInterfaceDeclaration(i)) as InterfaceDeclaration[]
 
     const methods = all.map(i => i.getMethods()).flat()
       .filter(f => !o.ignoreMemberWithUnderscorePrefix || !f.getName().startsWith('_'))
