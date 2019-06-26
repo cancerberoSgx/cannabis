@@ -1,28 +1,13 @@
 import { fail } from 'assert'
-import { queryAst, setProject } from 'cannabis'
-import { readFileSync } from 'fs'
-import { sync } from 'glob'
+import { queryAst } from 'cannabis'
 import { notUndefined } from 'misc-utils-of-mine-generic'
-import { basename } from 'path'
-import { Directory, InterfaceDeclaration, MethodSignature, Project, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
+import { InterfaceDeclaration, MethodSignature, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
 import { getDefinitionsOf, getExtendsRecursively } from 'ts-simple-ast-extra'
+import { getProject } from './getProject'
 import { Member, Options, Result } from './types'
 
 export function extractMemberSignatures(o: Options): Result[] {
-  let p: Project
-  if (o.project) {
-    p = new Project({ tsConfigFilePath: o.project, addFilesFromTsConfig: true })
-  }
-  else {
-    p = new Project()
-    p.createDirectory('src')
-  }
-  const root = setProject(p).getRootDirectory() as Directory
-  if (o.files) {
-    sync(o.files).forEach(f => {
-      root.createSourceFile(basename(f), readFileSync(f).toString())
-    })
-  }
+  const root = getProject(o)
   const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root)
   if (r.error) {
     fail(r.error)

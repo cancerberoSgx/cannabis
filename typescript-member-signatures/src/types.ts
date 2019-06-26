@@ -36,6 +36,13 @@ export interface Options {
   generateMarkdownDocs?: boolean
 
   help?: boolean
+
+  debug?: boolean
+
+  /**
+   * If given prints found interfaces and their paths to stdout and exit. If target is given prints interfaces only on matched files/dirs, if none given prints all interfaces in project.
+   */
+  listInterfaces?: boolean
 }
 
 export interface Result {

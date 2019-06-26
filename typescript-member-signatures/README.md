@@ -1,4 +1,19 @@
+# typescript-member-signatures
+
 Extract TypeScript interface members (recurse on its super interfaces)
+
+## Contents
+
+<!-- toc -->
+
+- [Install](#install)
+- [Command line syntax](#command-line-syntax)
+- [Javascript API](#javascript-api)
+- [Options](#options)
+- [About --target glob format](#about---target-glob-format)
+- [TODO](#todo)
+
+<!-- tocstop -->
 
 ## Install
 
@@ -8,10 +23,22 @@ npm install typescript-member-signatures
 
 ## Command line syntax
 
-The following command generates signatures and markdown text of all interfaces named Options in current TypeScript project. See Options section for details.
+The following command generates signatures of all interfaces named Options in current TypeScript project. See Options section for details.
 
 ```sh
-typescript-member-signatures --project tsconfig.json  --target "**/Options" --generateMarkdownDocs --output options.json
+typescript-member-signatures --target "**/Options" --output options.json
+```
+
+List all interfaces existing in current project and their paths so we can easily call the tool again to extract their signatures with --target: 
+
+```
+typescript-member-signatures --listInterfaces
+```
+
+Prints markdown formatted text (not json) of interface with path `src/types/Options` of project located at `../another-project/tsconfig.json`: 
+
+```
+typescript-member-signatures --project ../another-project/tsconfig.json --target src/types/Options --generateMarkdownDocs 
 ```
 
 ## Javascript API
@@ -26,29 +53,31 @@ let results = extractMemberSignatures({
 ```
 
 ## Options
+ 
+ * `--project?: string`: TypeScript project in which to search the target interface, must point to a tsconfig.json file.
+ * `--target: string`: Glob pattern pointing to the target interface. Example: "** /area44/** /services/** /LoginService".
+ * `--output?: string`: If given the result will be written to this file, if not to stdout.
+ * `--files?: string`: Extract from these files. If project is also provided, add this extra files to it.
+Can be a file name or a glob pattern.
+ * `--ignoreMemberWithUnderscorePrefix?: boolean`: Will ignore members which names start with '_'
+ * `--onlySignature?: boolean`: Return only the signatures, don't generate jsdocsText, etc. only name and signature.
+ * `--generateMarkdownDocs?: boolean`: Will generate markdown text for the interface and its members suitable to include in README.md API section.
+ * `--help?: boolean`:
+ * `--debug?: boolean`:
+ * `--listInterfaces?: boolean`: If given prints found interfaces and their paths to stdout and exit. If target is given prints interfaces only on matched files/dirs, if none given prints all interfaces in project.
 
- * `project?: string`: TypeScript project in which to search the target interface, must point to a tsconfig.json file.
- * `target: string`: Glob pattern pointing to the target interface. Example: \"** /area44/** /services/** /LoginService\".
- * `output?: string`: If given the result will be written to this file, if not to stdout.
- * `files?: string`: Extract from these files. If project is also provided, add this extra files to it. 
- an be a file name or a glob pattern.
- * `ignoreMemberWithUnderscorePrefix?: boolean`: Will ignore members which names start with '_'
- * `onlySignature?: boolean`: Return only the signatures, don't generate jsdocsText, etc. only name and signature.
- * `generateMarkdownDocs?: boolean`: Will generate markdown text for the interface and its members suitable to include in README.md API section.
- * `help?: boolean`
+## About --target glob format
 
-## Examples
+At first, it isequivalent to any glob pattern, matching folders and files. But the lasts nodes of the path are actually the names of interfaces we want to extract the signatures from.
 
-Will generate signatures and markdown text of all interfaces named Options in current TypeScript project.
+For example `**/*foo*/**/*bar/I*Model` matches Interfaces which name start with `I` and ends with `Model`, which SourceFile base name ends with bar (could be bar.ts or bar.tsx, etc) and has some ascendant directory which name contains `foo`.
 
-```sh
-typescript-member-signatures --project tsconfig.json  --target "**/Options" --generateMarkdownDocs --output options.json
-```
+## TODO
 
-TODO: more examples
-
-## TODO: 
-
- [ ] option generateCliHelpDocs option.
- [ ] options printMarkdownDocsOnly and printCliHelpDocsOnly so only md or cli docs text is output as string
- [ ] CLi options in --help.
+_ [ ] option generateCliHelpDocs option.
+_ [ ] options printMarkdownDocsOnly and printCliHelpDocsOnly so only md or cli docs text is output as string
+_ [ ] CLi options in --help.
+_ [ ] issue: failing with interface + type arguments
+- [ ] make --project optional and if not given is current folder tsconfig.json
+- [ ] wjen interface not found display proper error
+- [ ] --listInterfaces
