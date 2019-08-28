@@ -1,9 +1,9 @@
 import { ASTQQuery, TraceListener } from 'astq'
 import { getTypeScriptAstq } from './adapter'
 import { ASTNode } from './astNode'
-import { parseCss } from './parseCss'
+import { parse } from './parse';
 
-interface QueryAstOptions<T extends ASTNode = ASTNode> {
+interface QueryOptions<T extends ASTNode = ASTNode> {
   /**
    * If true the query execution will be traced, step by step, probably affecting performance but useful to debug and understand the internal process. Default value is false.
    */
@@ -23,8 +23,8 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
   ast: ASTNode
 }
 
-export function queryAst(q: string, codeOrNode: string | ASTNode, options: QueryAstOptions = { params: {} }): QueryResult {
-  const ast = typeof codeOrNode === 'string' ? parseCss(codeOrNode) : codeOrNode
+export function query(q: string, codeOrNode: string | ASTNode, options: QueryOptions = { params: {} }): QueryResult {
+  const ast = typeof codeOrNode === 'string' ? parse(codeOrNode) : codeOrNode
   try {
     const astq = getTypeScriptAstq()
     const trace = options.trace || false

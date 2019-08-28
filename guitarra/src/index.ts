@@ -1,2 +1,2 @@
-export { parseCss } from './parseCss'
-export { queryAst } from './queryAst'
+export { parse } from './parse'
+export { query } from './query'

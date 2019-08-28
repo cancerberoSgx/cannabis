@@ -1,7 +1,7 @@
 {
   "name": "guitarra",
   "version": "0.0.3",
-  "description": "CSS AST query library",
+  "description": "JSON query library",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
@@ -26,17 +26,20 @@
   "author": "Sebastián Gurin",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^12.0.3",
-    "ava": "^1.4.1",
-    "ts-node": "^8.2.0",
-    "ts-refactor": "0.0.5",
-    "typescript": "^3.4.5"
+    "@types/node": "^12.7.2",
+    "ava": "^2.3.0",
+    "ts-node": "^8.3.0",
+    "ts-refactor": "0.0.9",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "astq": "github:cancerberoSgx/astq",
-    "postcss": "^7.0.16",
-    "postcss-values-parser": "^3.0.4"
+    "astq": "github:cancerberoSgx/astq"
   },
-  "repository": {"type": "git", "url": "https://github.com/cancerberoSgx/cannabis.git"}, 
-  "bugs": {"url": "https://github.com/cancerberoSgx/cannabis"}
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cancerberoSgx/cannabis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cancerberoSgx/cannabis"
+  }
 }

@@ -1,5 +1,6 @@
 import ASTQ from 'astq'
-import { ASTNode, astNodeAttributeNames, isASTNode } from "./astNode"
+import { ASTNode, isASTNode } from "./astNode"
+import { objectKeys } from 'misc-utils-of-mine-generic';
 
 let astq: ASTQ<ASTNode> | undefined
 
@@ -14,19 +15,18 @@ export function getTypeScriptAstq() {
         return node.parent || null
       },
       getChildNodes(node: ASTNode) {
-        return node && node.nodes || []
+        return node && node.childNodes || []
       },
       getNodeType(node: ASTNode) {
-        return node && node.type || ''
+        return node && node.type || null
       },
       getNodeAttrNames(node: ASTNode) {
-        return astNodeAttributeNames
+        return node && objectKeys(node.attributes||{})
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
-        return node && attr === 'number' ? parseFloat((node as any).value) : ((node as any)[attr] || null)
+        return node&&(  (node.attributes||{} )as any)[attr as any] || null
       }
     })
   }
-
   return astq
 }

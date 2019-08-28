@@ -1,6 +1,6 @@
 export default {
 	"files": [
-    "src/**/*Test.*"
+    "test/**/*Test.*"
   ],
   "extensions": ['ts'],
   "compileEnhancements": false,
