@@ -4,9 +4,11 @@ import { notUndefined } from 'misc-utils-of-mine-generic'
 import { InterfaceDeclaration } from 'ts-morph'
 import { getProject } from './getProject'
 import { Options } from './types'
+
 interface Result {
   name: string, path: string
 }
+
 export function listInterfaces(o: Options): Result[] {
   const root = getProject(o)
   const query = `//InterfaceDeclaration ${o.target ? `[matchEvery(@namePath, '${o.target}')]` : ''}`

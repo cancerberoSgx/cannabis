@@ -1,3 +1,5 @@
+import { InterfaceDeclaration } from 'ts-morph';
+
 export interface Options {
   /**
    * TypeScript project in which to search the target interface, must point to a tsconfig.json file.
@@ -43,6 +45,11 @@ export interface Options {
    * If given prints found interfaces and their paths to stdout and exit. If target is given prints interfaces only on matched files/dirs, if none given prints all interfaces in project.
    */
   listInterfaces?: boolean
+
+  /**
+   * (JavaScript API only). If given, [target] is ignored and the signatures of these declarations are extracted. 
+   */
+  declarations?: InterfaceDeclaration[]
 }
 
 export interface Result {

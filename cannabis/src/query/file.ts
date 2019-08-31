@@ -3,7 +3,7 @@ import { isNode, ts, tsMorph } from 'ts-simple-ast-extra'
 import { displayPartsToString } from 'typescript'
 import { ASTNode, getASTNodeFilePath, isASTNode } from '../node/astNode'
 import { getConfig } from './config'
-import { getDiagnosticMessages } from './getDiagnosticMessages';
+import { getDiagnosticMessages } from './getDiagnosticMessages'
 
 let _project: tsMorph.Project | undefined
 let reuseProject = true

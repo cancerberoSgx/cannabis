@@ -1,12 +1,12 @@
 import { ExecutionContext } from 'ava'
 import { indent, shorter } from 'misc-utils-of-mine-generic'
-import { Diagnostic, DiagnosticMessageChain, Project } from 'ts-morph'
+import { Project } from 'ts-morph'
 import { getGeneralNodeKindName, isNode, tsMorph } from 'ts-simple-ast-extra'
 import { getAttribute } from '../src/adapter/attributes'
 import { attributeNames } from "../src/adapter/attributeTypes"
 import { ASTNode, getASTNodeKindName, getASTNodeName, getASTNodeText, visit } from '../src/node/astNode'
+import { getDiagnosticMessages } from '../src/query/getDiagnosticMessages'
 import { QueryResult } from '../src/query/queryAst'
-import { getDiagnosticMessages } from '../src/query/getDiagnosticMessages';
 
 export function expectSameLength<T>(t: ExecutionContext, a: T[], b: T[] | number) {
   t.is(a.length, typeof b === 'number' ? b : b.length, `Expected "${a}" to have same length as "${b}"`)

@@ -21,7 +21,7 @@ export function getTypeScriptAstq() {
         return node && node.type || null
       },
       getNodeAttrNames(node: ASTNode) {
-        return node && objectKeys(node.attributes||{})
+        return node && objectKeys(node.attributes||{})||[]
       },
       getNodeAttrValue(node: ASTNode, attr: string) {
         return node&&(  (node.attributes||{} )as any)[attr as any] || null

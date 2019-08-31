@@ -24,7 +24,7 @@ export interface QueryResult<T extends ASTNode = ASTNode> {
 }
 
 export function query(q: string, codeOrNode: string | ASTNode, options: QueryOptions = { params: {} }): QueryResult {
-  const ast = typeof codeOrNode === 'string' ? parse(codeOrNode) : codeOrNode
+  const ast = typeof codeOrNode === 'string' ? parse({s: codeOrNode}) : codeOrNode
   try {
     const astq = getTypeScriptAstq()
     const trace = options.trace || false

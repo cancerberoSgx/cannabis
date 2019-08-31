@@ -8,11 +8,16 @@ import { Member, Options, Result } from './types'
 
 export function extractMemberSignatures(o: Options): Result[] {
   const root = getProject(o)
+  let declarations = o.declarations
+  if(!declarations){
   const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root)
   if (r.error) {
     fail(r.error)
   }
-  return (r.result! as InterfaceDeclaration[]).filter(notUndefined).map((i) => {
+  declarations = r.result! as InterfaceDeclaration[]
+  }
+
+  return declarations.filter(notUndefined).map((i) => {
     const all = [i, ...getExtendsRecursively(i)
       .map(m => m.getFirstChildByKind(SyntaxKind.Identifier)!)]
       .map(i => TypeGuards.isIdentifier(i) ? getDefinitionsOf(i) : [i])
