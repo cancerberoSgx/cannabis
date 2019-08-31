@@ -50,6 +50,12 @@ let results = extractMemberSignatures({
   project: 'test/assets/project1/tsconfig.json', 
   target: '**/test1/G'
 })
+
+// or give interface declarations directly (you need to use ts-morph)
+let results = extractMemberSignatures({ 
+  project: 'test/assets/project1/tsconfig.json', 
+  target: '**/test1/G'
+})
 ```
 
 ## Options

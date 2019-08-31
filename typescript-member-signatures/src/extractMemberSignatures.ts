@@ -9,12 +9,12 @@ import { Member, Options, Result } from './types'
 export function extractMemberSignatures(o: Options): Result[] {
   const root = getProject(o)
   let declarations = o.declarations
-  if(!declarations){
-  const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root)
-  if (r.error) {
-    fail(r.error)
-  }
-  declarations = r.result! as InterfaceDeclaration[]
+  if (!declarations) {
+    const r = queryAst(`//InterfaceDeclaration [matchEvery(@namePath, '${o.target}')]`, root)
+    if (r.error) {
+      fail(r.error)
+    }
+    declarations = r.result!.filter(TypeGuards.isInterfaceDeclaration)
   }
 
   return declarations.filter(notUndefined).map((i) => {
