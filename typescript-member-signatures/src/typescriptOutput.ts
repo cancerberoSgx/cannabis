@@ -23,6 +23,7 @@ export interface ${firstLetterToUpperCase(name)}Member {
   signature: string
   name?: string
   typeText?: string
+  optional?: boolean
   jsDocsText?: string
   markdown?: string
 }
