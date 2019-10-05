@@ -1,6 +1,12 @@
 # typescript-member-signatures
 
-Extract TypeScript interface members (recurse on its super interfaces)
+Command line tool to extract TypeScript interface members metadata. 
+
+Recurse on all super interfaces.
+
+Useful to generate documentation automatically or when reflection over interfaces (like options) is needed. 
+
+Optionally extract jsdoc descriptions as markdown. 
 
 ## Contents
 
@@ -80,10 +86,11 @@ For example `**/*foo*/**/*bar/I*Model` matches Interfaces which name start with 
 
 ## TODO
 
-_ [ ] option generateCliHelpDocs option.
-_ [ ] options printMarkdownDocsOnly and printCliHelpDocsOnly so only md or cli docs text is output as string
-_ [ ] CLi options in --help.
-_ [ ] issue: failing with interface + type arguments
+- [ ] --target with cannabis is complicated. Support "--targetName AnInterface". If there are several interfaces with that name extrat types of them all or optionally support --targetFile to declare from which files
+- [ ] option generateCliHelpDocs option.
+- [ ] options printMarkdownDocsOnly and printCliHelpDocsOnly so only md or cli docs text is output as string
+- [ ] CLi options in --help.
+- [ ] issue: failing with interface + type arguments
 - [ ] make --project optional and if not given is current folder tsconfig.json
-- [ ] wjen interface not found display proper error
-- [ ] --listInterfaces
+- [x] when interface not found display proper error
+- [x] --listInterfaces

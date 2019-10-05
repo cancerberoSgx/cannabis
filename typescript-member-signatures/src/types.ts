@@ -1,4 +1,4 @@
-import { InterfaceDeclaration } from 'ts-morph'
+import { InterfaceDeclaration } from 'ts-morph';
 
 export interface Options {
   /**
@@ -63,6 +63,7 @@ export interface Result {
 export interface Member {
   signature: string
   name?: string
+  typeText?: string
   jsDocsText?: string
   markdown?: string
 }

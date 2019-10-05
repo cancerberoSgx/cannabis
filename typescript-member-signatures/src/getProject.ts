@@ -5,7 +5,6 @@ import { basename } from 'path'
 import { Directory, Project } from 'ts-morph'
 import { Options } from './types'
 
-
 export function getProject(o: Options) {
   let p: Project
   if (o.project) {

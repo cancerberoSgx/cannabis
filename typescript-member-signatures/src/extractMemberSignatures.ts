@@ -1,6 +1,6 @@
 import { fail } from 'assert'
 import { queryAst } from 'cannabis'
-import { notUndefined } from 'misc-utils-of-mine-generic'
+import { notUndefined, tryTo } from 'misc-utils-of-mine-generic'
 import { InterfaceDeclaration, MethodSignature, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
 import { getDefinitionsOf, getExtendsRecursively } from 'ts-simple-ast-extra'
 import { getProject } from './getProject'
@@ -63,6 +63,7 @@ function extractDoc(m: MethodSignature | PropertySignature, o: Options): Member 
   } : {
       name: m.getName(),
       signature: m.getText(),
+      typeText: tryTo(() => m.getType().getText()) || undefined,
       jsDocsText: m.getJsDocs().map(j => j.getInnerText()).join('\n'),
       ...o.generateMarkdownDocs ? { markdown: markdownDocs(m, o) } : {}
     }
