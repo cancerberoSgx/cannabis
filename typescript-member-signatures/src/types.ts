@@ -1,4 +1,4 @@
-import { InterfaceDeclaration } from 'ts-morph';
+import { InterfaceDeclaration } from 'ts-morph'
 
 export interface Options {
 
