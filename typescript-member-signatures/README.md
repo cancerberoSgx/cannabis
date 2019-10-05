@@ -6,7 +6,9 @@ Recurse on all super interfaces.
 
 Useful to generate documentation automatically or when reflection over interfaces (like options) is needed. 
 
-Optionally extract jsdoc descriptions as markdown. 
+Supports jsdoc descriptions as markdown. 
+
+Supports TypeScript output exporting member metadata as typed variable.
 
 ## Contents
 
@@ -71,6 +73,7 @@ let results = extractMemberSignatures({
  * `--output?: string`: If given the result will be written to this file, if not to stdout.
  * `--files?: string`: Extract from these files. If project is also provided, add this extra files to it.
 Can be a file name or a glob pattern.
+ * `--typescriptOutput?: string` : Generate TypeScript code instead of JSON that exports a typed variable with given name or inferred from interface otherwise. 
  * `--ignoreMemberWithUnderscorePrefix?: boolean`: Will ignore members which names start with '_'
  * `--onlySignature?: boolean`: Return only the signatures, don't generate jsdocsText, etc. only name and signature.
  * `--generateMarkdownDocs?: boolean`: Will generate markdown text for the interface and its members suitable to include in README.md API section.
@@ -80,17 +83,19 @@ Can be a file name or a glob pattern.
 
 ## About --target glob format
 
-At first, it isequivalent to any glob pattern, matching folders and files. But the lasts nodes of the path are actually the names of interfaces we want to extract the signatures from.
+At first, it is equivalent to any glob pattern, matching folders and files. But the lasts nodes of the path are actually the names of interfaces we want to extract the signatures from.
 
 For example `**/*foo*/**/*bar/I*Model` matches Interfaces which name start with `I` and ends with `Model`, which SourceFile base name ends with bar (could be bar.ts or bar.tsx, etc) and has some ascendant directory which name contains `foo`.
 
 ## TODO
 
+- [ ] "--typescriptOutput options" TypeScript file with types instead of json `export const options: MemberSignatures = [...]`
+- [ ] --javaScriptOutput generates a .js file exporting the values `export [...]` instead of json
 - [ ] --target with cannabis is complicated. Support "--targetName AnInterface". If there are several interfaces with that name extrat types of them all or optionally support --targetFile to declare from which files
 - [ ] option generateCliHelpDocs option.
 - [ ] options printMarkdownDocsOnly and printCliHelpDocsOnly so only md or cli docs text is output as string
 - [ ] CLi options in --help.
 - [ ] issue: failing with interface + type arguments
-- [ ] make --project optional and if not given is current folder tsconfig.json
+- [x] make --project optional and if not given is current folder tsconfig.json
 - [x] when interface not found display proper error
 - [x] --listInterfaces

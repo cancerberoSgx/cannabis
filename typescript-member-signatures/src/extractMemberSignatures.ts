@@ -58,12 +58,14 @@ export function extractMemberSignatures(o: Options): Result[] {
 
 function extractDoc(m: MethodSignature | PropertySignature, o: Options): Member {
   m.formatText()
+  const signature = m.getText()
   return o.onlySignature ? {
-    signature: m.getText(),
+    signature
   } : {
       name: m.getName(),
-      signature: m.getText(),
+      signature,
       typeText: tryTo(() => m.getType().getText()) || undefined,
+      optional: signature.includes('?'),
       jsDocsText: m.getJsDocs().map(j => j.getInnerText()).join('\n'),
       ...o.generateMarkdownDocs ? { markdown: markdownDocs(m, o) } : {}
     }

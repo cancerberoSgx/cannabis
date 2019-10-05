@@ -1,6 +1,12 @@
 import { InterfaceDeclaration } from 'ts-morph';
 
 export interface Options {
+
+  /**
+   * If given, instead of JSON it will generate TypeScript file exporting a typed variable with given name if a string is given.
+   */
+  typescriptOutput?: string | true;
+
   /**
    * TypeScript project in which to search the target interface, must point to a tsconfig.json file.
    */
@@ -65,5 +71,6 @@ export interface Member {
   name?: string
   typeText?: string
   jsDocsText?: string
+  optional?: boolean
   markdown?: string
 }

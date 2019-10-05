@@ -2,6 +2,7 @@ import { existsSync, writeFileSync } from 'fs'
 import { extractMemberSignatures } from '../extractMemberSignatures'
 import { listInterfaces } from '../printInterfaces'
 import { Options } from "../types"
+import { resultToTypeScript } from '../typescriptOutput'
 
 export function main() {
   const options = require('yargs-parser')(process.argv.slice(2)) as Options
@@ -14,7 +15,14 @@ export function main() {
     let output: string = ''
     if (options.generateMarkdownDocs) {
       output = results.map(r => r.markdown).join('\n--------\n')
-    } else {
+    } else if (options.typescriptOutput) {
+      output = results.map(result => resultToTypeScript({
+        result,
+        exportName: typeof options.typescriptOutput === 'string' ? options.typescriptOutput : undefined
+      }))
+        .join('\n\n\n')
+    }
+    else {
       output = JSON.stringify(results, null, 2)
     }
     if (options.output) {
@@ -60,6 +68,7 @@ Options:
 * --output?: string: If given the result will be written to this file, if not to stdout.
 * --files?: string: Extract from these files. If project is also provided, add this extra files to it.
 Can be a file name or a glob pattern.
+* --typescriptOutput?: string: Generate TypeScript code instead of JSON that exports a typed variable with given name or inferred from interface otherwise. 
 * --ignoreMemberWithUnderscorePrefix?: boolean: Will ignore members which names start with '_'
 * --onlySignature?: boolean: Return only the signatures, don't generate jsdocsText, etc. only name and signature.
 * --generateMarkdownDocs?: boolean: Will generate markdown text for the interface and its members suitable to include in README.md API section.
