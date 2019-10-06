@@ -1,8 +1,8 @@
 import { fail } from 'assert'
 import { queryAst } from 'cannabis'
-import { notUndefined, tryTo } from 'misc-utils-of-mine-generic'
-import { InterfaceDeclaration, MethodSignature, PropertySignature, SyntaxKind, TypeGuards } from 'ts-morph'
-import { getDefinitionsOf, getExtendsRecursively } from 'ts-simple-ast-extra'
+import { notUndefined, tryTo, notSame, notSameNotFalsy } from 'misc-utils-of-mine-generic'
+import { InterfaceDeclaration, MethodSignature, PropertySignature, SyntaxKind, TypeGuards, ClassDeclaration } from 'ts-morph'
+import { getExtendsRecursively } from 'ts-simple-ast-extra'
 import { getProject } from './getProject'
 import { Member, Options, Result } from './types'
 
@@ -18,10 +18,14 @@ export function extractMemberSignatures(o: Options): Result[] {
   }
 
   return declarations.filter(notUndefined).map((i) => {
+    
     const all = [i, ...getExtendsRecursively(i)
-      .map(m => m.getFirstChildByKind(SyntaxKind.Identifier)!)]
-      .map(i => TypeGuards.isIdentifier(i) ? getDefinitionsOf(i) : [i])
+      .map(m => m.getDescendantsOfKind(SyntaxKind.Identifier)!)]
       .flat()
+      .filter(notUndefined)
+      .map(i => TypeGuards.isIdentifier(i) ? i.getDefinitionNodes() : [i])
+      .flat()
+      .filter(notSameNotFalsy)
       .filter(i => !!i && TypeGuards.isInterfaceDeclaration(i)) as InterfaceDeclaration[]
 
     const methods = all.map(i => i.getMethods()).flat()
