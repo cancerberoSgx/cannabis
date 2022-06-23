@@ -37,7 +37,7 @@
     "ava": "^1.4.1",
     "browserify": "^16.2.3",
     "http-server": "^0.11.1",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "puppeteer": "^1.17.0",
     "ts-node": "^8.2.0",
     "ts-refactor": "0.0.5",
